@@ -21,4 +21,9 @@
             %td User Email:
             %td= current_user.email
         %tr 
-            %td= link_to 'Edit', edit_profile_path(current_user)
+            %td User Mobile:
+            %td= current_user.mobile
+        %tr 
+            %td Membership ID:
+            %td= current_user.membership_id
+    =link_to(button_tag("Edit", class: 'btn btn-primary primary-button'), edit_profile_path(current_user))

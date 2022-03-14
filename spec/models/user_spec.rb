@@ -6,12 +6,14 @@
 #  description            :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  mobile                 :string
 #  name                   :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  membership_id          :string
 #
 # Indexes
 #
