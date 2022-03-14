@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   resources :users
+  resources :walker
   resources :profile
   mount EpiCas::Engine, at: "/"
   match "/403", to: "errors#error_403", via: :all
@@ -11,7 +12,7 @@ Rails.application.routes.draw do
 
   get :ie_warning, to: 'errors#ie_warning'
 
-  root to: "pages#home"
+  root to: "walker#index"
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

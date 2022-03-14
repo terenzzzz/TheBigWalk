@@ -17,16 +17,12 @@
       .container
         .d-flex.flex-wrap.align-items-center.justify-content-center.justify-content-lg-start
           = link_to(image_tag("BW2022_logo_SQ.png", :size => "65x65"), root_path)
-          %ul.nav.col-12.col-lg-auto.me-lg-auto.mb-2.justify-content-center.mb-md-0
-            %li
-              = link_to 'Home', root_path, title: 'Go to the home page', class: 'nav-link px-2 link-secondary'
-          %form.col-12.col-lg-auto.mb-3.mb-lg-0.me-lg-3
-            -if user_signed_in?
-              %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
-                = current_user.email
-              %nav.dropdown-menu.dropdown-menu-lg-end
-                = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
-                = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
+          -if user_signed_in?
+            %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
+              = current_user.email
+            %nav.dropdown-menu.dropdown-menu-lg-end
+              = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
+              = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
           
 
     .flash-messages
