@@ -1,0 +1,8 @@
+-# frozen_string_literal: true
+= simple_form_for(@user) do |f|
+
+  .form-inputs
+    = f.file_field :avatar
+
+  .form-actions
+    = f.button :submit
