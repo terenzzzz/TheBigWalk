@@ -1,6 +1,6 @@
 class PagesController < ApplicationController
 
-  skip_authorization_check
+  before_action :authenticate_user!
 
   def home
     @current_nav_identifier = :home

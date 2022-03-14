@@ -22,28 +22,14 @@
           %ul.nav.col-12.col-lg-auto.me-lg-auto.mb-2.justify-content-center.mb-md-0
             %li
               = link_to 'Home', root_path, title: 'Go to the home page', class: 'nav-link px-2 link-secondary'
-            %li
-              %a.nav-link.px-2.link-dark{:href => "#"} Inventory
-            %li
-              %a.nav-link.px-2.link-dark{:href => "#"} Customers
-            %li
-              %a.nav-link.px-2.link-dark{:href => "#"} Products
           %form.col-12.col-lg-auto.mb-3.mb-lg-0.me-lg-3
-            %input.form-control{"aria-label" => "Search", :placeholder => "Search...", :type => "search"}
-          .dropdown.text-end
-            %a#dropdownUser1.d-block.link-dark.text-decoration-none.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", :href => "#"}
-              %img.rounded-circle{:alt => "mdo", :height => "32", :src => "https://github.com/epigenesys.png", :width => "32"}
-            %ul.dropdown-menu.text-small{"aria-labelledby" => "dropdownUser1", :style => ""}
-              %li
-                %a.dropdown-item{:href => "#"} New project...
-              %li
-                %a.dropdown-item{:href => "#"} Settings
-              %li
-                %a.dropdown-item{:href => "#"} Profile
-              %li
-                %hr.dropdown-divider/
-              %li
-                %a.dropdown-item{:href => "#"} Sign out
+            -if user_signed_in?
+              %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
+                = current_user.email
+              %nav.dropdown-menu.dropdown-menu-lg-end
+                = link_to 'Profile' , class: 'dropdown-item', title: 'Go to the profile page'
+                = link_to 'Sign out',destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
+          
 
     .flash-messages
       - flash.each do |name, msg|
