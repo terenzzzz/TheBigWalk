@@ -16,7 +16,7 @@
     %header.p-3.mb-3.border-bottom
       .container
         .d-flex.flex-wrap.align-items-center.justify-content-center.justify-content-lg-start
-          = link_to(image_tag("BW2022_logo_SQ.png", :size => "65x65"), root_path)
+          = link_to(image_tag("BW2022_logo_SQ.png", :size => "50x50"), root_path)
           -if user_signed_in?
             %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
               = current_user.email
