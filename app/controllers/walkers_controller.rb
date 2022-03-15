@@ -5,6 +5,10 @@ class WalkersController < ApplicationController
         
     end
 
+    def check_in_fail
+    end
+    
+
     def index
     end
 

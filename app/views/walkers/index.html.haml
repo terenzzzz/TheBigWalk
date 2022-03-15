@@ -1,12 +1,19 @@
 .row 
     .col 
-        %h1 LET'S GO! 
-        %h2 The walk has begun! 
-        %p 
-        %h2 Your next checkpoing
-        %h1 Hope Cross 
+        .d-flex.justify-content-center
+            %h1 LET'S GO! 
+        .d-flex.justify-content-center
+            %h2 The walk has begun! 
+        %br
+        .d-flex.justify-content-center
+            %h2 Your next checkpoing
+        .d-flex.justify-content-center
+            %h1 Hope Cross 
+        %br/
+        %br/
 .d-grid.gap-2
     -# =link_to(button_tag("Check-in", class: 'btn btn-primary primary-button'), walker_check_in_path) 
     =link_to "Check-in", check_in_walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "Check-in_fail", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Checkpoint information", check_in_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "RequestHelp", check_in_walkers_path, class: 'btn btn-primary primary-button'
