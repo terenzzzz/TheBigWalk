@@ -1,0 +1,18 @@
+.row 
+    %table.table
+        %tr 
+            %td User ID:
+            %td= current_user.id
+        %tr 
+            %td User Email:
+            %td= current_user.email
+        %tr 
+            %td User Mobile:
+            %td= current_user.mobile
+        %tr 
+            %td Membership ID:
+            %td= current_user.membership_id
+    .d-grid.gap-2
+        =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do 
+            %span.bi.bi-pencil-square
+            %span Edit

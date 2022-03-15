@@ -1,3 +1,6 @@
+=link_to walkers_path do 
+    %span.bi.bi-arrow-return-left
+
 .row 
     .col
         .d-flex.justify-content-center
@@ -8,7 +11,7 @@
         .d-flex.justify-content-center
             %p Great job!
         .d-flex.justify-content-center
-        %p You've reached the checkpoint ahead of the advised time of 10:15
+            %p You are ahead of the advised time of 10:15
         .d-flex.justify-content-center
             %h3 Your next check-in is at: 
         .d-flex.justify-content-center
@@ -18,6 +21,6 @@
         %br/
     .d-grid.gap-2
         =link_to checkpoint_info_walkers_path,class: 'btn btn-primary primary-button' do 
-            %spam Check Point Information
+            %span Check Point Information
 
 

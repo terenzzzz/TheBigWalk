@@ -18,14 +18,12 @@
       .container
         
         .row 
-          .col-2
-            .i.bi.bi-arrow-90deg-left
-          .col-8
-            = link_to(image_tag("BW2022_logo_LSC.png", :size => "200x70"), root_path)
-          .col-2
+          .col-9
+            = link_to(image_tag("BW_Logo1.png", :size => "250x80"), root_path)
+          .col-3
             -if user_signed_in?
               %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
-                .i.bi.bi-person-square
+                .i.bi.bi-person-circle
               %nav.dropdown-menu.dropdown-menu-lg-end
                 = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
                 = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"

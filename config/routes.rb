@@ -9,7 +9,10 @@ Rails.application.routes.draw do
     get 'checkpoint_info', on: :collection
   end
 
-  resources :profile
+  resources :profile do
+    get 'account', on: :collection
+  end
+  
   mount EpiCas::Engine, at: "/"
   match "/403", to: "errors#error_403", via: :all
   match "/404", to: "errors#error_404", via: :all
