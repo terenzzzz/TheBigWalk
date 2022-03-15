@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :walkers do
     get 'check_in', on: :collection
     get 'check_in_fail', on: :collection
+    get 'checkpoint_info', on: :collection
   end
 
   resources :profile

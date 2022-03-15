@@ -26,4 +26,11 @@
         %tr 
             %td Membership ID:
             %td= current_user.membership_id
-    =link_to(button_tag("Edit", class: 'btn btn-primary primary-button'), edit_profile_path(current_user))
+    .d-grid.gap-2
+        =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do 
+            %span.bi.bi-pencil-square
+            %span Edit
+        =link_to "/",class: 'btn btn-primary primary-button' do
+            %span.bi.bi-share 
+            %spam Share
+

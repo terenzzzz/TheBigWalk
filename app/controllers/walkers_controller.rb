@@ -7,6 +7,9 @@ class WalkersController < ApplicationController
 
     def check_in_fail
     end
+
+    def checkpoing_info
+    end
     
 
     def index
