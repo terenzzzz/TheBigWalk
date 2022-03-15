@@ -7,6 +7,6 @@
         %h1 Hope Cross 
 .d-grid.gap-2
     -# =link_to(button_tag("Check-in", class: 'btn btn-primary primary-button'), walker_check_in_path) 
-    =button_tag "Check-in", class: 'btn btn-primary primary-button'
-    =button_tag "Checkpoint information", class: 'btn btn-primary primary-button'
-    =button_tag "RequestHelp", class: 'btn btn-primary primary-button'
+    =link_to "Check-in", check_in_walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "Checkpoint information", check_in_walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "RequestHelp", check_in_walkers_path, class: 'btn btn-primary primary-button'

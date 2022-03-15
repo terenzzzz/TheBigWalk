@@ -1,8 +1,12 @@
-= image_tag("BW2022_logo_LSC.png", :size => "320x150")
+.d-flex.justify-content-center
+    = image_tag("BW2022_logo_LSC.png", :size => "320x150")
 
-%h4 set off in:
-%h1  47D:9H:26M:51S
+.d-flex.justify-content-center
+    %h4 set off in:
+.d-flex.justify-content-center
+    %h1  47D:9H:26M:51S
 
 .d-grid.gap-2
-    = link_to(button_tag("Walker", class: 'btn btn-primary primary-button btn-lg'), walkers_path) 
-    = link_to(button_tag("Staff", class: 'btn btn-primary primary-button btn-lg'), '/')
+    =link_to "Walker", walkers_path, class: 'btn btn-primary primary-button' 
+    =link_to "Staff", walkers_path, class: 'btn btn-primary primary-button'
+    
