@@ -1,7 +1,18 @@
 .row 
     .col 
-        %h1 Check-In For:
-        %h2 HOPR CROSS
+        %h2 Check-In For:
+        %h1 HOPR CROSS
+
+        %p Great job
+        %p 
+        %p You've reached the checkpoint ahead of the advised time of 10:15
+        %h3 Your next check-in is %at: 
+        %h1 Win Hill
+        %h2 Aim to be there before 11:00!
+        .d-grid.gap-2
+            =button_tag "Checkpoint information",  class: 'btn btn-primary primary-button'
+
+
         %p Oops!According to your location, we don't think you're at the check-in point. If we're wrong, feel free to check-in with the button below. Ask the marshal at the site for their code. 
-.d-grid.gap-2
-    =button_tag "Check-in With Code",  class: 'btn btn-primary primary-button'
+        .d-grid.gap-2
+            =button_tag "Check-in With Code",  class: 'btn btn-primary primary-button'
