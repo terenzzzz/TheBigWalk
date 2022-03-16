@@ -1,0 +1,14 @@
+=link_to walkers_path do 
+    %span.bi.bi-arrow-return-left
+
+.d-flex.justify-content-center
+    %h1 Dropping Out
+.d-flex.justify-content-center
+    %h3 We're sorry to see you go!
+%br/
+.d-flex.justify-content-center
+    %p  Well done on all your hard work today. Now you're finishing up, do you need picking up, or are you making your own way home?
+%br/
+.d-grid.gap-2
+    =link_to "Making My Own Way Home", check_in_walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "I Need Picking Up", check_in_walkers_path, class: 'btn btn-primary primary-button'

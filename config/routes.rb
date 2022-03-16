@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     get 'check_in', on: :collection
     get 'check_in_fail', on: :collection
     get 'checkpoint_info', on: :collection
+    get 'help', on: :collection
+    get 'drop_out', on: :collection
   end
 
   resources :profile do

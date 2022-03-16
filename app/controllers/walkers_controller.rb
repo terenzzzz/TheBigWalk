@@ -10,6 +10,14 @@ class WalkersController < ApplicationController
 
     def checkpoing_info
     end
+
+    def help
+    end
+
+    def drop_out
+    end
+    
+    
     
 
     def index
