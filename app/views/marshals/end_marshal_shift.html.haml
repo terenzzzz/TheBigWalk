@@ -1,0 +1,15 @@
+.row 
+    .col 
+        .d-flex.justify-content-center
+            %h1 End Marshal Shift
+        %br
+        .d-flex.justify-content-center
+            %p Thank you for all your help today!
+        %br/
+        .d-flex.justify-content-center
+            %p Would you like to pause your shift or clock out permanently for the day?
+        %br/
+        %br/
+.d-grid.gap-2
+    =link_to "Pause Marshalling", marshals_path, class: 'btn btn-primary primary-button'
+    =link_to "End For The Day", end_for_the_day_marshals_path, class: 'btn btn-primary primary-button'

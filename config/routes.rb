@@ -11,6 +11,13 @@ Rails.application.routes.draw do
     get 'drop_out', on: :collection
   end
 
+  resources :marshals do
+    get 'change_checkpoint', on: :collection
+    get 'end_marshal_shift', on: :collection
+    get 'end_for_the_day', on: :collection
+    get 'index', on: :collection
+  end
+
   resources :profile do
     get 'account', on: :collection
   end
