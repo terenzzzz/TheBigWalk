@@ -3,6 +3,8 @@
         .d-flex.justify-content-center
             %h1 All Participants
         .d-flex.justify-content-center
+            =text_field :search, :walkers, :maxlength => "40", :placeholder => "Search Walkers"
+        .d-flex.justify-content-center
             =button_tag "export As Excel Sheet",  class: 'btn btn-primary primary-button'
         .d-flex.justify-content-left
             %p Carlos, Ward

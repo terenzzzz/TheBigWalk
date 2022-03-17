@@ -22,6 +22,11 @@ Rails.application.routes.draw do
     get 'edit_checkpoint', on: :collection
     get 'manage_events', on: :collection
     get 'walkers_profile', on: :collection
+    get 'create_event_name', on: :collection
+    get 'create_event_date', on: :collection
+    get 'create_event_checkpoints', on: :collection
+    get 'create_event_branding', on: :collection
+    
   end
 
   resources :marshals do

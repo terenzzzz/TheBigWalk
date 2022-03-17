@@ -2,10 +2,10 @@
     .col
         .d-flex.justify-content-center
             %h1 Change Checkpoint 
-        %br/
+        .d-flex.justify-content-center
+            =text_field :search, :checkpoints, :maxlength => "40", :placeholder => "Search Checkpoints"
         .d-flex.justify-content-left
-            %p Crowden Brook 
-            
+            %p Crowden Brook  
         .d-flex.justify-content-left
             %p Jagger's Clough
         .d-flex.justify-content-left

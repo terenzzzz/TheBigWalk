@@ -3,6 +3,8 @@
         .d-flex.justify-content-center
             %h1 Pick-Up Requests
         .d-flex.justify-content-center
+            =text_field :pickup, :requests, :maxlength => "40", :placeholder => "Search Pick-Ups"
+        .d-flex.justify-content-center
             =button_tag "export As Excel Sheet",  class: 'btn btn-primary primary-button'
         .d-flex.justify-content-left
             %p Carlos, Ward

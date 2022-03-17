@@ -3,6 +3,8 @@
         .d-flex.justify-content-center
             %h1 Marshals At Checkpoints
         .d-flex.justify-content-center
+            =text_field :name, :event, :maxlength => "60", :placeholder => "Search Marshal or Checkpoints"
+        .d-flex.justify-content-center
             =button_tag "Only Show Empty Sites",  class: 'btn btn-primary primary-button'
         .d-flex.justify-content-left
             %p Crowden Brook

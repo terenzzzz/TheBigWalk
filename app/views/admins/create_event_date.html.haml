@@ -1,0 +1,13 @@
+.row 
+    .col
+        .d-flex.justify-content-center
+            %h2 Create Event
+        %br/
+        .d-flex.justify-content-center
+            %h1 Event Date:
+        %br/
+        .d-flex.justify-content-center
+            =date_select :date, :event
+        %br/
+        .d-flex.justify-content-center
+            =link_to "Next", create_event_checkpoints_admins_path, class: 'btn btn-primary primary-button'
