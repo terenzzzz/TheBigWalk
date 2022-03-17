@@ -1,0 +1,25 @@
+=link_to walkers_path do 
+    %span.bi.bi-arrow-return-left
+    
+%h1 Welcome to Your Profile 
+.row   
+    .col-5 
+        %table 
+            %tr 
+                -if current_user.avatar.attached? 
+                    %td= image_tag current_user.avatar, :size => "120x120"
+                -else 
+                    %td= "Error:  You have not upload any photo"
+    .col-7
+        %p 
+            = current_user.name
+        %p 
+            = current_user.description 
+%br/
+.d-grid.gap-3
+    %p users set donation link:
+    %p https://www.justgiving.com/campaign/big-walk-2022
+    =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
+        %span Suspend Account
+    =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
+        %span Delete Account

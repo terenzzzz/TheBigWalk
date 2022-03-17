@@ -1,0 +1,25 @@
+.row 
+    .col
+        .d-flex.justify-content-center
+            %h1 Event Info
+        %br/
+        .d-flex.justify-content-center
+            %p Event Name
+            %p The Big Walk 2022 30km
+        .d-flex.justify-content-center
+            %p Event Date
+            %p 24th June 2022
+        .d-flex.justify-content-center
+            %p Event Start Time
+            %p 09:00
+        .d-flex.justify-content-center
+            %p Total Route Length
+            %p 32km
+        .d-flex.justify-content-center
+            %p Event ID
+            %p 400290118
+        .d-flex.justify-content-center
+            =link_to "Manage Checkpoints", manage_checkpoints_admins_path, class: 'btn btn-primary primary-button'
+        %br/
+        .d-flex.justify-content-center
+            =link_to "Delete Event", admins_path, class: 'btn btn-primary primary-button'
