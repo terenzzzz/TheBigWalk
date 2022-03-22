@@ -33,6 +33,8 @@ gem 'delayed_job_active_record'
 
 gem 'daemons'
 
+gem "erb2haml", :group => :development
+
 gem 'sentry-ruby'
 gem 'sentry-rails'
 
