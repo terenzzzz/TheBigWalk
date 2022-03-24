@@ -17,6 +17,24 @@
         %p 
             = current_user.description 
 %br/
+
+.row 
+    %table.table
+        %tr 
+            %td User ID:
+            %td= current_user.id
+        %tr 
+            %td User Email:
+            %td= current_user.email
+        %tr 
+            %td User Mobile:
+            %td= current_user.mobile
+        %tr 
+            %td Membership ID:
+            %td= current_user.membership_id
+
+        
+
 .d-grid.gap-3
     =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
         %span.bi.bi-piggy-bank
@@ -24,9 +42,13 @@
         %span.bi.bi-piggy-bank
     .d-flex.justify-content-center
         %p Your Public Progress Shows Here
-    =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
-        %span.bi.bi-person-fill
-        %span Account
+
     =link_to "/",class: 'btn btn-primary primary-button' do
         %span.bi.bi-share 
         %spam Share
+    =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do 
+        %span.bi.bi-pencil-square
+        %span Edit
+    =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button btn-danger' do 
+        %span.bi.bi-trash
+        %span Delete Account
