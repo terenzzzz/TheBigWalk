@@ -1,6 +1,7 @@
 class AdminsController < ApplicationController
     before_action :authenticate_user!
 
+
     def change_checkpoint
     end
    
@@ -13,4 +14,11 @@ class AdminsController < ApplicationController
     def show
     end
 
+    def create_event_checkpoint
+        @checkpoints = Checkpoint.all
+    end
+
+    def manage_checkpoints
+        @checkpoints = Checkpoint.all
+    end
 end
