@@ -54,6 +54,23 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.bigint "events_id", null: false
     t.index ["events_id"], name: "index_checkpoints_on_events_id"
   end
+  
+  create_table "admins", force: :cascade do |t|
+    t.integer "admin_id"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "check_points", force: :cascade do |t|
+    t.string "location"
+    t.string "advice_time"
+    t.string "code"
+    t.string "grid_reference"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "check_point_id"
+  end
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
@@ -79,6 +96,35 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
+  
+  create_table "marshalls", force: :cascade do |t|
+    t.integer "marshal_id"
+    t.integer "checkPoint_id"
+    t.integer "user_id"
+    t.integer "check_point_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "participants", force: :cascade do |t|
+    t.integer "participant_id"
+    t.string "pace"
+    t.datetime "arrival_time"
+    t.integer "rank"
+    t.string "status"
+    t.integer "user_id"
+    t.integer "route_id"
+    t.integer "check_point_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "routes", force: :cascade do |t|
+    t.integer "route_id"
+    t.string "length"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.string "session_id", null: false
@@ -88,6 +134,19 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.string "cas_ticket"
     t.index ["session_id"], name: "index_sessions_on_session_id", unique: true
     t.index ["updated_at"], name: "index_sessions_on_updated_at"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tags_users", id: false, force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "tag_id", null: false
+    t.index ["tag_id", "user_id"], name: "index_tags_users_on_tag_id_and_user_id"
+    t.index ["user_id", "tag_id"], name: "index_tags_users_on_user_id_and_tag_id"
   end
 
   create_table "users", force: :cascade do |t|
