@@ -1,0 +1,11 @@
+.row 
+  .col
+    .d-flex.justify-content-center
+      %h1 Listing events
+    %br/
+    - @events.each do |event|
+      .d-flex.justify-content-left
+        %p= event.name
+        =link_to "Select", event, class: 'btn btn-primary primary-button'
+      %br/
+ 

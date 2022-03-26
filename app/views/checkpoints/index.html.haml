@@ -15,6 +15,11 @@
             %br/
         .d-flex.justify-content-center
             =link_to "Create New Checkpoint", new_checkpoint_path, class: 'btn btn-primary primary-button'
-        %br/
-        .d-flex.justify-content-center
-            =link_to "Next", create_event_branding_admins_path, class: 'btn btn-primary primary-button'
+        
+        - if session[:new_event] == 1
+            %br/
+            .d-flex.justify-content-center
+                =link_to "Next", create_event_branding_admins_path, class: 'btn btn-primary primary-button'
+            
+                
+

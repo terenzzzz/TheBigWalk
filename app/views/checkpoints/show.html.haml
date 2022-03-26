@@ -1,0 +1,22 @@
+%p#notice= notice
+
+
+%p
+  %b Name:
+  = @checkpoint.name
+%p
+  %b Distance:
+  = @checkpoint.distance
+%p
+  %b Location:
+  = @checkpoint.location
+%p
+  %b Advisedtime:
+  = @checkpoint.advisedTime
+%p
+  %b Description:
+  = @checkpoint.description
+
+= link_to 'Edit', edit_checkpoint_path(@checkpoint)
+\|
+= link_to 'Back', checkpoints_path

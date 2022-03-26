@@ -3,7 +3,7 @@ class CheckpointsController < ApplicationController
 
   # GET /checkpoints
   def index
-    @checkpoints = Checkpoint.all
+    @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
   end
 
   # GET /checkpoints/1
@@ -13,6 +13,7 @@ class CheckpointsController < ApplicationController
   # GET /checkpoints/new
   def new
     @checkpoint = Checkpoint.new
+    
     session[:return_to] ||= request.referer
   end
 
@@ -24,6 +25,7 @@ class CheckpointsController < ApplicationController
   # POST /checkpoints
   def create
     @checkpoint = Checkpoint.new(checkpoint_params)
+    @checkpoint.events_id = session[:current_event_id]
     @checkpoint.save 
     redirect_to session.delete(:return_to)
   end
@@ -48,6 +50,6 @@ class CheckpointsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def checkpoint_params
-      params.require(:checkpoint).permit(:checkPointID, :name, :distance, :location, :advisedTime, :description)
+      params.require(:checkpoint).permit(:name, :distance, :location, :advisedTime, :description)
     end
 end
