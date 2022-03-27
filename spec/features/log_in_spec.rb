@@ -32,6 +32,17 @@ describe 'log_in' do
             expect(page).to_not have_content 'is too long (maximum is 8 characters)'
             expect(page).to have_content 'Welcome! You have signed up successfully.'
           end
+
+        specify "I can sign up with a name, email, mobile, password" do
+        visit "/users/sign_up"
+        fill_in "Name", with: 'Beluga'
+        fill_in "Email", with: 'a.n@email.com'
+        fill_in "Mobile", with: '00000000000'
+        fill_in "Password", with: '3fNPg6fqScrZs0m3'
+        fill_in "Password confirmation", with: '3fNPg6fqScrZs0m3'
+        click_button 'Sign up'
+        expect(page).to have_content 'Welcome! You have signed up successfully.'
+        end 
     end
 
 

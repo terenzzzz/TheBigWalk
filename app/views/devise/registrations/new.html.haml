@@ -1,14 +1,18 @@
 - content_for :title, 'Sign up'
 
 .row.justify-content-center
-  .col-sm-6.col-lg-4
+  .col-sm-8.col-lg-6
     .card.card-light
       = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
         .card-header
           Sign up
         = f.error_notification
         .card-body
+          = 'Add a Avatar here:'
+          = f.file_field :avatar
+          = f.input :name
           = f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email" }
+          = f.input :mobile
           = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { autocomplete: "new-password" }                                          |
           = f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }
         .card-footer
