@@ -18,7 +18,10 @@ class WalkersController < ApplicationController
     end
     
     
-    
+    def search
+        @search = User.ransack(params[:q])
+        @users = @search.result(distinct: true)
+    end
 
     def index
     end
@@ -26,4 +29,9 @@ class WalkersController < ApplicationController
     def show
     end
 
+    private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_category
+      @user = User.find(params[:id])
+    end
 end

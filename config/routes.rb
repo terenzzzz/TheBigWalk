@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get 'checkpoint_info', on: :collection
     get 'help', on: :collection
     get 'drop_out', on: :collection
+    get 'search', on: :collection
   end
 
   resources :admins do
