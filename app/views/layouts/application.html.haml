@@ -16,16 +16,22 @@
 
     %header.p-3.mb-3.border-bottom
       .container
-        .row 
-          .col-9
-            = link_to(image_tag("BW_Logo1.png", :size => "250x80"), root_path)
-          .col-3
+        .row
+          .col-6
+            = link_to(image_tag("BW_Logo1.png", :size => "180x80"), root_path)
+          .col-2
             -if user_signed_in?
               %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
-                .i.bi.bi-person-circle
+                .i.bi.bi-person-circle.align-items-center.display-6
               %nav.dropdown-menu.dropdown-menu-lg-end
                 = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
                 = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
+          .col-4
+            -if user_signed_in?
+              =link_to inbox_walkers_path, class: 'btn btn-primary primary-button btn-sm' do
+                %span Inbox
+                %span.badge 5
+              
           
 
     .flash-messages

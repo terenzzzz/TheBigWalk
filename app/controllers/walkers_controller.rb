@@ -23,6 +23,9 @@ class WalkersController < ApplicationController
         @users = @search.result(distinct: true)
     end
 
+    def inbox
+    end
+
     def index
     end
 
