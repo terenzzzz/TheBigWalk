@@ -22,6 +22,10 @@
 #
 FactoryBot.define do
   factory :user do
-    
+    description { "MyString" }
+    mobile { "MyString" }
+    name { "MyString" }
+    reset_password_token { "MyString" }
+    membership_id { "MyString" }
   end
 end
