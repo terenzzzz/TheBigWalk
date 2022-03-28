@@ -23,13 +23,32 @@ describe 'log_in' do
             expect(page).to_not have_content 'Welcome! You have signed up successfully.'
         end
 
+        specify 'I cannot sign up if I use an invalid email' do
+            visit '/users/sign_up'
+            fill_in "Email", with: 'notavalidemail'
+            fill_in "Password", with: 'password123!'
+            fill_in "Password confirmation", with: 'password123!'
+            click_button 'Sign up'
+            expect(page).to have_content 'Email is invalid'
+            expect(page).to_not have_content 'Welcome! You have signed up successfully.'
+        end
+
+        specify 'I cannot sign up if my password and confirmation password do not match' do
+            visit '/users/sign_up'
+            fill_in "Email", with: 'notavalidemail'
+            fill_in "Password", with: 'password123!'
+            fill_in "Password confirmation", with: 'password456!'
+            click_button 'Sign up'
+            expect(page).to have_content "Password confirmation doesn't match Password"
+            expect(page).to_not have_content 'Welcome! You have signed up successfully.'
+        end
+
         specify "I can sign up with a long password" do
             visit "/users/sign_up"
             fill_in "Email", with: 'a.n@email.com'
             fill_in "Password", with: '3fNPg6fqScrZs0m3'
             fill_in "Password confirmation", with: '3fNPg6fqScrZs0m3'
             click_button 'Sign up'
-            expect(page).to_not have_content 'is too long (maximum is 8 characters)'
             expect(page).to have_content 'Welcome! You have signed up successfully.'
           end
 
