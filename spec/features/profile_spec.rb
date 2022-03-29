@@ -17,6 +17,14 @@ describe 'profile' do
             expect(page).to have_content 'profile was successfully updated.'
         end
 
+        specify "I can edit avatar of my profile" do
+            visit "/profile"
+            click_link 'Edit'
+            attach_file 'avatar', "#{Rails.root}/spec/fixtures/images/test.png"
+            click_button'Update User'
+            expect(page).to have_content 'profile was successfully updated.'
+        end
+
         specify "I can edit description of my profile" do
             visit "/profile"
             click_link 'Edit'

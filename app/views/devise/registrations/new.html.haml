@@ -8,13 +8,13 @@
           Sign up
         = f.error_notification
         .card-body
-          = 'Add a Avatar here:'
-          = f.file_field :avatar
+          = f.input :avatar, label: 'Add an avatar here:'
           = f.input :name
           = f.input :email, required: true, autofocus: true, input_html: { autocomplete: "email" }
           = f.input :mobile
           = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { autocomplete: "new-password" }                                          |
           = f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }
+          
         .card-footer
           %button.btn.btn-primary{ type: :submit }
             Sign up

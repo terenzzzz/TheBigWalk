@@ -54,6 +54,8 @@ describe 'log_in' do
 
         specify "I can sign up with a name, email, mobile, password" do
         visit "/users/sign_up"
+        # upload file
+        attach_file 'Add an avatar here', "#{Rails.root}/spec/fixtures/images/test.png"
         fill_in "Name", with: 'Beluga'
         fill_in "Email", with: 'a.n@email.com'
         fill_in "Mobile", with: '00000000000'
