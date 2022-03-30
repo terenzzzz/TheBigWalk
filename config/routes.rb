@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resources :events
-  resources :checkpoints
+  resources :checkpoints 
   devise_for :users
   resources :users
  
@@ -33,6 +33,7 @@ Rails.application.routes.draw do
   end
 
   resources :marshals do
+    get 'start_shift', on: :collection
     get 'change_checkpoint', on: :collection
     get 'end_marshal_shift', on: :collection
     get 'end_for_the_day', on: :collection
