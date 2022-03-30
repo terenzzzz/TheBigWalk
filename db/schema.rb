@@ -87,7 +87,7 @@ ActiveRecord::Schema.define(version: 2022_03_28_102817) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "marshals", force: :cascade do |t|
+  create_table "marshalls", force: :cascade do |t|
     t.integer "marshal_id"
     t.integer "checkPoint_id"
     t.integer "user_id"
