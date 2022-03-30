@@ -5,6 +5,10 @@ Rails.application.routes.draw do
   devise_for :users
   resources :users
  
+  resources :pages do 
+    get 'leaderboard', on: :collection
+
+  end
 
   resources :walkers do
     get 'check_in', on: :collection
