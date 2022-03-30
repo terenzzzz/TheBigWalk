@@ -14,7 +14,8 @@
 .d-grid.gap-2
     =link_to "Check-in", check_in_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Check-in_fail", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
-    =link_to checkpoint_info_walkers_path,class: 'btn btn-primary primary-button' do 
+    =link_to checkpoint_info_walkers_path, class: 'btn btn-primary primary-button' do 
         %span Check Point Information
     =link_to "Search friends", search_walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "Leaderboard", leaderboard_pages_path, class: 'btn btn-primary primary-button'
     =link_to "RequestHelp", help_walkers_path, class: 'btn btn-primary primary-button'
