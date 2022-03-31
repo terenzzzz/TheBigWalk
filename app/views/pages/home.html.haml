@@ -2,11 +2,26 @@
     = image_tag("bwlogosquaretight.png", class: "img-fluid")
 
 .d-flex.justify-content-center
-    %h4 Sets off in:
+    %h5{class: "fw-bold"} Sets off in:
 .d-flex.justify-content-center
-    %h1  47D:9H:26M:51S
+    %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
+    :javascript
+        var countDownDate = new Date("Jun 24, 2022 09:00:00").getTime();
+        var x = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "EXPIRED";
+            }
+        }, 1000);
 
-.d-grid.gap-2
-    =link_to "Walker", walkers_path, class: 'btn btn-primary primary-button' 
-    =link_to "Marshall", marshals_path, class: 'btn btn-primary primary-button'
-    =link_to "Admin", admins_path, class: 'btn btn-primary primary-button'
+.d-grid.pt-3.mx-3.gap-3
+    =link_to "Walker", walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "Staff", marshals_path, class: 'btn btn-primary primary-button'
+    /=link_to "Admin", admins_path, class: 'btn btn-primary primary-button'
