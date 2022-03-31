@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap:wght@400;500;600;700&display=swap');
+
 html, body {
   height: 100%;
 }
@@ -5,7 +7,7 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
-  font-family:'Ubuntu';
+  font-family:'Asap', sans-serif;
   font-style: normal;
 }
 
