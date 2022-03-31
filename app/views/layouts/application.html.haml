@@ -14,21 +14,22 @@
   %body.bg-light
     = render 'layouts/svg_logo'
 
-    %header.p-3.mb-3.border-bottom
-      .container
-        .row
-          .col-6
-            = link_to(image_tag("BW_Logo1.png", :size => "180x80"), root_path)
-          .col-2
-            -if user_signed_in?
-              %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
-                .i.bi.bi-person-circle.align-items-center.display-6
-              %nav.dropdown-menu.dropdown-menu-lg-end
-                = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
-                = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
+    -if current_page?(root_path)
+      / no header
+    -else
+      %header.p-3.mb-3.border-bottom
+        .container
+          .row
+            .col-6
+              = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), root_path)
+            .col-2
+              -if user_signed_in?
+                %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
+                  .i.bi.bi-person-circle.align-items-center.display-6
+                %nav.dropdown-menu.dropdown-menu-lg-end
+                  = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
+                  = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
               
-          
-
     .flash-messages
       - flash.each do |name, msg|
         - next unless name == 'alert' || name == 'notice'
@@ -40,10 +41,5 @@
     %main
       .container= yield
 
-    %footer.mt-auto.my-5.pt-5.text-muted.text-center.text-small
-      %p.mb-1 &copy; Team28 #{Date.today.year}
-      %ul.list-inline
-        %li.list-inline-item
-          %a{:href => "#"} Terms
-        %li.list-inline-item
-          %a{:href => "#"} Support
+    %footer.mt-auto.my-5.pt-3.text-muted.text-center.text-small
+      %p &copy; Team 28, #{Date.today.year}
