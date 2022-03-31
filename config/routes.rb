@@ -17,7 +17,6 @@ Rails.application.routes.draw do
     get 'help', on: :collection
     get 'drop_out', on: :collection
     get 'search', on: :collection
-    get 'inbox', on: :collection
   end
 
   resources :admins do
