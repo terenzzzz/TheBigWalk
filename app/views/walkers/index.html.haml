@@ -6,16 +6,16 @@
             %h2 The walk has begun! 
         %br
         .d-flex.justify-content-center
-            %h2 Your next checkpoing
+            %h2 Your next checkpoint:
         .d-flex.justify-content-center
-            %h1 Hope Cross 
+            %h1 HOPE CROSS
         %br/
         %br/
 .d-grid.gap-2
-    =link_to "Check in", check_in_walkers_path, class: 'btn btn-primary primary-button'
-    =link_to "Check in failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "Check In", check_in_walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "Check In Failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
     =link_to checkpoint_info_walkers_path, class: 'btn btn-primary primary-button' do 
         %span Check Point Information
-    =link_to "Search friends", search_walkers_path, class: 'btn btn-primary primary-button'
+    /=link_to "Search friends", search_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Leaderboard", leaderboard_pages_path, class: 'btn btn-primary primary-button'
     =link_to "Request Help", help_walkers_path, class: 'btn btn-primary primary-button'
