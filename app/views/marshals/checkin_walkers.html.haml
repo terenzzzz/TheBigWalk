@@ -6,12 +6,8 @@
             %h1 HOPE CROSS
         %br
         .d-flex.justify-content-center
-            %h2 Walkers ID Number:
-        .d-flex.justify-content-center
-            =text_field :search, :walkers, :maxlength => "40", :placeholder => "Walker Number"
-        .d-flex.justify-content-center
-            %h1 
+            = simple_form_for :checkin_walker, url: checkin_walker_marshals_path, method: :post do |f|
+                = f.input :participant_id, label: "Walker Number:"
+                %br/
+                = f.submit "Checkin Walker", class: 'btn btn-primary primary-button'
         
-        %br/
-.d-grid.gap-2
-    =link_to "Checkin Walker", marshals_path, class: 'btn btn-primary primary-button'

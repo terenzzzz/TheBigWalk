@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     get 'end_marshal_shift', on: :collection
     get 'end_for_the_day', on: :collection
     get 'checkin_walkers', on: :collection
+    post :checkin_walker, on: :collection
   end
 
   resources :profile do
