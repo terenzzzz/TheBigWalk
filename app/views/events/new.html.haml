@@ -5,11 +5,10 @@
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :name
-    = f.input :date
-    = f.input :time
-    = f.input :length
-    = f.input :eventID
+    = f.input :name, label: "Event Name:"
+    = f.input :date, label: "Date:"
+    = f.input :time, label: "Start Time:"
+    = f.input :length, label: "Course Length (km):"
 
   .form-actions
     = f.button :submit, "Create", class: 'btn btn-primary primary-button'

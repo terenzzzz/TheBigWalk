@@ -5,11 +5,11 @@
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :name
-    = f.input :distance
-    = f.input :location
-    = f.input :advisedTime
-    = f.input :description
+    = f.input :name, label: "Checkpoint Name:"
+    = f.input :distance, label: "Checkpoint Distance (km):"
+    = f.input :location, label: "OS Grid Reference:"
+    = f.input :advisedTime, label: "Advised Time (mins):"
+    = f.input :description, label: "Checkpoint Description:"
 
   .form-actions
     = f.button :submit, "Save", class: 'btn btn-primary primary-button'

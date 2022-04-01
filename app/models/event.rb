@@ -4,7 +4,6 @@
 #
 #  id         :bigint           not null, primary key
 #  date       :date
-#  eventID    :integer
 #  length     :integer
 #  name       :string
 #  time       :time
