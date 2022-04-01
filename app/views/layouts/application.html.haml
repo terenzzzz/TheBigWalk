@@ -17,15 +17,17 @@
     -if current_page?(root_path)
       / no header
     -else
-      %header.p-3.mb-3.border-bottom
-        .container
+      %header.py-3
+        .container-fluid
           .row
-            .col-6
+            .col-3
+              / empty
+            .col-6.mx-auto
               = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), root_path)
-            .col-2
+            .col-3
               -if user_signed_in?
-                %a.nav-link.dropdown-toggle{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
-                  .i.bi.bi-person-circle.align-items-center.display-6
+                %a.nav-link.dropdown{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
+                  .i.bi.bi-person-circle.display-6
                 %nav.dropdown-menu.dropdown-menu-lg-end
                   = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
                   = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
