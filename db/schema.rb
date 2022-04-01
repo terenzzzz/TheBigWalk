@@ -64,18 +64,6 @@ ActiveRecord::Schema.define(version: 2022_03_30_092425) do
     t.index ["events_id"], name: "index_checkpoints_on_events_id"
   end
 
-  create_table "checkpoints", force: :cascade do |t|
-    t.string "name"
-    t.float "distance"
-    t.string "location"
-    t.integer "advisedTime"
-    t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "events_id", null: false
-    t.index ["events_id"], name: "index_checkpoints_on_events_id"
-  end
-
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
