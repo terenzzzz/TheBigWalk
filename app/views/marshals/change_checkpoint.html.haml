@@ -1,24 +1,12 @@
-.row 
-    .col
-        .d-flex.justify-content-center
-            %h1 Change Checkpoint 
-        .d-flex.justify-content-center
-            =text_field :search, :checkpoints, :maxlength => "40", :placeholder => "Search Checkpoints"
-        .d-flex.justify-content-left
-            %p Crowden Brook  
-        .d-flex.justify-content-left
-            %p Jagger's Clough
-        .d-flex.justify-content-left
-            %p Hope Cross
-            %p Current Checkpoint
-        .d-flex.justify-content-left
-            %p Wun Hill Summit
-        .d-flex.justify-content-left
-            %p Ladybower Reservoir
-        .d-flex.justify-content-left
-            %p Bamford Edge
-        .d-flex.justify-content-left
-            %p Crow Chin
-        .d-flex.justify-content-left
-            %p Rivelin Brook
+%table
+  %thead
+    %tr
+      %th Name 
+
+  %tbody
+    - @checkpoints.each do |checkpoint.where(@checkpoints.events_id == 5)| 
+      %tr
+        %td= checkpoint.name
+
+%br
 
