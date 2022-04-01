@@ -17,7 +17,6 @@ Rails.application.routes.draw do
     get 'help', on: :collection
     get 'drop_out', on: :collection
     get 'search', on: :collection
-    get 'inbox', on: :collection
   end
 
   resources :admins do
@@ -38,9 +37,11 @@ Rails.application.routes.draw do
 
   resources :marshals do
     get 'start_shift', on: :collection
+    get 'view_incoming_walkers', on: :collection
     get 'change_checkpoint', on: :collection
     get 'end_marshal_shift', on: :collection
     get 'end_for_the_day', on: :collection
+    get 'checkin_walkers', on: :collection
   end
 
   resources :profile do

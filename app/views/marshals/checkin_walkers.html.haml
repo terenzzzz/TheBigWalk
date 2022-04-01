@@ -1,0 +1,17 @@
+.row 
+    .col 
+        .d-flex.justify-content-center
+            %h2 Your Checkpoint: 
+        .d-flex.justify-content-center
+            %h1 HOPE CROSS
+        %br
+        .d-flex.justify-content-center
+            %h2 Walkers ID Number:
+        .d-flex.justify-content-center
+            =text_field :search, :walkers, :maxlength => "40", :placeholder => "Walker Number"
+        .d-flex.justify-content-center
+            %h1 
+        
+        %br/
+.d-grid.gap-2
+    =link_to "Checkin Walker", marshals_path, class: 'btn btn-primary primary-button'

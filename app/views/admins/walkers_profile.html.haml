@@ -9,7 +9,7 @@
                 -if current_user.avatar.attached? 
                     %td= image_tag current_user.avatar, :size => "120x120"
                 -else 
-                    %td= "Error:  You have not upload any photo"
+                    %td= "No Profile Picture Uploaded."
     .col-7
         %p 
             = current_user.name

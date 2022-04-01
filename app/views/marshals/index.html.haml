@@ -9,10 +9,17 @@
             %h2 Walkers Passed:
         .d-flex.justify-content-center
             %h1 261/348
+        %br
+        .d-flex.justify-content-center 
+            %h2 Walkers Falling Behind:
+        .d-flex.justify-content-center
+            %h1 4
         %br/
         %br/
 .d-grid.gap-2
+    =link_to "View Incoming Walkers", view_incoming_walkers_marshals_path, class: 'btn btn-primary primary-button'
     =link_to "Change Checkpoint", change_checkpoint_marshals_path, class: 'btn btn-primary primary-button'
+    =link_to "Checkin Walkers", checkin_walkers_marshals_path, class: 'btn btn-primary primary-button'
     =link_to "End Marshal Shift", end_marshal_shift_marshals_path, class: 'btn btn-primary primary-button'
 %br/
 .row 
