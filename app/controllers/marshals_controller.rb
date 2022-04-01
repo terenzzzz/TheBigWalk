@@ -7,6 +7,9 @@ class MarshalsController < ApplicationController
     def end_marshal_shift
     end
 
+    def view_incoming_walkers
+    end
+
     def index
     end
 

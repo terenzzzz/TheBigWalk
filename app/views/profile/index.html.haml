@@ -10,7 +10,7 @@
                 -if current_user.avatar.attached? 
                     %td= image_tag current_user.avatar, :size => "120x120"
                 -else 
-                    %td= "Error:  You have not upload any photo"
+                    %td= "No photo uplaoded."
     .col-7
         %p 
             = current_user.name
@@ -38,14 +38,14 @@
 .d-grid.gap-3
     =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
         %span.bi.bi-piggy-bank
-        %span Donate here
+        %span Donate Here
         %span.bi.bi-piggy-bank
     .d-flex.justify-content-center
         %p Your Public Progress Shows Here
 
     =link_to "/",class: 'btn btn-primary primary-button' do
         %span.bi.bi-share 
-        %spam Share
+        %span Share
     =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do 
         %span.bi.bi-pencil-square
         %span Edit

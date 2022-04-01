@@ -1,0 +1,22 @@
+%h5 Find your friends here
+
+= simple_form_for @search, url: search_walkers_path, method: :get, as: :q do |f| 
+  = f.input :email_cont, label: 'Email'
+  = f.input :name_cont, label: 'Name'
+  = f.submit 'Search' 
+  = link_to 'Reset', search_walkers_path
+
+%br/
+%table.table.table-hover.table-sm
+  %thead
+    %tbody 
+    - @users.each do |user|
+      %tr
+        -if user.avatar.attached? 
+          %td= image_tag user.avatar, :size => "40x40"
+        -else 
+          %td= "No photo"
+        %td= user.name
+        %td= link_to 'Show'
+        %td= link_to 'Add'
+                

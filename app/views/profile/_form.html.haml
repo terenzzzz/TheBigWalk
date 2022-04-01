@@ -2,7 +2,7 @@
 = simple_form_for(@user) do |f|
 
   .form-inputs
-    = f.file_field :avatar
+    = f.input :avatar, label:"avatar"
     = f.input :name
     = f.input :description
     = f.input :mobile

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_25_133647) do
+ActiveRecord::Schema.define(version: 2022_03_30_092425) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,16 +48,20 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "users_id", null: false
+    t.index ["users_id"], name: "index_admins_on_users_id"
   end
 
-  create_table "check_points", force: :cascade do |t|
+  create_table "checkpoints", force: :cascade do |t|
+    t.string "name"
+    t.float "distance"
     t.string "location"
-    t.string "advice_time"
-    t.string "code"
-    t.string "grid_reference"
+    t.integer "advisedTime"
+    t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "check_point_id"
+    t.bigint "events_id", null: false
+    t.index ["events_id"], name: "index_checkpoints_on_events_id"
   end
 
   create_table "checkpoints", force: :cascade do |t|
@@ -101,9 +105,12 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.integer "marshal_id"
     t.integer "checkPoint_id"
     t.integer "user_id"
-    t.integer "check_point_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "checkpoints_id", null: false
+    t.bigint "users_id", null: false
+    t.index ["checkpoints_id"], name: "index_marshalls_on_checkpoints_id"
+    t.index ["users_id"], name: "index_marshalls_on_users_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -117,6 +124,12 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.integer "check_point_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "checkpoints_id", null: false
+    t.bigint "users_id", null: false
+    t.bigint "routes_id", null: false
+    t.index ["checkpoints_id"], name: "index_participants_on_checkpoints_id"
+    t.index ["routes_id"], name: "index_participants_on_routes_id"
+    t.index ["users_id"], name: "index_participants_on_users_id"
   end
 
   create_table "routes", force: :cascade do |t|
@@ -124,6 +137,8 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.string "length"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "checkpoints_id", null: false
+    t.index ["checkpoints_id"], name: "index_routes_on_checkpoints_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -167,5 +182,12 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "admins", "users", column: "users_id"
   add_foreign_key "checkpoints", "events", column: "events_id"
+  add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
+  add_foreign_key "marshalls", "users", column: "users_id"
+  add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
+  add_foreign_key "participants", "routes", column: "routes_id"
+  add_foreign_key "participants", "users", column: "users_id"
+  add_foreign_key "routes", "checkpoints", column: "checkpoints_id"
 end
