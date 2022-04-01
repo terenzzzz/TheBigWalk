@@ -43,18 +43,6 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "checkpoints", force: :cascade do |t|
-    t.string "name"
-    t.float "distance"
-    t.string "location"
-    t.integer "advisedTime"
-    t.string "description"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "events_id", null: false
-    t.index ["events_id"], name: "index_checkpoints_on_events_id"
-  end
-  
   create_table "admins", force: :cascade do |t|
     t.integer "admin_id"
     t.integer "user_id"
@@ -70,6 +58,18 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "check_point_id"
+  end
+
+  create_table "checkpoints", force: :cascade do |t|
+    t.string "name"
+    t.float "distance"
+    t.string "location"
+    t.integer "advisedTime"
+    t.string "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "events_id", null: false
+    t.index ["events_id"], name: "index_checkpoints_on_events_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 2022_03_25_133647) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
-  
+
   create_table "marshalls", force: :cascade do |t|
     t.integer "marshal_id"
     t.integer "checkPoint_id"
