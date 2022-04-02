@@ -20,7 +20,9 @@ class MarshalsController < ApplicationController
     def checkin_walker
         #TODO this needs changing but should be sorta accurate to the code 
         #needs to be able to access the participants dont know how
-        #@walker = Participants.find(params[:participant_id])
+        #@walker = User.ransack(params[:q])
+        @walker = Participant.where(participant_id: 1)
+        #@walker = Participant.find(params[:participant_id])
         #need to have access to marshal info
         #@walker.check_point_id = Marshal.checkPoint_id
         #@walker.save

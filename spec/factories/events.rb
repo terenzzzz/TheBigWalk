@@ -12,8 +12,7 @@
 #
 FactoryBot.define do
     factory :event do
-        name { "MyString" }
+        name { "The Big Walk" }
         length {1}
-        eventID {1}
     end
 end
