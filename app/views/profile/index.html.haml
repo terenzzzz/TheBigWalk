@@ -49,6 +49,19 @@
     =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do 
         %span.bi.bi-pencil-square
         %span Edit
-    =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button btn-danger' do 
+    %button.btn.btn-danger(type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount")
         %span.bi.bi-trash
         %span Delete Account
+
+    //Delete pop up
+    #deleteAccount.modal.fade
+        .modal-dialog
+            .modal-content 
+                .modal-header
+                    %h5.modal-title Warning
+                .modal-body
+                    Are u sure you wanna delete the account?
+                .modal-footer
+                    %button.btn.btn-secondary{ type: 'button', data: { bs_dismiss: 'modal' } }
+                        Cancel
+                    =link_to 'Yes', current_user, :method => :delete, class: 'btn btn-danger'
