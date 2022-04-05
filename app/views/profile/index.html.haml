@@ -32,6 +32,9 @@
         %tr 
             %td Membership ID:
             %td= current_user.membership_id
+        %tr 
+            %td Identity:
+            %td= current_user.tags.map(&:name).join(', ')
 
         
 
