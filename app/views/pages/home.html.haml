@@ -22,6 +22,9 @@
         }, 1000);
 
 .d-grid.pt-3.mx-3.gap-3
-    =link_to "Walker", walkers_path, class: 'btn btn-primary primary-button'
-    =link_to "Staff", marshals_path, class: 'btn btn-primary primary-button'
-    /=link_to "Admin", admins_path, class: 'btn btn-primary primary-button'
+    - if current_user.tags[0].name=='Walker'
+        =link_to "Walker", walkers_path, class: 'btn btn-primary primary-button'
+    - if current_user.tags[0].name=='Marshall'
+        =link_to "Marshall", marshals_path, class: 'btn btn-primary primary-button'
+    - if current_user.tags[0].name=='Admin'
+        =link_to "Admin", admins_path, class: 'btn btn-primary primary-button'

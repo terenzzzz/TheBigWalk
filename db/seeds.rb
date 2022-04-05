@@ -5,4 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.where(email:'test@test.com').first_or_create(password:'testtest', password_confirmation:'testtest')
+
+#Account for walker
+User.where(email:'test@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_ids:'1')
+
+#Account for Marshall
+User.where(email:'testMarshall@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_ids:'2')
+
+#Account for Admin
+User.where(email:'testAdmin@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_ids:'3')
