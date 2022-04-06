@@ -17,14 +17,6 @@
 #
 #  fk_rails_...  (checkpoints_id => checkpoints.id)
 #
-# Indexes
-#
-#  index_routes_on_checkpoints_id  (checkpoints_id)
-#
-# Foreign Keys
-#
-#  fk_rails_...  (checkpoints_id => checkpoints.id)
-#
 
 require 'rails_helper'
 

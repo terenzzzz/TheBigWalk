@@ -14,11 +14,13 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  membership_id          :string
+#  tags_id                :bigint
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_tags_id               (tags_id)
 #
 require 'rails_helper'
 
