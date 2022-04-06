@@ -13,18 +13,6 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  check_point_id         :integer
-#
-FactoryBot.define do
-    factory :participant do
-        participant_id { 1 }
-        pace { "MyString"}
-        rank { 1 }
-        status { "MyString" }
-        route_id { 1 }
-        user_id { 1 }
-        check_point_id { 1 }
-        checkpoints_id { 1 }
-        users_id { 1 }
-        routes_id { 1 }
-    end
-end 
+#  checkpoints_id         :bigint           not null
+class Participant < ApplicationRecord
+end

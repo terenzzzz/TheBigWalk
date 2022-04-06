@@ -63,7 +63,6 @@ describe 'checkpoints' do
         end
 
         specify "I can add checkpoints after an event has been created" do
-            skip
             FactoryBot.create :event
             visit "/admins"
             click_link 'Manage My Events'
@@ -81,12 +80,18 @@ describe 'checkpoints' do
 
         
         specify "I can edit checkpoints after an event has been created" do
-            skip
             FactoryBot.create :event
             visit "/admins"
             click_link 'Manage My Events'
             click_link 'Select'
             click_link 'Manage Checkpoints'
+            click_link 'Create New Checkpoint'
+            fill_in 'Checkpoint Name:', with: 'Hope Cross'
+            fill_in 'Checkpoint Distance (km):', with: '1.5'
+            fill_in 'OS Grid Reference:', with: 'SK12345'
+            fill_in 'Advised Time (mins):', with: '1'
+            fill_in 'Checkpoint Description:', with: 'A Checkpoint'
+            click_button 'Save'
             click_link 'Edit'
             fill_in 'Checkpoint Name:', with: 'Hope Hill'
             click_button 'Save'

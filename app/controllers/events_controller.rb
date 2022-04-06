@@ -4,11 +4,13 @@ class EventsController < ApplicationController
   # GET /events
   def index
     @events = Event.all
+    @walker = User.ransack(params[:q])
   end
 
   # GET /events/1
   def show
     session[:new_event] = 0
+    session[:current_event_id] = @event.id
   end
 
   # GET /events/new

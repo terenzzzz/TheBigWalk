@@ -21,5 +21,6 @@ FactoryBot.define do
   factory :route do
     route_id { 1 }
     length { "MyString" }
+    checkpoints_id { 1 }
   end
 end
