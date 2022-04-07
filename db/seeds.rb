@@ -8,9 +8,9 @@
 
 
 #Generate Tag
-Tag.first_or_create(name:'Walker')
-Tag.first_or_create(name:'Marshall')
-Tag.first_or_create(name:'Admin')
+Tag.where(name:'Walker').first_or_create(name:'Walker')
+Tag.where(name:'Marshall').first_or_create(name:'Marshall')
+Tag.where(name:'Admin').first_or_create(name:'Admin')
 
 #Account for walker
 User.where(email:'test@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_id:'1')
