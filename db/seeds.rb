@@ -6,6 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
+#Generate Tag
+Tag.first_or_create(name:'Walker')
+Tag.first_or_create(name:'Marshall')
+Tag.first_or_create(name:'Admin')
+
 #Account for walker
 User.where(email:'test@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_ids:'1')
 
