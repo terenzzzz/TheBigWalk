@@ -14,13 +14,17 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  membership_id          :string
-#  tags_id                :bigint
+#  tag_id                 :bigint
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#  index_users_on_tags_id               (tags_id)
+#  index_users_on_tag_id                (tag_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (tag_id => tags.id)
 #
 FactoryBot.define do
   factory :user do

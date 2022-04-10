@@ -6,11 +6,17 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
+#Generate Tag
+Tag.where(name:'Walker').first_or_create(name:'Walker')
+Tag.where(name:'Marshall').first_or_create(name:'Marshall')
+Tag.where(name:'Admin').first_or_create(name:'Admin')
+
 #Account for walker
-User.where(email:'test@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_ids:'1')
+User.where(email:'test@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_id:'1')
 
 #Account for Marshall
-User.where(email:'testMarshall@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_ids:'2')
+User.where(email:'testMarshall@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_id:'2')
 
 #Account for Admin
-User.where(email:'testAdmin@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_ids:'3')
+User.where(email:'testAdmin@test.com').first_or_create(password:'testtest', password_confirmation:'testtest',tag_id:'3')

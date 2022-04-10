@@ -14,17 +14,23 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  membership_id          :string
+#  tag_id                 :bigint
 #
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_tag_id                (tag_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (tag_id => tags.id)
 #
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_one_attached :avatar
-  has_and_belongs_to_many :tags
+  belongs_to :tag 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 end
