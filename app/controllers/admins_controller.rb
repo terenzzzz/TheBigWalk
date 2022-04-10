@@ -7,10 +7,5 @@ class AdminsController < ApplicationController
     def show
     end
 
-    def create_event_branding
-        @events = Event.where(id: session[:current_event_id])
-        @events.each do |event|
-            @event = event
-        end
-    end
+
 end

@@ -1,0 +1,13 @@
+%h1 Branding
+
+= simple_form_for(@branding) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :btn_colour, input_html: { type: "color" }, label: "Button Colour"
+    = f.input :header, label: "Event Header"
+    = f.input :logo, label: "Event Logo"
+
+  .form-actions
+    = f.button :submit, "Save", class: 'btn btn-primary primary-button'

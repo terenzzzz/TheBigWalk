@@ -21,6 +21,10 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     session[:new_event] = 0
+    @brandings = Branding.where(events_id: session[:current_event_id])
+    @brandings.each do |branding|
+      @branding = branding
+    end
   end
 
   # POST /events
@@ -47,6 +51,12 @@ class EventsController < ApplicationController
     if @events_checkpoints != 0
       @events_checkpoints.each do |checkpoint|
         checkpoint.destroy
+      end
+    end
+    @events_branding = Branding.where(events_id: @event.id)
+    if @events_branding != 0
+      @events_branding.each do |branding|
+        branding.destroy
       end
     end
     @event.destroy

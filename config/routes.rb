@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :brandings
   resources :events
   resources :checkpoints 
   devise_for :users
@@ -20,19 +21,10 @@ Rails.application.routes.draw do
   end
 
   resources :admins do
-    get 'event_info', on: :collection
-    get 'event_main', on: :collection
-    get 'manage_checkpoints', on: :collection
     get 'view_marshals', on: :collection
     get 'view_walkers', on: :collection
     get 'view_pickups', on: :collection
-    get 'manage_events', on: :collection
     get 'walkers_profile', on: :collection
-    get 'create_event_name', on: :collection
-    get 'create_event_date', on: :collection
-    get 'create_event_checkpoint', on: :collection
-    get 'create_event_branding', on: :collection
-    
   end
 
   resources :marshals do
