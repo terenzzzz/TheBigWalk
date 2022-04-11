@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_10_155226) do
+ActiveRecord::Schema.define(version: 2022_04_11_172215) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,14 +62,9 @@ ActiveRecord::Schema.define(version: 2022_04_10_155226) do
 
   create_table "checkpoints", force: :cascade do |t|
     t.string "name"
-    t.float "distance"
-    t.string "location"
-    t.integer "advisedTime"
-    t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "events_id", null: false
-    t.index ["events_id"], name: "index_checkpoints_on_events_id"
+    t.string "os_grid"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -89,11 +84,20 @@ ActiveRecord::Schema.define(version: 2022_04_10_155226) do
 
   create_table "events", force: :cascade do |t|
     t.string "name"
-    t.date "date"
-    t.time "time"
-    t.integer "length"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "linkers", force: :cascade do |t|
+    t.float "distance_from_start"
+    t.string "checkpoint_description"
+    t.integer "advised_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "route_id", null: false
+    t.bigint "checkpoint_id", null: false
+    t.index ["checkpoint_id"], name: "index_linkers_on_checkpoint_id"
+    t.index ["route_id"], name: "index_linkers_on_route_id"
   end
 
   create_table "marshalls", force: :cascade do |t|
@@ -128,11 +132,13 @@ ActiveRecord::Schema.define(version: 2022_04_10_155226) do
   end
 
   create_table "routes", force: :cascade do |t|
-    t.integer "route_id"
-    t.string "length"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "checkpoints_id", null: false
+    t.string "name"
+    t.date "start_date"
+    t.time "start_time"
+    t.integer "course_length"
     t.index ["checkpoints_id"], name: "index_routes_on_checkpoints_id"
   end
 
@@ -181,7 +187,8 @@ ActiveRecord::Schema.define(version: 2022_04_10_155226) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "admins", "users", column: "users_id"
   add_foreign_key "brandings", "events", column: "events_id"
-  add_foreign_key "checkpoints", "events", column: "events_id"
+  add_foreign_key "linkers", "checkpoints"
+  add_foreign_key "linkers", "routes"
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
   add_foreign_key "marshalls", "users", column: "users_id"
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
