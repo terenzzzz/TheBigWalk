@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_11_172215) do
+ActiveRecord::Schema.define(version: 2022_04_11_174151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 2022_04_11_172215) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "os_grid"
+    t.bigint "events_id", null: false
+    t.index ["events_id"], name: "index_checkpoints_on_events_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -134,12 +136,12 @@ ActiveRecord::Schema.define(version: 2022_04_11_172215) do
   create_table "routes", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "checkpoints_id", null: false
     t.string "name"
     t.date "start_date"
     t.time "start_time"
     t.integer "course_length"
-    t.index ["checkpoints_id"], name: "index_routes_on_checkpoints_id"
+    t.bigint "events_id", null: false
+    t.index ["events_id"], name: "index_routes_on_events_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -187,6 +189,7 @@ ActiveRecord::Schema.define(version: 2022_04_11_172215) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "admins", "users", column: "users_id"
   add_foreign_key "brandings", "events", column: "events_id"
+  add_foreign_key "checkpoints", "events", column: "events_id"
   add_foreign_key "linkers", "checkpoints"
   add_foreign_key "linkers", "routes"
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
@@ -194,6 +197,6 @@ ActiveRecord::Schema.define(version: 2022_04_11_172215) do
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
   add_foreign_key "participants", "routes", column: "routes_id"
   add_foreign_key "participants", "users", column: "users_id"
-  add_foreign_key "routes", "checkpoints", column: "checkpoints_id"
+  add_foreign_key "routes", "events", column: "events_id"
   add_foreign_key "users", "tags"
 end
