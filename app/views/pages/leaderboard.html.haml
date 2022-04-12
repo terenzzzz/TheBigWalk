@@ -17,9 +17,10 @@
       %td Participant
       %td Last Checkpoint
       %td Time to Last Checkpoint
-    - @users.each do |user|
+      /%td= user.name
+    - @users.each do |user| 
       %tr
-        %td= user.name
+        %td= link_to "#{user.name}", single_user_leaderboard_pages_path
         %td Win Hill
         %td 1:01:23
         
