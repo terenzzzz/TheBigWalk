@@ -1,0 +1,19 @@
+.row 
+  .col
+    .d-flex.justify-content-center
+      %h1 Routes
+    %br/
+    - @routes.each do |route|
+      .d-flex.justify-content-left
+        %p= route.name
+        %p= route.course_length
+        %p km
+        %p= link_to 'Edit', edit_route_path(route), class: 'btn btn-primary primary-button'
+      %br/
+    .d-flex.justify-content-center
+      =link_to "Create New Route", new_route_path, class: 'btn btn-primary primary-button'
+        
+    - if session[:new_event] == 1
+      %br/
+      .d-flex.justify-content-center
+        =link_to "Next", checkpoints_path, class: 'btn btn-primary primary-button'

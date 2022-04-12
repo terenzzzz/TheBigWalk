@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_11_174151) do
+ActiveRecord::Schema.define(version: 2022_04_12_112432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -90,18 +90,6 @@ ActiveRecord::Schema.define(version: 2022_04_11_174151) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "linkers", force: :cascade do |t|
-    t.float "distance_from_start"
-    t.string "checkpoint_description"
-    t.integer "advised_time"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.bigint "route_id", null: false
-    t.bigint "checkpoint_id", null: false
-    t.index ["checkpoint_id"], name: "index_linkers_on_checkpoint_id"
-    t.index ["route_id"], name: "index_linkers_on_route_id"
-  end
-
   create_table "marshalls", force: :cascade do |t|
     t.integer "marshal_id"
     t.integer "checkPoint_id"
@@ -142,6 +130,18 @@ ActiveRecord::Schema.define(version: 2022_04_11_174151) do
     t.integer "course_length"
     t.bigint "events_id", null: false
     t.index ["events_id"], name: "index_routes_on_events_id"
+  end
+
+  create_table "routes_and_checkpoints_linkers", force: :cascade do |t|
+    t.float "distance_from_start"
+    t.string "checkpoint_description"
+    t.integer "advised_time"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "route_id", null: false
+    t.bigint "checkpoint_id", null: false
+    t.index ["checkpoint_id"], name: "index_routes_and_checkpoints_linkers_on_checkpoint_id"
+    t.index ["route_id"], name: "index_routes_and_checkpoints_linkers_on_route_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -190,13 +190,13 @@ ActiveRecord::Schema.define(version: 2022_04_11_174151) do
   add_foreign_key "admins", "users", column: "users_id"
   add_foreign_key "brandings", "events", column: "events_id"
   add_foreign_key "checkpoints", "events", column: "events_id"
-  add_foreign_key "linkers", "checkpoints"
-  add_foreign_key "linkers", "routes"
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
   add_foreign_key "marshalls", "users", column: "users_id"
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
   add_foreign_key "participants", "routes", column: "routes_id"
   add_foreign_key "participants", "users", column: "users_id"
   add_foreign_key "routes", "events", column: "events_id"
+  add_foreign_key "routes_and_checkpoints_linkers", "checkpoints"
+  add_foreign_key "routes_and_checkpoints_linkers", "routes"
   add_foreign_key "users", "tags"
 end

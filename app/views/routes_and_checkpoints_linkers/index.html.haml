@@ -1,0 +1,29 @@
+%h1 Listing linkers
+
+%table
+  %thead
+    %tr
+      %th Distance from start
+      %th Checkpoint description
+      %th Advised time
+      %th Route ID
+      %th Checkpoint ID
+      %th
+      %th
+      %th
+
+  %tbody
+    - @linkers.each do |linker|
+      %tr
+        %td= linker.distance_from_start
+        %td= linker.checkpoint_description
+        %td= linker.advised_time
+        %td= linker.route_id
+        %td= linker.checkpoint_id
+        %td= link_to 'Show', linker
+        %td= link_to 'Edit', edit_routes_and_checkpoints_linker_path(linker)
+        %td= link_to 'Destroy', linker, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Linker', new_routes_and_checkpoints_linker_path

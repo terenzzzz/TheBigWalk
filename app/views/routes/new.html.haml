@@ -1,0 +1,15 @@
+%h1 Create Route
+
+= simple_form_for(@route) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :name, label: "Route Name:"
+    = f.input :start_date, label: "Start Date:"
+    = f.input :start_time, label: "Start Time:"
+    = f.input :course_length, label: "Course Length (km):"
+
+  .form-actions
+    = f.button :submit, "Create", class: 'btn btn-primary primary-button'
+

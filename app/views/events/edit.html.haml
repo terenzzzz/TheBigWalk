@@ -6,12 +6,13 @@
 
   .form-inputs
     = f.input :name, label: "Event Name:"
-    = f.input :date, label: "Date:"
-    = f.input :time, label: "Start Time:"
-    = f.input :length, label: "Course Length (km):"
 
   .d-flex.justify-content-center  
+    =link_to "Manage Routes", routes_path, class: 'btn btn-primary primary-button'
+  %br/
+  .d-flex.justify-content-center  
     =link_to "Manage Checkpoints", checkpoints_path, class: 'btn btn-primary primary-button'
+  %br/
   .d-flex.justify-content-center 
     =link_to "Branding", edit_branding_path(@branding), class: 'btn btn-primary primary-button'
   %br/

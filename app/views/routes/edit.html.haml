@@ -1,0 +1,19 @@
+%h1 Event Info
+
+= simple_form_for(@route) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :name, label: "Route Name:"
+    = f.input :start_date, label: "Start Date:"
+    = f.input :start_time, label: "Start Time:"
+    = f.input :course_length, label: "Course Length (km):"
+    
+  %br/
+
+  .form-actions
+    .d-flex.justify-content-center
+      = f.button :submit, "Save", class: 'btn btn-primary primary-button'
+      = link_to 'Delete', @event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+

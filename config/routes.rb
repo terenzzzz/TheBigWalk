@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  resources :linkers
+  resources :routes
+  resources :routes_and_checkpoints_linkers
   resources :brandings
   resources :events
   resources :checkpoints 

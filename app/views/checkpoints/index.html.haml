@@ -6,11 +6,9 @@
         - @checkpoints.each do |checkpoint|
             .d-flex.justify-content-left
                 %p= checkpoint.name
-                %p= checkpoint.distance
-                %p Km In
             .d-flex.justify-content-left
                 %p Location:
-                %p= checkpoint.location
+                %p= checkpoint.os_grid
                 %p= link_to 'Edit', edit_checkpoint_path(checkpoint), class: 'btn btn-primary primary-button'           
             %br/
         .d-flex.justify-content-center

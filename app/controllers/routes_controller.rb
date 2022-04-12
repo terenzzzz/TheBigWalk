@@ -1,10 +1,9 @@
-class EventsController < ApplicationController
+class RoutesController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
 
   # GET /events
   def index
-    @events = Event.all
-    @walker = User.ransack(params[:q])
+    @routes = Route.where(events_id: session[:current_event_id])
   end
 
   # GET /events/1
@@ -15,34 +14,27 @@ class EventsController < ApplicationController
 
   # GET /events/new
   def new
-    @event = Event.new
+    @route = Route.new
+    session[:return_to] ||= request.referer
   end
 
   # GET /events/1/edit
   def edit
-    session[:new_event] = 0
-    @brandings = Branding.where(events_id: session[:current_event_id])
-    @brandings.each do |branding|
-      @branding = branding
-    end
+    session[:return_to] ||= request.referer
   end
 
   # POST /events
   def create
-    @event = Event.new(event_params)
-    @event.save
-    session[:current_event_id] = @event.id
-    session[:new_event] = 1
-    redirect_to routes_path
+    @route = Route.new(route_params)
+    @route.events_id = session[:current_event_id]
+    @route.save
+    redirect_to session.delete(:return_to)
   end
 
   # PATCH/PUT /events/1
   def update
-    if @event.update(event_params)
-      redirect_to @event, notice: 'Event was successfully updated.'
-    else
-      render :edit
-    end
+    @route.update(route_params)
+    redirect_to session.delete(:return_to)
   end
 
   # DELETE /events/1
@@ -66,11 +58,11 @@ class EventsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
-      @event = Event.find(params[:id])
+      @route = Route.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
-    def event_params
-      params.require(:event).permit(:name)
+    def route_params
+      params.require(:route).permit(:name, :start_date, :start_time, :course_length)
     end
 end

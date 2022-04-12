@@ -1,0 +1,12 @@
+-# frozen_string_literal: true
+= simple_form_for(@linker) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.input :distance_from_start, label: "Checkpoint Distance (km):"
+    = f.input :checkpoint_description, label: "Checkpoint Description:"
+    = f.input :advised_time, label: "Advised Time (mins):"
+
+  .form-actions
+    = f.button :submit

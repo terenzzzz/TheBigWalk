@@ -1,0 +1,15 @@
+%p#notice= notice
+
+%p
+  %b Distance from start:
+  = @linker.distance_from_start
+%p
+  %b Checkpoint description:
+  = @linker.checkpoint_description
+%p
+  %b Advised time:
+  = @linker.advised_time
+
+= link_to 'Edit', edit_routes_and_checkpoints_linker_path(@linker)
+\|
+= link_to 'Back', routes_and_checkpoints_linker_path

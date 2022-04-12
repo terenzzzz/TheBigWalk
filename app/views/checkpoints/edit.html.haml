@@ -6,10 +6,10 @@
 
   .form-inputs
     = f.input :name, label: "Checkpoint Name:"
-    = f.input :distance, label: "Checkpoint Distance (km):"
-    = f.input :location, label: "OS Grid Reference:"
-    = f.input :advisedTime, label: "Advised Time (mins):"
-    = f.input :description, label: "Checkpoint Description:"
+    = f.input :os_grid, label: "OS Grid Reference:"
+    - @routes.each do |route|
+      = check_box_tag 'selected_routes[]', route.id 
+      = route.name
 
   .form-actions
     = f.button :submit, "Save", class: 'btn btn-primary primary-button'

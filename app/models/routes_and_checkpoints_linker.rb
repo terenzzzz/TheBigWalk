@@ -21,5 +21,5 @@
 #  fk_rails_...  (checkpoint_id => checkpoints.id)
 #  fk_rails_...  (route_id => routes.id)
 #
-class Linker < ApplicationRecord
+class RoutesAndCheckpointsLinker < ApplicationRecord
 end
