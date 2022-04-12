@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: linkers
+# Table name: routes_and_checkpoints_linkers
 #
 #  id                     :bigint           not null, primary key
 #  advised_time           :integer
@@ -13,8 +13,8 @@
 #
 # Indexes
 #
-#  index_linkers_on_checkpoint_id  (checkpoint_id)
-#  index_linkers_on_route_id       (route_id)
+#  index_routes_and_checkpoints_linkers_on_checkpoint_id  (checkpoint_id)
+#  index_routes_and_checkpoints_linkers_on_route_id       (route_id)
 #
 # Foreign Keys
 #

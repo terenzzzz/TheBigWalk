@@ -14,7 +14,7 @@
   %body.bg-light
     = render 'layouts/svg_logo'
 
-    -if current_page?(root_path)
+    -if current_page?(home_pages_path)
       / no header
     -else
       %header.py-3

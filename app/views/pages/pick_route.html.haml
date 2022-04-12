@@ -1,0 +1,14 @@
+.d-flex.justify-content-center
+  %h2 Pick A Route
+%br/
+
+.row
+  - @routes.each do |route|
+    .col-6
+      .card.h-100
+        .card-body
+          %h5.card-title.fw-bold= route.name
+          %h7.text-muted= "#{route.course_length} KM"
+          %a.stretched-link(href="/pages/home")
+%br/
+%br/

@@ -11,6 +11,16 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
+  #class ApplicationController < ActionController::Base
+  def after_sign_in_path_for(resource)
+    if current_user.tag.name == 'Walker'
+      pick_event_pages_path
+    else
+      home_pages_path
+    end
+
+  end
+
   # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked
   rescue_from ActiveRecord::RecordNotFound do
     render template: 'errors/error_404', status: 404

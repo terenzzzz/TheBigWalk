@@ -1,0 +1,21 @@
+.d-flex.justify-content-center
+  %h2 Pick An Event
+%br/
+
+
+
+- if @events.count == 0
+  %h3 There is no event ready. Please contact Admin to Generate one.
+- else 
+  %h3 Events signed up:
+  .row
+    - @events.each do |event|
+      .col-6
+        .card.h-100
+          .card-body
+            %h5.card-title.fw-bold= event.name
+            =link_to '', pick_route_page_path(event), class:'stretched-link'
+  %br/
+%br/
+
+%h3 Events not signed up:
