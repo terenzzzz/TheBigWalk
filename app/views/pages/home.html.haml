@@ -24,7 +24,7 @@
 .d-grid.pt-3.mx-3.gap-3
     - if current_user.tag.name =='Walker'
         =link_to "Walker", walkers_path, class: 'btn btn-primary primary-button'
-    - if current_user.tag.name =='Marshall'
-        =link_to "Marshall", marshals_path, class: 'btn btn-primary primary-button'
+    - if current_user.tag.name =='Marshal'
+        =link_to "Marshal", marshals_path, class: 'btn btn-primary primary-button'
     - if current_user.tag.name =='Admin'
         =link_to "Admin", admins_path, class: 'btn btn-primary primary-button'
