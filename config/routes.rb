@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
+
   resources :routes
   resources :routes_and_checkpoints_linkers
+  resources :checkpoint_times
   resources :brandings
   resources :events
   resources :checkpoints 
@@ -10,7 +12,7 @@ Rails.application.routes.draw do
  
   resources :pages do 
     get 'leaderboard', on: :collection
-
+    get 'single_user_leaderboard', on: :collection
   end
 
   resources :walkers do

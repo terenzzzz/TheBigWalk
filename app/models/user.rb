@@ -30,7 +30,12 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_one_attached :avatar
-  belongs_to :tag 
+  belongs_to :tag
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  validates_presence_of :name
+  validates_presence_of :mobile
+  validates_presence_of :tag
+
 end
