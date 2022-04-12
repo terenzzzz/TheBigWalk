@@ -2,15 +2,12 @@
 #
 # Table name: checkpoints
 #
-#  id          :bigint           not null, primary key
-#  advisedTime :integer
-#  description :string
-#  distance    :float
-#  location    :string
-#  name        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  events_id   :bigint           not null
+#  id         :bigint           not null, primary key
+#  name       :string
+#  os_grid    :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  events_id  :bigint           not null
 #
 # Indexes
 #
