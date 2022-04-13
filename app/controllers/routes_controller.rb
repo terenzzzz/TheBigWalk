@@ -39,18 +39,13 @@ class RoutesController < ApplicationController
 
   # DELETE /events/1
   def destroy
-    @events_routes = Route.where(events_id: session[:current_event_id])
-    if @events_routes != 0
-      @events_routes.each do |route|
-        @events_routes_and_checkpoints_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-        if @events_routes_and_checkpoints_linkers != 0
-          @events_routes_and_checkpoints_linkers.each do |linker|
-            linker.destroy
-          end
-        end
-        route.destroy
+    @events_routes_and_checkpoints_linkers = RoutesAndCheckpointsLinker.where(route_id: @route.id)
+    if @events_routes_and_checkpoints_linkers != 0
+      @events_routes_and_checkpoints_linkers.each do |linker|
+        linker.destroy
       end
     end
+    @route.destroy
     redirect_to admins_path
   end
 

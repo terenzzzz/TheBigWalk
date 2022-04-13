@@ -91,6 +91,12 @@ class CheckpointsController < ApplicationController
 
   # DELETE /checkpoints/1
   def destroy
+    @events_routes_and_checkpoints_linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
+    if @events_routes_and_checkpoints_linkers != 0
+      @events_routes_and_checkpoints_linkers.each do |linker|
+        linker.destroy
+      end
+    end
     @checkpoint.destroy
     redirect_to session.delete(:return_to)
   end
