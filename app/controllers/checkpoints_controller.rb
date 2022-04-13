@@ -40,17 +40,21 @@ class CheckpointsController < ApplicationController
     session[:linker_route_ids_index] = 0
     session[:linker_check_id] = @checkpoint.id
     #adds each to route with the checkpoint to the linker table
-    @route_ids.each do |id|
-      @linker = RoutesAndCheckpointsLinker.new
-      @linker.checkpoint_id = @checkpoint.id
-      @linker.route_id = id
-      @linker.save
-    end
-    #finds the next linker and redirects to it
-    @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
-    @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
-    @route.each do |route|
-      redirect_to edit_routes_and_checkpoints_linker_path(route)
+    if @route_ids
+      @route_ids.each do |id|
+        @linker = RoutesAndCheckpointsLinker.new
+        @linker.checkpoint_id = @checkpoint.id
+        @linker.route_id = id
+        @linker.save
+      end
+      #finds the next linker and redirects to it
+      @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
+      @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
+      @route.each do |route|
+        redirect_to edit_routes_and_checkpoints_linker_path(route)
+      end
+    else
+      redirect_to session.delete(:return_to)
     end
   end
 
@@ -81,11 +85,15 @@ class CheckpointsController < ApplicationController
         @linker.save
       end
     end 
-    #finds the next linker and redirects to it
-    @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
-    @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
-    @route.each do |route|
-      redirect_to edit_routes_and_checkpoints_linker_path(route)
+    #finds the next linker and redirects to it or goes to index
+    if @route_ids
+      @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
+      @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
+      @route.each do |route|
+        redirect_to edit_routes_and_checkpoints_linker_path(route)
+      end
+    else
+      redirect_to session.delete(:return_to)
     end
   end
 
