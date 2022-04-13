@@ -18,6 +18,10 @@ class BrandingsController < ApplicationController
   # GET /brandings/1/edit
   def edit
     session[:return_to] ||= request.referer
+    @events = Event.where(id: session[:current_event_id])
+    @events.each do |event|
+      @event = event
+    end
   end
 
   # POST /brandings

@@ -2,6 +2,8 @@
 .d-flex.justify-content-center
   %h1 Routes
   %br/
+- if session[:new_event] == 0
+  = link_to 'Back', edit_event_path(@event)
 
 .row
   - @routes.each do |route|

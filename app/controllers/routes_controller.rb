@@ -4,6 +4,10 @@ class RoutesController < ApplicationController
   # GET /events
   def index
     @routes = Route.where(events_id: session[:current_event_id])
+    @events = Event.where(id: session[:current_event_id])
+    @events.each do |event|
+      @event = event
+    end
   end
 
   # GET /events/1

@@ -1,7 +1,8 @@
 .d-flex.justify-content-center
     %h1 Checkpoints
 %br/
-
+- if session[:new_event] == 0
+    = link_to 'Back', edit_event_path(@event)
 .row
     - @checkpoints.each do |checkpoint|
         .col-6

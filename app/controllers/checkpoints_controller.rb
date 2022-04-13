@@ -8,6 +8,10 @@ class CheckpointsController < ApplicationController
     @brandings.each do |branding|
       @branding = branding
     end
+    @events = Event.where(id: session[:current_event_id])
+    @events.each do |event|
+      @event = event
+    end
   end
 
   # GET /checkpoints/1
