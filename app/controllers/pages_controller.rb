@@ -6,6 +6,16 @@ class PagesController < ApplicationController
     @users = User.all
   end
 
+  def pick_event
+    @events = Event.all
+  end
+
+  def pick_route
+    @routes = Route.where(events_id: params[:id])
+    # @routes = Route.where(events_id: @event.id)
+  end
+
+
   # GET /users
   def leaderboard
   #retreives all users for use in the leaderboard

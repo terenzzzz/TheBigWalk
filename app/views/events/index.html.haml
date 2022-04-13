@@ -1,11 +1,21 @@
+
+.d-flex.justify-content-center
+  %h1 Listing Events
+  %br/
+
 .row 
-  .col
-    .d-flex.justify-content-center
-      %h1 Listing Events
+  - @events.each do |event|
+    .col-6
+      .card.h-100
+        .card-body
+          %h5.card-title.fw-bold= event.name
+          =link_to "", event, class: 'stretched-link'
     %br/
-    - @events.each do |event|
-      .d-flex.justify-content-left
-        %p= event.name
-        =link_to "Select", event, class: 'btn btn-primary primary-button'
-      %br/
+
+
+    -# - @events.each do |event|
+    -#   .d-flex.justify-content-left
+    -#     %p= event.name
+    -#     =link_to "Select", event, class: 'btn btn-primary primary-button'
+    -#   %br/
  

@@ -1,24 +1,34 @@
-.row 
-    .col
-        .d-flex.justify-content-center
-            %h1 Checkpoints
+.d-flex.justify-content-center
+    %h1 Checkpoints
+%br/
+
+.row
+    - @checkpoints.each do |checkpoint|
+        .col-6
+            .card.h-100
+                .card-body
+                    %h5.card-title.fw-bold= checkpoint.name
+                    %h6= "Location: #{checkpoint.os_grid}"
+                    %p= link_to 'Edit', edit_checkpoint_path(checkpoint), class: 'btn btn-primary primary-button stretched-link'               
+    %br/      
+    =link_to "Create New Checkpoint", new_checkpoint_path, class: 'btn btn-primary primary-button'
+    - if session[:new_event] == 1
         %br/
-        - @checkpoints.each do |checkpoint|
-            .d-flex.justify-content-left
-                %p= checkpoint.name
-            .d-flex.justify-content-left
-                %p Location:
-                %p= checkpoint.os_grid
-                %p= link_to 'Edit', edit_checkpoint_path(checkpoint), class: 'btn btn-primary primary-button'           
-            %br/
         .d-flex.justify-content-center
-            =link_to "Create New Checkpoint", new_checkpoint_path, class: 'btn btn-primary primary-button'
+            =link_to "Next", edit_branding_path(@branding), class: 'btn btn-primary primary-button'
+    -#     .d-flex.justify-content-left
+    -#         %p= checkpoint.name
+    -#     .d-flex.justify-content-left
+    -#         %p Location:
+    -#         %p= checkpoint.os_grid
+    -#         %p= link_to 'Edit', edit_checkpoint_path(checkpoint), class: 'btn btn-primary primary-button stretched-link'           
+    -#     %br/
+    -# .d-flex.justify-content-center
+    -#     =link_to "Create New Checkpoint", new_checkpoint_path, class: 'btn btn-primary primary-button'
         
-        - if session[:new_event] == 1
-            %br/
-            .d-flex.justify-content-center
-                //=link_to "Next", new_branding_path, class: 'btn btn-primary primary-button'
-                =link_to "Next", edit_branding_path(@branding), class: 'btn btn-primary primary-button'
+
+    
+
             
                 
 

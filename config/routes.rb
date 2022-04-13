@@ -11,6 +11,9 @@ Rails.application.routes.draw do
   resources :users
  
   resources :pages do 
+    get 'home', on: :collection
+    get 'pick_event', on: :collection
+    get 'pick_route', on: :member
     get 'leaderboard', on: :collection
     get 'single_user_leaderboard', on: :collection
   end
@@ -53,6 +56,6 @@ Rails.application.routes.draw do
 
   get :ie_warning, to: 'errors#ie_warning'
 
-  root to: "pages#home"
+  root :to => redirect("/users/sign_in")
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
