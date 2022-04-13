@@ -35,7 +35,15 @@ class BrandingsController < ApplicationController
   # PATCH/PUT /brandings/1
   def update
     @branding.update(branding_params)
-    redirect_to session.delete(:return_to)
+    if session[:new_event] == 0
+      redirect_to session.delete(:return_to)
+    elsif session[:new_event] == 1
+      @events = Event.where(id: session[:current_event_id])
+      @events.each do |event|
+        @event = event
+      end
+      redirect_to @event
+    end
   end
 
   # DELETE /brandings/1
