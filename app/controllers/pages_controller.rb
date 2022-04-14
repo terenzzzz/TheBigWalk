@@ -4,8 +4,8 @@ class PagesController < ApplicationController
   def home
     @current_nav_identifier = :home
     @users = User.all
-    @start_date = Route.find(1).start_date
-    @start_time = Route.find(1).start_time.strftime("%H:%M:%S")
+    @start_date = Route.find(params[:id]).start_date
+    @start_time = Route.find(params[:id]).start_time.strftime("%H:%M:%S")
 
   end
 
@@ -15,7 +15,6 @@ class PagesController < ApplicationController
 
   def pick_route
     @routes = Route.where(events_id: params[:id])
-    # @routes = Route.where(events_id: @event.id)
   end
 
 

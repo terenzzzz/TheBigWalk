@@ -11,7 +11,7 @@ Rails.application.routes.draw do
   resources :users
  
   resources :pages do 
-    get 'home', on: :collection
+    get 'home', on: :member
     get 'pick_event', on: :collection
     get 'pick_route', on: :member
     get 'leaderboard', on: :collection
