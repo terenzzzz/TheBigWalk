@@ -27,23 +27,23 @@ if Tag.where(name:'Admin')
 end
 
 #Account for walker
-User.where(email:'test@test.com').first_or_create(name:'testWalker', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'1')
-if User.where(email:'test@test.com')
+User.where(email:'walker@test.com').first_or_create(name:'testWalker', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'1')
+if User.where(email:'walker@test.com')
     puts "Created Walker Account Successfully"
     puts "-------------------------------------"
 end
 
 #Account for Marshall
-User.where(email:'testMarshall@test.com').first_or_create(name:'testMarshal', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'2')
-if User.where(email:'testMarshall@test.com')
+User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'2')
+if User.where(email:'marshal@test.com')
     puts "Created Marshall Account Successfully"
     puts "-------------------------------------"
 end
 
 
 #Account for Admin
-User.where(email:'testAdmin@test.com').first_or_create(name:'testAdmin', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'3')
-if User.where(email:'testAdmin@test.com.com')
+User.where(email:'admin@test.com').first_or_create(name:'testAdmin', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'3')
+if User.where(email:'admin@test.com')
     puts "Created Admin Account Successfully"
     puts "-------------------------------------"
 end

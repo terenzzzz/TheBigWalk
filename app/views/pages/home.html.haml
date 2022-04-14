@@ -1,12 +1,15 @@
 .d-flex.justify-content-center.p-3
     = image_tag("bwlogosquaretight.png", class: "img-fluid")
-
+.d-flex.justify-content-center
+    %h5 On: #{@start_date}
+.d-flex.justify-content-center
+    %h5 At: #{@start_time}
 .d-flex.justify-content-center
     %h5{class: "fw-bold"} Sets off in:
 .d-flex.justify-content-center
     %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
     :javascript
-        var countDownDate = new Date("Jun 24, 2022 09:00:00").getTime();
+        var countDownDate = new Date("#{@start_date}T#{@start_time}").getTime();
         var x = setInterval(function() {
             var now = new Date().getTime();
             var distance = countDownDate - now;

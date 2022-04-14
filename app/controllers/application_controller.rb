@@ -15,8 +15,10 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if current_user.tag.name == 'Walker'
       pick_event_pages_path
-    else
-      home_pages_path
+    elsif current_user.tag.name == 'Marshal'
+      pick_event_pages_path
+    elsif current_user.tag.name == 'Admin'
+      admins_path
     end
 
   end
