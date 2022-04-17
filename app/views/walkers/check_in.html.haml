@@ -20,5 +20,26 @@
             %h2 Aim to be there before 11:00!
         %br/
 
+.btn.btn-primary{:onclick => "geoFindMe()"} Show my location
+.p#out
 
+:javascript
+    function geoFindMe() {
+    var output = document.getElementById("out");
 
+    function success(position) {
+        var latitude  = position.coords.latitude;
+        var longitude = position.coords.longitude;
+
+        output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+
+    };
+
+    function error() {
+        output.innerHTML = "Can't get your Position";
+    };
+
+    output.innerHTML = "<p>Locating…</p>";
+
+    navigator.geolocation.getCurrentPosition(success, error);
+    }

@@ -26,6 +26,9 @@ if Tag.where(name:'Admin')
     puts "-------------------------------------"
 end
 
+
+
+
 #Create Event
 Event.where(name:'The Big Walk 2022').first_or_create(name:'The Big Walk 2022')
 if Event.where(email:'The Big Walk 2022')
@@ -60,6 +63,7 @@ if RoutesAndCheckpointsLinker.where(distance_from_start:'24.9')
     puts "Created Linker Successfully"
     puts "-------------------------------------"
 end
+
 
 #Account for walker
 User.where(email:'walker@test.com').first_or_create(name:'testWalker', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'1')
