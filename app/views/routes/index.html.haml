@@ -3,7 +3,8 @@
   %h1 Routes
   %br/
 - if session[:new_event] == 0
-  = link_to 'Back', edit_event_path(@event)
+  = link_to edit_event_path(@event) do 
+    %span.bi.bi-arrow-return-left
 
 .row
   - @routes.each do |route|

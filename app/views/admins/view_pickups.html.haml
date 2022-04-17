@@ -1,8 +1,7 @@
 .row 
     .col
         .d-flex.justify-content-left 
-            =link_to admins_path do 
-            -# will have to change when I figure out where it's actually supposed to go
+            =link_to @event do 
                 %span.bi.bi-arrow-return-left
         .d-flex.justify-content-center
             %h1 Pick-Up Requests
@@ -14,23 +13,5 @@
             %p Carlos, Ward
             %p Hope Cross Checkpoint
         .d-flex.justify-content-left
-            %p Johnny, Kelly
-            %p Hope Cross Checkpoint
-        .d-flex.justify-content-left
-            %p Martha, Long
-            %p Bamford Edge Checkpoint
-        .d-flex.justify-content-left
-            %p Rachel, Williamson
-            %p Crow Chin Checkpoint
-        .d-flex.justify-content-left
-            %p Theresa, Peterson
-            %p SK225857
-        .d-flex.justify-content-left
-            %p Howard, Carr
-            %p Win Hill Checkpoint
-        .d-flex.justify-content-left
-            %p Jacqueline, Barnes
-            %p SK248865
-        .d-flex.justify-content-left
-            %p Brook, Riverson
-            %p Crow Chin Checkpoint
+            
+                    

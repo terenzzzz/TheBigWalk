@@ -21,10 +21,7 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     session[:new_event] = 0
-    @brandings = Branding.where(events_id: session[:current_event_id])
-    @brandings.each do |branding|
-      @branding = branding
-    end
+    @branding = Branding.where(events_id: session[:current_event_id]).first
   end
 
   # POST /events
