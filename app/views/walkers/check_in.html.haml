@@ -4,34 +4,39 @@
 .row 
     .col
         .d-flex.justify-content-center
-            %h2 Check-In For:
+            %h4 Check-In For:
         .d-flex.justify-content-center
-            %h1 HOPE CROSS
+            %h1.fst-italic HOPE CROSS
         %br/
-        .d-flex.justify-content-center
-            %p Great job!
-        .d-flex.justify-content-center
-            %p You are ahead of the advised time of 10:15.
-        .d-flex.justify-content-center
-            %h3 Your next check-in is at: 
-        .d-flex.justify-content-center
-            %h1 Win Hill
-        .d-flex.justify-content-center
-            %h2 Aim to be there before 11:00!
-        %br/
+        -# %br/
+        -# .d-flex.justify-content-center
+        -#     %h4 Your next check-in is at: 
+        -# .d-flex.justify-content-center
+        -#     %h1.fst-italic Win Hill
+        -# .d-flex.justify-content-center
+        -#     %h2 Aim to be there before 11:00!
+        -# %br/
 
-.btn.btn-primary{:onclick => "geoFindMe()"} Show my location
-.p#out
+.d-flex.justify-content-center
+    .btn.btn-primary{:onclick => "geoFindMe()"} I am in position
+%br/
+.d-flex.justify-content-center
+    .p#out
+-# #map{ :style => "height: 200px; width: 100%;"}
 
 :javascript
     function geoFindMe() {
+    // let map;
     var output = document.getElementById("out");
+    var latitude;
+    var longitude;
 
     function success(position) {
-        var latitude  = position.coords.latitude;
-        var longitude = position.coords.longitude;
+        latitude  = position.coords.latitude.toFixed(3);;
+        longitude = position.coords.longitude.toFixed(3);;
 
         output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+        // window.initMap = initMap();
 
     };
 
@@ -39,7 +44,23 @@
         output.innerHTML = "Can't get your Position";
     };
 
-    output.innerHTML = "<p>Locating…</p>";
+    /* Display map
+    function initMap() {
+        const myLating = { lat: latitude, lng: longitude };
+        const map = new google.maps.Map(document.getElementById("map"), {
+            center: { lat: latitude, lng: longitude },
+            zoom: 17,
+        });
 
+        new google.maps.Marker({
+            position: myLating,
+            map,
+            title: "You are here",
+        });
+    }
+    */
+    output.innerHTML = "<p>Locating…</p>";
     navigator.geolocation.getCurrentPosition(success, error);
     }
+
+-# %script{:defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?key=AIzaSyDjAHL7Ao55BmaYmI6wyKg8ob2RrWLcojs&callback=initMap&v=weekly"}
