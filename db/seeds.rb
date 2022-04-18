@@ -67,6 +67,11 @@ if User.where(email:'walker@test.com')
     puts "Created Walker Account Successfully"
     puts "-------------------------------------"
 end
+Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', check_point_id: '1', user_id: '2', checkpoints_id: '1', users_id: '1', route_id: '1', status: 'none', rank: '1', pace: 'on pace', routes_id: '1')
+if Participant.where(participant_id:'1001')
+    puts "Created Walker Successfully"
+    puts "-------------------------------------"
+end
 
 #Account for Marshall
 User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'2')

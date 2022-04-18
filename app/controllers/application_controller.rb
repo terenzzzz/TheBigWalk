@@ -16,6 +16,7 @@ class ApplicationController < ActionController::Base
     if current_user.tag.name == 'Walker'
       pick_event_pages_path
     elsif current_user.tag.name == 'Marshal'
+      session[:marshal_id] = current_user.id
       pick_event_pages_path
     elsif current_user.tag.name == 'Admin'
       admins_path

@@ -18,9 +18,9 @@ class MarshalsController < ApplicationController
 
 
     def checkin_walker
-        @walker = Participant.where(participant_id: 1)
-        #TODO need to get the marshal ID when signs in
-        @walker.update(checkpoints_id: 2)
+        @walker = Participant.where(params.require(:checkin_walker).permit(:participant_id)).first
+        @marshal = Marshall.where(users_id: session[:marshal_id]).first
+        @walker.update(checkpoints_id: @marshal.checkpoints_id)
         redirect_to marshals_path
     end
 end
