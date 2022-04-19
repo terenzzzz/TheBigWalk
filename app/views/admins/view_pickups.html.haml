@@ -7,17 +7,18 @@
             %h1 Pick-Up Requests
         .d-flex.justify-content-center
             =text_field :pickup, :requests, :maxlength => "40", :placeholder => "Search Pick-Ups"
+        %br/
         .d-flex.justify-content-center
             =button_tag "Export As Excel Sheet",  class: 'btn btn-primary primary-button'
 
 %br/
 %table
-    %tbody
+%tbody
+    %tr
+        %td Person
+        %td OS Grid
+    -@pickups.each do |pickup|
         %tr
-            %td Person
-            %td OS Grid
-        -@pickups.each do |pickup|
-            %tr
-                %td= User.where(id: pickup.user_id).first.name
-                %td= pickup.os_grid
-                %td=link_to 'Delete pickup', pickup, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button'
+            %td= User.where(id: pickup.user_id).first.name
+            %td= pickup.os_grid
+            %td=link_to 'Delete pickup', pickup, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button'

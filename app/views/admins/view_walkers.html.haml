@@ -7,30 +7,22 @@
             %h1 All Participants
         .d-flex.justify-content-center
             =text_field :search, :walkers, :maxlength => "40", :placeholder => "Search Walkers"
+        %br/
         .d-flex.justify-content-center
             =button_tag "Export As Excel Sheet",  class: 'btn btn-primary primary-button'
-        .d-flex.justify-content-left
-            %p Carlos, Ward
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Johnny, Kelly
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Martha, Long
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Rachel, Williamson
-            %p Falling Behind!
-        %br/
-        .d-flex.justify-content-left
-            %p Theresa, Peterson
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Howard, Carr
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Jacqueline, Barnes
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Brook, Riverson
-            %p On Pace.
+
+%br/
+.d-flex.justify-content-center
+    %table
+        %tbody
+            %tr
+                %td Person
+                %td Pace
+            -@falling_behind.each do |walker|
+                %tr
+                    %td= walker.name
+                    %td falling behind
+            -@on_pace.each do |walker|
+                %tr
+                    %td= walker.name
+                    %td on pace

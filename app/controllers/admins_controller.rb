@@ -9,6 +9,21 @@ class AdminsController < ApplicationController
 
     def view_walkers
         @event = Event.where(id: session[:current_event_id]).first
+        @routes = Route.where(events_id: session[:current_event_id])
+        @falling_behind = Array.new
+        @on_pace = Array.new
+        @walkers_falling_behind = Array.new
+        @Walkers_on_pace = Array.new
+        @routes.each do |route|
+            @walkers_falling_behind.concat Participant.where(routes_id: route.id, pace: 'Falling Behind!')
+            @walkers_falling_behind.each do |walker|
+                @falling_behind.push(User.where(id: walker.users_id).first)
+            end
+            @Walkers_on_pace.concat Participant.where(routes_id: route.id, pace: 'On Pace.')
+            @Walkers_on_pace.each do |walker|
+                @on_pace.push(User.where(id: walker.users_id).first)
+            end
+        end
     end
 
     def view_marshals 
@@ -21,15 +36,15 @@ class AdminsController < ApplicationController
         #end
 
         @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
-        @b = Array.new
+        @checkpoints_and_marshals = Array.new
         @checkpoints.each do |checkpoint|
-            @c = [checkpoint]
-            @ms = Marshall.where(checkpoints_id: checkpoint.id)
-            @ms.each do |m|
-                @u = User.where(id: m.users_id).first
-                @c.push(@u)
+            @checkpoint_and_marshals = [checkpoint]
+            @marshals = Marshall.where(checkpoints_id: checkpoint.id)
+            @marshals.each do |marshal|
+                @user = User.where(id: m.users_id).first
+                @checkpoint_and_marshals.push(@user)
             end
-            @b.push(@c)
+            @checkpoints_and_marshals.push(@checkpoint_and_marshals)
         end
     end
 

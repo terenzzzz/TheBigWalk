@@ -8,11 +8,11 @@
         %tr
             %td Checkpoint
             %td Marshals
-        -@b.each do |b|
+        -@checkpoints_and_marshals.each do |checkpoint_and_marshals|
             %tr
-                -if b.length() == 1
-                    %td= b.first.name
+                -if checkpoint_and_marshals.length() == 1
+                    %td= checkpoint_and_marshals.first.name
                     %td No marshal
                 -else
-                    -b.each do |c|
-                        %td= c.name
+                    -checkpoint_and_marshals.each do |c|
+                        %td= checkpoint_and_marshals.name
