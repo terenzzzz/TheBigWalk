@@ -28,7 +28,7 @@ class MarshalsController < ApplicationController
             @walker.update(checkpoints_id: @marshal.checkpoints_id)
             redirect_to marshals_path
         else
-            redirect_to checkin_walkers_marshals_path, notice: 'Incorrect walker ID.'
+            redirect_to checkin_walkers_marshals_path, notice: 'Ivalid walker ID.'
         end
     end
 end

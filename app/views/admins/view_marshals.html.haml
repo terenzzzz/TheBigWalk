@@ -1,14 +1,18 @@
-.row 
-    .col
-        .d-flex.justify-content-left 
-            =link_to @event do 
-                %span.bi.bi-arrow-return-left
-        .d-flex.justify-content-center
-            %h1 Marshals At Checkpoints
-        .d-flex.justify-content-center
-            =text_field :name, :event, :maxlength => "60", :placeholder => "Search Marshals or Checkpoints"
-        .d-flex.justify-content-center
-            =button_tag "Only Show Empty Sites",  class: 'btn btn-primary primary-button'
-        -@users.each do |user|
-            .d-flex.justify-content-left
-                %p= "#{user.at(0).name} #{user.at(1).name}"
+.d-flex.justify-content-left 
+    =link_to @event do 
+        %span.bi.bi-arrow-return-left
+.d-flex.justify-content-center
+    %h1 Marshals At Checkpoints
+%table
+    %tbody
+        %tr
+            %td Checkpoint
+            %td Marshals
+        -@b.each do |b|
+            %tr
+                -if b.length() == 1
+                    %td= b.first.name
+                    %td No marshal
+                -else
+                    -b.each do |c|
+                        %td= c.name
