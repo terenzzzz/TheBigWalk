@@ -15,6 +15,9 @@ class PagesController < ApplicationController
 
   def pick_route
     @routes = Route.where(events_id: params[:id])
+    session[:current_event_id]=params[:id]
+    #puts(session[:current_event_id])
+    #puts("*****")
   end
 
 
@@ -22,6 +25,7 @@ class PagesController < ApplicationController
   def leaderboard
   #retreives all users for use in the leaderboard
     @users = User.all
+    @current_event_id = session[:current_event_id]
   end
 
 end

@@ -57,8 +57,22 @@ if Checkpoint.where(name:'Hope Cross')
     puts "-------------------------------------"
 end
 
+#Create Checkpoint 2
+Checkpoint.where(name:'Win Hill').first_or_create(name:'Win Hill', os_grid: 'SK160876', events_id:'1')
+if Checkpoint.where(name:'Win Hill')
+    puts "Created Checkpoint Successfully"
+    puts "-------------------------------------"
+end
+
 #Create Linker
 RoutesAndCheckpointsLinker.where(distance_from_start:'24.9').first_or_create(distance_from_start:'24.9', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '1')
+if RoutesAndCheckpointsLinker.where(distance_from_start:'24.9')
+    puts "Created Linker Successfully"
+    puts "-------------------------------------"
+end
+
+#Create Linker 2
+RoutesAndCheckpointsLinker.where(distance_from_start:'24.9').first_or_create(distance_from_start:'24.9', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '2')
 if RoutesAndCheckpointsLinker.where(distance_from_start:'24.9')
     puts "Created Linker Successfully"
     puts "-------------------------------------"
@@ -77,13 +91,25 @@ if Participant.where(participant_id:'1001')
     puts "-------------------------------------"
 end
 
+#Account for walker 2
+User.where(email:'walker2@test.com').first_or_create(name:'walkerTest2', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'1')
+if User.where(email:'walker2@test.com')
+    puts "Created Walker Account Successfully"
+    puts "-------------------------------------"
+end
+Participant.where(participant_id:'1002').first_or_create(participant_id:'1002', check_point_id: '2', user_id: '2', checkpoints_id: '2', users_id: '2', route_id: '1', status: 'none', rank: '2', pace: 'on pace', routes_id: '1')
+if Participant.where(participant_id:'1002')
+    puts "Created Walker Successfully"
+    puts "-------------------------------------"
+end
+
 #Account for Marshall
 User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'2')
 if User.where(email:'marshal@test.com')
     puts "Created Marshall Account Successfully"
     puts "-------------------------------------"
 end
-Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', checkPoint_id: '1', user_id: '2', checkpoints_id: '1', users_id: '2')
+Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', checkPoint_id: '1', user_id: '3', checkpoints_id: '1', users_id: '3')
 if Marshall.where(marshal_id:'2001')
     puts "Created Marshall Successfully"
     puts "-------------------------------------"
@@ -94,7 +120,7 @@ if User.where(email:'marshal2@test.com')
     puts "Created Marshall Account Successfully"
     puts "-------------------------------------"
 end
-Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkPoint_id: '1', user_id: '3', checkpoints_id: '1', users_id: '3')
+Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkPoint_id: '1', user_id: '4', checkpoints_id: '1', users_id: '4')
 if Marshall.where(marshal_id:'2002')
     puts "Created Marshall Successfully"
     puts "-------------------------------------"
