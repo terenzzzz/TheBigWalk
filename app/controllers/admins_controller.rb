@@ -35,5 +35,6 @@ class AdminsController < ApplicationController
 
     def view_pickups
         @event = Event.where(id: session[:current_event_id]).first
+        @pickups = Pickup.all
     end
 end

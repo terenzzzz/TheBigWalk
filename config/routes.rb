@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  resources :pickups
   resources :routes
   resources :routes_and_checkpoints_linkers
   resources :checkpoint_times

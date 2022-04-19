@@ -90,16 +90,21 @@ if Participant.where(participant_id:'1001')
     puts "Created Walker Successfully"
     puts "-------------------------------------"
 end
+Pickup.where(os_grid: 'SK123456').first_or_create(os_grid:'SK123456', user_id: '1')
+if Pickup.where(email:'SK123456')
+    puts "Created Walker pickup Successfully"
+    puts "-------------------------------------"
+end
 
 #Account for walker 2
 User.where(email:'walker2@test.com').first_or_create(name:'walkerTest2', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'1')
 if User.where(email:'walker2@test.com')
-    puts "Created Walker Account Successfully"
+    puts "Created Walker Account 2 Successfully"
     puts "-------------------------------------"
 end
 Participant.where(participant_id:'1002').first_or_create(participant_id:'1002', check_point_id: '2', user_id: '2', checkpoints_id: '2', users_id: '2', route_id: '1', status: 'none', rank: '2', pace: 'on pace', routes_id: '1')
 if Participant.where(participant_id:'1002')
-    puts "Created Walker Successfully"
+    puts "Created Walker 2 Successfully"
     puts "-------------------------------------"
 end
 
@@ -115,14 +120,15 @@ if Marshall.where(marshal_id:'2001')
     puts "-------------------------------------"
 end
 
+#Account for Marshall 2
 User.where(email:'marshal2@test.com').first_or_create(name:'testMarshal2', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'2')
 if User.where(email:'marshal2@test.com')
-    puts "Created Marshall Account Successfully"
+    puts "Created Marshall Account 2 Successfully"
     puts "-------------------------------------"
 end
 Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkPoint_id: '1', user_id: '4', checkpoints_id: '1', users_id: '4')
 if Marshall.where(marshal_id:'2002')
-    puts "Created Marshall Successfully"
+    puts "Created Marshall 2 Successfully"
     puts "-------------------------------------"
 end
 

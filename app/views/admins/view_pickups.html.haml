@@ -9,9 +9,15 @@
             =text_field :pickup, :requests, :maxlength => "40", :placeholder => "Search Pick-Ups"
         .d-flex.justify-content-center
             =button_tag "Export As Excel Sheet",  class: 'btn btn-primary primary-button'
-        .d-flex.justify-content-left
-            %p Carlos, Ward
-            %p Hope Cross Checkpoint
-        .d-flex.justify-content-left
-            
-                    
+
+%br/
+%table
+    %tbody
+        %tr
+            %td Person
+            %td OS Grid
+        -@pickups.each do |pickup|
+            %tr
+                %td= User.where(id: pickup.user_id).first.name
+                %td= pickup.os_grid
+                %td=link_to 'Delete pickup', pickup, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button'

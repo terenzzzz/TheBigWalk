@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_12_112432) do
+ActiveRecord::Schema.define(version: 2022_04_19_174120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,14 @@ ActiveRecord::Schema.define(version: 2022_04_12_112432) do
     t.index ["users_id"], name: "index_participants_on_users_id"
   end
 
+  create_table "pickups", force: :cascade do |t|
+    t.string "os_grid"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_pickups_on_user_id"
+  end
+
   create_table "routes", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -195,6 +203,7 @@ ActiveRecord::Schema.define(version: 2022_04_12_112432) do
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
   add_foreign_key "participants", "routes", column: "routes_id"
   add_foreign_key "participants", "users", column: "users_id"
+  add_foreign_key "pickups", "users"
   add_foreign_key "routes", "events", column: "events_id"
   add_foreign_key "routes_and_checkpoints_linkers", "checkpoints"
   add_foreign_key "routes_and_checkpoints_linkers", "routes"
