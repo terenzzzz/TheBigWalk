@@ -16,11 +16,19 @@ class MarshalsController < ApplicationController
     def end_for_the_day
     end
 
+    def checkin_walkers
+        @marshal = Marshall.where(users_id: session[:marshal_id]).first
+        @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
+    end
 
     def checkin_walker
         @walker = Participant.where(params.require(:checkin_walker).permit(:participant_id)).first
-        @marshal = Marshall.where(users_id: session[:marshal_id]).first
-        @walker.update(checkpoints_id: @marshal.checkpoints_id)
-        redirect_to marshals_path
+        if @walker
+            @marshal = Marshall.where(users_id: session[:marshal_id]).first
+            @walker.update(checkpoints_id: @marshal.checkpoints_id)
+            redirect_to marshals_path
+        else
+            redirect_to checkin_walkers_marshals_path, notice: 'Incorrect walker ID.'
+        end
     end
 end
