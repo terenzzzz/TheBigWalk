@@ -9,12 +9,9 @@
 #  status         :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  check_point_id :integer
 #  checkpoints_id :bigint           not null
 #  participant_id :integer
-#  route_id       :integer
 #  routes_id      :bigint           not null
-#  user_id        :integer
 #  users_id       :bigint           not null
 #
 # Indexes
@@ -35,9 +32,6 @@ FactoryBot.define do
         pace { "MyString"}
         rank { 1 }
         status { "MyString" }
-        route_id { 1 }
-        user_id { 1 }
-        check_point_id { 1 }
         checkpoints_id { 1 }
         users_id { 1 }
         routes_id { 1 }

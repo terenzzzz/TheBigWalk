@@ -8,11 +8,8 @@
 #  arrival_time           :datetime
 #  rank                   :integer
 #  status                 :string
-#  route_id               :integer
-#  user_id                :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
-#  check_point_id         :integer
 #
 require 'rails_helper'
 

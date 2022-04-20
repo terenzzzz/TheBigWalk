@@ -10,6 +10,5 @@
 FactoryBot.define do
     factory :event do
         name { "The Big Walk" }
-        length {1}
     end
 end

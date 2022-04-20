@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_19_174120) do
+ActiveRecord::Schema.define(version: 2022_04_20_130535) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,8 +92,6 @@ ActiveRecord::Schema.define(version: 2022_04_19_174120) do
 
   create_table "marshalls", force: :cascade do |t|
     t.integer "marshal_id"
-    t.integer "checkPoint_id"
-    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "checkpoints_id", null: false
@@ -108,9 +106,6 @@ ActiveRecord::Schema.define(version: 2022_04_19_174120) do
     t.datetime "arrival_time"
     t.integer "rank"
     t.string "status"
-    t.integer "user_id"
-    t.integer "route_id"
-    t.integer "check_point_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "checkpoints_id", null: false
@@ -137,6 +132,7 @@ ActiveRecord::Schema.define(version: 2022_04_19_174120) do
     t.time "start_time"
     t.integer "course_length"
     t.bigint "events_id", null: false
+    t.datetime "end_date_time"
     t.index ["events_id"], name: "index_routes_on_events_id"
   end
 

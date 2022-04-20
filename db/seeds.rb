@@ -44,7 +44,7 @@ if Branding.where(events_id:'1')
 end
 
 #Create Route
-Route.where(name:'50km').first_or_create(name:'50km', course_length: '50', start_date: '2022-04-12', start_time: '2000-01-01 19:06:00.000000000 +0000', events_id:'1')
+Route.where(name:'50km').first_or_create(name:'50km', course_length: '50', start_date: '2022-06-12', start_time: '2000-01-01 10:00:00.000000000 +0000', end_date_time: '2022-06-12 19:00:00.000000000 +0000', events_id:'1')
 if Route.where(name:'50km')
     puts "Created Route Successfully"
     puts "-------------------------------------"
@@ -85,7 +85,7 @@ if User.where(email:'walker@test.com')
     puts "Created Walker Account Successfully"
     puts "-------------------------------------"
 end
-Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', check_point_id: '1', user_id: '2', checkpoints_id: '1', users_id: '1', route_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1')
+Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '1', users_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1')
 if Participant.where(participant_id:'1001')
     puts "Created Walker Successfully"
     puts "-------------------------------------"
@@ -102,7 +102,7 @@ if User.where(email:'walker2@test.com')
     puts "Created Walker Account 2 Successfully"
     puts "-------------------------------------"
 end
-Participant.where(participant_id:'1002').first_or_create(participant_id:'1002', check_point_id: '2', user_id: '2', checkpoints_id: '2', users_id: '2', route_id: '1', status: 'none', rank: '2', pace: 'Falling Behind!', routes_id: '1')
+Participant.where(participant_id:'1002').first_or_create(participant_id:'1002', checkpoints_id: '2', users_id: '2', status: 'none', rank: '2', pace: 'Falling Behind!', routes_id: '1')
 if Participant.where(participant_id:'1002')
     puts "Created Walker 2 Successfully"
     puts "-------------------------------------"
@@ -114,7 +114,7 @@ if User.where(email:'marshal@test.com')
     puts "Created Marshall Account Successfully"
     puts "-------------------------------------"
 end
-Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', checkPoint_id: '1', user_id: '3', checkpoints_id: '1', users_id: '3')
+Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', checkpoints_id: '1', users_id: '3')
 if Marshall.where(marshal_id:'2001')
     puts "Created Marshall Successfully"
     puts "-------------------------------------"
@@ -126,7 +126,7 @@ if User.where(email:'marshal2@test.com')
     puts "Created Marshall Account 2 Successfully"
     puts "-------------------------------------"
 end
-Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkPoint_id: '1', user_id: '4', checkpoints_id: '1', users_id: '4')
+Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkpoints_id: '1', users_id: '4')
 if Marshall.where(marshal_id:'2002')
     puts "Created Marshall 2 Successfully"
     puts "-------------------------------------"
