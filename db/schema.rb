@@ -60,6 +60,16 @@ ActiveRecord::Schema.define(version: 2022_04_20_130535) do
     t.index ["events_id"], name: "index_brandings_on_events_id"
   end
 
+  create_table "checkpoint_times", force: :cascade do |t|
+    t.datetime "times"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "participant_id", null: false
+    t.bigint "checkpoint_id", null: false
+    t.index ["checkpoint_id"], name: "index_checkpoint_times_on_checkpoint_id"
+    t.index ["participant_id"], name: "index_checkpoint_times_on_participant_id"
+  end
+
   create_table "checkpoints", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -193,6 +203,8 @@ ActiveRecord::Schema.define(version: 2022_04_20_130535) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "admins", "users", column: "users_id"
   add_foreign_key "brandings", "events", column: "events_id"
+  add_foreign_key "checkpoint_times", "checkpoints"
+  add_foreign_key "checkpoint_times", "participants"
   add_foreign_key "checkpoints", "events", column: "events_id"
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
   add_foreign_key "marshalls", "users", column: "users_id"
