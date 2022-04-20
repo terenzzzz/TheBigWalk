@@ -14,14 +14,17 @@ class AdminsController < ApplicationController
         @on_pace = Array.new
         @walkers_falling_behind = Array.new
         @Walkers_on_pace = Array.new
+
         @routes.each do |route|
             @walkers_falling_behind.concat Participant.where(routes_id: route.id, pace: 'Falling Behind!')
             @walkers_falling_behind.each do |walker|
-                @falling_behind.push(User.where(id: walker.users_id).first)
+                @falling_walker_and_user = [walker, User.where(id: walker.users_id).first]
+                @falling_behind.push(@falling_walker_and_user)
             end
             @Walkers_on_pace.concat Participant.where(routes_id: route.id, pace: 'On Pace.')
             @Walkers_on_pace.each do |walker|
-                @on_pace.push(User.where(id: walker.users_id).first)
+                @on_walker_and_user = [walker, User.where(id: walker.users_id).first]
+                @on_pace.push(@on_walker_and_user)
             end
         end
     end

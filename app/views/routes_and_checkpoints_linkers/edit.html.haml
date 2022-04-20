@@ -5,9 +5,9 @@
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :distance_from_start, label: "Checkpoint Distance (km):"
+    = f.input :distance_from_start, label: "Distance(km) From Start:"
     = f.input :advised_time, label: "Advised Time (mins):"
-    = f.input :checkpoint_description, label: "Checkpoint Description:"
+    = f.input :checkpoint_description, label: "Description of Route to Next Checkpoint:"
     
   .form-actions
     = f.button :submit, "Save", class: 'btn btn-primary primary-button'

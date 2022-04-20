@@ -13,16 +13,26 @@
 
 %br/
 .d-flex.justify-content-center
+    -if @falling_behind.count == 1
+        %p= "There is a walker falling behind" 
+    -else
+        %p= "There are #{@falling_behind.count} walkers falling behind" 
+.d-flex.justify-content-center
     %table
         %tbody
             %tr
+                %td ID Number
                 %td Person
                 %td Pace
-            -@falling_behind.each do |walker|
-                %tr
-                    %td= walker.name
-                    %td falling behind
-            -@on_pace.each do |walker|
-                %tr
-                    %td= walker.name
-                    %td on pace
+            -if @falling_behind
+                -@falling_behind.each do |walker|
+                    %tr 
+                        %td= walker.first.participant_id
+                        %td= walker.last.name
+                        %td falling behind
+            -if @on_pace
+                -@on_pace.each do |walker|
+                    %tr
+                        %td= walker.first.participant_id
+                        %td= walker.last.name
+                        %td on pace
