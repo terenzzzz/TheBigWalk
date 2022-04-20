@@ -56,6 +56,6 @@ class RoutesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def route_params
-      params.require(:route).permit(:name, :start_date, :start_time, :course_length)
+      params.require(:route).permit(:name, :start_date, :start_time, :end_date_time, :course_length)
     end
 end
