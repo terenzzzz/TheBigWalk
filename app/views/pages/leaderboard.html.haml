@@ -9,11 +9,9 @@
       %td Participant
       %td Last Checkpoint
       %td Time to Last Checkpoint
-      /%td= user.name
   - @current_event = session[:current_event_id]
   - @users.each do |user| 
     %tr
-      / \/ Link to "checkpoint.name where ({current event id && current user id} && {datetime is largest})
       - @tag = Tag.where(id: user.tag_id).first
       - if @tag.name == "Walker" 
         %td= link_to "#{user.name}", single_user_leaderboard_pages_path
