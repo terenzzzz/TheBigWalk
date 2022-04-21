@@ -9,12 +9,9 @@
 #  status         :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  check_point_id :integer
 #  checkpoints_id :bigint           not null
 #  participant_id :integer
-#  route_id       :integer
 #  routes_id      :bigint           not null
-#  user_id        :integer
 #  users_id       :bigint           not null
 #
 # Indexes

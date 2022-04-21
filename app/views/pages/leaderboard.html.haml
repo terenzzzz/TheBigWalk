@@ -3,24 +3,20 @@
 
 %h1 Leaderboard
 
-:css
-  .tg  {border-collapse:collapse; border-spacing:0;}
-  .tg td{border-color:black; border-style:solid; border-width:1px; font-family:Arial, sans-serif; font-size:14px; overflow:hidden; padding:10px 5px; word-break:normal;}
-  .tg th{border-color:black; border-style:solid; border-width:1px; font-family:Arial, sans-serif; font-size:14px; font-weight:normal; overflow:hidden; padding:10px 5px; word-break:normal;}
-  .tg .tg-amwm{font-weight:bold; text-align:center; vertical-align:top}
-  .tg .tg-0lax{text-align:left; vertical-align:top}
-
-
-%table{:border => 1}
+%table
   %tbody
     %tr
       %td Participant
       %td Last Checkpoint
       %td Time to Last Checkpoint
-      /%td= user.name
-    - @users.each do |user| 
-      %tr
+  - @current_event = session[:current_event_id]
+  - @users.each do |user| 
+    %tr
+      - @tag = Tag.where(id: user.tag_id).first
+      - if @tag.name == "Walker" 
         %td= link_to "#{user.name}", single_user_leaderboard_pages_path
-        %td Win Hill
+        - @walker = Participant.where(users_id: user.id, ).first
+        - @checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
+        %td=@checkpoint.name
+        / \/ link to "checkpoint.time where ({current event id && current user id} && {datetime is largest})
         %td 1:01:23
-        

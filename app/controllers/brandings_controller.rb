@@ -17,7 +17,7 @@ class BrandingsController < ApplicationController
 
   # GET /brandings/1/edit
   def edit
-    session[:return_to] ||= request.referer
+    @event = Event.where(id: session[:current_event_id]).first
   end
 
   # POST /brandings
@@ -25,23 +25,24 @@ class BrandingsController < ApplicationController
     @branding = Branding.new(branding_params)
     @branding.events_id = session[:current_event_id]
     @branding.save
-    @events = Event.where(id: session[:current_event_id])
-    @events.each do |event|
-      @event = event
-    end
+    @event = Event.where(id: session[:current_event_id]).first
     redirect_to @event
   end
 
   # PATCH/PUT /brandings/1
   def update
     @branding.update(branding_params)
-    redirect_to session.delete(:return_to)
+    @event = Event.where(id: session[:current_event_id]).first
+    if session[:new_event] == 0
+      redirect_to edit_event_path(@event)
+    elsif session[:new_event] == 1
+      redirect_to @event
+    end
   end
 
   # DELETE /brandings/1
   def destroy
     @branding.destroy
-    redirect_to session.delete(:return_to)
   end
 
   private

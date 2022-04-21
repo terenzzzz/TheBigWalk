@@ -19,6 +19,8 @@ gem 'simple_form'
 gem 'draper'
 gem 'ransack'
 
+gem 'google_drive'
+
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 

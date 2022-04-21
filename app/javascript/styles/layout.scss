@@ -13,3 +13,21 @@ body {
 #banner-container {
   background-color: #f60;
 }
+
+table{
+  text-align: center;
+  vertical-align: middle;
+  font-size: 15px;
+}
+
+th, td{
+  padding: 8px;
+}
+
+thead th {
+  width: 25%;
+}
+
+.need-help{
+  font-weight: bold;
+}

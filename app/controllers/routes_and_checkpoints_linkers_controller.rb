@@ -17,6 +17,8 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
 
   # GET /linkers/1/edit
   def edit
+    @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+    @route = Route.where(id: @linker.route_id).first
   end
 
   # POST /linkers
@@ -34,17 +36,12 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
   def update
     @linker.update(linker_params)
     session[:linker_route_ids_index] = session[:linker_route_ids_index] + 1
-    #puts session[:linker_route_ids_index]
-    #puts
     if session[:linker_route_ids_index] == session[:linker_route_ids].length()
-      redirect_to session.delete(:return_to)
-      #redirect_to @linker
+      redirect_to checkpoints_path
     else
       @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
-      @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
-      @route.each do |route|
-        redirect_to edit_routes_and_checkpoints_linker_path(route)
-      end
+      @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id).first
+      redirect_to edit_routes_and_checkpoints_linker_path(@route)
     end
   end
 

@@ -10,10 +10,11 @@
   %h3 Events signed up:
   .row
     - @events.each do |event|
-      .col-6
+      .col-6.mb-3
         .card.h-100
           .card-body
-            %h5.card-title.fw-bold= event.name
+            .d-flex.justify-content-center
+              %h6.card-title.fw-bold= event.name
             =link_to '', pick_route_page_path(event), class:'stretched-link'
   %br/
 %br/

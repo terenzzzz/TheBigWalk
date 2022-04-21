@@ -1,4 +1,7 @@
 %h1 Event Info
+= link_to @event do 
+  %span.bi.bi-arrow-return-left
+
 
 = simple_form_for(@event) do |f|
   = f.error_notification
@@ -7,6 +10,12 @@
   .form-inputs
     = f.input :name, label: "Event Name:"
 
+  .form-actions
+    .d-flex.justify-content-center
+      = f.button :submit, "Save", class: 'btn btn-primary primary-button'
+      = link_to 'Delete', @event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+
+  %br/
   .d-flex.justify-content-center  
     =link_to "Manage Routes", routes_path, class: 'btn btn-primary primary-button'
   %br/
@@ -14,11 +23,8 @@
     =link_to "Manage Checkpoints", checkpoints_path, class: 'btn btn-primary primary-button'
   %br/
   .d-flex.justify-content-center 
-    =link_to "Branding", edit_branding_path(@branding), class: 'btn btn-primary primary-button'
-  %br/
+    =link_to "Manage Branding", edit_branding_path(@branding), class: 'btn btn-primary primary-button'
+  
 
-  .form-actions
-    .d-flex.justify-content-center
-      = f.button :submit, "Save", class: 'btn btn-primary primary-button'
-      = link_to 'Delete', @event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+  
 

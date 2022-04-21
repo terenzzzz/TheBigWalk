@@ -1,9 +1,12 @@
 .row 
     .col 
+        .d-flex.justify-content-left 
+            =link_to marshals_path do 
+                %span.bi.bi-arrow-return-left
         .d-flex.justify-content-center
             %h2 Your Checkpoint: 
         .d-flex.justify-content-center
-            %h1 HOPE CROSS
+            %h1= @checkpoint.name
         %br
         .d-flex.justify-content-center
             = simple_form_for :checkin_walker, url: checkin_walker_marshals_path, method: :post do |f|

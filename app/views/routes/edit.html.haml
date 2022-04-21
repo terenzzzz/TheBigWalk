@@ -8,6 +8,7 @@
     = f.input :name, label: "Route Name:"
     = f.input :start_date, label: "Start Date:"
     = f.input :start_time, label: "Start Time:"
+    = f.input :end_date_time, label: "End date and time"
     = f.input :course_length, label: "Course Length (km):"
     
   %br/
@@ -15,5 +16,5 @@
   .form-actions
     .d-flex.justify-content-center
       = f.button :submit, "Save", class: 'btn btn-primary primary-button'
-      = link_to 'Delete', @event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+      = link_to 'Delete', @route, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
 

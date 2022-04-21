@@ -1,32 +1,18 @@
-.row 
-    .col
-        .d-flex.justify-content-center
-            %h1 Marshals At Checkpoints
-        .d-flex.justify-content-center
-            =text_field :name, :event, :maxlength => "60", :placeholder => "Search Marshals or Checkpoints"
-        .d-flex.justify-content-center
-            =button_tag "Only Show Empty Sites",  class: 'btn btn-primary primary-button'
-        .d-flex.justify-content-left
-            %p Crowden Brook
-            %p Alex Hall
-        .d-flex.justify-content-left
-            %p Jagger's Clough
-            %p James Smith, Allison Birch
-        .d-flex.justify-content-left
-            %p Hope Cross
-            %p Charlotte Robinson
-        .d-flex.justify-content-left
-            %p Win Hill Summit
-            %p No Marshal Present
-        .d-flex.justify-content-left
-            %p Ladybower Reservoir
-            %p Abbie Lee
-        .d-flex.justify-content-left
-            %p Bamford Edge
-            %p Thomas Perrin, Oliver Jones
-        .d-flex.justify-content-left
-            %p Crow Chin
-            %p No Marshal Present
-        .d-flex.justify-content-left
-            %p Rivelin Brook
-            %p Gabe Newell
+.d-flex.justify-content-left 
+    =link_to @event do 
+        %span.bi.bi-arrow-return-left
+.d-flex.justify-content-center
+    %h1 Marshals At Checkpoints
+%table
+    %tbody
+        %tr
+            %td Checkpoint
+            %td Marshals
+        -@checkpoints_and_marshals.each do |checkpoint_and_marshals|
+            %tr
+                -if checkpoint_and_marshals.length() == 1
+                    %td= checkpoint_and_marshals.first.name
+                    %td No marshal
+                -else
+                    -checkpoint_and_marshals.each do |c|
+                        %td= checkpoint_and_marshals.name

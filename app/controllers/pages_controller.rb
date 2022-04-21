@@ -4,6 +4,9 @@ class PagesController < ApplicationController
   def home
     @current_nav_identifier = :home
     @users = User.all
+    @start_date = Route.find(params[:id]).start_date
+    @start_time = Route.find(params[:id]).start_time.strftime("%H:%M:%S")
+
   end
 
   def pick_event
@@ -12,7 +15,9 @@ class PagesController < ApplicationController
 
   def pick_route
     @routes = Route.where(events_id: params[:id])
-    # @routes = Route.where(events_id: @event.id)
+    session[:current_event_id]=params[:id]
+    #puts(session[:current_event_id])
+    #puts("*****")
   end
 
 
@@ -20,6 +25,7 @@ class PagesController < ApplicationController
   def leaderboard
   #retreives all users for use in the leaderboard
     @users = User.all
+    @current_event_id = session[:current_event_id]
   end
 
 end

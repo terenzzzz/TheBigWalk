@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  course_length :integer
+#  end_date_time :datetime
 #  name          :string
 #  start_date    :date
 #  start_time    :time

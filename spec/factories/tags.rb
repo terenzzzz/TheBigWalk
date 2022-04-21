@@ -9,6 +9,10 @@
 #
 FactoryBot.define do
   factory :tag do
-    name { "MyString" }
+    name { "Walker" }
+
+    trait :admin do
+      name { "admin" }
+    end
   end
 end

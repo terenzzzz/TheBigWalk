@@ -6,31 +6,34 @@
     %meta{ :'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
     %meta{:content => "text/html; charset=utf-8", "http-equiv" => "content-type"}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    -# <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
     = stylesheet_pack_tag "styles", media: :all
     = javascript_pack_tag "application"
-    = favicon_link_tag '/favicon.ico'
+    = favicon_link_tag asset_path('favicon.ico'), :rel => 'icon', :type => "image/x-icon"
     = csrf_meta_tags
+    
 
   %body.bg-light
     = render 'layouts/svg_logo'
 
-    -if current_page?(home_pages_path)
-      / no header
-    -else
-      %header.py-3
-        .container-fluid
-          .row
-            .col-3
-              / empty
-            .col-6.mx-auto
-              = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), root_path)
-            .col-3
-              -if user_signed_in?
-                %a.nav-link.dropdown{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
-                  .i.bi.bi-person-circle.display-6
-                %nav.dropdown-menu.dropdown-menu-lg-end
-                  = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
-                  = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
+    -# Need an id for home_page_path!
+    -# -if current_page?(home_page_path)
+    -#   / no header
+    -# -else
+    %header.py-3
+      .container-fluid
+        .row
+          .col-3
+            / empty
+          .col-6.mx-auto
+            = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), root_path)
+          .col-3
+            -if user_signed_in?
+              %a.nav-link.dropdown{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
+                .i.bi.bi-person-circle.display-6
+              %nav.dropdown-menu.dropdown-menu-lg-end
+                = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
+                = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
               
     .flash-messages
       - flash.each do |name, msg|
@@ -45,3 +48,4 @@
 
     %footer.mt-auto.my-5.pt-3.text-muted.text-center.text-small
       %p &copy; Team 28, #{Date.today.year}
+
