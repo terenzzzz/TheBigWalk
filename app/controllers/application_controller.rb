@@ -18,7 +18,12 @@ class ApplicationController < ActionController::Base
     else
       home_pages_path
     end
-
+    
+    if current_user.tag.name == 'Marshal'
+      add_shift_marshals_path
+    else
+      home_pages_path
+    end
   end
 
   # Catch NotFound exceptions and handle them neatly, when URLs are mistyped or mislinked

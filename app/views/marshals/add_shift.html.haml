@@ -1,0 +1,19 @@
+- content_for :title, 'Start Shift'
+
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    
+    .card.card-light
+      = simple_form_for @marshalls do |f|
+        .card-body
+         - @checkpoint.each do |checkpoint|
+           .col-6
+             .card.h-100
+               .card-body
+                 %h5.card-title.fw-bold=checkpoint.name 
+                = f.checkpoint
+        .card-footer
+          %a.stretched-link(href="/pages/home")
+          %button.btn.btn-primary{ type: :submit }
+            Start Shift
+          .mt-3= render "devise/shared/links"

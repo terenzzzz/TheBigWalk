@@ -35,7 +35,8 @@ Rails.application.routes.draw do
   end
 
   resources :marshals do
-    get 'start_shift', on: :collection
+    get 'choose_event', on: :collection
+    get 'add_shift', on: :collection
     get 'view_incoming_walkers', on: :collection
     get 'change_checkpoint', on: :collection
     get 'end_marshal_shift', on: :collection

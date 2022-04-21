@@ -1,5 +1,14 @@
 class MarshalsController < ApplicationController
     before_action :authenticate_user!
+    
+    
+    def choose_event
+        @events = Event.all
+    end
+
+    def add_shift
+        @checkpoints = Checkpoint.where(events_id: params[:id])
+    end
 
     def change_checkpoint
     end
