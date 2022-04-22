@@ -38,6 +38,8 @@ class EventsController < ApplicationController
 
   # PATCH/PUT /events/1
   def update
+    spreadsheet = Spreadsheet.new
+    spreadsheet.update_event(@event, event_params[:name])
     if @event.update(event_params)
       redirect_to @event, notice: 'Event was successfully updated.'
     else
@@ -57,6 +59,8 @@ class EventsController < ApplicationController
             linker.destroy
           end
         end
+        spreadsheet = Spreadsheet.new
+        spreadsheet.delete_event(@event)
         route.destroy
       end
     end

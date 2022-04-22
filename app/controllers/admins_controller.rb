@@ -1,7 +1,5 @@
 class AdminsController < ApplicationController
     before_action :authenticate_user!
-    #require 'spreadsheet'
-
     def index
     end
 

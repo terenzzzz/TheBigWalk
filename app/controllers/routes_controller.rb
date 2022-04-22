@@ -27,11 +27,15 @@ class RoutesController < ApplicationController
     @route = Route.new(route_params)
     @route.events_id = session[:current_event_id]
     @route.save
+    spreadsheet = Spreadsheet.new
+    spreadsheet.add_route("#{Event.where(id: @route.events_id).first.name} #{route_params[:name]}")
     redirect_to routes_path
   end
 
   # PATCH/PUT /events/1
   def update
+    spreadsheet = Spreadsheet.new
+    spreadsheet.update_route("#{Event.where(id: @route.events_id).first.name} #{@route.name}", "#{Event.where(id: @route.events_id).first.name} #{route_params[:name]}")
     @route.update(route_params)
     redirect_to routes_path
   end
@@ -44,8 +48,10 @@ class RoutesController < ApplicationController
         linker.destroy
       end
     end
+    spreadsheet = Spreadsheet.new
+    spreadsheet.delete_route("#{Event.where(id: @route.events_id).first.name} #{@route.name}")
     @route.destroy
-    redirect_to admins_path
+    redirect_to routes_path
   end
 
   private
