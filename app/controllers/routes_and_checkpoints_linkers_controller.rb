@@ -35,6 +35,9 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
   # PATCH/PUT /linkers/1
   def update
     @linker.update(linker_params)
+    spreadsheet = Spreadsheet.new
+    spreadsheet.add_checkpoint((Route.where(id: @linker.route_id).first), (Checkpoint.where(id: @linker.checkpoint_id).first))
+
     session[:linker_route_ids_index] = session[:linker_route_ids_index] + 1
     if session[:linker_route_ids_index] == session[:linker_route_ids].length()
       redirect_to checkpoints_path

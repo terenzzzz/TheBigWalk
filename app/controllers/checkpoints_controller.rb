@@ -44,6 +44,8 @@ class CheckpointsController < ApplicationController
         @linker.checkpoint_id = @checkpoint.id
         @linker.route_id = id
         @linker.save
+        #spreadsheet = Spreadsheet.new
+        #spreadsheet.add_checkpoint((Route.where(id: id).first), @checkpoint.name)
       end
       #finds the next linker and redirects to it
       @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])

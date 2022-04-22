@@ -22,4 +22,5 @@
 #  fk_rails_...  (route_id => routes.id)
 #
 class RoutesAndCheckpointsLinker < ApplicationRecord
+    validates_presence_of :distance_from_start
 end
