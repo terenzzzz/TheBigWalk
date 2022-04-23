@@ -52,9 +52,6 @@ class CheckpointsController < ApplicationController
       #finds the next linker and redirects to it
       @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
       @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
-      puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-      puts @route
-      puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
       @route.each do |route|
         redirect_to edit_routes_and_checkpoints_linker_path(route)
       end

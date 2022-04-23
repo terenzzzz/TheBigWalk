@@ -90,7 +90,10 @@ class Spreadsheet
     #    worksheet.save 
     #end
 
-    def update_checkpoint(route, old_name, new_name)
+    def update_checkpoint_name(route, old_name, new_name)
+    end
+
+    def update_checkpoint_position(route, old_name, new_name)
     end
 
     def delete_checkpoint(route, name)
@@ -98,42 +101,37 @@ class Spreadsheet
     end
     
     def add_checkpoint(route, checkpoint)
-        #takes over 
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        #if spreadsheet is empty put in first column
         if worksheet["A1"] == ""
             col_num = 1
         else
             checks_linker = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id:checkpoint.id).first
             routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
             chosen_linker = routes_linkers.first
+            #gets the linker with the biggest dist from start thats not itself
             routes_linkers.each do |linker|
                 if linker.distance_from_start > chosen_linker.distance_from_start && linker != checks_linker
                     chosen_linker = linker
                 end
             end
+            #finds the checkpoint after the checkpoint thats being inserted
             routes_linkers.each do |linker|
                 if linker.distance_from_start > checks_linker.distance_from_start && linker.distance_from_start < chosen_linker.distance_from_start
                     chosen_linker = linker
                 end
             end
-            puts "##################################"
-            puts chosen_linker.distance_from_start
-            puts checks_linker.distance_from_start
-            puts chosen_linker.distance_from_start < checks_linker.distance_from_start
-            puts "##################################"
+            #checks if the chosen checkpoint is hasnt changed as all of them are smaller (last checkpoint in race)
             if chosen_linker.distance_from_start < checks_linker.distance_from_start
                 col_num = worksheet.num_cols + 1
             else
+                #finds where the chosen checkpoint is
                 chosen_checkpoint = Checkpoint.where(id: chosen_linker.checkpoint_id).first
                 col_num= 1
                 (1..(routes_linkers.length()+1)).each do |x|
-                    puts "##################################"
-                    puts worksheet[1,x]
-                    puts chosen_checkpoint.name
-                    puts worksheet[1,x] == chosen_checkpoint.name
-                    puts "##################################"
                     if worksheet[1,x] == chosen_checkpoint.name
                         col_num = x
+                        break
                     end
                 end
             end
