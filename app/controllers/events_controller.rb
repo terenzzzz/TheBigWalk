@@ -21,26 +21,29 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     session[:new_event] = 0
-    @branding = Branding.where(events_id: session[:current_event_id]).first
   end
 
   # POST /events
   def create
     @event = Event.new(event_params)
-    @event.save
-    session[:current_event_id] = @event.id
-    session[:new_event] = 1
-    @branding = Branding.new
-    @branding.events_id = session[:current_event_id]
-    @branding.save
-    redirect_to routes_path
+    if @event.save
+      session[:current_event_id] = @event.id
+      session[:new_event] = 1
+      @branding = Branding.new
+      @branding.events_id = session[:current_event_id]
+      @branding.save
+      redirect_to routes_path
+    else 
+      render :new
+    end
   end
 
   # PATCH/PUT /events/1
   def update
-    spreadsheet = Spreadsheet.new
-    spreadsheet.update_event(@event, event_params[:name])
+    old_name = @event.name.dup
     if @event.update(event_params)
+      spreadsheet = Spreadsheet.new
+      spreadsheet.update_event(old_name, @event)
       redirect_to @event, notice: 'Event was successfully updated.'
     else
       render :edit

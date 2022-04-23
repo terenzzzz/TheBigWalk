@@ -23,7 +23,7 @@
     =link_to "Manage Checkpoints", checkpoints_path, class: 'btn btn-primary primary-button'
   %br/
   .d-flex.justify-content-center 
-    =link_to "Manage Branding", edit_branding_path(@branding), class: 'btn btn-primary primary-button'
+    =link_to "Manage Branding", edit_branding_path(Branding.where(events_id: session[:current_event_id]).first), class: 'btn btn-primary primary-button'
   
 
   

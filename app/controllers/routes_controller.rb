@@ -26,18 +26,25 @@ class RoutesController < ApplicationController
   def create
     @route = Route.new(route_params)
     @route.events_id = session[:current_event_id]
-    @route.save
-    spreadsheet = Spreadsheet.new
-    spreadsheet.add_route("#{Event.where(id: @route.events_id).first.name} #{route_params[:name]}")
-    redirect_to routes_path
+    if @route.save
+      spreadsheet = Spreadsheet.new
+      spreadsheet.add_route("#{Event.where(id: @route.events_id).first.name} #{route_params[:name]}")
+      redirect_to routes_path
+    else  
+      render :new
+    end
   end
 
   # PATCH/PUT /events/1
   def update
-    spreadsheet = Spreadsheet.new
-    spreadsheet.update_route("#{Event.where(id: @route.events_id).first.name} #{@route.name}", "#{Event.where(id: @route.events_id).first.name} #{route_params[:name]}")
-    @route.update(route_params)
-    redirect_to routes_path
+    old_route = @route.dup
+    if @route.update(route_params)
+      spreadsheet = Spreadsheet.new
+      spreadsheet.update_route("#{Event.where(id: old_route.events_id).first.name} #{old_route.name}", "#{Event.where(id: old_route.events_id).first.name} #{route_params[:name]}")
+      redirect_to routes_path
+    else  
+      render :edit
+    end
   end
 
   # DELETE /events/1
