@@ -36,12 +36,14 @@ class CheckpointsController < ApplicationController
     session[:linker_route_ids] = @route_ids
     session[:linker_route_ids_index] = 0
     session[:linker_check_id] = @checkpoint.id
-
+  
     #adds each to route with the checkpoint to the linker table
     if @route_ids
       @route_ids.each do |id|
+        
         @linker = RoutesAndCheckpointsLinker.new
         @linker.checkpoint_id = @checkpoint.id
+        @linker.distance_from_start = 0
         @linker.route_id = id
         @linker.save
         #spreadsheet = Spreadsheet.new
@@ -50,6 +52,9 @@ class CheckpointsController < ApplicationController
       #finds the next linker and redirects to it
       @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
       @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
+      puts "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+      puts @route
+      puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"
       @route.each do |route|
         redirect_to edit_routes_and_checkpoints_linker_path(route)
       end
