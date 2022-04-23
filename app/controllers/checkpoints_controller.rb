@@ -62,21 +62,28 @@ class CheckpointsController < ApplicationController
 
   # PATCH/PUT /checkpoints/1
   def update
+    spreadsheet = Spreadsheet.new
+    old_checkpoint_name = @checkpoint.name.dup
     @checkpoint.update(checkpoint_params)
 
     #get the selected routes
     @route_ids = params[:selected_routes]
+    @route_ids.each do |id|
+      spreadsheet.update_checkpoint_name((Route.where(id: id).first), old_checkpoint_name, @checkpoint.name)
+    end
     session[:linker_route_ids] = @route_ids
     session[:linker_route_ids_index] = 0
     session[:linker_check_id] = @checkpoint.id
 
-    #check if the routes already are already in the linker with the checkpoint
+    #check if the routes are already in the linker with the checkpoint
     @routes = Route.where(events_id: @checkpoint.events_id)
     @routes.each do |route|
       if RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (!@route_ids || !(session[:linker_route_ids].include? (route.id).to_s))
         #delete from linker table
         @linker = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: route.id)
         @linker.each do |linker|
+          #TODO need to change this to delete checkpoint in spreadsheet
+          #spreadsheet.update_checkpoint_name((Route.where()), old_checkpoint_name, @checkpoint.name)
           linker.destroy
         end
       elsif !RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (@route_ids && (session[:linker_route_ids].include? (route.id).to_s)) 
@@ -84,7 +91,9 @@ class CheckpointsController < ApplicationController
         @linker = RoutesAndCheckpointsLinker.new
         @linker.checkpoint_id = @checkpoint.id
         @linker.route_id = route.id
+        @linker.distance_from_start = 0
         @linker.save
+        #spreadsheet.update_checkpoint_name((Route.where()), old_checkpoint_name, @checkpoint.name)
       end
     end 
     #finds the next linker and redirects to it or goes to index

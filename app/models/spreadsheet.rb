@@ -81,16 +81,16 @@ class Spreadsheet
         end
     end
 
-    #def add_checkpoint(route, name)
-    #    #how the am i gonna add them, need route and checkpoint
-    #    worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
-    #    #worksheet.insert_rows(worksheet.num_rows + 1, [["This", "was", "added", "From", "code"], ["This", "was", "added", "From", "code"]])
-    #    #worksheet.insert_rows(2, [["This"]])
-    #    worksheet(insert_cols(3, [["Thiss"]], worksheet))
-    #    worksheet.save 
-    #end
-
     def update_checkpoint_name(route, old_name, new_name)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
+        (1..(linkers.length()+1)).each do |x|
+            if worksheet[1,x] == old_name
+                worksheet[1,x] = new_name
+                worksheet.save
+                break
+            end
+        end
     end
 
     def update_checkpoint_position(route, old_name, new_name)
@@ -101,13 +101,19 @@ class Spreadsheet
     end
     
     def add_checkpoint(route, checkpoint)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
         #if spreadsheet is empty put in first column
         if worksheet["A1"] == ""
             col_num = 1
         else
             checks_linker = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id:checkpoint.id).first
             routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
+            #checks if the checkpoint is already in the spreadsheeta and returns if it is
+            (1..(routes_linkers.length()+1)).each do |x|
+                if worksheet[1,x] == checkpoint.name
+                    return
+                end
+            end
             chosen_linker = routes_linkers.first
             #gets the linker with the biggest dist from start thats not itself
             routes_linkers.each do |linker|
