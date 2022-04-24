@@ -22,11 +22,12 @@
       %header.py-3
         .container-fluid
           .row
-            .col-3
-              / empty
+            .col-3.d-flex.justify-content-center.my-2
+              =link_to 'javascript:history.back()' do
+                .i.bi.bi-arrow-left.display-6
             .col-6.mx-auto
-              = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), root_path)
-            .col-3
+              = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), '/pages/1/home')
+            .col-3.d-flex.justify-content-center
               -if user_signed_in?
                 %a.nav-link.dropdown{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
                   .i.bi.bi-person-circle.display-6
