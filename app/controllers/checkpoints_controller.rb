@@ -74,7 +74,7 @@ class CheckpointsController < ApplicationController
       @route_ids = params[:selected_routes]
       if @route_ids
         @route_ids.each do |id|
-          spreadsheet.update_checkpoint_name((Route.where(id: id).first), old_checkpoint_name, @checkpoint.name)
+          spreadsheet.update_checkpoint_name((Route.where(id: id).first), @checkpoint)
         end
       end
       session[:linker_route_ids] = @route_ids
@@ -100,7 +100,6 @@ class CheckpointsController < ApplicationController
           @linker.distance_from_start = 0
           @linker.position_in_route = 0
           @linker.save
-          #spreadsheet.update_checkpoint_name((Route.where()), old_checkpoint_name, @checkpoint.name)
         end
       end 
       #finds the next linker and redirects to it or goes to index

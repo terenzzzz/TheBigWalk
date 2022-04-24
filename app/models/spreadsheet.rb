@@ -5,6 +5,7 @@ class Spreadsheet
     session = GoogleDrive::Session.from_service_account_key("client_secret.json")
 
     @@spreadsheet = session.spreadsheet_by_title("softwarehut exported data")
+    @@amount_walker_columns = 2
     #first worksheet
     #worksheet = @@spreadsheet.worksheets.first
 
@@ -30,13 +31,13 @@ class Spreadsheet
     #worksheet.save
 
     #what if multiple people update the table at once will it mess it up is there a que
-    #when updateing and adding checkpoints and times check worksheet exists??
     def add_route(name)
         #check if route already exists but what if they make duplicate events??
         @@spreadsheet.add_worksheet(name, max_rows = 100, max_cols = 20)
         worksheet = @@spreadsheet.worksheet_by_title(name)
         worksheet["A1"] = "Walker Name"
         worksheet["B1"] = "Walker ID"
+        #if anymore are added increase
         worksheet.save
     end
 
@@ -80,16 +81,11 @@ class Spreadsheet
         end
     end
 
-    def update_checkpoint_name(route, old_name, new_name)
+    def update_checkpoint_name(route, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
-        linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-        (1..(linkers.length()+1)).each do |x|
-            if worksheet[1,x] == old_name
-                worksheet[1,x] = new_name
-                worksheet.save
-                break
-            end
-        end
+        col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + @@amount_walker_columns
+        worksheet[1,col_num] = checkpoint.name
+        worksheet.save
     end
 
     def update_checkpoint_position(route, old_name, new_name)
@@ -98,10 +94,11 @@ class Spreadsheet
         #copy checkpoint rows and move to end delete checkpoint in middle then insert and delete from end
     end
 
+    #really it deletes a column
     def delete_checkpoint(route, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
 
-        col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + 2
+        col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + @@amount_walker_columns
         
         #double checks if the chosen cell has the same name - dont know if nessassery
         if worksheet[1,col_num] != checkpoint.name
@@ -122,6 +119,7 @@ class Spreadsheet
         worksheet.save
     end
     
+    #really it inserts a column
     def add_checkpoint(route, checkpoint)
         #make sure when handling checkpoint position + 2 for walker titles or more
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
@@ -129,7 +127,7 @@ class Spreadsheet
         #TODO is this really needed cus of validation
         #checks if the checkpoint is already in the spreadsheeta and returns if it is
         routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-        (3..(routes_linkers.length()+2)).each do |x|
+        (3..(routes_linkers.length() + @@amount_walker_columns)).each do |x|
             if worksheet[1,x] == checkpoint.name
                 return
             end
@@ -137,7 +135,7 @@ class Spreadsheet
 
         #postion + walker column titles for the column number to add to
         checkpoint_linker = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id:checkpoint.id).first
-        col_num = checkpoint_linker.position_in_route + 2
+        col_num = checkpoint_linker.position_in_route + @@amount_walker_columns
         
         cols = [[checkpoint.name]]
         cols = Array.new([], cols) if cols.is_a?(Integer)
