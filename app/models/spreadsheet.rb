@@ -110,7 +110,7 @@ class Spreadsheet
     #really it deletes a column
     def delete_checkpoint(route, checkpoint, pos)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
-
+    
         col_num = pos + @@amount_walker_columns
         
         #double checks if the chosen cell has the same name - dont know if nessassery
