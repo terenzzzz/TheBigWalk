@@ -45,6 +45,7 @@ class CheckpointsController < ApplicationController
           @linker.checkpoint_id = @checkpoint.id
           @linker.distance_from_start = 0
           @linker.route_id = id
+          @linker.position_in_route = 0
           @linker.save
           #spreadsheet = Spreadsheet.new
           #spreadsheet.add_checkpoint((Route.where(id: id).first), @checkpoint.name)

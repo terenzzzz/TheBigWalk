@@ -28,11 +28,6 @@ class Spreadsheet
     #delete 14th and 15 rows
     #worksheet.delete_rows(14, 2)
     #worksheet.save
-    def ex
-        worksheet = @@spreadsheet.worksheets.first
-        worksheet.insert_rows(worksheet.num_rows + 1, [["This", "was", "added", "From", "code"], ["This", "was", "added", "From", "code"]])
-        worksheet.save
-    end
 
     #what if multiple people update the table at once will it mess it up is there a que
     #when updateing and adding checkpoints and times check worksheet exists??
@@ -115,6 +110,10 @@ class Spreadsheet
             end
         end
         
+        #double checks if the chosen cell has the same name
+        if worksheet[1,col_num] != name
+            return
+        end
         
         if col_num > worksheet.max_cols
             raise(ArgumentError, 'The col number is out of range')
@@ -132,47 +131,19 @@ class Spreadsheet
     
     def add_checkpoint(route, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
-        #if spreadsheet is empty put in first column
-        if worksheet["C1"] == ""
-            col_num = 3
-        else
-            checks_linker = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id:checkpoint.id).first
-            routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-            #checks if the checkpoint is already in the spreadsheeta and returns if it is
-            (1..(routes_linkers.length()+1)).each do |x|
-                if worksheet[1,x] == checkpoint.name
-                    return
-                end
+
+        #checks if the checkpoint is already in the spreadsheeta and returns if it is
+        routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
+        (1..(routes_linkers.length()+1)).each do |x|
+            if worksheet[1,x] == checkpoint.name
+                return
             end
-            chosen_linker = routes_linkers.first
-            #gets the linker with the biggest dist from start thats not itself
-            routes_linkers.each do |linker|
-                if linker.distance_from_start > chosen_linker.distance_from_start && linker != checks_linker
-                    chosen_linker = linker
-                end
-            end
-            #finds the checkpoint after the checkpoint thats being inserted
-            routes_linkers.each do |linker|
-                if linker.distance_from_start > checks_linker.distance_from_start && linker.distance_from_start < chosen_linker.distance_from_start
-                    chosen_linker = linker
-                end
-            end
-            #checks if the chosen checkpoint is hasnt changed as all of them are smaller (last checkpoint in race)
-            if chosen_linker.distance_from_start < checks_linker.distance_from_start
-                col_num = worksheet.num_cols + 1
-            else
-                #finds where the chosen checkpoint is
-                chosen_checkpoint = Checkpoint.where(id: chosen_linker.checkpoint_id).first
-                col_num= 1
-                (1..(routes_linkers.length()+1)).each do |x|
-                    if worksheet[1,x] == chosen_checkpoint.name
-                        col_num = x
-                        break
-                    end
-                end
-            end
-            
         end
+
+        #postion + walker column titles for the column number to add to
+        checkpoint_linker = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id:checkpoint.id).first
+        col_num = checkpoint_linker.position_in_route + 2
+        
         cols = [[checkpoint.name]]
         cols = Array.new([], cols) if cols.is_a?(Integer)
 
