@@ -36,6 +36,7 @@ class CheckpointsController < ApplicationController
       session[:linker_route_ids] = @route_ids
       session[:linker_route_ids_index] = 0
       session[:linker_check_id] = @checkpoint.id
+      new_linkers = Array.new
     
       #adds each to route with the checkpoint to the linker table
       if @route_ids
@@ -47,7 +48,9 @@ class CheckpointsController < ApplicationController
           @linker.route_id = id
           @linker.position_in_route = 0
           @linker.save
+          new_linkers.push(@linker.id)
         end
+        session[:new_linkers] = new_linkers
         #finds the next linker and redirects to it
         @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
         @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
@@ -78,6 +81,7 @@ class CheckpointsController < ApplicationController
       session[:linker_route_ids] = @route_ids
       session[:linker_route_ids_index] = 0
       session[:linker_check_id] = @checkpoint.id
+      new_linkers = Array.new
 
       #check if the routes are already in the linker with the checkpoint
       @routes = Route.where(events_id: @checkpoint.events_id)
@@ -98,8 +102,10 @@ class CheckpointsController < ApplicationController
           @linker.distance_from_start = 0
           @linker.position_in_route = 0
           @linker.save
+          new_linkers.push(@linker.id)
         end
-      end 
+      end
+      session[:new_linkers] = new_linkers
       #finds the next linker and redirects to it or goes to index
       if @route_ids
         @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])

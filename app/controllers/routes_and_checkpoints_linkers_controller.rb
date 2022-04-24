@@ -70,8 +70,11 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
       spreadsheet = Spreadsheet.new
       route = Route.where(id: @linker.route_id).first
       checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
-      spreadsheet.add_checkpoint(route, checkpoint, @linker.position_in_route, 0)
-      spreadsheet.update_checkpoint_position(route, checkpoint, old_pos)
+      if session[:new_linkers].include?(@linker.id)
+        spreadsheet.add_checkpoint(route, checkpoint, RoutesAndCheckpointsLinker.where(id: @linker.id).first.position_in_route, 0)
+      else
+        spreadsheet.update_checkpoint_position(route, checkpoint, old_pos)
+      end
 
       #check if there are any more linkers to update after
       session[:linker_route_ids_index] = session[:linker_route_ids_index] + 1
