@@ -88,17 +88,30 @@ class Spreadsheet
         worksheet.save
     end
 
-    def update_checkpoint_position(route, old_name, new_name)
-        #worksheet.delete_checkpoint(route, name)
-        #worksheet.add_checkpoint(route, checkpoint)
-        #copy checkpoint rows and move to end delete checkpoint in middle then insert and delete from end
+    #needs to happen after linker has updated
+    #should it just pass linker??
+    def update_checkpoint_position(route, checkpoint, old_pos)
+        #if old pos == new pos return
+        new_pos = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route
+        if old_pos == new_pos
+            return
+        end
+
+        #figures out where where to add the new checkpoint and delete old
+        if new_pos > old_pos
+            add_checkpoint(route, checkpoint, (new_pos+1), 1)
+            delete_checkpoint(route, checkpoint, old_pos)
+        else
+            add_checkpoint(route, checkpoint, new_pos, 1)
+            delete_checkpoint(route, checkpoint, (old_pos+1))
+        end
     end
 
     #really it deletes a column
-    def delete_checkpoint(route, checkpoint)
+    def delete_checkpoint(route, checkpoint, pos)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
 
-        col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + @@amount_walker_columns
+        col_num = pos + @@amount_walker_columns
         
         #double checks if the chosen cell has the same name - dont know if nessassery
         if worksheet[1,col_num] != checkpoint.name
@@ -120,22 +133,23 @@ class Spreadsheet
     end
     
     #really it inserts a column
-    def add_checkpoint(route, checkpoint)
+    #should it just pass linker instead of route and checkpoint??
+    def add_checkpoint(route, checkpoint, pos, update_checkpoint)
         #make sure when handling checkpoint position + 2 for walker titles or more
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
 
         #TODO is this really needed cus of validation
         #checks if the checkpoint is already in the spreadsheeta and returns if it is
-        routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-        (3..(routes_linkers.length() + @@amount_walker_columns)).each do |x|
-            if worksheet[1,x] == checkpoint.name
-                return
+        if update_checkpoint == 0
+            routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
+            (3..(routes_linkers.length() + @@amount_walker_columns)).each do |x|
+                if worksheet[1,x] == checkpoint.name
+                    return
+                end
             end
         end
 
-        #postion + walker column titles for the column number to add to
-        checkpoint_linker = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id:checkpoint.id).first
-        col_num = checkpoint_linker.position_in_route + @@amount_walker_columns
+        col_num = pos + @@amount_walker_columns
         
         cols = [[checkpoint.name]]
         cols = Array.new([], cols) if cols.is_a?(Integer)

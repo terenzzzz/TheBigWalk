@@ -47,8 +47,6 @@ class CheckpointsController < ApplicationController
           @linker.route_id = id
           @linker.position_in_route = 0
           @linker.save
-          #spreadsheet = Spreadsheet.new
-          #spreadsheet.add_checkpoint((Route.where(id: id).first), @checkpoint.name)
         end
         #finds the next linker and redirects to it
         @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
@@ -89,7 +87,7 @@ class CheckpointsController < ApplicationController
           @linker = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: route.id)
           @linker.each do |linker|
             #TODO need to change this to delete checkpoint in spreadsheet
-            spreadsheet.delete_checkpoint(route, old_checkpoint_name)
+            spreadsheet.delete_checkpoint(route, old_checkpoint_name, linker.position_in_route)
             linker.destroy
           end
         elsif !RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (@route_ids && (session[:linker_route_ids].include? (route.id).to_s)) 
@@ -121,7 +119,7 @@ class CheckpointsController < ApplicationController
     if @events_routes_and_checkpoints_linkers != 0
       @events_routes_and_checkpoints_linkers.each do |linker|
         spreadsheet = Spreadsheet.new
-        spreadsheet.delete_checkpoint((Route.where(id: linker.route_id).first), @checkpoint)
+        spreadsheet.delete_checkpoint((Route.where(id: linker.route_id).first), @checkpoint, linker.position_in_route)
         linker.destroy
       end
     end

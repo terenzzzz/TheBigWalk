@@ -34,9 +34,10 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
 
   # PATCH/PUT /linkers/1
   def update
+    old_pos = @linker.position_in_route.dup
     if @linker.update(linker_params)
       linkers = RoutesAndCheckpointsLinker.where(route_id: @linker.route_id)
-      ordered_linkers = [linkers.first]
+      ordered_linkers = [linkers[0]]
       count = 0
 
       #creates a list of ordered linkers based on distance from start
@@ -47,7 +48,8 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
             count = 0
             break
           elsif (count + 1) == ordered_linkers.length()
-            ordered_linkers.push(linker)
+            #ordered_linkers.push(linker)
+            ordered_linkers.insert((count+1), linker)
             count = 0
             break
           end
@@ -66,7 +68,10 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
       end
 
       spreadsheet = Spreadsheet.new
-      spreadsheet.add_checkpoint((Route.where(id: @linker.route_id).first), (Checkpoint.where(id: @linker.checkpoint_id).first))
+      route = Route.where(id: @linker.route_id).first
+      checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+      spreadsheet.add_checkpoint(route, checkpoint, @linker.position_in_route, 0)
+      spreadsheet.update_checkpoint_position(route, checkpoint, old_pos)
 
       #check if there are any more linkers to update after
       session[:linker_route_ids_index] = session[:linker_route_ids_index] + 1
