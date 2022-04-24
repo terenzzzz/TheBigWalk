@@ -98,20 +98,13 @@ class Spreadsheet
         #copy checkpoint rows and move to end delete checkpoint in middle then insert and delete from end
     end
 
-    def delete_checkpoint(route, name)
+    def delete_checkpoint(route, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
-        routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-        #finds the column number
-        col_num = 1
-        (1..(routes_linkers.length()+1)).each do |x|
-            if worksheet[1,x] == name
-                col_num = x
-                break
-            end
-        end
+
+        col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + 2
         
-        #double checks if the chosen cell has the same name
-        if worksheet[1,col_num] != name
+        #double checks if the chosen cell has the same name - dont know if nessassery
+        if worksheet[1,col_num] != checkpoint.name
             return
         end
         
@@ -130,11 +123,13 @@ class Spreadsheet
     end
     
     def add_checkpoint(route, checkpoint)
+        #make sure when handling checkpoint position + 2 for walker titles or more
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
 
+        #TODO is this really needed cus of validation
         #checks if the checkpoint is already in the spreadsheeta and returns if it is
         routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-        (1..(routes_linkers.length()+1)).each do |x|
+        (3..(routes_linkers.length()+2)).each do |x|
             if worksheet[1,x] == checkpoint.name
                 return
             end

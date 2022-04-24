@@ -122,7 +122,7 @@ class CheckpointsController < ApplicationController
     if @events_routes_and_checkpoints_linkers != 0
       @events_routes_and_checkpoints_linkers.each do |linker|
         spreadsheet = Spreadsheet.new
-        spreadsheet.delete_checkpoint((Route.where(id: linker.route_id).first), @checkpoint.name)
+        spreadsheet.delete_checkpoint((Route.where(id: linker.route_id).first), @checkpoint)
         linker.destroy
       end
     end
