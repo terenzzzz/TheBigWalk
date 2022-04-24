@@ -1,10 +1,6 @@
 .d-flex.justify-content-center.p-3
     = image_tag("bwlogosquaretight.png", class: "img-fluid")
 .d-flex.justify-content-center
-    %h5 On: #{@start_date}
-.d-flex.justify-content-center
-    %h5 At: #{@start_time}
-.d-flex.justify-content-center
     %h5{class: "fw-bold"} Sets off in:
 .d-flex.justify-content-center
     %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
@@ -23,11 +19,13 @@
                 document.getElementById("countdown").innerHTML = "THE WALK HAS BEGUN!";
             }
         }, 1000);
+.d-flex.justify-content-center
+    %h5{class: "fw-bold"} (#{@start_date} at #{@start_time})
 
 .d-grid.pt-3.mx-3.gap-3
     - if current_user.tag.name =='Walker'
-        =link_to "I am a Walker", walkers_path, class: 'btn btn-primary primary-button'
+        =link_to "I Am A Walker", walkers_path, class: 'btn btn-primary primary-button'
     - if current_user.tag.name =='Marshal'
-        =link_to "I am a Marshal", marshals_path, class: 'btn btn-primary primary-button'
+        =link_to "I Am A Marshal", marshals_path, class: 'btn btn-primary primary-button'
     - if current_user.tag.name =='Admin'
-        =link_to "I am a Admin", admins_path, class: 'btn btn-primary primary-button'
+        =link_to "I Am An Admin", admins_path, class: 'btn btn-primary primary-button'
