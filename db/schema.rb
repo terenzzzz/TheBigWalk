@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_20_142009) do
+ActiveRecord::Schema.define(version: 2022_04_24_135910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,6 +154,7 @@ ActiveRecord::Schema.define(version: 2022_04_20_142009) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "route_id", null: false
     t.bigint "checkpoint_id", null: false
+    t.integer "position_in_route"
     t.index ["checkpoint_id"], name: "index_routes_and_checkpoints_linkers_on_checkpoint_id"
     t.index ["route_id"], name: "index_routes_and_checkpoints_linkers_on_route_id"
   end

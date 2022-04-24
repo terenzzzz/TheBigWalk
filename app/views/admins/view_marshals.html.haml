@@ -3,6 +3,7 @@
         %span.bi.bi-arrow-return-left
 .d-flex.justify-content-center
     %h1 Marshals At Checkpoints
+    
 %table
     %tbody
         %tr
@@ -14,5 +15,5 @@
                     %td= checkpoint_and_marshals.first.name
                     %td No marshal
                 -else
-                    -checkpoint_and_marshals.each do |c|
-                        %td= checkpoint_and_marshals.name
+                    -checkpoint_and_marshals.each do |checkpoint_and_marshal|
+                        %td= checkpoint_and_marshal.name

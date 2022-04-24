@@ -60,21 +60,21 @@ end
 #Create Checkpoint 2
 Checkpoint.where(name:'Win Hill').first_or_create(name:'Win Hill', os_grid: 'SK160876', events_id:'1')
 if Checkpoint.where(name:'Win Hill')
-    puts "Created Checkpoint Successfully"
+    puts "Created Checkpoint 2 Successfully"
     puts "-------------------------------------"
 end
 
 #Create Linker
-RoutesAndCheckpointsLinker.where(distance_from_start:'24.9').first_or_create(distance_from_start:'24.9', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '1')
-if RoutesAndCheckpointsLinker.where(distance_from_start:'24.9')
+RoutesAndCheckpointsLinker.where(distance_from_start:'10').first_or_create(distance_from_start:'10', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '1', position_in_route: '1')
+if RoutesAndCheckpointsLinker.where(distance_from_start:'10')
     puts "Created Linker Successfully"
     puts "-------------------------------------"
 end
 
 #Create Linker 2
-RoutesAndCheckpointsLinker.where(distance_from_start:'24.9').first_or_create(distance_from_start:'24.9', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '2')
-if RoutesAndCheckpointsLinker.where(distance_from_start:'24.9')
-    puts "Created Linker Successfully"
+RoutesAndCheckpointsLinker.where(distance_from_start:'20').first_or_create(distance_from_start:'20', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '2', position_in_route: '2')
+if RoutesAndCheckpointsLinker.where(distance_from_start:'20')
+    puts "Created Linker 2 Successfully"
     puts "-------------------------------------"
 end
 

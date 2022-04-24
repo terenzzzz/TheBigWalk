@@ -1,3 +1,5 @@
+-@checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+-@route = Route.where(id: @linker.route_id).first
 %h1= "Details for the #{@checkpoint.name} checkpoint on the #{@route.name} route"
 
 = simple_form_for(@linker) do |f|

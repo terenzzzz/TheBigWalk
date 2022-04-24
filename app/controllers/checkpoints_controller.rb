@@ -16,12 +16,12 @@ class CheckpointsController < ApplicationController
   def new
     @checkpoint = Checkpoint.new
     @linker = RoutesAndCheckpointsLinker.new
-    @routes = Route.where(events_id: session[:current_event_id])
+    #@routes = Route.where(events_id: session[:current_event_id])
   end
 
   # GET /checkpoints/1/edit
   def edit
-    @routes = Route.where(events_id: session[:current_event_id])
+    #@routes = Route.where(events_id: session[:current_event_id])
   end
 
   # POST /checkpoints
@@ -71,8 +71,10 @@ class CheckpointsController < ApplicationController
 
       #get the selected routes
       @route_ids = params[:selected_routes]
-      @route_ids.each do |id|
-        spreadsheet.update_checkpoint_name((Route.where(id: id).first), old_checkpoint_name, @checkpoint.name)
+      if @route_ids
+        @route_ids.each do |id|
+          spreadsheet.update_checkpoint_name((Route.where(id: id).first), old_checkpoint_name, @checkpoint.name)
+        end
       end
       session[:linker_route_ids] = @route_ids
       session[:linker_route_ids_index] = 0
@@ -86,7 +88,7 @@ class CheckpointsController < ApplicationController
           @linker = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: route.id)
           @linker.each do |linker|
             #TODO need to change this to delete checkpoint in spreadsheet
-            #spreadsheet.update_checkpoint_name((Route.where()), old_checkpoint_name, @checkpoint.name)
+            spreadsheet.delete_checkpoint(route, old_checkpoint_name)
             linker.destroy
           end
         elsif !RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (@route_ids && (session[:linker_route_ids].include? (route.id).to_s)) 
@@ -95,6 +97,7 @@ class CheckpointsController < ApplicationController
           @linker.checkpoint_id = @checkpoint.id
           @linker.route_id = route.id
           @linker.distance_from_start = 0
+          @linker.position_in_route = 0
           @linker.save
           #spreadsheet.update_checkpoint_name((Route.where()), old_checkpoint_name, @checkpoint.name)
         end

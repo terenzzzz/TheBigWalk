@@ -17,8 +17,8 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
 
   # GET /linkers/1/edit
   def edit
-    @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
-    @route = Route.where(id: @linker.route_id).first
+    #@checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+    #@route = Route.where(id: @linker.route_id).first
   end
 
   # POST /linkers
@@ -34,17 +34,52 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
 
   # PATCH/PUT /linkers/1
   def update
-    @linker.update(linker_params)
-    spreadsheet = Spreadsheet.new
-    spreadsheet.add_checkpoint((Route.where(id: @linker.route_id).first), (Checkpoint.where(id: @linker.checkpoint_id).first))
+    if @linker.update(linker_params)
+      linkers = RoutesAndCheckpointsLinker.where(route_id: @linker.route_id)
+      ordered_linkers = [linkers.first]
+      count = 0
 
-    session[:linker_route_ids_index] = session[:linker_route_ids_index] + 1
-    if session[:linker_route_ids_index] == session[:linker_route_ids].length()
-      redirect_to checkpoints_path
+      #creates a list of ordered linkers based on distance from start
+      linkers.drop(1).each do |linker|
+        ordered_linkers.each do |ordered|
+          if ordered.distance_from_start > linker.distance_from_start
+            ordered_linkers.insert(count, linker)
+            count = 0
+            break
+          elsif (count + 1) == ordered_linkers.length()
+            ordered_linkers.push(linker)
+            count = 0
+            break
+          end
+          count = count + 1
+        end
+      end
+
+      #checks if the current position is the correct one then moves any incorrect ones
+      count = 1
+      ordered_linkers.each do |linker|
+        if count != linker.position_in_route
+          linker.position_in_route = count
+          linker.save
+        end
+        count = count + 1
+      end
+
+      spreadsheet = Spreadsheet.new
+      spreadsheet.add_checkpoint((Route.where(id: @linker.route_id).first), (Checkpoint.where(id: @linker.checkpoint_id).first))
+
+      #check if there are any more linkers to update after
+      session[:linker_route_ids_index] = session[:linker_route_ids_index] + 1
+      if session[:linker_route_ids_index] == session[:linker_route_ids].length()
+        redirect_to checkpoints_path
+      else
+        #redirects to next linker
+        @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
+        @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id).first
+        redirect_to edit_routes_and_checkpoints_linker_path(@route)
+      end
     else
-      @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
-      @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id).first
-      redirect_to edit_routes_and_checkpoints_linker_path(@route)
+      render :edit
     end
   end
 

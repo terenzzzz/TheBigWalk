@@ -6,6 +6,7 @@
 #  advised_time           :integer
 #  checkpoint_description :string
 #  distance_from_start    :float
+#  position_in_route      :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  checkpoint_id          :bigint           not null
@@ -23,4 +24,5 @@
 #
 class RoutesAndCheckpointsLinker < ApplicationRecord
     validates_presence_of :distance_from_start
+    validates_uniqueness_of :distance_from_start, scope: :route_id
 end

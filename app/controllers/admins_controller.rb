@@ -30,12 +30,6 @@ class AdminsController < ApplicationController
 
     def view_marshals 
         @event = Event.where(id: session[:current_event_id]).first
-        #@marshals = Marshall.all
-        #@users = Array.new
-        #@marshals.each do |marshal|
-        #    @user = [User.where(id: marshal.users_id).first, Checkpoint.where(id: marshal.checkpoints_id).first] 
-        #    @users.push(@user)
-        #end
 
         @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
         @checkpoints_and_marshals = Array.new
@@ -43,7 +37,7 @@ class AdminsController < ApplicationController
             @checkpoint_and_marshals = [checkpoint]
             @marshals = Marshall.where(checkpoints_id: checkpoint.id)
             @marshals.each do |marshal|
-                @user = User.where(id: m.users_id).first
+                @user = User.where(id: marshal.users_id).first
                 @checkpoint_and_marshals.push(@user)
             end
             @checkpoints_and_marshals.push(@checkpoint_and_marshals)
