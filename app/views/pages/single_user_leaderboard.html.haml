@@ -10,8 +10,8 @@
     /%td= user.name
 - @current_user_id = session[:current_user_id]
 - @current_event = session[:current_event_id]
-- @walker = Participant.where(users_id: @current_user_id, ).first
-- @checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
+- @walker = Participant.where(users_id: @current_user_id).first
+- @checkpoints = Checkpoint.where(id: @walker.checkpoints_id)
   %tr
     / \/ Link to "checkpoint.name where ({current event id && current user id} && {datetime is largest})
     - @current_user = User.where(id: @current_user_id).first
@@ -22,6 +22,16 @@
       %td=@checkpoint.name
       / \/ link to "checkpoint.time where ({current event id && current user id} && {datetime is largest})
       %td 1:01:23
+
+/CheckpointTimes (therefore @userTimes) contains checkpoint id and user id, as well as the datetime of the user for each checkpoint they get to
+- @userTimes = CheckpointTimes.where(participant_id: @current_user_id)
+- @userTimes.each do |t|
+  - @user_checkpoint_names = Checkpoint 
+  - @current_checkpoint_id = t.checkpoint_id
+  - @current_checkpoint_name = 
+  %tr
+    %td=t.times
+      
 
 
 
@@ -48,3 +58,9 @@
       %td=@checkpoint.name
       / \/ link to "checkpoint.time where ({current event id && current user id} && {datetime is largest})
       %td 1:01:23
+
+
+For the current event id (Checkpoint.where(event_id: @current_event_id)), display the names of each checkpoint
+
+get the route id, then the checkpoint id from the route id (sam4e table).
+Use the checkpoint id to find the checkpoint name in the checkpoints table
