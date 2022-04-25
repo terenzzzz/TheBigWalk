@@ -9,6 +9,12 @@ class WalkersController < ApplicationController
       @osReference = @osUKgridPoint.grid_ref(6)
     end
 
+    def requestCall
+      Call.create(user_id:current_user.id)
+      redirect_to help_walkers_path
+    end
+
+
     def check_in_fail
     end
 
