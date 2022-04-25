@@ -1,66 +1,56 @@
+- @current_event = session[:current_event_id]
+- @current_user = User.where(id: @current_user_id).first
+
+- @walker = Participant.where(users_id: @current_user_id).first
+- @current_user_id = session[:current_user_id]
+/What does  t.bigint "checkpoints_id", null: false   do in Participants DB table?
+- @checkpoints = Checkpoint.where(events_id: @current_event)
+- @userTimes = CheckpointTime.where(participant_id: @current_user_id)
+
 %h1 User Leaderboard
 
-
 %table
 %tbody
+  %tr="#{@walker.name}'s Times"
   %tr
-    %td Participant
-    %td Last Checkpoint
-    %td Time to Last Checkpoint
-    /%td= user.name
-- @current_user_id = session[:current_user_id]
-- @current_event = session[:current_event_id]
-- @walker = Participant.where(users_id: @current_user_id).first
-- @checkpoints = Checkpoint.where(id: @walker.checkpoints_id)
-  %tr
-    / \/ Link to "checkpoint.name where ({current event id && current user id} && {datetime is largest})
-    - @current_user = User.where(id: @current_user_id).first
-    /- @user_tag = TagsUser.where(user_id: @current_user.id).first
-    /- @tag = Tag.where(id: @current_user.tag_id).first
-    /- if @tag.name == "Walker" 
-      /%td= link_to "#{user.name}", single_user_leaderboard_pages_path
-      %td=@checkpoint.name
-      / \/ link to "checkpoint.time where ({current event id && current user id} && {datetime is largest})
-      %td 1:01:23
+    %td Checkpoint
+    %td Time To Checkpoint
 
-/CheckpointTimes (therefore @userTimes) contains checkpoint id and user id, as well as the datetime of the user for each checkpoint they get to
-- @userTimes = CheckpointTimes.where(participant_id: @current_user_id)
-- @userTimes.each do |t|
-  - @user_checkpoint_names = Checkpoint 
-  - @current_checkpoint_id = t.checkpoint_id
-  - @current_checkpoint_name = 
-  %tr
-    %td=t.times
-      
+  - @userTimes.each do |t|      
+    - @current_checkpoint_id = t.checkpoint_id      
+    - @current_checkpoint_name = @checkpoints.name.where(id: @current_checkpoint_id)
+    - @current_checkpoint_time = @checkpoints.time
+    %tr
+      %td=@current_checkpoint_name
+      %td=CheckpointTime.times.where(checkpoint_id: @current_checkpoint_id)
+
+/Think about reconfiguring so that all checkpoints show up and if the user hasn't reached the popint yet then it just shows a -
 
 
 
 
-%table
-%tbody
-  %tr
-    %td Participant
-    %td Last Checkpoint
-    %td Time to Last Checkpoint
-    /%td= user.name
-- @current_user_id = session[:current_user_id]
-- @current_event = session[:current_event_id]
-/@walker = Participant.where(users_id: @current_user_id, ).first
-      - @checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
-/- @users.each do |user| 
-  %tr
-    / \/ Link to "checkpoint.name where ({current event id && current user id} && {datetime is largest})
-    - @current_user = User.where(id: @current_user_id).first
-    /- @user_tag = TagsUser.where(user_id: @current_user.id).first
-    /- @tag = Tag.where(id: @current_user.tag_id).first
-    /- if @tag.name == "Walker" 
-      /%td= link_to "#{user.name}", single_user_leaderboard_pages_path
-      %td=@checkpoint.name
-      / \/ link to "checkpoint.time where ({current event id && current user id} && {datetime is largest})
-      %td 1:01:23
+-# - @current_user = User.where(id: @current_user_id).first
+-# - @current_user_id = session[:current_user_id]
+-# - @current_event = session[:current_event_id]
+-# - @walker = Participant.where(users_id: @current_user_id).first
+-# - @checkpoints = Checkpoint.where(id: @walker.checkpoints_id)
+
+-# %table
+-# %tbody
+-#   %tr
+-#     %td Participant
+-#     %td Last Checkpoint
+-#     %td Time to Last Checkpoint
+-#     /%td= user.name
+-# /@walker = Participant.where(users_id: @current_user_id, ).first
+-# - @checkpoint.each do |checkpoint|
+-# /- @users.each do |user| 
+-#   %tr
+-#     %td=@checkpoint.name
+-#     %td 1:01:23
 
 
-For the current event id (Checkpoint.where(event_id: @current_event_id)), display the names of each checkpoint
+/For the current event id (Checkpoint.where(event_id: @current_event_id)), display the names of each checkpoint
 
-get the route id, then the checkpoint id from the route id (sam4e table).
-Use the checkpoint id to find the checkpoint name in the checkpoints table
+/get the route id, then the checkpoint id from the route id (sam4e table).
+/Use the checkpoint id to find the checkpoint name in the checkpoints table
