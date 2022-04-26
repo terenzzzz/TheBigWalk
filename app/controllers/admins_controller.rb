@@ -1,5 +1,16 @@
 class AdminsController < ApplicationController
     before_action :authenticate_user!
+    before_action do
+        user = User.where(id: session[:current_user_id]).first
+        tag = Tag.where(id: user.tag_id).first
+        if tag.name == "Admin"
+        elsif tag.name == "Marshal"
+            redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+        elsif tag.name == "Walker"
+            redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+        end
+    end
+
     def index
     end
 

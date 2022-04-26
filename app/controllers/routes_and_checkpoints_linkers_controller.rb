@@ -1,5 +1,15 @@
 class RoutesAndCheckpointsLinkersController < ApplicationController
   before_action :set_linker, only: [:show, :edit, :update, :destroy]
+  before_action do
+    user = User.where(id: session[:current_user_id]).first
+    tag = Tag.where(id: user.tag_id).first
+    if tag.name == "Admin"
+    elsif tag.name == "Marshal"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    elsif tag.name == "Walker"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    end
+  end
 
   # GET /linkers
   def index

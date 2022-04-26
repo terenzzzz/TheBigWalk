@@ -1,5 +1,15 @@
 class MarshalsController < ApplicationController
     before_action :authenticate_user!
+    before_action do
+        user = User.where(id: session[:current_user_id]).first
+        tag = Tag.where(id: user.tag_id).first
+        if tag.name == "Marshal"
+        elsif tag.name == "Admin"
+            redirect_to admins_path, notice: 'You dont have access to that page'
+        elsif tag.name == "Walker"
+            redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+        end
+    end
 
     def change_checkpoint
     end
@@ -34,27 +44,6 @@ class MarshalsController < ApplicationController
                 end
             end
         end
-
-
-        # @event = Event.where(id: session[:current_event_id]).first
-        # @routes = Route.where(events_id: session[:current_event_id])
-        # @falling_behind = Array.new
-        # @on_pace = Array.new
-        # @walkers_falling_behind = Array.new
-        # @Walkers_on_pace = Array.new
-  
-        # @routes.each do |route|
-        #     @walkers_falling_behind.concat Participant.where(routes_id: route.id, pace: 'Falling Behind!')
-        #     @walkers_falling_behind.each do |walker|
-        #         @falling_walker_and_user = [walker, User.where(id: walker.user_id).first]
-        #         @falling_behind.push(@falling_walker_and_user)
-        #     end
-        #     @Walkers_on_pace.concat Participant.where(routes_id: route.id, pace: 'On Pace.')
-        #     @Walkers_on_pace.each do |walker|
-        #         @on_walker_and_user = [walker, User.where(id: walker.user_id).first]
-        #         @on_pace.push(@on_walker_and_user)
-        #     end
-        # end
     end 
 
     def index
