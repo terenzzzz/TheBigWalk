@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     get 'view_pickups', on: :collection
     get 'walkers_profile', on: :collection
     post :make_walker_marshal, on: :collection
+    post :make_user_admin, on: :collection
   end
 
   resources :marshals do

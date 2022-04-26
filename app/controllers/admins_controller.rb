@@ -66,4 +66,22 @@ class AdminsController < ApplicationController
         walker.destroy
         redirect_to user
     end
+
+    def make_user_admin
+        user = User.where(params.require(:make_user_admin).permit(:id)).first
+        tag = Tag.where(id: user.tag_id).first.name
+        if tag == "Walker"
+            walker = Participant.where(user_id: user.id).first
+            times = CheckpointTime.where(participant_id: walker.id)
+            times.each do |time|
+                time.destroy
+            end
+            walker.destroy
+        else
+            Marshall.where(users_id: user.id).first.destroy
+        end
+        user.tag_id = Tag.where(name: "Admin").first.id
+        user.save
+        redirect_to user
+    end
 end
