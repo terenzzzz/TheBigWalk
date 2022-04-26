@@ -171,4 +171,39 @@ class Spreadsheet
         end
         worksheet.save
     end
+
+    def add_walker(route, user)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+
+        walker = Participant.where(users_id: user.id).first
+        worksheet[(walker.rank + 1)][1] = user.name
+        worksheet[(walker.rank + 1)][2] = walker.participant_id
+        worksheet.save
+    end
+
+    def update_walker_info(route, user)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+
+        walker = Participant.where(users_id: user.id).first
+        worksheet.max_rows += 1
+        worksheet[(walker.rank + 1)][1] = user.name
+        worksheet[(walker.rank + 1)][2] = walker.participant_id
+        worksheet.save
+    end
+
+    def update_walker_rank(route, )
+        #needs to move the whole row
+        #get row data
+        #insert row then delete or other way around
+    end
+
+    def add_checkpoint_time(route, user, checkpoint)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+
+        walker = Participant.where(users_id: user.id).first 
+        
+        #its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
+        worksheet[(walker.rank + 1)]([checkpoint.position_in_route + @@amount_walker_columns)] = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first
+        worksheet.save
+    end
 end
