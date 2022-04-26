@@ -47,11 +47,21 @@
     .d-flex.justify-content-center
         %p Your Public Progress Shows Here
 
-    .d-flex.justify-content-center
-        -if @user.tag.name == "Walker"
+    
+    -if @user.tag.name == "Walker"
+        .d-flex.justify-content-center
             = simple_form_for :make_walker_marshal, url: make_walker_marshal_admins_path, method: :post do |f|
                 = f.hidden_field :id, value: @user.id
                 = f.submit "Make Walker a Marshal", class: 'btn btn-primary primary-button'
+        .d-flex.justify-content-center
+            = simple_form_for :make_user_admin, url: make_user_admin_admins_path, method: :post do |f|
+                = f.hidden_field :id, value: @user.id
+                = f.submit "Make Walker an Admin", class: 'btn btn-primary primary-button'
+    -if @user.tag.name == "Marshal"
+        .d-flex.justify-content-center
+            = simple_form_for :make_user_admin, url: make_user_admin_admins_path, method: :post do |f|
+                = f.hidden_field :id, value: @user.id
+                = f.submit "Make Marshal an Admin", class: 'btn btn-primary primary-button'
 
     %button.btn.btn-danger(type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount")
         %span.bi.bi-trash
