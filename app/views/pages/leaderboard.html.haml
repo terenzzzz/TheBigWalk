@@ -12,8 +12,10 @@
       - @tag = Tag.where(id: user.tag_id).first
       - if @tag.name == "Walker" 
         %td= link_to "#{user.name}", single_user_leaderboard_pages_path
-        - @walker = Participant.where(users_id: user.id, ).first
-        - @checkpoints = Checkpoint.where(id: @walker.checkpoints_id)
+        - @walker = Participant.where(users_id: user.id).first
+        - @checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
+        %td=@checkpoint.name
+        %td 1:01:23
 
         /# Get all of the users in the event, record the amount
         /# Create a for loop to go through each user, cretae another for loop inside that going through the linker table to find
@@ -21,6 +23,3 @@
         /#      value out in the table next to the user, or print the user name and most recent time together.
         /#s
         /# Get the linker table position in route, then do a for loop for it to get the highest position, or just do .highest .
-          
-        %td=@checkpoint.name
-        %td 1:01:23
