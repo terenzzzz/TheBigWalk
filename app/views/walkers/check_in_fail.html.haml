@@ -1,40 +1,18 @@
-.d-flex.justify-content-center
-    %h2 Check-In For:
-.d-flex.justify-content-center
-    %h1 HOPE CROSS
 %br
+.d-flex.justify-content-center
+    %h2{class: 'fw-bold'} Check-In For:
 %br
-%p Oops! According to your location, we don't think you're at the check-in point. If we're wrong, please ask a marshal to get the four digits code and submit below to check in, thank you. 
-
-.form-floating.row 
-    %h6.fw-bold Input the Four Dights code:
-    .col-8
-        %input.form-control(type="text")
-%br/
-.row
-    .col-5
-        %button.btn.btn-primary(type="button" data-bs-toggle="modal" data-bs-target="#submitCodeCorrectly") Submit(correct)
-    .col-6
-        %button.btn.btn-primary(type="button" data-bs-toggle="modal" data-bs-target="#submitCodeFail") Submit(Uncorrect)
-    
-    //Pop up for submit successful
-    #submitCodeCorrectly.modal.fade
-        .modal-dialog
-            .modal-content 
-                .modal-header.fw-bold
-                    Information
-                .modal-body
-                    Great! You are already checked in.
-                .modal-footer
-                    %button.btn.btn-Primary{ type: 'button', data: { bs_dismiss: 'modal' } } OK
-
-    //Pop up for submit fail
-    #submitCodeFail.modal.fade
-        .modal-dialog
-            .modal-content 
-                .modal-header.fw-bold
-                    Information
-                .modal-body
-                    Sorry, Your code is wrong, please double check it or ask a marshal to check you in.
-                .modal-footer
-                    %button.btn.btn-Primary{ type: 'button', data: { bs_dismiss: 'modal' } } OK
+.d-flex.justify-content-center
+    // needs functionality
+    %h1{class: 'fw-bold'} HOPE CROSS
+%br
+.d-flex.justify-content-center
+    %p Oops!
+.d-flex.justify-content-center.mx-3
+    %p{class: 'text-center'} According to your location, we don't think you're at the check-in point.
+.d-flex.justify-content-center.mx-3
+    %p{class: 'text-center'} If we're wrong, please ask a marshal on site to check you in, thank you. 
+%br
+//.d-grid.gap-2
+//    =link_to "Return", 'javascript:history.back()', class: 'btn btn-primary primary-button'
+// don't know if it looks better with or without button

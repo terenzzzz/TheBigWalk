@@ -11,7 +11,7 @@ class WalkersController < ApplicationController
 
     def requestCall
       Call.create(user_id:current_user.id)
-      redirect_to help_walkers_path
+      redirect_to help_walkers_path, notice: 'Call request successful'
     end
 
 
