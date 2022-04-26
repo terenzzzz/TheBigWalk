@@ -6,24 +6,32 @@
 - @checkpoints = Checkpoint.where(events_id: @current_event)
 - @user_times = CheckpointTime.where(participant_id: @current_user_id)
 
+- @participant_to_display = @leaderboard_participant
+
 %h1 User Leaderboard
 
 %table
-%tbody
-  %tr="#{@walker.name}'s Times"
-  %tr
-    %td Checkpoint
-    %td Time To Checkpoint
-
-  - @user_times.each do |t|      
-    - @current_checkpoint_id = t.checkpoint_id      
-    - @current_checkpoint_name = @checkpoints.name.where(id: @current_checkpoint_id)
-    - @current_checkpoint_time = @checkpoints.time
+  %tbody
+    - @participant_user_object = Participant.where(id: @participant_to_display).first.user_id
+    %tr="#{User.where(id: @participant_user_object).first.name}'s Times"
+    
     %tr
-      %td=@current_checkpoint_name
-      %td=CheckpointTime.times.where(checkpoint_id: @current_checkpoint_id)
+      %td Checkpoint
+      %td Time To Checkpoint
 
-/Think about reconfiguring so that all checkpoints show up and if the user hasn't reached the popint yet then it just shows a -
+/ ---------------------------------------------------------------- I need to get working next \/    -    Ben
+    - @user_times.each do |t|      
+      - @current_checkpoint_id = t.checkpoint_id      
+      - @current_checkpoint_name = @checkpoints.name.where(id: @current_checkpoint_id)
+      - @current_checkpoint_time = @checkpoints.time
+      %tr
+        %td=@current_checkpoint_name
+        %td=CheckpointTime.times.where(checkpoint_id: @current_checkpoint_id)
+/ ----------------------------------------------------------------
+/Thinking about reconfiguring so that all checkpoints show up and if the user hasn't reached the point yet then it just shows a dash    -    Ben
+
+
+/ Redundant code - may be useful when getting the above part working    -    Ben
 
 -# - @current_user = User.where(id: @current_user_id).first
 -# - @current_user_id = session[:current_user_id]
