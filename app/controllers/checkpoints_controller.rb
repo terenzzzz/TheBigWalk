@@ -75,7 +75,9 @@ class CheckpointsController < ApplicationController
       @route_ids = params[:selected_routes]
       if @route_ids
         @route_ids.each do |id|
-          spreadsheet.update_checkpoint_name((Route.where(id: id).first), @checkpoint)
+          if old_checkpoint_name != @checkpoint.name
+            spreadsheet.update_checkpoint_name((Route.where(id: id).first), @checkpoint)
+          end
         end
       end
       session[:linker_route_ids] = @route_ids
