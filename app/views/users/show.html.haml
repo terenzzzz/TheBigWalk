@@ -1,0 +1,65 @@
+%h1 Welcome to Your Profile 
+.row   
+    .col-5 
+        %table 
+            %tr 
+                -if @user.avatar.attached? 
+                    %td= image_tag @user.avatar, :size => "120x120"
+                -else 
+                    %td= "No photo uplaoded."
+    .col-7
+        %p 
+            = @user.name
+        %p 
+            = @user.description 
+%br/
+
+.row 
+    %table.table
+        -if @user.tag.name == "Walker"
+            %tr 
+                %td Walker ID:
+                %td= Participant.where(user_id: @user.id).first.participant_id
+        -elsif @user.tag.name == "Marshal"
+            %tr 
+                %td Marshal ID:
+                %td= Marshall.where(users_id: @user.id).first.marshal_id
+        %tr 
+            %td User Email:
+            %td= @user.email
+        %tr 
+            %td User Mobile:
+            %td= @user.mobile
+        %tr 
+            %td Membership ID:
+            %td= @user.membership_id
+        %tr 
+            %td Identity:
+            %td= @user.tag.name
+
+        
+
+.d-grid.gap-3
+    =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
+        %span.bi.bi-piggy-bank
+        %span Donate Here
+        %span.bi.bi-piggy-bank
+    .d-flex.justify-content-center
+        %p Your Public Progress Shows Here
+
+    %button.btn.btn-danger(type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount")
+        %span.bi.bi-trash
+        %span Delete Account
+
+    //Pop up for delete account
+    #deleteAccount.modal.fade
+        .modal-dialog
+            .modal-content 
+                .modal-header
+                    %h5.modal-title Warning
+                .modal-body
+                    Are u sure you wanna delete the account?
+                .modal-footer
+                    %button.btn.btn-secondary{ type: 'button', data: { bs_dismiss: 'modal' } }
+                        Cancel
+                    =link_to 'Yes', @user, :method => :delete, class: 'btn btn-danger'

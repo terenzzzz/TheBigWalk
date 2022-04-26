@@ -25,11 +25,11 @@
                 -@falling_behind.each do |walker|
                     %tr 
                         %td= walker.first.participant_id
-                        %td= walker.last.name
+                        %td=link_to "#{walker.last.name}", walker.last
                         %td falling behind
             -if @on_pace
                 -@on_pace.each do |walker|
                     %tr
                         %td= walker.first.participant_id
-                        %td= walker.last.name
+                        %td=link_to "#{walker.last.name}", walker.last
                         %td on pace
