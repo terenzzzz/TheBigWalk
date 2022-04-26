@@ -2,8 +2,18 @@ class WalkersController < ApplicationController
     before_action :authenticate_user!
 
     def check_in
-        
+      @lat = 53.381759
+      @lon = -1.482212
+      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      @osReference = @osUKgridPoint.grid_ref(6)
     end
+
+    def requestCall
+      Call.create(user_id:current_user.id)
+      redirect_to help_walkers_path, notice: 'Call request successful'
+    end
+
 
     def check_in_fail
     end

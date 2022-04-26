@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_24_135910) do
+ActiveRecord::Schema.define(version: 2022_04_26_112121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,13 @@ ActiveRecord::Schema.define(version: 2022_04_24_135910) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "events_id", null: false
     t.index ["events_id"], name: "index_brandings_on_events_id"
+  end
+
+  create_table "calls", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_calls_on_user_id"
   end
 
   create_table "checkpoint_times", force: :cascade do |t|
@@ -119,11 +126,11 @@ ActiveRecord::Schema.define(version: 2022_04_24_135910) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "checkpoints_id", null: false
-    t.bigint "users_id", null: false
     t.bigint "routes_id", null: false
+    t.boolean "opted_in_leaderboard", default: false, null: false
+    t.bigint "user_id", null: false
     t.index ["checkpoints_id"], name: "index_participants_on_checkpoints_id"
     t.index ["routes_id"], name: "index_participants_on_routes_id"
-    t.index ["users_id"], name: "index_participants_on_users_id"
   end
 
   create_table "pickups", force: :cascade do |t|
@@ -204,6 +211,7 @@ ActiveRecord::Schema.define(version: 2022_04_24_135910) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "admins", "users", column: "users_id"
   add_foreign_key "brandings", "events", column: "events_id"
+  add_foreign_key "calls", "users"
   add_foreign_key "checkpoint_times", "checkpoints"
   add_foreign_key "checkpoint_times", "participants"
   add_foreign_key "checkpoints", "events", column: "events_id"
@@ -211,7 +219,6 @@ ActiveRecord::Schema.define(version: 2022_04_24_135910) do
   add_foreign_key "marshalls", "users", column: "users_id"
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
   add_foreign_key "participants", "routes", column: "routes_id"
-  add_foreign_key "participants", "users", column: "users_id"
   add_foreign_key "pickups", "users"
   add_foreign_key "routes", "events", column: "events_id"
   add_foreign_key "routes_and_checkpoints_linkers", "checkpoints"

@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :brandings
   resources :events
   resources :checkpoints 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users
  
   resources :pages do 
@@ -21,11 +21,13 @@ Rails.application.routes.draw do
 
   resources :walkers do
     get 'check_in', on: :collection
+    get 'requestCall'
     get 'check_in_fail', on: :collection
     get 'checkpoint_info', on: :collection
     get 'help', on: :collection
     get 'drop_out', on: :collection
     get 'search', on: :collection
+
   end
 
   resources :admins do
