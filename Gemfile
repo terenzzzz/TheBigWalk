@@ -21,6 +21,9 @@ gem 'ransack'
 
 gem 'google_drive'
 
+gem 'osgb_convert', '~> 0.0.4'
+gem "osgb"
+
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 

@@ -21,6 +21,11 @@
     .p#out
 -# #map{ :style => "height: 200px; width: 100%;"}
 
+%p #{@lat}
+%p #{@lon}
+%p #{@osReference}
+
+
 :javascript
     function geoFindMe() {
     // let map;
@@ -29,8 +34,8 @@
     var longitude;
 
     function success(position) {
-        latitude  = position.coords.latitude.toFixed(3);;
-        longitude = position.coords.longitude.toFixed(3);;
+        latitude  = position.coords.latitude.toFixed(6);
+        longitude = position.coords.longitude.toFixed(6);
 
         output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
         // window.initMap = initMap();
