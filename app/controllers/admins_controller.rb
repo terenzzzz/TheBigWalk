@@ -48,4 +48,22 @@ class AdminsController < ApplicationController
         @event = Event.where(id: session[:current_event_id]).first
         @pickups = Pickup.all
     end
+
+    def make_walker_marshal
+        user = User.where(params.require(:make_walker_marshal).permit(:id)).first
+        walker = Participant.where(user_id: user.id).first
+        marshal = Marshall.new
+        marshal.marshal_id = walker.participant_id
+        marshal.users_id = user.id
+        marshal.checkpoints_id = walker.checkpoints_id
+        marshal.save
+        user.tag_id = Tag.where(name: "Marshal").first.id
+        user.save
+        times = CheckpointTime.where(participant_id: walker.id)
+        times.each do |time|
+            time.destroy
+        end
+        walker.destroy
+        redirect_to user
+    end
 end
