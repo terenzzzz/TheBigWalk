@@ -126,7 +126,7 @@ if User.where(email:'marshal2@test.com')
     puts "Created Marshall Account 2 Successfully"
     puts "-------------------------------------"
 end
-Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkpoints_id: '1', users_id: '4')
+Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkpoints_id: '2', users_id: '4')
 if Marshall.where(marshal_id:'2002')
     puts "Created Marshall 2 Successfully"
     puts "-------------------------------------"

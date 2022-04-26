@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
       pick_event_pages_path
     elsif current_user.tag.name == 'Marshal'
       session[:current_user_id] = current_user.id
-      session[:marshal_id] = current_user.id
       pick_event_pages_path
     elsif current_user.tag.name == 'Admin'
       session[:current_user_id] = current_user.id
