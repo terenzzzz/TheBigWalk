@@ -90,7 +90,6 @@ class CheckpointsController < ApplicationController
           #delete from linker table
           @linker = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: route.id)
           @linker.each do |linker|
-            #TODO need to change this to delete checkpoint in spreadsheet
             spreadsheet.delete_checkpoint(route, old_checkpoint_name, linker.position_in_route)
             linker.destroy
           end

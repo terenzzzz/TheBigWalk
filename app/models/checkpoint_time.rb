@@ -1,0 +1,3 @@
+class CheckpointTime < ApplicationRecord
+
+end

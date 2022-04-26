@@ -5,7 +5,7 @@ class Spreadsheet
     session = GoogleDrive::Session.from_service_account_key("client_secret.json")
 
     @@spreadsheet = session.spreadsheet_by_title("softwarehut exported data")
-    @@amount_walker_columns = 2
+    @@walker_title_columns = 4
     #first worksheet
     #worksheet = @@spreadsheet.worksheets.first
 
@@ -37,6 +37,8 @@ class Spreadsheet
         worksheet = @@spreadsheet.worksheet_by_title(name)
         worksheet["A1"] = "Walker Name"
         worksheet["B1"] = "Walker ID"
+        worksheet["C1"] = "Walker droped out / pickups"
+        worksheet["D1"] = "Walker pickup location"
         #if anymore are added increase
         worksheet.save
     end
@@ -83,7 +85,7 @@ class Spreadsheet
 
     def update_checkpoint_name(route, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
-        col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + @@amount_walker_columns
+        col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + @@walker_title_columns
         worksheet[1,col_num] = checkpoint.name
         worksheet.save
     end
@@ -111,7 +113,7 @@ class Spreadsheet
     def delete_checkpoint(route, checkpoint, pos)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
     
-        col_num = pos + @@amount_walker_columns
+        col_num = pos + @@walker_title_columns
         
         #double checks if the chosen cell has the same name - dont know if nessassery
         if worksheet[1,col_num] != checkpoint.name
@@ -142,14 +144,14 @@ class Spreadsheet
         #checks if the checkpoint is already in the spreadsheeta and returns if it is
         if update_checkpoint == 0
             routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-            (3..(routes_linkers.length() + @@amount_walker_columns)).each do |x|
+            (3..(routes_linkers.length() + @@walker_title_columns)).each do |x|
                 if worksheet[1,x] == checkpoint.name
                     return
                 end
             end
         end
 
-        col_num = pos + @@amount_walker_columns
+        col_num = pos + @@walker_title_columns
         
         cols = [[checkpoint.name]]
         cols = Array.new([], cols) if cols.is_a?(Integer)
@@ -176,8 +178,9 @@ class Spreadsheet
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
         walker = Participant.where(user_id: user.id).first
-        worksheet[(walker.rank + 1)][1] = user.name
-        worksheet[(walker.rank + 1)][2] = walker.participant_id
+        worksheet.max_rows += 1
+        worksheet[(walker.rank + 1), 1] = user.name
+        worksheet[(walker.rank + 1), 2] = walker.participant_id
         worksheet.save
     end
 
@@ -185,7 +188,6 @@ class Spreadsheet
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
         walker = Participant.where(user_id: user.id).first
-        worksheet.max_rows += 1
         worksheet[(walker.rank + 1), 1] = user.name
         worksheet[(walker.rank + 1), 2] = walker.participant_id
         worksheet.save
@@ -213,9 +215,26 @@ class Spreadsheet
 
         walker = Participant.where(user_id: user.id).first 
         
-        #its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
-        worksheet[(walker.rank + 1)][(checkpoint.position_in_route + @@amount_walker_columns)] = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first
+        pos = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route
+
+        #TODO its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
+        worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first.times
         worksheet.save
+    end
+
+    def walker_drop_out(route, user)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+
+        pickup = Pickup.where(user_id: user.id).first
+        walker = Participant.where(user_id: user.id).first
+        if walker.status == "pick up"
+            worksheet[(walker.rank + 1), 3] = "Needs Picking Up"
+            worksheet[(walker.rank + 1), 4] = pickup.os_grid
+            worksheet.save
+        else
+            worksheet[(walker.rank + 1), 3] = "Droped out"
+            worksheet.save
+        end
     end
 
     #TODO
