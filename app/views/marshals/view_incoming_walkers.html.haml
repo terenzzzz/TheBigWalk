@@ -2,10 +2,6 @@
     .col
         .d-flex.justify-content-center
             %h1 Incoming Walkers
-        .d-flex.justify-content-center
-            =text_field :search, :walkers, :maxlength => "40", :placeholder => "Search Walkers"
-        .d-flex.justify-content-center
-            =button_tag "Export As Excel Sheet",  class: 'btn btn-primary primary-button'
         .d-flex.justify-content-left
             %p Carlos, Ward
             %p Falling Behind!
@@ -31,3 +27,29 @@
         .d-flex.justify-content-left
             %p Brook, Riverson
             %p On Pace.
+
+            
+.d-flex.justify-content-center
+    -if @falling_behind.count == 1
+        %p= "There is a walker falling behind" 
+    -else
+        %p= "There are #{@falling_behind.count} walkers falling behind" 
+.d-flex.justify-content-center
+    %table
+        %tbody
+            %tr
+                %td ID Number
+                %td Person
+                %td Pace
+            -if @falling_behind
+                -@falling_behind.each do |walker|
+                    %tr 
+                        %td= walker.first.participant_id
+                        %td=link_to "#{walker.last.name}", walker.last
+                        %td falling behind
+            -if @on_pace
+                -@on_pace.each do |walker|
+                    %tr
+                        %td= walker.first.participant_id
+                        %td=link_to "#{walker.last.name}", walker.last
+                        %td on pace
