@@ -85,7 +85,7 @@ if User.where(email:'walker@test.com')
     puts "Created Walker Account Successfully"
     puts "-------------------------------------"
 end
-Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '1', users_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1')
+Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '1', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1')
 if Participant.where(participant_id:'1001')
     puts "Created Walker Successfully"
     puts "-------------------------------------"
@@ -102,7 +102,7 @@ if User.where(email:'walker2@test.com')
     puts "Created Walker Account 2 Successfully"
     puts "-------------------------------------"
 end
-Participant.where(participant_id:'1002').first_or_create(participant_id:'1002', checkpoints_id: '2', users_id: '2', status: 'none', rank: '2', pace: 'Falling Behind!', routes_id: '1')
+Participant.where(participant_id:'1002').first_or_create(participant_id:'1002', checkpoints_id: '2', user_id: '2', status: 'none', rank: '2', pace: 'Falling Behind!', routes_id: '1')
 if Participant.where(participant_id:'1002')
     puts "Created Walker 2 Successfully"
     puts "-------------------------------------"

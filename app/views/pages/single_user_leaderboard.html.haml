@@ -1,7 +1,7 @@
 - @current_event = session[:current_event_id]
 - @current_user = User.where(id: @current_user_id).first
 
-- @walker = Participant.where(users_id: @current_user_id).first
+- @walker = Participant.where(user_id: @current_user_id).first
 - @current_user_id = session[:current_user_id]
 - @checkpoints = Checkpoint.where(events_id: @current_event)
 - @user_times = CheckpointTime.where(participant_id: @current_user_id)

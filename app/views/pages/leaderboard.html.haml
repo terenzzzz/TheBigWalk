@@ -12,7 +12,7 @@
       - @tag = Tag.where(id: user.tag_id).first
       - if @tag.name == "Walker" 
         %td= link_to "#{user.name}", single_user_leaderboard_pages_path
-        - @walker = Participant.where(users_id: user.id).first
+        - @walker = Participant.where(user_id: user.id).first
         - @checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
         %td=@checkpoint.name
         %td 1:01:23

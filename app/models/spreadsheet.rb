@@ -175,7 +175,7 @@ class Spreadsheet
     def add_walker(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
-        walker = Participant.where(users_id: user.id).first
+        walker = Participant.where(user_id: user.id).first
         worksheet[(walker.rank + 1)][1] = user.name
         worksheet[(walker.rank + 1)][2] = walker.participant_id
         worksheet.save
@@ -184,17 +184,17 @@ class Spreadsheet
     def update_walker_info(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
-        walker = Participant.where(users_id: user.id).first
+        walker = Participant.where(user_id: user.id).first
         worksheet.max_rows += 1
-        worksheet[(walker.rank + 1)][1] = user.name
-        worksheet[(walker.rank + 1)][2] = walker.participant_id
+        worksheet[(walker.rank + 1), 1] = user.name
+        worksheet[(walker.rank + 1), 2] = walker.participant_id
         worksheet.save
     end
 
     def update_walker_rank(route, old_rank, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
-        walker = Participant.where(users_id: user.id).first
+        walker = Participant.where(user_id: user.id).first
         values = worksheet.rows[old_rank + 1]#.each { |row| puts row.first(6).reverse.join(" | ") }
         worksheet.insert_rows(walker.rank + 1, [values])
 
@@ -211,10 +211,15 @@ class Spreadsheet
     def add_checkpoint_time(route, user, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
-        walker = Participant.where(users_id: user.id).first 
+        walker = Participant.where(user_id: user.id).first 
         
         #its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
-        worksheet[(walker.rank + 1)]([checkpoint.position_in_route + @@amount_walker_columns)] = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first
+        worksheet[(walker.rank + 1)][(checkpoint.position_in_route + @@amount_walker_columns)] = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first
         worksheet.save
     end
+
+    #TODO
+    def walker_missed_checkpoint
+    end
+    #need to put something in about if they drop out
 end

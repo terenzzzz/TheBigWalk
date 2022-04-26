@@ -32,7 +32,7 @@ FactoryBot.define do
         rank { 1 }
         status { "MyString" }
         checkpoints_id { 1 }
-        users_id { 1 }
+        user_id { 1 }
         routes_id { 1 }
     end
 end 
