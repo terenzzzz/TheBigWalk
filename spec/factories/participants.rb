@@ -13,6 +13,7 @@
 #  checkpoints_id       :bigint           not null
 #  participant_id       :integer
 #  routes_id            :bigint           not null
+#  user_id              :bigint           not null
 #
 # Indexes
 #

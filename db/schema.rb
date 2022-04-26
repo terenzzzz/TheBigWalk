@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_26_105547) do
+ActiveRecord::Schema.define(version: 2022_04_26_112121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 2022_04_26_105547) do
     t.bigint "checkpoints_id", null: false
     t.bigint "routes_id", null: false
     t.boolean "opted_in_leaderboard", default: false, null: false
+    t.bigint "user_id", null: false
     t.index ["checkpoints_id"], name: "index_participants_on_checkpoints_id"
     t.index ["routes_id"], name: "index_participants_on_routes_id"
   end

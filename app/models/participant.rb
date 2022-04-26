@@ -13,6 +13,7 @@
 #  checkpoints_id       :bigint           not null
 #  participant_id       :integer
 #  routes_id            :bigint           not null
+#  user_id              :bigint           not null
 #
 # Indexes
 #
@@ -25,4 +26,5 @@
 #  fk_rails_...  (routes_id => routes.id)
 #
 class Participant < ApplicationRecord
+    belongs_to :user
 end

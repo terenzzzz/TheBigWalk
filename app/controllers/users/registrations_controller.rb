@@ -11,9 +11,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super
-    participant = Participant.create(checkpoints_id:"1", routes_id:"1")
-    participant.save
+    super do |resource|
+      resource.update(tag: Tag.first_or_create(name: 'Walker'))
+      participant = Participant.create(checkpoints_id:"1", routes_id:"1", user_id: resource.id)
+      participant.save
+    end
   end
 
   # GET /resource/edit
