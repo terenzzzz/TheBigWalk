@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :brandings
   resources :events
   resources :checkpoints 
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users
  
   resources :pages do 
