@@ -191,10 +191,21 @@ class Spreadsheet
         worksheet.save
     end
 
-    def update_walker_rank(route, )
-        #needs to move the whole row
-        #get row data
-        #insert row then delete or other way around
+    def update_walker_rank(route, old_rank, user)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+
+        walker = Participant.where(users_id: user.id).first
+        values = worksheet.rows[old_rank + 1]#.each { |row| puts row.first(6).reverse.join(" | ") }
+        worksheet.insert_rows(walker.rank + 1, [values])
+
+        if walker.rank > old_rank
+            worksheet.insert_rows(walker.rank + 2, [values])
+            worksheet.delete_rows(old_rank + 1, 1)
+        else
+            worksheet.insert_rows(walker.rank + 1, [values])
+            worksheet.delete_rows(old_rank + 2, 1)
+        end
+        worksheet.save
     end
 
     def add_checkpoint_time(route, user, checkpoint)
