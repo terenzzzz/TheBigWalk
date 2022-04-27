@@ -3,7 +3,6 @@
 %br/
 
 
-
 - if @events.count == 0
   %h3 There is no event ready. Please contact Admin to Generate one.
 - else 
@@ -13,8 +12,9 @@
       .col-6
         .card.h-100
           .card-body
-            %h5.card-title.fw-bold= event.name
-            =link_to '', add_shift_marshals_path(event), class:'stretched-link'
+            .d-flex.justify-content-center
+              %h5.card-title.fw-bold= event.name
+            =link_to '', add_shift_marshal_path(event.id), class:'stretched-link'
   %br/
 %br/
 

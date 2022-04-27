@@ -18,8 +18,10 @@ class MarshalsController < ApplicationController
 
     def view_incoming_walkers
     end
-
+    
     def index
+       @marshal = Marshall.where(users_id: session[:marshal_id]).first
+       @marshal.checkpoint_id = params[:id]
     end
 
     def end_for_the_day

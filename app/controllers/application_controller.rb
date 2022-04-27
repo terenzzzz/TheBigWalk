@@ -19,16 +19,10 @@ class ApplicationController < ActionController::Base
     elsif current_user.tag.name == 'Marshal'
       session[:current_user_id] = current_user.id
       session[:marshal_id] = current_user.id
-      pick_event_pages_path
+      choose_event_marshals_path
     elsif current_user.tag.name == 'Admin'
       session[:current_user_id] = current_user.id
       admins_path
-    end
-    
-    if current_user.tag.name == 'Marshal'
-      add_shift_marshals_path
-    else
-      home_pages_path
     end
   end
 

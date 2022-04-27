@@ -1,19 +1,19 @@
-- content_for :title, 'Start Shift'
-
-.row.justify-content-center
-  .col-sm-8.col-lg-6
+.d-flex.justify-content-center
+  %h2 Start your Shift
+%br/
     
-    .card.card-light
-      = simple_form_for @marshalls do |f|
-        .card-body
-         - @checkpoint.each do |checkpoint|
-           .col-6
-             .card.h-100
-               .card-body
-                 %h5.card-title.fw-bold=checkpoint.name 
-                = f.checkpoint
-        .card-footer
-          %a.stretched-link(href="/pages/home")
-          %button.btn.btn-primary{ type: :submit }
-            Start Shift
-          .mt-3= render "devise/shared/links"
+- if @checkpoints.count == 0
+  %h3 There are no checkpoints ready. Please contact Admin to Generate one.
+- else 
+  %h3
+  .row
+    - @checkpoints.each do |checkpoint|
+      .col-6
+        .card.h-100
+          .card-body
+            %h5.card-title.fw-bold= checkpoint.name
+        =link_to "#{checkpoint.name}", marshals_path(:id => @checkpoint), class:'stretched-link'
+  %br/
+%br/
+
+ 
