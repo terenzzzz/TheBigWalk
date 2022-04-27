@@ -77,4 +77,8 @@ class WalkersController < ApplicationController
     def set_category
       @user = User.find(params[:id])
     end
+
+    def report_params
+      params.permit(:subject, :description)
+  end
 end

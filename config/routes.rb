@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   resources :calls
+  resources :reports
   resources :pickups
   resources :routes
   resources :routes_and_checkpoints_linkers
