@@ -17,17 +17,20 @@
 .row 
     %table.table
         %tr 
-            %td User ID:
-            %td= current_user.id
-        %tr 
             %td User Email:
             %td= current_user.email
         %tr 
             %td User Mobile:
             %td= current_user.mobile
         %tr 
-            %td Membership ID:
-            %td= current_user.membership_id
+            -if current_user.tag.name == "Walker"
+                -@walker = Participant.where(user_id: current_user.id).first
+                %td Walker ID:
+                %td= @walker.id
+            -elsif current_user.tag.name == "Marshal"
+                -@marshal = Marshall.where(users_id: current_user.id).first
+                %td Marshal ID:
+                %td= @marshal.id
         %tr 
             %td Identity:
             %td= current_user.tag.name
