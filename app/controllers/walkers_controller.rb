@@ -20,7 +20,8 @@ class WalkersController < ApplicationController
     end
 
     def requestCall
-      Call.create(user_id:current_user.id)
+      #Need to deal with the event_id
+      Call.create(user_id:current_user.id, event_id:'1')
       redirect_to help_walkers_path, notice: 'Call request successful'
     end
 
