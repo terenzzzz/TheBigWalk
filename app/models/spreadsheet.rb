@@ -174,6 +174,7 @@ class Spreadsheet
         worksheet.save
     end
 
+    #when they sign up an event not account
     def add_walker(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
@@ -241,4 +242,7 @@ class Spreadsheet
     def walker_missed_checkpoint
     end
     #need to put something in about if they drop out
+
+    def delete_walker
+    end
 end
