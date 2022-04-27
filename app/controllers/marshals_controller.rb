@@ -56,7 +56,7 @@ class MarshalsController < ApplicationController
         @num_walkers_falling = 0 
 
         linkers.each do |linker|
-            linkers_after = RoutesAndCheckpointsLinker.where('position_in_route > ?', linker.position_in_route).where(route_id: linker.route_id)
+            linkers_after = RoutesAndCheckpointsLinker.where('position_in_route >= ?', linker.position_in_route).where(route_id: linker.route_id)
             linkers_after.each do |linker_after|
                 @num_walkers_passed = @num_walkers_passed + Participant.where(routes_id: linker_after.route_id, checkpoints_id: linker_after.checkpoint_id).size
             end
