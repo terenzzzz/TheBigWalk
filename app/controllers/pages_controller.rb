@@ -6,6 +6,7 @@ class PagesController < ApplicationController
     @users = User.all
     @start_date = Route.find(params[:id]).start_date
     @start_time = Route.find(params[:id]).start_time.strftime("%H:%M:%S")
+    session[:current_route_id]=params[:id]
 
   end
 
@@ -28,6 +29,7 @@ class PagesController < ApplicationController
 
   def single_user_leaderboard
     @leaderboard_participant=params[:leaderboard_participant]
+    @current_route_id=session[:current_route_id]
   end
 
 end
