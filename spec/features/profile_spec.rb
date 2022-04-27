@@ -14,7 +14,7 @@ describe 'profile' do
             click_link 'Edit'
             fill_in 'Name', with: 'Test'
             click_button'Update User'
-            expect(page).to have_content 'profile was successfully updated.'
+            expect(page).to have_content 'Profile successfully updated.'
         end
 
         specify "I can edit avatar of my profile" do
@@ -22,7 +22,7 @@ describe 'profile' do
             click_link 'Edit'
             attach_file 'avatar', "#{Rails.root}/spec/fixtures/images/test.png"
             click_button'Update User'
-            expect(page).to have_content 'profile was successfully updated.'
+            expect(page).to have_content 'Profile successfully updated.'
         end
 
         specify "I can edit description of my profile" do
@@ -30,7 +30,7 @@ describe 'profile' do
             click_link 'Edit'
             fill_in 'Description', with: 'Hello'
             click_button'Update User'
-            expect(page).to have_content 'profile was successfully updated.'
+            expect(page).to have_content 'Profile successfully updated.'
         end
 
         specify "I can edit Mobile of my profile" do
@@ -38,7 +38,7 @@ describe 'profile' do
             click_link 'Edit'
             fill_in 'Mobile', with: '8888888888'
             click_button'Update User'
-            expect(page).to have_content 'profile was successfully updated.'
+            expect(page).to have_content 'Profile successfully updated.'
         end
     end
 

@@ -1,5 +1,15 @@
 class RoutesController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action do
+    user = User.where(id: session[:current_user_id]).first
+    tag = Tag.where(id: user.tag_id).first
+    if tag.name == "Admin"
+    elsif tag.name == "Marshal"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    elsif tag.name == "Walker"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    end
+  end
 
   # GET /events
   def index
@@ -26,14 +36,25 @@ class RoutesController < ApplicationController
   def create
     @route = Route.new(route_params)
     @route.events_id = session[:current_event_id]
-    @route.save
-    redirect_to routes_path
+    if @route.save
+      spreadsheet = Spreadsheet.new
+      spreadsheet.add_route("#{Event.where(id: @route.events_id).first.name} #{route_params[:name]}")
+      redirect_to routes_path
+    else  
+      render :new
+    end
   end
 
   # PATCH/PUT /events/1
   def update
-    @route.update(route_params)
-    redirect_to routes_path
+    old_route = @route.dup
+    if @route.update(route_params)
+      spreadsheet = Spreadsheet.new
+      spreadsheet.update_route("#{Event.where(id: old_route.events_id).first.name} #{old_route.name}", "#{Event.where(id: old_route.events_id).first.name} #{route_params[:name]}")
+      redirect_to routes_path
+    else  
+      render :edit
+    end
   end
 
   # DELETE /events/1
@@ -44,8 +65,10 @@ class RoutesController < ApplicationController
         linker.destroy
       end
     end
+    spreadsheet = Spreadsheet.new
+    spreadsheet.delete_route("#{Event.where(id: @route.events_id).first.name} #{@route.name}")
     @route.destroy
-    redirect_to admins_path
+    redirect_to routes_path
   end
 
   private
@@ -56,6 +79,6 @@ class RoutesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def route_params
-      params.require(:route).permit(:name, :start_date, :start_time, :course_length)
+      params.require(:route).permit(:name, :start_date, :start_time, :end_date_time, :course_length)
     end
 end

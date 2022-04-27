@@ -1,36 +1,35 @@
 .row 
     .col
-        .d-flex.justify-content-left 
-            =link_to @event do 
-                %span.bi.bi-arrow-return-left
         .d-flex.justify-content-center
             %h1 All Participants
         .d-flex.justify-content-center
             =text_field :search, :walkers, :maxlength => "40", :placeholder => "Search Walkers"
+        %br/
         .d-flex.justify-content-center
             =button_tag "Export As Excel Sheet",  class: 'btn btn-primary primary-button'
-        .d-flex.justify-content-left
-            %p Carlos, Ward
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Johnny, Kelly
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Martha, Long
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Rachel, Williamson
-            %p Falling Behind!
-        %br/
-        .d-flex.justify-content-left
-            %p Theresa, Peterson
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Howard, Carr
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Jacqueline, Barnes
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Brook, Riverson
-            %p On Pace.
+
+%br/
+.d-flex.justify-content-center
+    -if @falling_behind.count == 1
+        %p= "There is a walker falling behind" 
+    -else
+        %p= "There are #{@falling_behind.count} walkers falling behind" 
+.d-flex.justify-content-center
+    %table
+        %tbody
+            %tr
+                %td ID Number
+                %td Person
+                %td Pace
+            -if @falling_behind
+                -@falling_behind.each do |walker|
+                    %tr 
+                        %td= walker.first.participant_id
+                        %td=link_to "#{walker.last.name}", walker.last
+                        %td falling behind
+            -if @on_pace
+                -@on_pace.each do |walker|
+                    %tr
+                        %td= walker.first.participant_id
+                        %td=link_to "#{walker.last.name}", walker.last
+                        %td on pace

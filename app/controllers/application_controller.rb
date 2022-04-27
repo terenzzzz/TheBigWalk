@@ -18,7 +18,6 @@ class ApplicationController < ActionController::Base
       pick_event_pages_path
     elsif current_user.tag.name == 'Marshal'
       session[:current_user_id] = current_user.id
-      session[:marshal_id] = current_user.id
       pick_event_pages_path
     elsif current_user.tag.name == 'Admin'
       session[:current_user_id] = current_user.id
@@ -55,6 +54,6 @@ class ApplicationController < ActionController::Base
     end
 
     def configure_permitted_parameters
-      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :mobile, :avatar, :tag_id])
+      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :mobile, :avatar])
     end
 end

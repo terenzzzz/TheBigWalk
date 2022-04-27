@@ -16,25 +16,25 @@
   %body.bg-light
     = render 'layouts/svg_logo'
 
-    -# Need an id for home_page_path!
-    -# -if current_page?(home_page_path)
-    -#   / no header
-    -# -else
-    %header.py-3
-      .container-fluid
-        .row
-          .col-3
-            / empty
-          .col-6.mx-auto
-            = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), root_path)
-          .col-3
-            -if user_signed_in?
-              %a.nav-link.dropdown{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
-                .i.bi.bi-person-circle.display-6
-              %nav.dropdown-menu.dropdown-menu-lg-end
-                = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
-                = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
-              
+    -if current_page?('/pages/1/home')
+      / no header
+    -else
+      %header.py-3
+        .container-fluid
+          .row
+            .col-3.d-flex.justify-content-center.my-2
+              =link_to 'javascript:history.back()' do
+                .i.bi.bi-arrow-left.display-6
+            .col-6.mx-auto
+              = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), '/pages/1/home')
+            .col-3.d-flex.justify-content-center
+              -if user_signed_in?
+                %a.nav-link.dropdown{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
+                  .i.bi.bi-person-circle.display-6
+                %nav.dropdown-menu.dropdown-menu-lg-end
+                  = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
+                  = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
+    
     .flash-messages
       - flash.each do |name, msg|
         - next unless name == 'alert' || name == 'notice'

@@ -1,14 +1,21 @@
+%br
 .row 
-    .col 
-        .d-flex.justify-content-center
-            %h1 LET'S GO! 
-        .d-flex.justify-content-center
-            %h2 The walk has begun! 
-        %br
-        .d-flex.justify-content-center
-            %h2 Your next checkpoint:
-        .d-flex.justify-content-center
-            %h1 HOPE CROSS
+    .col
+        -if @linker
+            .d-flex.justify-content-center
+                %h1{class: "fw-bold"} LET'S GO! 
+            .d-flex.justify-content-center
+                %h2{class: "fw-bold"} The event has begun! 
+            %br
+            .d-flex.justify-content-center
+                %h4{class: "fw-bold"} Your next checkpoint:
+            .d-flex.justify-content-center
+                %h1{class: "fw-bold"}= @checkpoint.name
+        -else
+            .d-flex.justify-content-center
+                %h1 Congratulations
+            .d-flex.justify-content-center
+                %h2 You Finished The Event
         %br/
         %br/
 .d-grid.gap-2

@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  course_length :integer
+#  end_date_time :datetime
 #  name          :string
 #  start_date    :date
 #  start_time    :time
@@ -20,4 +21,5 @@
 #  fk_rails_...  (events_id => events.id)
 #
 class Route < ApplicationRecord
+    validates_uniqueness_of :name, scope: :events_id
 end
