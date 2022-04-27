@@ -1,36 +1,15 @@
-.row 
-    .col
-        .d-flex.justify-content-left 
-            =link_to marshals_path do 
-                %span.bi.bi-arrow-return-left
-        .d-flex.justify-content-center
-            %h1 Incoming Walkers
-        .d-flex.justify-content-center
-            =text_field :search, :walkers, :maxlength => "40", :placeholder => "Search Walkers"
-        .d-flex.justify-content-center
-            =button_tag "Export As Excel Sheet",  class: 'btn btn-primary primary-button'
-        .d-flex.justify-content-left
-            %p Carlos, Ward
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Johnny, Kelly
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Martha, Long
-            %p Falling Behind!
-        .d-flex.justify-content-left
-            %p Rachel, Williamson
-            %p Falling Behind!
-        %br/
-        .d-flex.justify-content-left
-            %p Theresa, Peterson
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Howard, Carr
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Jacqueline, Barnes
-            %p On Pace.
-        .d-flex.justify-content-left
-            %p Brook, Riverson
-            %p On Pace.
+=link_to marshals_path do 
+    %span.bi.bi-arrow-return-left
+
+%h1 Incoming Walkers
+
+%table
+    %tbody
+        %tr
+            %td Participant
+            %td Status
+            /Following if statement will be fixed, I'm aware it's not right
+        - @users.each do |user| 
+            %tr
+                %td= link_to "#{user.name}", single_user_leaderboard_pages_path
+                %td.need-help Needs Help! 
