@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-
+  resources :calls
   resources :pickups
   resources :routes
   resources :routes_and_checkpoints_linkers
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
     get 'view_walkers', on: :collection
     get 'view_pickups', on: :collection
     get 'walkers_profile', on: :collection
+    get 'view_calls', on: :collection
     post :make_walker_marshal, on: :collection
     post :make_user_admin, on: :collection
   end

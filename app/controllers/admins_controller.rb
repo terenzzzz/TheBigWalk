@@ -56,8 +56,11 @@ class AdminsController < ApplicationController
     end
 
     def view_pickups
-        @event = Event.where(id: session[:current_event_id]).first
-        @pickups = Pickup.all
+        @pickups = Pickup.where(event_id: session[:current_event_id])
+    end
+
+    def view_calls
+        @calls = Call.where(event_id: session[:current_event_id])
     end
 
     def make_walker_marshal

@@ -90,9 +90,14 @@ if Participant.where(participant_id:'1001')
     puts "Created Walker Successfully"
     puts "-------------------------------------"
 end
-Pickup.where(os_grid: 'SK123456').first_or_create(os_grid:'SK123456', user_id: '1')
-if Pickup.where(email:'SK123456')
+Pickup.where(os_grid: 'SK123456').first_or_create(os_grid:'SK123456', user_id: '1', event_id: '1')
+if Pickup.where(os_grid:'SK123456')
     puts "Created Walker pickup Successfully"
+    puts "-------------------------------------"
+end
+Call.where(user_id: '1').first_or_create(user_id: '1', event_id: '1')
+if Call.where(user_id: '1')
+    puts "Created Walker call Successfully"
     puts "-------------------------------------"
 end
 
