@@ -24,6 +24,12 @@ class WalkersController < ApplicationController
       redirect_to help_walkers_path, notice: 'Call request successful'
     end
 
+    def requestPickUp
+      #Need to deal with the event_id
+      Pickup.create(user_id:current_user.id, event_id:'1')
+      redirect_to help_walkers_path, notice: 'Pick up request successful'
+    end
+
 
     def check_in_fail
       user = User.where(id: session[:current_user_id]).first
