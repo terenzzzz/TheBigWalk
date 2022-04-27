@@ -1,3 +1,18 @@
+=link_to marshals_path do 
+    %span.bi.bi-arrow-return-left
+
+%h1 Incoming Walkers
+
+%table
+    %tbody
+        %tr
+            %td Participant
+            %td Status
+            /Following if statement will be fixed, I'm aware it's not right
+        - @users.each do |user| 
+            %tr
+                %td= link_to "#{user.name}", single_user_leaderboard_pages_path
+                %td.need-help Needs Help! 
 .row 
     .col
         .d-flex.justify-content-center
@@ -53,3 +68,4 @@
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
                         %td on pace
+
