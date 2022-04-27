@@ -16,6 +16,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       participant = Participant.create(checkpoints_id:"1", routes_id:"1", user_id: resource.id)
       participant.save
     end
+    @participant_opted_leaderboard = params[:opted_in]
   end
 
   # GET /resource/edit

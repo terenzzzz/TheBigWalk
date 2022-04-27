@@ -12,7 +12,6 @@
       - @tag = Tag.where(id: user.tag_id).first
       - if @tag.name == "Walker" 
         - @walker = Participant.where(user_id: user.id).first
-        - puts "!!!!!!!!! #{@walker}\n\n\n"
         - @checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
         %td= link_to "#{user.name}", single_user_leaderboard_pages_path(:leaderboard_participant => @walker)
         %td=@checkpoint.name
