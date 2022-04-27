@@ -3,22 +3,22 @@
         .d-flex.justify-content-center
             %h3 Marshal ID 
         .d-flex.justify-content-center
-            %h2 2901
+            %h2= @marshal.marshal_id
         %br
         .d-flex.justify-content-center
             %h3 Your Checkpoint: 
         .d-flex.justify-content-center
-            %h2 HOPE CROSS
+            %h2= @checkpoint.name
         %br
         .d-flex.justify-content-center
             %h3 Walkers Passed:
         .d-flex.justify-content-center
-            %h2 261/348
+            %h2= @num_walkers_passed
         %br
         .d-flex.justify-content-center 
             %h3 Walkers Falling Behind:
         .d-flex.justify-content-center
-            %h2 4
+            %h2= @num_walkers_falling
 
 .d-grid.gap-2
     =link_to "View Incoming Walkers", view_incoming_walkers_marshals_path, class: 'btn btn-primary primary-button'
