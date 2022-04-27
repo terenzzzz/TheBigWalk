@@ -1,5 +1,15 @@
 class BrandingsController < ApplicationController
   before_action :set_branding, only: [:show, :edit, :update, :destroy]
+  before_action do
+    user = User.where(id: session[:current_user_id]).first
+    tag = Tag.where(id: user.tag_id).first
+    if tag.name == "Admin"
+    elsif tag.name == "Marshal"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    elsif tag.name == "Walker"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    end
+  end
 
   # GET /brandings
   def index
@@ -53,6 +63,6 @@ class BrandingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def branding_params
-      params.require(:branding).permit(:btn_colour, :header, :logo)
+      params.require(:branding).permit(:id, :header, :logo)
     end
 end

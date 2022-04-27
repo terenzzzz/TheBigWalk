@@ -1,13 +1,13 @@
 .d-flex.justify-content-center
-  %h2 Pick An Event
+  %h2{class: "fw-bold"} Pick An Event
 %br/
 
 
 
 - if @events.count == 0
-  %h3 There is no event ready. Please contact Admin to Generate one.
+  %h3 There are no events ready. Please contact an admin to create one.
 - else 
-  %h3 Events signed up:
+  %h3{class: "fw-bold"} Your Events:
   .row
     - @events.each do |event|
       .col-6.mb-3
@@ -19,4 +19,4 @@
   %br/
 %br/
 
-%h3 Events not signed up:
+%h3{class: "fw-bold"} Other Available Events:

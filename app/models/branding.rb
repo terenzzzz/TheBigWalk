@@ -3,7 +3,6 @@
 # Table name: brandings
 #
 #  id         :bigint           not null, primary key
-#  btn_colour :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  events_id  :bigint           not null

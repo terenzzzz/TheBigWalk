@@ -1,5 +1,15 @@
 class CheckpointsController < ApplicationController
   before_action :set_checkpoint, :authenticate_user!, only: [:show, :edit, :update, :destroy]
+  before_action do
+    user = User.where(id: session[:current_user_id]).first
+    tag = Tag.where(id: user.tag_id).first
+    if tag.name == "Admin"
+    elsif tag.name == "Marshal"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    elsif tag.name == "Walker"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    end
+  end
 
   # GET /checkpoints
   def index
@@ -17,12 +27,12 @@ class CheckpointsController < ApplicationController
   def new
     @checkpoint = Checkpoint.new
     @linker = RoutesAndCheckpointsLinker.new
-    @routes = Route.where(events_id: session[:current_event_id])
+    #@routes = Route.where(events_id: session[:current_event_id])
   end
 
   # GET /checkpoints/1/edit
   def edit
-    @routes = Route.where(events_id: session[:current_event_id])
+    #@routes = Route.where(events_id: session[:current_event_id])
   end
 
   # POST /checkpoints
@@ -30,67 +40,94 @@ class CheckpointsController < ApplicationController
     #creates the new checkpoint
     @checkpoint = Checkpoint.new(checkpoint_params)
     @checkpoint.events_id = session[:current_event_id]
-    @checkpoint.save 
+    if @checkpoint.save 
 
-    #gets the selected routes
-    @route_ids = params[:selected_routes]
-    session[:linker_route_ids] = @route_ids
-    session[:linker_route_ids_index] = 0
-    session[:linker_check_id] = @checkpoint.id
-
-    #adds each to route with the checkpoint to the linker table
-    if @route_ids
-      @route_ids.each do |id|
-        @linker = RoutesAndCheckpointsLinker.new
-        @linker.checkpoint_id = @checkpoint.id
-        @linker.route_id = id
-        @linker.save
-      end
-      #finds the next linker and redirects to it
-      @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
-      @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
-      @route.each do |route|
-        redirect_to edit_routes_and_checkpoints_linker_path(route)
+      #gets the selected routes
+      @route_ids = params[:selected_routes]
+      session[:linker_route_ids] = @route_ids
+      session[:linker_route_ids_index] = 0
+      session[:linker_check_id] = @checkpoint.id
+      new_linkers = Array.new
+    
+      #adds each to route with the checkpoint to the linker table
+      if @route_ids
+        @route_ids.each do |id|
+          
+          @linker = RoutesAndCheckpointsLinker.new
+          @linker.checkpoint_id = @checkpoint.id
+          @linker.distance_from_start = 0
+          @linker.route_id = id
+          @linker.position_in_route = 0
+          @linker.save
+          new_linkers.push(@linker.id)
+        end
+        session[:new_linkers] = new_linkers
+        #finds the next linker and redirects to it
+        @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
+        @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
+        @route.each do |route|
+          redirect_to edit_routes_and_checkpoints_linker_path(route)
+        end
+      else
+        redirect_to checkpoints_path
       end
     else
-      redirect_to checkpoints_path
+      render :new
     end
   end
 
   # PATCH/PUT /checkpoints/1
   def update
-    @checkpoint.update(checkpoint_params)
+    spreadsheet = Spreadsheet.new
+    old_checkpoint_name = @checkpoint.name.dup
+    if @checkpoint.update(checkpoint_params)
 
-    #get the selected routes
-    @route_ids = params[:selected_routes]
-    session[:linker_route_ids] = @route_ids
-    session[:linker_route_ids_index] = 0
-    session[:linker_check_id] = @checkpoint.id
-
-    #check if the routes already are already in the linker with the checkpoint
-    @routes = Route.where(events_id: @checkpoint.events_id)
-    @routes.each do |route|
-      if RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (!@route_ids || !(session[:linker_route_ids].include? (route.id).to_s))
-        #delete from linker table
-        @linker = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: route.id)
-        @linker.each do |linker|
-          linker.destroy
+      #get the selected routes
+      @route_ids = params[:selected_routes]
+      if @route_ids
+        @route_ids.each do |id|
+          if old_checkpoint_name != @checkpoint.name
+            spreadsheet.update_checkpoint_name((Route.where(id: id).first), @checkpoint)
+          end
         end
-      elsif !RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (@route_ids && (session[:linker_route_ids].include? (route.id).to_s)) 
-        #add to linker table
-        @linker = RoutesAndCheckpointsLinker.new
-        @linker.checkpoint_id = @checkpoint.id
-        @linker.route_id = route.id
-        @linker.save
       end
-    end 
-    #finds the next linker and redirects to it or goes to index
-    if @route_ids
-      @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
-      @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id).first
-      redirect_to edit_routes_and_checkpoints_linker_path(@route)
+      session[:linker_route_ids] = @route_ids
+      session[:linker_route_ids_index] = 0
+      session[:linker_check_id] = @checkpoint.id
+      new_linkers = Array.new
+
+      #check if the routes are already in the linker with the checkpoint
+      @routes = Route.where(events_id: @checkpoint.events_id)
+      @routes.each do |route|
+        if RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (!@route_ids || !(session[:linker_route_ids].include? (route.id).to_s))
+          #delete from linker table
+          @linker = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: route.id)
+          @linker.each do |linker|
+            spreadsheet.delete_checkpoint(route, old_checkpoint_name, linker.position_in_route)
+            linker.destroy
+          end
+        elsif !RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (@route_ids && (session[:linker_route_ids].include? (route.id).to_s)) 
+          #add to linker table
+          @linker = RoutesAndCheckpointsLinker.new
+          @linker.checkpoint_id = @checkpoint.id
+          @linker.route_id = route.id
+          @linker.distance_from_start = 0
+          @linker.position_in_route = 0
+          @linker.save
+          new_linkers.push(@linker.id)
+        end
+      end
+      session[:new_linkers] = new_linkers
+      #finds the next linker and redirects to it or goes to index
+      if @route_ids
+        @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
+        @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id).first
+        redirect_to edit_routes_and_checkpoints_linker_path(@route)
+      else
+        redirect_to checkpoints_path
+      end
     else
-      redirect_to checkpoints_path
+      render :edit
     end
   end
 
@@ -99,6 +136,8 @@ class CheckpointsController < ApplicationController
     @events_routes_and_checkpoints_linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
     if @events_routes_and_checkpoints_linkers != 0
       @events_routes_and_checkpoints_linkers.each do |linker|
+        spreadsheet = Spreadsheet.new
+        spreadsheet.delete_checkpoint((Route.where(id: linker.route_id).first), @checkpoint, linker.position_in_route)
         linker.destroy
       end
     end

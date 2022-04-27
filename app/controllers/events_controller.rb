@@ -1,5 +1,15 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action do
+    user = User.where(id: session[:current_user_id]).first
+    tag = Tag.where(id: user.tag_id).first
+    if tag.name == "Admin"
+    elsif tag.name == "Marshal"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    elsif tag.name == "Walker"
+      redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
+    end
+  end
 
   # GET /events
   def index
@@ -21,24 +31,29 @@ class EventsController < ApplicationController
   # GET /events/1/edit
   def edit
     session[:new_event] = 0
-    @branding = Branding.where(events_id: session[:current_event_id]).first
   end
 
   # POST /events
   def create
     @event = Event.new(event_params)
-    @event.save
-    session[:current_event_id] = @event.id
-    session[:new_event] = 1
-    @branding = Branding.new
-    @branding.events_id = session[:current_event_id]
-    @branding.save
-    redirect_to routes_path
+    if @event.save
+      session[:current_event_id] = @event.id
+      session[:new_event] = 1
+      @branding = Branding.new
+      @branding.events_id = session[:current_event_id]
+      @branding.save
+      redirect_to routes_path
+    else 
+      render :new
+    end
   end
 
   # PATCH/PUT /events/1
   def update
+    old_name = @event.name.dup
     if @event.update(event_params)
+      spreadsheet = Spreadsheet.new
+      spreadsheet.update_event(old_name, @event)
       redirect_to @event, notice: 'Event was successfully updated.'
     else
       render :edit
@@ -57,6 +72,8 @@ class EventsController < ApplicationController
             linker.destroy
           end
         end
+        spreadsheet = Spreadsheet.new
+        spreadsheet.delete_event(@event)
         route.destroy
       end
     end

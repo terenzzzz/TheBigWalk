@@ -60,21 +60,21 @@ end
 #Create Checkpoint 2
 Checkpoint.where(name:'Win Hill').first_or_create(name:'Win Hill', os_grid: 'SK160876', events_id:'1')
 if Checkpoint.where(name:'Win Hill')
-    puts "Created Checkpoint Successfully"
+    puts "Created Checkpoint 2 Successfully"
     puts "-------------------------------------"
 end
 
 #Create Linker
-RoutesAndCheckpointsLinker.where(distance_from_start:'24.9').first_or_create(distance_from_start:'24.9', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '1')
-if RoutesAndCheckpointsLinker.where(distance_from_start:'24.9')
+RoutesAndCheckpointsLinker.where(distance_from_start:'10').first_or_create(distance_from_start:'10', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '1', position_in_route: '1')
+if RoutesAndCheckpointsLinker.where(distance_from_start:'10')
     puts "Created Linker Successfully"
     puts "-------------------------------------"
 end
 
 #Create Linker 2
-RoutesAndCheckpointsLinker.where(distance_from_start:'24.9').first_or_create(distance_from_start:'24.9', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '2')
-if RoutesAndCheckpointsLinker.where(distance_from_start:'24.9')
-    puts "Created Linker Successfully"
+RoutesAndCheckpointsLinker.where(distance_from_start:'20').first_or_create(distance_from_start:'20', checkpoint_description: 'Follow the summit top on and down the other side', advised_time: '10', route_id: '1', checkpoint_id: '2', position_in_route: '2')
+if RoutesAndCheckpointsLinker.where(distance_from_start:'20')
+    puts "Created Linker 2 Successfully"
     puts "-------------------------------------"
 end
 
@@ -85,7 +85,7 @@ if User.where(email:'walker@test.com')
     puts "Created Walker Account Successfully"
     puts "-------------------------------------"
 end
-Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '1', users_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1')
+Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '1', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1')
 if Participant.where(participant_id:'1001')
     puts "Created Walker Successfully"
     puts "-------------------------------------"
@@ -102,7 +102,7 @@ if User.where(email:'walker2@test.com')
     puts "Created Walker Account 2 Successfully"
     puts "-------------------------------------"
 end
-Participant.where(participant_id:'1002').first_or_create(participant_id:'1002', checkpoints_id: '2', users_id: '2', status: 'none', rank: '2', pace: 'Falling Behind!', routes_id: '1')
+Participant.where(participant_id:'1002').first_or_create(participant_id:'1002', checkpoints_id: '2', user_id: '2', status: 'none', rank: '2', pace: 'Falling Behind!', routes_id: '1')
 if Participant.where(participant_id:'1002')
     puts "Created Walker 2 Successfully"
     puts "-------------------------------------"
@@ -126,7 +126,7 @@ if User.where(email:'marshal2@test.com')
     puts "Created Marshall Account 2 Successfully"
     puts "-------------------------------------"
 end
-Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkpoints_id: '1', users_id: '4')
+Marshall.where(marshal_id:'2002').first_or_create(marshal_id:'2002', checkpoints_id: '2', users_id: '4')
 if Marshall.where(marshal_id:'2002')
     puts "Created Marshall 2 Successfully"
     puts "-------------------------------------"

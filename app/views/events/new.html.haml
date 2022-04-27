@@ -1,8 +1,5 @@
 %h1 Create Event
-.d-flex.justify-content-left 
-  =link_to admins_path do 
-    %span.bi.bi-arrow-return-left
-  %br/
+%br/
 = simple_form_for(@event) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?

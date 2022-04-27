@@ -1,12 +1,21 @@
 class UsersController < ApplicationController
     before_action :set_user, only: [:show, :edit, :update, :destroy]
     
+    def show
+        @user = User.find(params[:id])
+    end
+
     def edit
     end
     
     def update
         if @user.update(user_params)
-            redirect_to profile_index_path, notice: 'profile was successfully updated.'
+            if Tag.where(id: @user.tag_id).first.name == "Walker"
+                spreadsheet = Spreadsheet.new
+                walker = Participant.where(user_id: @user.id).first
+                spreadsheet.update_walker_info((Route.where(id: walker.routes_id).first), @user)
+            end
+            redirect_to profile_index_path, notice: 'Profile successfully updated.'
         else
             render :edit
         end

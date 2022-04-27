@@ -1,14 +1,14 @@
 %h1 Branding
 - if session[:new_event] == 0
-  = link_to edit_event_path(@event)do 
-    %span.bi.bi-arrow-return-left
+  //= link_to edit_event_path(@event)do 
+  // %span.bi.bi-arrow-return-left
 
 = simple_form_for(@branding) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :btn_colour, input_html: { type: "color" }, label: "Button Colour"
+    = f.hidden_field :id, value: @branding.id
     = f.input :header, label: "Event Header"
     = f.input :logo, label: "Event Logo"
 
