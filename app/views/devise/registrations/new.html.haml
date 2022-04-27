@@ -14,6 +14,7 @@
           = f.input :mobile
           = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { autocomplete: "new-password" }                                          |
           = f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }
+          / \/ 1 is passed through if the checkbox is checked.
           = check_box_tag "opted_in", 1
           = "Opt in to Leaderboard"
         .card-footer
