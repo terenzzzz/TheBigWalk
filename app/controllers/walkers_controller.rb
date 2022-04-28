@@ -18,8 +18,6 @@ class WalkersController < ApplicationController
       @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
       @osReference = @osUKgridPoint.grid_ref(6)
       
-      
-        
     end
 
     def saveLocation
@@ -59,6 +57,13 @@ class WalkersController < ApplicationController
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
       @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+
+      @lat = session[:lat].to_f
+      @lon = session[:lon].to_f
+      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      @osReference = @osUKgridPoint.grid_ref(6)
+      
     end
 
     def help

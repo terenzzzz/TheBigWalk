@@ -19,16 +19,17 @@
         %br/
         %br/
 .d-grid.gap-2
+    .d-flex.justify-content-center
+        .p#out
     = render"getLatLong"
     -# =link_to "Check In", check_in_walkers_path, class: 'btn btn-primary primary-button'
-    =link_to "Check In Failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
+    -# =link_to "Check In Failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Check Point Information", checkpoint_info_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Leaderboard", leaderboard_pages_path, class: 'btn btn-primary primary-button'
     =link_to "Request Help", help_walkers_path, class: 'btn btn-primary primary-button'
 
 
-.d-flex.justify-content-center
-    .p#out
+
 :javascript
     geoFindMe()
     function geoFindMe() {
@@ -45,7 +46,7 @@
         lat.value = latitude;
         lon.value = longitude;
 
-        //output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+        output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
         // window.initMap = initMap();
 
     };
@@ -53,6 +54,6 @@
     function error() {
         output.innerHTML = "Can't get your Position";
     };
-    //output.innerHTML = "<p>Locating…</p>";
+    output.innerHTML = "<p>Tracking Your Current Location…</p>";
     navigator.geolocation.getCurrentPosition(success, error);
     }
