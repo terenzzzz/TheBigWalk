@@ -32,7 +32,7 @@
                 %td Marshal ID:
                 %td= @marshal_id
 
-        -if current_user.tag.name == "Walker"
+        - if current_user.tag.name == "Walker"
             %tr 
                 %td Participant ID:
                 %td= @participant_id
