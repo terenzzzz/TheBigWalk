@@ -12,12 +12,33 @@ class WalkersController < ApplicationController
     end
 
     def check_in
-      @lat = 53.381759
-      @lon = -1.482212
+      @lat = session[:lat].to_f
+      @lon = session[:lon].to_f
       @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
       @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
       @osReference = @osUKgridPoint.grid_ref(6)
+      
+      
+        
     end
+
+    def saveLocation
+      @lat = params[:lat].to_f
+      @lon = params[:lon].to_f
+      session[:lat] = @lat
+      session[:lon] = @lon
+      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      @osReference = @osUKgridPoint.grid_ref(6)
+      # need change the os reference
+      if @osReference == 'SJ353876'
+        redirect_to check_in_walkers_path
+      else
+        redirect_to check_in_fail_walkers_path
+      end
+
+    end
+
 
     def requestCall
       #Need to deal with the event_id
@@ -63,6 +84,7 @@ class WalkersController < ApplicationController
     end
 
     def index
+    
       user = User.where(id: session[:current_user_id]).first
       walker = Participant.where(user_id: user.id).first
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route

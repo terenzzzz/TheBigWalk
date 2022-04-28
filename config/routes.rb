@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     get 'help', on: :collection
     get 'drop_out', on: :collection
     get 'search', on: :collection
-
+    post 'saveLocation'
   end
 
   resources :admins do
@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   match "/500", to: "errors#error_500", via: :all
 
   get :ie_warning, to: 'errors#ie_warning'
+
 
   root :to => redirect("/users/sign_in")
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
