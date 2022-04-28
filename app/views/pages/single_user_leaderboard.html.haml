@@ -5,6 +5,13 @@
 
 %table
   %tbody
+  / (checkpointsInController) Get a list of the checkpoints for the route and put them in an array in the controller
+  /i = 1
+  /for checkpointsInController.each do |checkpoint|
+  /   @next_checkpoint = checkpointsInController.where(position_in_route = i).first
+  /   %td=Checkpoint.where(id: @next_checkpoint.id).first.name
+  /   %td= /Checkpoint Time
+  /i += 1
     - @current_user_id = Participant.where(id: @current_participant_id).first.user_id
     %tr="#{User.where(id: @current_user_id).first.name}'s Times"
     
