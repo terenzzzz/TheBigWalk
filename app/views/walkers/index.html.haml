@@ -18,6 +18,8 @@
                 %h2 You Finished The Event
         %br/
         %br/
+
+
 .d-grid.gap-2
     .d-flex.justify-content-center
         .p#out
@@ -27,7 +29,6 @@
     =link_to "Check Point Information", checkpoint_info_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Leaderboard", leaderboard_pages_path, class: 'btn btn-primary primary-button'
     =link_to "Request Help", help_walkers_path, class: 'btn btn-primary primary-button'
-
 
 
 :javascript
@@ -52,8 +53,8 @@
     };
 
     function error() {
-        output.innerHTML = "Can't get your Position";
+        output.innerHTML = "Unable to find position.";
     };
-    output.innerHTML = "<p>Tracking Your Current Location…</p>";
+    output.innerHTML = "<p>Finding Your Current Location…</p>";
     navigator.geolocation.getCurrentPosition(success, error);
     }
