@@ -50,6 +50,15 @@ class WalkersController < ApplicationController
     def sign_up_participant
       participant = Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
       participant.save
+
+      @opted_in_leaderboard = params[:opted_in]
+      if params[:opted_in] == "1"
+        participant.update(opted_in_leaderboard: true)
+      else
+        participant.update(opted_in_leaderboard: false)
+      end
+      /puts "And again: #{participant.opted_in_leaderboard} \n\n"
+
       if participant.save
         redirect_to walkers_path
       else

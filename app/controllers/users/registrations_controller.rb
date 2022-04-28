@@ -13,16 +13,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |resource|
       resource.update(tag: Tag.first_or_create(name: 'Walker'))
-      # participant = Participant.create(checkpoints_id:"1", routes_id:"1", user_id: resource.id)
+      #participant = Participant.create(checkpoints_id:"1", routes_id:"1", user_id: resource.id)
       # participant.save
-      
-      # @opted_in_leaderboard = params[:opted_in]
-      # if params[:opted_in] == "1"
-      #   participant.update(opted_in_leaderboard: true)
-      # else
-      #   participant.update(opted_in_leaderboard: false)
-      # end
-      # puts "And again: #{participant.opted_in_leaderboard} \n\n"
     end
   end
 end
