@@ -38,7 +38,7 @@ class WalkersController < ApplicationController
     end
 
     def sign_up_participant
-      participant = Participant.create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
+      participant = Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
       participant.save
       if participant.save
         redirect_to walkers_path
@@ -100,7 +100,6 @@ class WalkersController < ApplicationController
     end
 
     def index
-    
       user = User.where(id: session[:current_user_id]).first
       walker = Participant.where(user_id: user.id).first
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
