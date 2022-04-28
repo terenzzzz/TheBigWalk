@@ -27,9 +27,15 @@
         %tr 
             %td User Mobile:
             %td= current_user.mobile
-        %tr 
-            %td Participant ID:
-            %td= @participant_id
+        - if current_user.tag.name == "Marshal"
+            %tr 
+                %td Marshal ID:
+                %td= @marshal_id
+
+        -if current_user.tag.name == "Walker"
+            %tr 
+                %td Participant ID:
+                %td= @participant_id
         %tr 
             %td Identity:
             %td= current_user.tag.name
