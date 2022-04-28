@@ -14,6 +14,10 @@ class PagesController < ApplicationController
       redirect_to  admins_path
     end
 
+    if Participant.where(routes_id:params[:id], user_id:current_user.id)
+      redirect_to walkers_path
+    end
+
   end
 
   def pick_event
