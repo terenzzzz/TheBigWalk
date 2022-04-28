@@ -25,6 +25,17 @@ class PagesController < ApplicationController
     #retrieves all users for use in the leaderboard
     @users = User.all
     @current_event_id = session[:current_event_id]
+
+
+    #NOTE - Need to move a load of the variables from haml to the controller for single user leaderboard and leaderboard
+
+    #A list of Participants (NOT users)
+    @walkers_for_route = Array.new
+    #@walker_list = Array.new
+    @walkers_for_route.concat Participant.where(routes_id: Route.where(id: session[:current_route_id]).first)
+    #  @total_walkers.each do |walker|
+    #  @walker_list.push(@falling_walker_and_user)
+    #end
   end
 
   def single_user_leaderboard

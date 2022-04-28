@@ -34,8 +34,8 @@
         /Needs to be displayed in order, so need to 
         /1) retrieve route_id then do 
       - puts "\n\nAll Checkpoints: #{RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])}\n\n"
+      -i = 1
       -RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id]).each do |x|
-        -i = 1
         -@current_checkpoint = routes_and_checkpoints_linkers.where(id: current_route_id, position_in_route: i)
         -@current_checkpoint_id = checkpoint_id
         -@current_checkpoint_name = Checkpoint.where(id: @current_checkpoint_id).name
@@ -47,6 +47,23 @@
           %td -
         -i += 1
 
+/ ---------------------- Random useful notes - Ben
+
+      /Create an array of the checkpoints for the current event route
+      
+      /SOMETHING LIKE THIS IS HOW YOU CAN PRINT ALL OF THE CHECKPOINTS IN ORDER
+      /i = 1  PARAGRAPH IS WRONG, closer to single user lboard but finding the last one
+      /For each checkpoint in order 
+      /@current_checkpoint_linker = @all_route_checkpoints.where(position_in_route: i)
+      /%td=Checkpoint.where(id: @current_checkpoint_linker.checkpoint_id).name
+      /i += 1
+      
+      /Find the length of the usertimes entries where the id is for the participant you're printing
+
+      /Get the checkpoint ids that the user has gone through (from usertimes where id is for the participant)
+      /for each of these entries do |x|
+          
+/ ----------------------
 
         /2) retrieve position_in_route from routes_and_checkpoints_linkers 
         
