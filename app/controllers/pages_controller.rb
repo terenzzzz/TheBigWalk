@@ -10,14 +10,16 @@ class PagesController < ApplicationController
     if current_user.tag.name =='Marshal'
       redirect_to marshals_path
     end
+
     if current_user.tag.name =='Admin'
-      redirect_to  admins_path
+      redirect_to admins_path
     end
 
-    if Participant.where(routes_id:params[:id], user_id:current_user.id)
-      redirect_to walkers_path
-    end
-
+    # @paticipant = Participant.where(user_id:current_user.id, routes_id:session[:current_route_id])
+    # if @paticipant?
+    #   redirect_to walkers_path
+    # end
+    
   end
 
   def pick_event
