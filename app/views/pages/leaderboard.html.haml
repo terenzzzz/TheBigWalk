@@ -15,7 +15,6 @@
     - if @tag.name == "Walker" 
       - @walker = Participant.where(user_id: @loop_user.id).first
       /- @checkpoint = Checkpoint.where(id: .checkpoints_id).first
-
       /-@current_route_id = Route.where(events_id: session[:current_route_id]).first.id
       - @all_route_checkpoints = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])
       - @most_recent_update = CheckpointTime.where(participant_id: @walker.id).first

@@ -48,16 +48,18 @@ class WalkersController < ApplicationController
     end
 
     def sign_up_participant
+      puts("qwerty")
       participant = Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
       participant.save
 
       @opted_in_leaderboard = params[:opted_in]
-      if params[:opted_in] == "1"
+      if session[:opted_in] == "1"
         participant.update(opted_in_leaderboard: true)
       else
         participant.update(opted_in_leaderboard: false)
       end
-      puts "And again: #{participant.opted_in_leaderboard} \n\n"
+      puts "And again 1: #{participant.opted_in_leaderboard} \n\n"
+      puts "Participant in table: #{Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])}"
 
       if participant.save
         redirect_to walkers_path
@@ -120,7 +122,9 @@ class WalkersController < ApplicationController
 
     def index
       user = User.where(id: session[:current_user_id]).first
+      puts "User: #{user}"
       walker = Participant.where(user_id: user.id).first
+      puts "Route ID: #{walker}"
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
       @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
