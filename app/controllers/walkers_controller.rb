@@ -21,15 +21,25 @@ class WalkersController < ApplicationController
     end
 
     def saveLocation
+      #get latitude and longitue
       @lat = params[:lat].to_f
       @lon = params[:lon].to_f
       session[:lat] = @lat
       session[:lon] = @lon
+      #conver them to OS Reference
       @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
       @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
       @osReference = @osUKgridPoint.grid_ref(6)
+
+      #find next checkpoint
+      user = User.where(id: session[:current_user_id]).first
+      walker = Participant.where(user_id: user.id).first
+      checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
+      @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
+      @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+
       # need change the os reference
-      if @osReference == 'SJ353876'
+      if @osReference == @checkpoint.os_grid
         redirect_to check_in_walkers_path
       else
         redirect_to check_in_fail_walkers_path
@@ -38,8 +48,17 @@ class WalkersController < ApplicationController
     end
 
     def sign_up_participant
-      participant = Participant.create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
+      participant = Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
       participant.save
+
+      @opted_in_leaderboard = params[:opted_in]
+      if params[:opted_in] == "1"
+        participant.update(opted_in_leaderboard: true)
+      else
+        participant.update(opted_in_leaderboard: false)
+      end
+      /puts "And again: #{participant.opted_in_leaderboard} \n\n"
+
       if participant.save
         redirect_to walkers_path
       else
@@ -100,7 +119,6 @@ class WalkersController < ApplicationController
     end
 
     def index
-    
       user = User.where(id: session[:current_user_id]).first
       walker = Participant.where(user_id: user.id).first
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
