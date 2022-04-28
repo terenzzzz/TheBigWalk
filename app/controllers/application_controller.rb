@@ -18,7 +18,12 @@ class ApplicationController < ActionController::Base
       pick_event_pages_path
     elsif current_user.tag.name == 'Marshal'
       session[:current_user_id] = current_user.id
-      choose_event_marshals_path
+     #@marshal = Marshall.where(users_id: session[:current_user_id]).first
+     # if @marshal.checkpoints_id?
+      #  marshals_path
+      #else
+        choose_event_marshals_path
+      #end
     elsif current_user.tag.name == 'Admin'
       session[:current_user_id] = current_user.id
       admins_path
