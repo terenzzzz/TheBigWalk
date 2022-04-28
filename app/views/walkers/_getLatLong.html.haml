@@ -1,0 +1,5 @@
+= form_with(url:"/walkers/#{current_user.id}/saveLocation", method:"post") do |form|
+  = form.hidden_field :lat, value: "", id:"lat", label: "Latitude:", placeholder: 'Tracking Latitude...'
+  = form.hidden_field :lon, value: "",  id:"lon", label: "Longitude:", placeholder: 'Tracking Longitude...'
+  %br/
+  = form.submit "Check In", class:"btn btn-primary primary-button"

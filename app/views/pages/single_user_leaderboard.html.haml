@@ -1,32 +1,83 @@
-- @current_event = session[:current_event_id]
-- @current_user = User.where(id: @current_user_id).first
-
-- @walker = Participant.where(user_id: @current_user_id).first
-- @current_user_id = session[:current_user_id]
-- @checkpoints = Checkpoint.where(events_id: @current_event)
-- @user_times = CheckpointTime.where(participant_id: @current_user_id)
-
 - @participant_to_display = @leaderboard_participant
+- @current_participant_id = Participant.where(id: session[:current_user_id]).first.id
 
 %h1 User Leaderboard
 
 %table
   %tbody
-    - @participant_user_object = Participant.where(id: @participant_to_display).first.user_id
-    %tr="#{User.where(id: @participant_user_object).first.name}'s Times"
+  / (checkpointsInController) Get a list of the checkpoints for the route and put them in an array in the controller
+  /i = 1
+  /for checkpointsInController.each do |checkpoint|
+  /   @next_checkpoint = checkpointsInController.where(position_in_route = i).first
+  /   %td=Checkpoint.where(id: @next_checkpoint.id).first.name
+  /   %td= /Checkpoint Time
+  /i += 1
+    - @current_user_id = Participant.where(id: @current_participant_id).first.user_id
+    %tr="#{User.where(id: @current_user_id).first.name}'s Times"
     
     %tr
       %td Checkpoint
       %td Time To Checkpoint
 
-/ ---------------------------------------------------------------- I need to get working next \/    -    Ben
+    - @current_event = session[:current_event_id]
+    - @current_user = User.where(id: @current_user_id).first
+
+    - @walker = Participant.where(user_id: @current_user_id).first
+    - @current_user_id = session[:current_user_id]
+    - @checkpoints = Checkpoint.where(events_id: @current_event)
+    / \/ Not working
+    - @user_times = CheckpointTime.where(participant_id: @current_participant_id).times 
+
+    - puts "\n\nAll times for this user: #{CheckpointTime.where(participant_id: @current_user_id)}\n\n"
+
+    /Currently user_times is an active record relation ratehr than an array 
     - @user_times.each do |t|      
-      - @current_checkpoint_id = t.checkpoint_id      
-      - @current_checkpoint_name = @checkpoints.name.where(id: @current_checkpoint_id)
-      - @current_checkpoint_time = @checkpoints.time
-      %tr
+      -# - @current_checkpoint_id = t.checkpoint_id      
+      -# - @current_checkpoint_name = @checkpoints.name.where(id: @current_checkpoint_id)
+      -# - @current_checkpoint_time = Checkpoints.where(id: @user_times.id)
+      -# %tr
+      -#   %td=@current_checkpoint_name
+      -#   %td=@current_checkpoint_time
+        /Needs to be displayed in order, so need to 
+        /1) retrieve route_id then do 
+      - puts "\n\nAll Checkpoints: #{RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])}\n\n"
+      -i = 1
+      -RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id]).each do |x|
+        -@current_checkpoint = routes_and_checkpoints_linkers.where(id: current_route_id, position_in_route: i)
+        -@current_checkpoint_id = checkpoint_id
+        -@current_checkpoint_name = Checkpoint.where(id: @current_checkpoint_id).name
         %td=@current_checkpoint_name
-        %td=CheckpointTime.times.where(checkpoint_id: @current_checkpoint_id)
+        -if CheckpointTime.where(checkpoint_id: @current_checkpoint_id).exists?
+          -@current_checkpoint_time = CheckpointTime.where(checkpoint_id: @current_checkpoint_id , participant_id: @current_participant_id).times
+          %td=@current_checkpoint_time
+        -else
+          %td -
+        -i += 1
+
+/ ---------------------- Random useful notes - Ben
+
+      /Create an array of the checkpoints for the current event route
+      
+      /SOMETHING LIKE THIS IS HOW YOU CAN PRINT ALL OF THE CHECKPOINTS IN ORDER
+      /i = 1  PARAGRAPH IS WRONG, closer to single user lboard but finding the last one
+      /For each checkpoint in order 
+      /@current_checkpoint_linker = @all_route_checkpoints.where(position_in_route: i)
+      /%td=Checkpoint.where(id: @current_checkpoint_linker.checkpoint_id).name
+      /i += 1
+      
+      /Find the length of the usertimes entries where the id is for the participant you're printing
+
+      /Get the checkpoint ids that the user has gone through (from usertimes where id is for the participant)
+      /for each of these entries do |x|
+          
+/ ----------------------
+
+        /2) retrieve position_in_route from routes_and_checkpoints_linkers 
+        
+        /Getting checkpoint name, for each checkpoint that belongs to participant.id, get the checkpoint id from checkpoint_times (@current_checkpoint_id),
+        /Then Checkpoint.where(id: @current_checkpoint_id).name .
+
+        /Getting the current checkpoint time. You need to get @current_checkpoint.times
 / ----------------------------------------------------------------
 /Thinking about reconfiguring so that all checkpoints show up and if the user hasn't reached the point yet then it just shows a dash    -    Ben
 

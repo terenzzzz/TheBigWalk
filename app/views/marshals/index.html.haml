@@ -1,27 +1,29 @@
 .row 
     .col 
         .d-flex.justify-content-center
-            %h3 Marshal ID 
+            %h3.fw-bold Current Checkpoint: 
         .d-flex.justify-content-center
-            %h2 2901
+            %h1.text-center.fw-bold= @checkpoint.name
         %br
         .d-flex.justify-content-center
-            %h3 Your Checkpoint: 
+            %h3.fw-bold Walkers Passed:
         .d-flex.justify-content-center
-            %h2 HOPE CROSS
-        %br
-        .d-flex.justify-content-center
-            %h3 Walkers Passed:
-        .d-flex.justify-content-center
-            %h2 261/348
+            %h1.fw-bold= (@num_walkers_passed).to_s + ' of ' + ('Placeholder').to_s
         %br
         .d-flex.justify-content-center 
-            %h3 Walkers Falling Behind:
+            %h3.fw-bold Walkers Falling Behind:
         .d-flex.justify-content-center
-            %h2 4
+            %h1.fw-bold= @num_walkers_falling
 
+%br
 .d-grid.gap-2
     =link_to "View Incoming Walkers", view_incoming_walkers_marshals_path, class: 'btn btn-primary primary-button'
     =link_to "Change Checkpoint", change_checkpoint_marshals_path, class: 'btn btn-primary primary-button'
     =link_to "Checkin Walkers", checkin_walkers_marshals_path, class: 'btn btn-primary primary-button'
     =link_to "End Marshal Shift", end_marshal_shift_marshals_path, class: 'btn btn-primary primary-button'
+%br
+%table.table.table-hover.table-sm
+    %thead
+        %tbody
+            %tr
+                %td= 'Marshal ID: ' + (@marshal.marshal_id).to_s

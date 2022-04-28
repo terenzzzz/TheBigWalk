@@ -20,6 +20,7 @@ gem 'draper'
 gem 'ransack'
 
 gem 'google_drive'
+gem 'faker'
 
 gem 'osgb_convert', '~> 0.0.4'
 gem "osgb"

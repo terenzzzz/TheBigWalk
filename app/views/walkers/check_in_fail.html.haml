@@ -12,6 +12,14 @@
 .d-flex.justify-content-center.mx-3
     %p{class: 'text-center'} If we're wrong, please ask a marshal on site to check you in, thank you. 
 %br
+
+.d-flex.justify-content-center
+    %p You are in Latitude:#{@lat},
+.d-flex.justify-content-center
+    %p Longitude:#{@lon} 
+.d-flex.justify-content-center
+    %p OS reference:#{@osReference}
+
 //.d-grid.gap-2
 //    =link_to "Return", 'javascript:history.back()', class: 'btn btn-primary primary-button'
 // don't know if it looks better with or without button

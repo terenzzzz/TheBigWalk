@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_27_150430) do
+ActiveRecord::Schema.define(version: 2022_04_28_164426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,8 @@ ActiveRecord::Schema.define(version: 2022_04_27_150430) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.index ["event_id"], name: "index_calls_on_event_id"
     t.index ["user_id"], name: "index_calls_on_user_id"
   end
 
@@ -128,7 +130,9 @@ ActiveRecord::Schema.define(version: 2022_04_27_150430) do
     t.bigint "routes_id", null: false
     t.boolean "opted_in_leaderboard", default: false, null: false
     t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
     t.index ["checkpoints_id"], name: "index_participants_on_checkpoints_id"
+    t.index ["event_id"], name: "index_participants_on_event_id"
     t.index ["routes_id"], name: "index_participants_on_routes_id"
   end
 
@@ -137,7 +141,17 @@ ActiveRecord::Schema.define(version: 2022_04_27_150430) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
+    t.index ["event_id"], name: "index_pickups_on_event_id"
     t.index ["user_id"], name: "index_pickups_on_user_id"
+  end
+
+  create_table "reports", force: :cascade do |t|
+    t.string "subject"
+    t.string "description"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "routes", force: :cascade do |t|
@@ -210,6 +224,7 @@ ActiveRecord::Schema.define(version: 2022_04_27_150430) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "admins", "users", column: "users_id"
   add_foreign_key "brandings", "events", column: "events_id"
+  add_foreign_key "calls", "events"
   add_foreign_key "calls", "users"
   add_foreign_key "checkpoint_times", "checkpoints"
   add_foreign_key "checkpoint_times", "participants"
@@ -217,7 +232,9 @@ ActiveRecord::Schema.define(version: 2022_04_27_150430) do
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
   add_foreign_key "marshalls", "users", column: "users_id"
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
+  add_foreign_key "participants", "events"
   add_foreign_key "participants", "routes", column: "routes_id"
+  add_foreign_key "pickups", "events"
   add_foreign_key "pickups", "users"
   add_foreign_key "routes", "events", column: "events_id"
   add_foreign_key "routes_and_checkpoints_linkers", "checkpoints"

@@ -12,16 +12,53 @@ class WalkersController < ApplicationController
     end
 
     def check_in
-      @lat = 53.381759
-      @lon = -1.482212
+      @lat = session[:lat].to_f
+      @lon = session[:lon].to_f
       @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
       @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
       @osReference = @osUKgridPoint.grid_ref(6)
+      
     end
 
+    def saveLocation
+      @lat = params[:lat].to_f
+      @lon = params[:lon].to_f
+      session[:lat] = @lat
+      session[:lon] = @lon
+      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      @osReference = @osUKgridPoint.grid_ref(6)
+      # need change the os reference
+      if @osReference == 'SJ353876'
+        redirect_to check_in_walkers_path
+      else
+        redirect_to check_in_fail_walkers_path
+      end
+
+    end
+
+    def sign_up_participant
+      participant = Participant.create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
+      participant.save
+      if participant.save
+        redirect_to walkers_path
+      else
+        redirect_to home_page_path(session[:current_event_id]), notice: 'You dont have access to that page'
+      end
+  
+    end
+
+
     def requestCall
-      Call.create(user_id:current_user.id)
+      #Need to deal with the event_id
+      Call.create(user_id:current_user.id, event_id:'1')
       redirect_to help_walkers_path, notice: 'Call request successful'
+    end
+
+    def requestPickUp
+      #Need to deal with the event_id
+      Pickup.create(user_id:current_user.id, event_id:'1')
+      redirect_to help_walkers_path, notice: 'Pick up request successful'
     end
 
 
@@ -31,6 +68,13 @@ class WalkersController < ApplicationController
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
       @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+
+      @lat = session[:lat].to_f
+      @lon = session[:lon].to_f
+      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      @osReference = @osUKgridPoint.grid_ref(6)
+      
     end
 
     def help
@@ -56,6 +100,7 @@ class WalkersController < ApplicationController
     end
 
     def index
+    
       user = User.where(id: session[:current_user_id]).first
       walker = Participant.where(user_id: user.id).first
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
@@ -71,4 +116,8 @@ class WalkersController < ApplicationController
     def set_category
       @user = User.find(params[:id])
     end
+
+    def report_params
+      params.permit(:subject, :description)
+  end
 end
