@@ -57,7 +57,7 @@ class WalkersController < ApplicationController
       else
         participant.update(opted_in_leaderboard: false)
       end
-      /puts "And again: #{participant.opted_in_leaderboard} \n\n"
+      puts "And again: #{participant.opted_in_leaderboard} \n\n"
 
       if participant.save
         redirect_to walkers_path

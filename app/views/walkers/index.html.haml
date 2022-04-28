@@ -13,21 +13,11 @@
                 %h1{class: "fw-bold"}= @checkpoint.name
             %br
             .d-flex.justify-content-center
-                %h4{class: "fw-bold"} You are expected to reach
+                %h4{:id => "countdownMsg", class: "fw-bold"}
             .d-flex.justify-content-center
-                %h4{class: "fw-bold"} the next checkpoint within:
+                %h4{:id => "countdownMsg2", class: "fw-bold"}
             .d-flex.justify-content-center
                 %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
-            .d-flex.justify-content-center  
-                %h1{:id => "countdown2", class: "fw-bold"} Countdown Loading...   
-            .d-flex.justify-content-center  
-                %h1{:id => "countdown3", class: "fw-bold"} Countdown Loading...
-            .d-flex.justify-content-center  
-                %h1{:id => "countdown4", class: "fw-bold"} Countdown Loading...
-            .d-flex.justify-content-center  
-                %h1{:id => "countdown5", class: "fw-bold"} Countdown Loading...
-            .d-flex.justify-content-center  
-                %h1{:id => "countdown6", class: "fw-bold"} Countdown Loading...
                 /current time c
                 /current time c
                 /time reached last checkpoint l
@@ -37,30 +27,43 @@
                 :javascript
                     //var checkpointTimeDate = new Date("#{@start_date}T#{@start_time}").getTime();
                     var checkpointTimeDate = new Date("#{@time}").getTime();
-                    document.getElementById("countdown2").innerHTML = "#{@time}";
                     var x = setInterval(function() {
                         var now = new Date().getTime();
-                        var b = new Date("2022-04-28 07:15:41 UTC").getTime();
-                        var c = new Date("2022-04-28 21:11:41 UTC").getTime();
-                        //dont know why but dont think its taking the 3600000 away properly
                         var timeFromLast = now - (checkpointTimeDate - 3600000);
-                        document.getElementById("countdown3").innerHTML = checkpointTimeDate - 3600000;
-                        document.getElementById("countdown4").innerHTML = checkpointTimeDate;
-                        document.getElementById("countdown5").innerHTML = c;
-                        document.getElementById("countdown6").innerHTML = new Date();
+                        
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
                         //should be smarter think time from last is in seconds?? so convert advised time
-                        //var days = Math.floor(timeFromLast / (1000 * 60 * 60 * 24));
-                        //var hours = Math.floor((timeFromLast % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var days = Math.floor(timeFromLast / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((timeFromLast % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((timeLeftToReach % (1000 * 60 * 60)) / (1000 * 60));
                         var seconds = Math.floor((timeLeftToReach % (1000 * 60)) / 1000);
+                        document.getElementById("countdownMsg").innerHTML = "You are expected to reach";
+                        document.getElementById("countdownMsg2").innerHTML = "the next checkpoint within:";
                         if (timeLeftToReach < 0) {
-                            minutes = - minutes
+                            document.getElementById("countdownMsg").innerHTML = "You are";
+                            document.getElementById("countdownMsg2").innerHTML = "running late by:";
+                            days = - days
+                            hours = - hours
+                            minutes = - minutes - 1
                             seconds = - seconds
                         }
-                        //document.getElementById("countdown").innerHTML = timeFromLast;
                         //document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
-                        document.getElementById("countdown").innerHTML = minutes + "M : " + seconds + "S ";
+                        //document.getElementById("countdown").innerHTML = timeFromLast;
+                        /** */
+                        if (days > 0){
+                            document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
+                        } else if ((days <= 0) && (hours > 0)){
+                            document.getElementById("countdown").innerHTML = hours + "H : " + minutes + "M : " + seconds + "S ";
+                        } else if ((days <= 0) && (hours <= 0) && (minutes > 0)){
+                            document.getElementById("countdown").innerHTML = minutes + "M : " + seconds + "S ";
+                        } else if ((days <= 0) && (hours <= 0) && (minutes <= 0) && (seconds > 0)){
+                            document.getElementById("countdown").innerHTML = seconds + "S ";
+                        } else {
+                            document.getElementById("countdown").innerHTML = "countdown it broken";
+                        }
+                        /***/
+                        
+                        //document.getElementById("countdown").innerHTML = minutes + "M : " + seconds + "S ";
                         
                     }, 1000);
         -else
