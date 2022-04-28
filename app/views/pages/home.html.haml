@@ -29,3 +29,4 @@
         =link_to "I Am A Marshal", marshals_path, class: 'btn btn-primary primary-button'
     - if current_user.tag.name =='Admin'
         =link_to "I Am An Admin", admins_path, class: 'btn btn-primary primary-button'
+    =link_to "Sign In This Route", walker_sign_up_participant_path(current_user), class: 'btn btn-primary primary-button'

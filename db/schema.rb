@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_27_213459) do
+ActiveRecord::Schema.define(version: 2022_04_28_164426) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -130,7 +130,9 @@ ActiveRecord::Schema.define(version: 2022_04_27_213459) do
     t.bigint "routes_id", null: false
     t.boolean "opted_in_leaderboard", default: false, null: false
     t.bigint "user_id", null: false
+    t.bigint "event_id", null: false
     t.index ["checkpoints_id"], name: "index_participants_on_checkpoints_id"
+    t.index ["event_id"], name: "index_participants_on_event_id"
     t.index ["routes_id"], name: "index_participants_on_routes_id"
   end
 
@@ -230,6 +232,7 @@ ActiveRecord::Schema.define(version: 2022_04_27_213459) do
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
   add_foreign_key "marshalls", "users", column: "users_id"
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
+  add_foreign_key "participants", "events"
   add_foreign_key "participants", "routes", column: "routes_id"
   add_foreign_key "pickups", "events"
   add_foreign_key "pickups", "users"

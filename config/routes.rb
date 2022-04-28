@@ -31,6 +31,7 @@ Rails.application.routes.draw do
     get 'drop_out', on: :collection
     get 'search', on: :collection
     post 'saveLocation'
+    get 'sign_up_participant'
   end
 
   resources :admins do
