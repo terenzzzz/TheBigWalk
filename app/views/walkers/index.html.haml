@@ -18,21 +18,21 @@
                 %h4{:id => "countdownMsg2", class: "fw-bold"}
             .d-flex.justify-content-center
                 %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
-                /current time c
+            %h4{:id => "rubyCode", class: "fw-bold"}
                 /current time c
                 /time reached last checkpoint l
                 /c - l = time since last checkpoint s
                 /adviced time a - s = time left to reach next checkpoint n
                 /if n < 0 set status to falling behind and timer starts to increase 
                 :javascript
-                    //var checkpointTimeDate = new Date("#{@start_date}T#{@start_time}").getTime();
                     var checkpointTimeDate = new Date("#{@time}").getTime();
                     var x = setInterval(function() {
-                        var now = new Date().getTime();
-                        var timeFromLast = now - (checkpointTimeDate - 3600000);
+                        var date = new Date();
+                        var now = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                        //var timeFromLast = now - (checkpointTimeDate - 3600000);
+                        var timeFromLast = now - checkpointTimeDate;
                         
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
-                        //should be smarter think time from last is in seconds?? so convert advised time
                         var days = Math.floor(timeFromLast / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeFromLast % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((timeLeftToReach % (1000 * 60 * 60)) / (1000 * 60));
@@ -42,14 +42,16 @@
                         if (timeLeftToReach < 0) {
                             document.getElementById("countdownMsg").innerHTML = "You are";
                             document.getElementById("countdownMsg2").innerHTML = "running late by:";
-                            days = - days
-                            hours = - hours
+                            days = days 
+                            hours = hours
                             minutes = - minutes - 1
                             seconds = - seconds
+                            //document.getElementById("rubyCode").innerHTML = '#{@walker.update(status: "Falling Behind!")}';
+                            var a = '#{@walker.update(status: "Falling Behind!")}';
+
+                        } else {
+                            var a = '#{@walker.update(status: "On Pace.")}';
                         }
-                        //document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
-                        //document.getElementById("countdown").innerHTML = timeFromLast;
-                        /** */
                         if (days > 0){
                             document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
                         } else if ((days <= 0) && (hours > 0)){
@@ -61,9 +63,6 @@
                         } else {
                             document.getElementById("countdown").innerHTML = "countdown it broken";
                         }
-                        /***/
-                        
-                        //document.getElementById("countdown").innerHTML = minutes + "M : " + seconds + "S ";
                         
                     }, 1000);
         -else
