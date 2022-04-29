@@ -38,9 +38,6 @@ class PagesController < ApplicationController
     @users = User.all
     @current_event_id = session[:current_event_id]
 
-    #NOTE - Need to move a load of the variables from haml to the controller for single user leaderboard and leaderboard
-
-    #A list of Participants (NOT users)
     @walkers_for_route = Array.new
     @walkers_for_route.concat Participant.where(routes_id: Route.where(id: session[:current_route_id]).first)
 
@@ -48,11 +45,8 @@ class PagesController < ApplicationController
 
     @all_route_checkpoint_linkers = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])
     @all_route_checkpoint_linkers.each do |linker|
-      #@all_route_checkpoints.push(Checkpoint.where(id: linker.checkpoint_id))
       @all_route_checkpoints.concat Checkpoint.where(id: linker.checkpoint_id)
     
-      #puts "ALL ROUTE CHECKPOINTS: #{@all_route_checkpoints} \nLENGTH: #{@all_route_checkpoints.length()}"
-    #@all_route_checkpoints.concat RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])
     end
 
   end
