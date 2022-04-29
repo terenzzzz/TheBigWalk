@@ -30,6 +30,7 @@ class WalkersController < ApplicationController
       @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
       @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
       @osReference = @osUKgridPoint.grid_ref(6)
+      session[:osReference] = @osReference
 
       #find next checkpoint
       user = User.where(id: session[:current_user_id]).first
@@ -72,13 +73,13 @@ class WalkersController < ApplicationController
 
     def requestCall
       #Need to deal with the event_id
-      Call.create(user_id:current_user.id, event_id:'1')
+      Call.create(user_id:current_user.id, event_id:session[:current_event_id])
       redirect_to help_walkers_path, notice: 'Call request successful'
     end
 
     def requestPickUp
       #Need to deal with the event_id
-      Pickup.create(user_id:current_user.id, event_id:'1')
+      Pickup.create(user_id:current_user.id, event_id:session[:current_event_id], os_grid: session[:osReference])
       redirect_to help_walkers_path, notice: 'Pick up request successful'
     end
 
