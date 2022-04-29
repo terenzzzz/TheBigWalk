@@ -15,10 +15,10 @@ class PagesController < ApplicationController
       redirect_to admins_path
     end
 
-    # @paticipant = Participant.where(user_id:current_user.id, routes_id:session[:current_route_id])
-    # if @paticipant?
-    #   redirect_to walkers_path
-    # end
+    @paticipant = Participant.where(user_id:current_user.id, routes_id:session[:current_route_id])
+    if @paticipant.first
+      redirect_to walkers_path
+    end
     
   end
 
