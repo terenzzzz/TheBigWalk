@@ -10,6 +10,8 @@ gem 'puma'
 
 gem 'webpacker'
 
+gem 'ranked-model'
+
 gem 'pg'
 
 gem 'hamlit'

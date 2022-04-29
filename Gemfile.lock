@@ -330,6 +330,8 @@ GEM
       rake (>= 0.13)
       thor (~> 1.0)
     rake (13.0.6)
+    ranked-model (0.4.8)
+      activerecord (>= 4.2)
     ransack (2.5.0)
       activerecord (>= 5.2.4)
       activesupport (>= 5.2.4)
@@ -487,6 +489,7 @@ DEPENDENCIES
   pg
   puma
   rails (~> 6.1, >= 6.1.4)
+  ranked-model
   ransack
   responders
   rspec-rails

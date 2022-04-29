@@ -8,7 +8,7 @@
                 -if current_user.avatar.attached? 
                     %td= image_tag current_user.avatar, :size => "120x120"
                 -else 
-                    %td= "No photo uplaoded."
+                    %td= image_tag 'noPic.gif', :size => "120x120"
     .col-7
         %p 
             = current_user.name
@@ -27,9 +27,15 @@
         %tr 
             %td User Mobile:
             %td= current_user.mobile
-        %tr 
-            %td Participant ID:
-            %td= current_user.participant.id
+        - if current_user.tag.name == "Marshal"
+            %tr 
+                %td Marshal ID:
+                %td= @marshal_id
+
+        - if current_user.tag.name == "Walker"
+            %tr 
+                %td Participant ID:
+                %td= @participant_id
         %tr 
             %td Identity:
             %td= current_user.tag.name
