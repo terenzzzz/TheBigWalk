@@ -52,7 +52,18 @@ class PagesController < ApplicationController
 
   def single_user_leaderboard
     @leaderboard_participant=params[:leaderboard_participant]
-    @current_route_id=session[:current_route_id]
+    @current_route_id=session[:current_route_id] #is this used?
+    @route_checkpoints = Array.new 
+    
+    @routes_linker = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])
+    @checkpoints_for_route = Checkpoint.where(id: @routes_linker) #.checkpoint_id)
+    #if @checkpoints_for_route 
+    #  puts "************* 123"
+    #else 
+    #  puts "!!!!!!!!!!!! 321"
+    #end
+    @route_checkpoints.concat @checkpoints_for_route
+
   end
 
 end

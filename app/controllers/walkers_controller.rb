@@ -49,17 +49,17 @@ class WalkersController < ApplicationController
     end
 
     def sign_up_participant
-      puts("qwerty")
       participant = Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
       participant.save
 
-      @opted_in_leaderboard = params[:opted_in]
-      if session[:opted_in] == "1"
+      puts "current user opted in: #{participant.opted_in_leaderboard}"
+      @current_participant_opted_in = Participant.where(user_id: current_user.id).first.opted_in_leaderboard
+      if @current_participant_opted_in == true
         participant.update(opted_in_leaderboard: true)
       else
         participant.update(opted_in_leaderboard: false)
       end
-      puts "And again 1: #{participant.opted_in_leaderboard} \n\n"
+      puts "And again 1: #{@current_participant_opted_in} \n\n"
       puts "Participant in table: #{Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])}"
 
       if participant.save
@@ -132,8 +132,6 @@ class WalkersController < ApplicationController
 
       @advisedTime = @linker.advised_time
       @time = CheckpointTime.where(checkpoint_id: walker.checkpoints_id, participant_id: walker.id).first.times
-      # @start_date = Route.find(params[:id]).start_date
-      # @start_time = Route.find(params[:id]).start_time.strftime("%H:%M:%S")
     end
 
     def show
