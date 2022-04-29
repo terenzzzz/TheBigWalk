@@ -30,6 +30,7 @@ class MarshalsController < ApplicationController
     end
  
     def change_checkpoint
+        @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
     end
    
     def end_marshal_shift
@@ -64,8 +65,6 @@ class MarshalsController < ApplicationController
         end
     end 
 
-<<<<<<< HEAD
-=======
     def index
         user = User.where(id: session[:current_user_id]).first
         @marshal = Marshall.where(users_id: user.id).first
@@ -85,7 +84,6 @@ class MarshalsController < ApplicationController
         
     end
 
->>>>>>> 3519795ff5dfb4f7cc595b849a896c52980042d7
     def end_for_the_day
     end
 

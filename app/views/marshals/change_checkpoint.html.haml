@@ -1,23 +1,18 @@
+.d-flex.justify-content-center
+  %h1 Change Checkpoint 
+%br/
+    
 .row 
-    .col
-        .d-flex.justify-content-center
-            %h1 Change Checkpoint 
-        .d-flex.justify-content-center
-            =text_field :search, :checkpoints, :maxlength => "40", :placeholder => "Search Checkpoints"
-        .d-flex.justify-content-left
-            %p Crowden Brook  
-        .d-flex.justify-content-left
-            %p Jagger's Clough
-        .d-flex.justify-content-left
-            %p.fw-bold Hope Cross (Current)
-        .d-flex.justify-content-left
-            %p Win Hill Summit
-        .d-flex.justify-content-left
-            %p Ladybower Reservoir
-        .d-flex.justify-content-left
-            %p Bamford Edge
-        .d-flex.justify-content-left
-            %p Crow Chin
-        .d-flex.justify-content-left
-            %p Rivelin Brook
+  .col
+  .d-flex.justify-content-center
+    %h1 Change Checkpoint 
+    .d-flex.justify-content-center
+    =text_field :search, :checkpoints, :maxlength => "40", :placeholder => "Search Checkpoints"
+    - @checkpoints.each do |checkpoint|
+      .d-flex.justify-content-left
+        %p= checkpoint.name  
+        %br/
+    %br/
+%br/            
+  
 
