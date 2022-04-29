@@ -1,18 +1,20 @@
 .d-flex.justify-content-center
   %h1 Change Checkpoint 
 %br/
-    
-.row 
-  .col
-  .d-flex.justify-content-center
-    %h1 Change Checkpoint 
-    .d-flex.justify-content-center
-    =text_field :search, :checkpoints, :maxlength => "40", :placeholder => "Search Checkpoints"
-    - @checkpoints.each do |checkpoint|
-      .d-flex.justify-content-left
-        %p= checkpoint.name  
+
+- if @checkpoints.count == 0
+  %h3 There are no checkpoints ready. Please contact Admin to Generate one.
+- else 
+  .row 
+    .col
+      .d-flex.justify-content-center 
+      = text_field :search, :checkpoints, :maxlength => "40", :placeholder => "Search Checkpoints"
+      .d-flex.justify-content-center 
+      - @checkpoints.each do |checkpoint|
+        .d-flex.justify-content-left
+          %p= checkpoint.name  
         %br/
     %br/
 %br/            
-  
+
 
