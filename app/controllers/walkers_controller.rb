@@ -30,6 +30,7 @@ class WalkersController < ApplicationController
       @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
       @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
       @osReference = @osUKgridPoint.grid_ref(6)
+      session[:osReference] = @osReference
 
       #find next checkpoint
       user = User.where(id: session[:current_user_id]).first
@@ -48,17 +49,17 @@ class WalkersController < ApplicationController
     end
 
     def sign_up_participant
-      puts("qwerty")
       participant = Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
       participant.save
 
-      @opted_in_leaderboard = params[:opted_in]
-      if session[:opted_in] == "1"
+      puts "current user opted in: #{participant.opted_in_leaderboard}"
+      @current_participant_opted_in = Participant.where(user_id: current_user.id).first.opted_in_leaderboard
+      if @current_participant_opted_in == true
         participant.update(opted_in_leaderboard: true)
       else
         participant.update(opted_in_leaderboard: false)
       end
-      puts "And again 1: #{participant.opted_in_leaderboard} \n\n"
+      puts "And again 1: #{@current_participant_opted_in} \n\n"
       puts "Participant in table: #{Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])}"
 
       if participant.save
@@ -72,13 +73,13 @@ class WalkersController < ApplicationController
 
     def requestCall
       #Need to deal with the event_id
-      Call.create(user_id:current_user.id, event_id:'1')
+      Call.create(user_id:current_user.id, event_id:session[:current_event_id])
       redirect_to help_walkers_path, notice: 'Call request successful'
     end
 
     def requestPickUp
       #Need to deal with the event_id
-      Pickup.create(user_id:current_user.id, event_id:'1')
+      Pickup.create(user_id:current_user.id, event_id:session[:current_event_id], os_grid: session[:osReference])
       redirect_to help_walkers_path, notice: 'Pick up request successful'
     end
 
@@ -131,10 +132,6 @@ class WalkersController < ApplicationController
 
       @advisedTime = @linker.advised_time
       @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
-
-
-      # @start_date = Route.find(params[:id]).start_date
-      # @start_time = Route.find(params[:id]).start_time.strftime("%H:%M:%S")
     end
 
     def show

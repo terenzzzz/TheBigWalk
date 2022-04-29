@@ -27,7 +27,7 @@
 
       - if @walker.opted_in_leaderboard == true or @walker.opted_in_leaderboard == nil
         %tr
-          %td= link_to "#{@loop_user.name}", single_user_leaderboard_pages_path(:leaderboard_participant => @walker)
+          %td= link_to "#{@loop_user.name}", single_user_leaderboard_pages_path(:leaderboard_participant_id => @walker)
           %td=@most_recent_name
           %td=@most_recent_time
 

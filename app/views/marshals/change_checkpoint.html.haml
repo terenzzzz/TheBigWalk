@@ -1,23 +1,20 @@
-.row 
+.d-flex.justify-content-center
+  %h1 Change Checkpoint 
+%br/
+
+- if @checkpoints.count == 0
+  %h3 There are no checkpoints ready. Please contact Admin to Generate one.
+- else 
+  .row 
     .col
-        .d-flex.justify-content-center
-            %h1 Change Checkpoint 
-        .d-flex.justify-content-center
-            =text_field :search, :checkpoints, :maxlength => "40", :placeholder => "Search Checkpoints"
+      .d-flex.justify-content-center 
+      = text_field :search, :checkpoints, :maxlength => "40", :placeholder => "Search Checkpoints"
+      .d-flex.justify-content-center 
+      - @checkpoints.each do |checkpoint|
         .d-flex.justify-content-left
-            %p Crowden Brook  
-        .d-flex.justify-content-left
-            %p Jagger's Clough
-        .d-flex.justify-content-left
-            %p.fw-bold Hope Cross (Current)
-        .d-flex.justify-content-left
-            %p Win Hill Summit
-        .d-flex.justify-content-left
-            %p Ladybower Reservoir
-        .d-flex.justify-content-left
-            %p Bamford Edge
-        .d-flex.justify-content-left
-            %p Crow Chin
-        .d-flex.justify-content-left
-            %p Rivelin Brook
+          %p= checkpoint.name  
+        %br/
+    %br/
+%br/            
+
 

@@ -18,9 +18,6 @@ class MarshalsController < ApplicationController
 
     def add_shift
         @checkpoints = Checkpoint.where(events_id: params[:id])
-       # @marshal = Marshall.where(users_id: session[:marshal_id]).first
-        #@checkpoint = Checkpoint.where(name: checkpoint.name)
-        #@marshal.update(checkpoints_id: @checkpoint.id)
     end
     
     def index
@@ -30,6 +27,7 @@ class MarshalsController < ApplicationController
     end
  
     def change_checkpoint
+        @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
     end
    
     def end_marshal_shift

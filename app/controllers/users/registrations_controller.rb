@@ -14,6 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super do |resource|
       resource.update(tag: Tag.first_or_create(name: 'Walker'))
       session[:opted_in] = params[:opted_in]
+      puts "OPTED IN REG CONTROLLER: #{session[:opted_in]} *** #{params[:opted_in]}"
     end
   end
 end
