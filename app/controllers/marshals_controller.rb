@@ -48,6 +48,25 @@ class MarshalsController < ApplicationController
         linkers.each do |linker|
             previous_linker = RoutesAndCheckpointsLinker.where(position_in_route: (linker.position_in_route - 1), route_id: linker.route_id).first
             if previous_linker
+                calc_status = Participant.where(routes_id: previous_linker.route_id, checkpoints_id: previous_linker.checkpoint_id)
+                calc_status.each do |stat|
+                    time_now = Time.now.utc
+                    time_last_checkpoint = CheckpointTime.where(participant_id: stat.id, checkpoint_id: previous_linker.checkpoint_id).first.times
+                    time_to_next_checkpoint = linker.advised_time
+                    dif = time_now - time_last_checkpoint # seconds
+                    on_pace = (time_to_next_checkpoint * 60) - dif
+                    if on_pace > 0
+                        calc_status.update(status: "On Pace.")
+                    else
+                        calc_status.update(status: "Falling Behind!")
+                    end
+                    puts "#####################"
+                    puts time_last_checkpoint
+                    puts time_now
+                    puts dif
+                    puts "#####################"
+                end
+
                 @walkers_falling_behind.concat Participant.where(routes_id: previous_linker.route_id, pace: 'Falling Behind!', checkpoints_id: previous_linker.checkpoint_id)
                 @walkers_falling_behind.each do |walker|
                     @falling_walker_and_user = [walker, User.where(id: walker.user_id).first]
@@ -60,6 +79,8 @@ class MarshalsController < ApplicationController
                 end
             end
         end
+
+        
     end 
 
     def index

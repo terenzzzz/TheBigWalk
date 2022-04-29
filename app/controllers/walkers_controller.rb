@@ -124,14 +124,14 @@ class WalkersController < ApplicationController
     def index
       user = User.where(id: session[:current_user_id]).first
       puts "User: #{user}"
-      walker = Participant.where(user_id: user.id).first
-      puts "Route ID: #{walker}"
-      checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
-      @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
+      @walker = Participant.where(user_id: user.id).first
+      puts "Route ID: #{@walker}"
+      checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: @walker.routes_id, checkpoint_id: @walker.checkpoints_id).first.position_in_route
+      @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: @walker.routes_id).first
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
 
       @advisedTime = @linker.advised_time
-      @time = CheckpointTime.where(checkpoint_id: walker.checkpoints_id, participant_id: walker.id).first.times
+      @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
     end
 
     def show

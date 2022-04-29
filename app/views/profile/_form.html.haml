@@ -6,12 +6,12 @@
     = f.input :description, label: "Tell The World Anything!", hint: "This will appear on your profile page."
     = f.input :mobile
     /Tom will fix later
-    /-if current_user.tag.name == "Walker"
-    /  -@walker = Participant.where(user_id: current_user.id).first
-    /  = f.input :@walker.id       
-    /-elsif current_user.tag.name == "Marshal"
-    /  -@marshal = Marshall.where(users_id: current_user.id).first
-    /  = f.input :@marshal.id
+    -if current_user.tag.name == "Walker"
+      -@walker = Participant.where(user_id: current_user.id).first
+      = f.input :(Participant.where(user_id: current_user.id).first)       
+    -elsif current_user.tag.name == "Marshal"
+      -@marshal = Marshall.where(users_id: current_user.id).first
+      = f.input :(@marshal.id)
                 
   
   .form-actions
