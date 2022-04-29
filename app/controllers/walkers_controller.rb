@@ -12,16 +12,75 @@ class WalkersController < ApplicationController
     end
 
     def check_in
-      @lat = 53.381759
-      @lon = -1.482212
+      @lat = session[:lat].to_f
+      @lon = session[:lon].to_f
       @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
       @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
       @osReference = @osUKgridPoint.grid_ref(6)
+      
     end
 
+    def saveLocation
+      #get latitude and longitue
+      @lat = params[:lat].to_f
+      @lon = params[:lon].to_f
+      session[:lat] = @lat
+      session[:lon] = @lon
+      #conver them to OS Reference
+      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      @osReference = @osUKgridPoint.grid_ref(6)
+      session[:osReference] = @osReference
+
+      #find next checkpoint
+      user = User.where(id: session[:current_user_id]).first
+      walker = Participant.where(user_id: user.id).first
+      checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
+      @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
+      @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+
+      # need change the os reference
+      if @osReference == @checkpoint.os_grid
+        redirect_to check_in_walkers_path
+      else
+        redirect_to check_in_fail_walkers_path
+      end
+
+    end
+
+    def sign_up_participant
+      participant = Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
+      participant.save
+
+      puts "current user opted in: #{participant.opted_in_leaderboard}"
+      @current_participant_opted_in = Participant.where(user_id: current_user.id).first.opted_in_leaderboard
+      if @current_participant_opted_in == true
+        participant.update(opted_in_leaderboard: true)
+      else
+        participant.update(opted_in_leaderboard: false)
+      end
+      puts "And again 1: #{@current_participant_opted_in} \n\n"
+      puts "Participant in table: #{Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])}"
+
+      if participant.save
+        redirect_to walkers_path
+      else
+        redirect_to home_page_path(session[:current_event_id]), notice: 'You dont have access to that page'
+      end
+  
+    end
+
+
     def requestCall
-      Call.create(user_id:current_user.id)
+      #Need to deal with the event_id
+      Call.create(user_id:current_user.id, event_id:session[:current_event_id])
       redirect_to help_walkers_path, notice: 'Call request successful'
+    end
+
+    def requestPickUp
+      #Need to deal with the event_id
+      Pickup.create(user_id:current_user.id, event_id:session[:current_event_id], os_grid: session[:osReference])
+      redirect_to help_walkers_path, notice: 'Pick up request successful'
     end
 
 
@@ -31,6 +90,13 @@ class WalkersController < ApplicationController
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
       @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+
+      @lat = session[:lat].to_f
+      @lon = session[:lon].to_f
+      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      @osReference = @osUKgridPoint.grid_ref(6)
+      
     end
 
     def help
@@ -57,10 +123,15 @@ class WalkersController < ApplicationController
 
     def index
       user = User.where(id: session[:current_user_id]).first
+      puts "User: #{user}"
       walker = Participant.where(user_id: user.id).first
+      puts "Route ID: #{walker}"
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
       @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+
+      @advisedTime = @linker.advised_time
+      @time = CheckpointTime.where(checkpoint_id: walker.checkpoints_id, participant_id: walker.id).first.times
     end
 
     def show
@@ -71,4 +142,8 @@ class WalkersController < ApplicationController
     def set_category
       @user = User.find(params[:id])
     end
+
+    def report_params
+      params.permit(:subject, :description)
+  end
 end

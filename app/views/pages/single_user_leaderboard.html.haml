@@ -1,60 +1,28 @@
-- @current_event = session[:current_event_id]
-- @current_user = User.where(id: @current_user_id).first
-
-- @walker = Participant.where(user_id: @current_user_id).first
-- @current_user_id = session[:current_user_id]
-- @checkpoints = Checkpoint.where(events_id: @current_event)
-- @user_times = CheckpointTime.where(participant_id: @current_user_id)
-
-- @participant_to_display = @leaderboard_participant
-
+- @current_participant_id = Participant.where(id: session[:current_user_id]).first.id
 %h1 User Leaderboard
 
 %table
   %tbody
-    - @participant_user_object = Participant.where(id: @participant_to_display).first.user_id
-    %tr="#{User.where(id: @participant_user_object).first.name}'s Times"
+    %tr="#{User.where(id: session[:current_user_id]).first.name}'s Times"
     
     %tr
       %td Checkpoint
       %td Time To Checkpoint
 
-/ ---------------------------------------------------------------- I need to get working next \/    -    Ben
-    - @user_times.each do |t|      
-      - @current_checkpoint_id = t.checkpoint_id      
-      - @current_checkpoint_name = @checkpoints.name.where(id: @current_checkpoint_id)
-      - @current_checkpoint_time = @checkpoints.time
+    - @i = 1
+    - puts "Route checkpoints: #{@route_checkpoints}"
+    - @route_checkpoints.each do |x|
+      - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i).first.checkpoint_id
+      - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id)
+      - puts "current checkPOINT: #{@current_checkpoint.name}"
+      
       %tr
-        %td=@current_checkpoint_name
-        %td=CheckpointTime.times.where(checkpoint_id: @current_checkpoint_id)
-/ ----------------------------------------------------------------
-/Thinking about reconfiguring so that all checkpoints show up and if the user hasn't reached the point yet then it just shows a dash    -    Ben
-
-
-/ Redundant code - may be useful when getting the above part working    -    Ben
-
--# - @current_user = User.where(id: @current_user_id).first
--# - @current_user_id = session[:current_user_id]
--# - @current_event = session[:current_event_id]
--# - @walker = Participant.where(users_id: @current_user_id).first
--# - @checkpoints = Checkpoint.where(id: @walker.checkpoints_id)
-
--# %table
--# %tbody
--#   %tr
--#     %td Participant
--#     %td Last Checkpoint
--#     %td Time to Last Checkpoint
--#     /%td= user.name
--# /@walker = Participant.where(users_id: @current_user_id, ).first
--# - @checkpoint.each do |checkpoint|
--# /- @users.each do |user| 
--#   %tr
--#     %td=@checkpoint.name
--#     %td 1:01:23
-
-
-/For the current event id (Checkpoint.where(event_id: @current_event_id)), display the names of each checkpoint
-
-/get the route id, then the checkpoint id from the route id (sam4e table).
-/Use the checkpoint id to find the checkpoint name in the checkpoints table
+        %td= @current_checkpoint.name
+        - @current_checkpoint = CheckpointTime.where(participant_id: @current_participant_id, checkpoint_id: @current_checkpoint_id).first #.times
+        - if @current_checkpoint != nil #_time != nil
+          - @current_checkpoint_time = @current_checkpoint.times
+          %td= @current_checkpoint_time.strftime('%H:%M:%S')
+        - else
+          %td ---
+      - @i += 1
+   

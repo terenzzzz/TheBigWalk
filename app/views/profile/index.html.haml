@@ -1,4 +1,6 @@
-%h1 Welcome to Your Profile 
+.d-flex.justify-content-center
+    %h1.fw-bold Your Profile
+%br
 .row   
     .col-5 
         %table 
@@ -6,7 +8,7 @@
                 -if current_user.avatar.attached? 
                     %td= image_tag current_user.avatar, :size => "120x120"
                 -else 
-                    %td= "No photo uplaoded."
+                    %td= image_tag 'noPic.gif', :size => "120x120"
     .col-7
         %p 
             = current_user.name
@@ -22,37 +24,33 @@
         %tr 
             %td User Mobile:
             %td= current_user.mobile
-        %tr 
-            -if current_user.tag.name == "Walker"
-                -@walker = Participant.where(user_id: current_user.id).first
-                %td Walker ID:
-                %td= @walker.id
-            -elsif current_user.tag.name == "Marshal"
-                -@marshal = Marshall.where(users_id: current_user.id).first
+
+        - if current_user.tag.name == "Marshal"
+            %tr 
                 %td Marshal ID:
-                %td= @marshal.id
+                %td= @marshal_id
+
+        - if current_user.tag.name == "Walker"
+            %tr 
+                %td Participant ID:
+                %td= @participant_id
         %tr 
             %td Identity:
             %td= current_user.tag.name
 
         
 
-.d-grid.gap-3
+.d-grid.gap-2
     =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
-        %span.bi.bi-piggy-bank
-        %span Donate Here
-        %span.bi.bi-piggy-bank
+        %span Set Donation Link
+    %br
     .d-flex.justify-content-center
         %p Your Public Progress Shows Here
-
     =link_to "/",class: 'btn btn-primary primary-button' do
-        %span.bi.bi-share 
         %span Share
-    =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do 
-        %span.bi.bi-pencil-square
+    =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do
         %span Edit
     %button.btn.btn-danger(type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount")
-        %span.bi.bi-trash
         %span Delete Account
 
     //Pop up for delete account

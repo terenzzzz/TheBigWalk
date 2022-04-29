@@ -5,64 +5,68 @@
         .d-flex.justify-content-center
             %h1.fst-italic HOPE CROSS
         %br/
-        -# %br/
-        -# .d-flex.justify-content-center
-        -#     %h4 Your next check-in is at: 
-        -# .d-flex.justify-content-center
-        -#     %h1.fst-italic Win Hill
-        -# .d-flex.justify-content-center
-        -#     %h2 Aim to be there before 11:00!
-        -# %br/
+        .d-flex.justify-content-center
+            %p You are in Latitude:#{@lat},
+        .d-flex.justify-content-center
+            %p Longitude:#{@lon} 
+        .d-flex.justify-content-center
+            %p OS reference:#{@osReference}
+        .d-flex.justify-content-center
+            %h4 Successfully Check in
 
-.d-flex.justify-content-center
-    .btn.btn-primary{:onclick => "geoFindMe()"} I am in position
+
+    
 %br/
 .d-flex.justify-content-center
     .p#out
 -# #map{ :style => "height: 200px; width: 100%;"}
 
-%p #{@lat}
-%p #{@lon}
-%p #{@osReference}
 
 
-:javascript
-    function geoFindMe() {
-    // let map;
-    var output = document.getElementById("out");
-    var latitude;
-    var longitude;
 
-    function success(position) {
-        latitude  = position.coords.latitude.toFixed(6);
-        longitude = position.coords.longitude.toFixed(6);
+-# :javascript
+-#     geoFindMe()
+-#     function geoFindMe() {
+-#     // let map;
+-#     var output = document.getElementById("out");
+-#     var latitude;
+-#     var longitude;
 
-        output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
-        // window.initMap = initMap();
+-#     function success(position) {
+-#         latitude  = position.coords.latitude.toFixed(6);
+-#         longitude = position.coords.longitude.toFixed(6);
 
-    };
+-#         lat = document.getElementById("lat");
+-#         lon = document.getElementById("lon");
+-#         lat.value = latitude;
+-#         lon.value = longitude;
 
-    function error() {
-        output.innerHTML = "Can't get your Position";
-    };
+-#         output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+-#         // window.initMap = initMap();
 
-    /* Display map
-    function initMap() {
-        const myLating = { lat: latitude, lng: longitude };
-        const map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: latitude, lng: longitude },
-            zoom: 17,
-        });
+-#     };
 
-        new google.maps.Marker({
-            position: myLating,
-            map,
-            title: "You are here",
-        });
-    }
-    */
-    output.innerHTML = "<p>Locating…</p>";
-    navigator.geolocation.getCurrentPosition(success, error);
-    }
+-#     function error() {
+-#         output.innerHTML = "Can't get your Position";
+-#     };
 
--# %script{:defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?key=AIzaSyDjAHL7Ao55BmaYmI6wyKg8ob2RrWLcojs&callback=initMap&v=weekly"}
+-#     /* Display map
+-#     function initMap() {
+-#         const myLating = { lat: latitude, lng: longitude };
+-#         const map = new google.maps.Map(document.getElementById("map"), {
+-#             center: { lat: latitude, lng: longitude },
+-#             zoom: 17,
+-#         });
+
+-#         new google.maps.Marker({
+-#             position: myLating,
+-#             map,
+-#             title: "You are here",
+-#         });
+-#     }
+-#     */
+-#     output.innerHTML = "<p>Locating…</p>";
+-#     navigator.geolocation.getCurrentPosition(success, error);
+-#     }
+
+-# -# %script{:defer => "defer", :src => "https://maps.googleapis.com/maps/api/js?key=AIzaSyDjAHL7Ao55BmaYmI6wyKg8ob2RrWLcojs&callback=initMap&v=weekly"}

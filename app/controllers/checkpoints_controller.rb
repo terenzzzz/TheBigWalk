@@ -20,6 +20,7 @@ class CheckpointsController < ApplicationController
 
   # GET /checkpoints/1
   def show
+    @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
   end
 
   # GET /checkpoints/new

@@ -13,10 +13,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |resource|
       resource.update(tag: Tag.first_or_create(name: 'Walker'))
-      participant = Participant.create(checkpoints_id:"1", routes_id:"1", user_id: resource.id)
-      participant.save
+      session[:opted_in] = params[:opted_in]
+      puts "OPTED IN REG CONTROLLER: #{session[:opted_in]} *** #{params[:opted_in]}"
     end
   end
+end
+
 
   # GET /resource/edit
   # def edit
@@ -63,4 +65,3 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
-end

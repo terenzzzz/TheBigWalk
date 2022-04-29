@@ -177,6 +177,8 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
+    faker (2.20.0)
+      i18n (>= 1.8.11, < 2)
     faraday (1.10.0)
       faraday-em_http (~> 1.0)
       faraday-em_synchrony (~> 1.0)
@@ -328,6 +330,8 @@ GEM
       rake (>= 0.13)
       thor (~> 1.0)
     rake (13.0.6)
+    ranked-model (0.4.8)
+      activerecord (>= 4.2)
     ransack (2.5.0)
       activerecord (>= 5.2.4)
       activesupport (>= 5.2.4)
@@ -473,6 +477,7 @@ DEPENDENCIES
   epi_deploy!
   erb2haml
   factory_bot_rails
+  faker
   google_drive
   hamlit
   hamlit-rails
@@ -484,6 +489,7 @@ DEPENDENCIES
   pg
   puma
   rails (~> 6.1, >= 6.1.4)
+  ranked-model
   ransack
   responders
   rspec-rails

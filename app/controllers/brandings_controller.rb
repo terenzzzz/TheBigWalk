@@ -63,6 +63,6 @@ class BrandingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def branding_params
-      params.require(:branding).permit(:btn_colour, :header, :logo)
+      params.require(:branding).permit(:id, :header, :logo)
     end
 end

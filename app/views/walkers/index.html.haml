@@ -11,6 +11,61 @@
                 %h4{class: "fw-bold"} Your next checkpoint:
             .d-flex.justify-content-center
                 %h1{class: "fw-bold"}= @checkpoint.name
+            %br
+            .d-flex.justify-content-center
+                %h4{:id => "countdownMsg", class: "fw-bold"}
+            .d-flex.justify-content-center
+                %h4{:id => "countdownMsg2", class: "fw-bold"}
+            .d-flex.justify-content-center
+                %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
+                /current time c
+                /current time c
+                /time reached last checkpoint l
+                /c - l = time since last checkpoint s
+                /adviced time a - s = time left to reach next checkpoint n
+                /if n < 0 set status to falling behind and timer starts to increase 
+                :javascript
+                    //var checkpointTimeDate = new Date("#{@start_date}T#{@start_time}").getTime();
+                    var checkpointTimeDate = new Date("#{@time}").getTime();
+                    var x = setInterval(function() {
+                        var now = new Date().getTime();
+                        var timeFromLast = now - (checkpointTimeDate - 3600000);
+                        
+                        var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
+                        //should be smarter think time from last is in seconds?? so convert advised time
+                        var days = Math.floor(timeFromLast / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((timeFromLast % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((timeLeftToReach % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((timeLeftToReach % (1000 * 60)) / 1000);
+                        document.getElementById("countdownMsg").innerHTML = "You are expected to reach";
+                        document.getElementById("countdownMsg2").innerHTML = "the next checkpoint within:";
+                        if (timeLeftToReach < 0) {
+                            document.getElementById("countdownMsg").innerHTML = "You are";
+                            document.getElementById("countdownMsg2").innerHTML = "running late by:";
+                            days = - days
+                            hours = - hours
+                            minutes = - minutes - 1
+                            seconds = - seconds
+                        }
+                        //document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
+                        //document.getElementById("countdown").innerHTML = timeFromLast;
+                        /** */
+                        if (days > 0){
+                            document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
+                        } else if ((days <= 0) && (hours > 0)){
+                            document.getElementById("countdown").innerHTML = hours + "H : " + minutes + "M : " + seconds + "S ";
+                        } else if ((days <= 0) && (hours <= 0) && (minutes > 0)){
+                            document.getElementById("countdown").innerHTML = minutes + "M : " + seconds + "S ";
+                        } else if ((days <= 0) && (hours <= 0) && (minutes <= 0) && (seconds > 0)){
+                            document.getElementById("countdown").innerHTML = seconds + "S ";
+                        } else {
+                            document.getElementById("countdown").innerHTML = "countdown it broken";
+                        }
+                        /***/
+                        
+                        //document.getElementById("countdown").innerHTML = minutes + "M : " + seconds + "S ";
+                        
+                    }, 1000);
         -else
             .d-flex.justify-content-center
                 %h1 Congratulations
@@ -18,11 +73,43 @@
                 %h2 You Finished The Event
         %br/
         %br/
+
+
 .d-grid.gap-2
-    =link_to "Check In", check_in_walkers_path, class: 'btn btn-primary primary-button'
-    =link_to "Check In Failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
-    =link_to checkpoint_info_walkers_path, class: 'btn btn-primary primary-button' do 
-        %span Check Point Information
-    /=link_to "Search friends", search_walkers_path, class: 'btn btn-primary primary-button'
+    .d-flex.justify-content-center
+        .p#out
+    = render"getLatLong"
+    -# =link_to "Check In", check_in_walkers_path, class: 'btn btn-primary primary-button'
+    -# =link_to "Check In Failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
+    =link_to "Check Point Information", checkpoint_info_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Leaderboard", leaderboard_pages_path, class: 'btn btn-primary primary-button'
     =link_to "Request Help", help_walkers_path, class: 'btn btn-primary primary-button'
+
+
+:javascript
+    geoFindMe()
+    function geoFindMe() {
+    var output = document.getElementById("out");
+    var latitude;
+    var longitude;
+
+    function success(position) {
+        latitude  = position.coords.latitude.toFixed(6);
+        longitude = position.coords.longitude.toFixed(6);
+
+        lat = document.getElementById("lat");
+        lon = document.getElementById("lon");
+        lat.value = latitude;
+        lon.value = longitude;
+
+        output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+        // window.initMap = initMap();
+
+    };
+
+    function error() {
+        output.innerHTML = "Unable to find position.";
+    };
+    output.innerHTML = "<p>Finding Your Current Location…</p>";
+    navigator.geolocation.getCurrentPosition(success, error);
+    }
