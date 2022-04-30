@@ -7,7 +7,7 @@
     
     %tr
       %td Checkpoint
-      %td Time To Checkpoint
+      %td Time Arrived
 
     - @i = 1
     - puts "Route checkpoints: #{@route_checkpoints}"
@@ -21,8 +21,10 @@
         - @current_checkpoint = CheckpointTime.where(participant_id: @leaderboard_participant_id, checkpoint_id: @current_checkpoint_id).first 
         - if @current_checkpoint != nil 
           - @current_checkpoint_time = @current_checkpoint.times
-          %td= @current_checkpoint_time.strftime('%H:%M:%S')
+          - if @current_checkpoint_time.strftime('%H').to_i >= 12 
+            %td= "#{@current_checkpoint_time.strftime('%H:%M')}pm"
+          - else 
+            %td= "#{@current_checkpoint_time.strftime('%H:%M')}am"
         - else
           %td ---
       - @i += 1
-   
