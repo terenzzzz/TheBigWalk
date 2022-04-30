@@ -31,7 +31,10 @@
         - @current_walker_name = nil
 
       /Displaying the leaderboard row for a user
-      - if participant.opted_in_leaderboard == true || participant.opted_in_leaderboard == nil
+      - puts "%%%%%%% #{participant.user_id}"
+      - if OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
+        - opted_in_leaderboard = OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
+      - if opted_in_leaderboard == true || opted_in_leaderboard == nil
         %tr
           %td=participant.id
           %td=link_to "#{@current_walker_name}", single_user_leaderboard_pages_path(:leaderboard_participant_id => @current_walker)
