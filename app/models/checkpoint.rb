@@ -18,5 +18,7 @@
 #  fk_rails_...  (events_id => events.id)
 #
 class Checkpoint < ApplicationRecord
+    validates_presence_of :name
+    validates_presence_of :os_grid
     validates_uniqueness_of :name, scope: :events_id
 end

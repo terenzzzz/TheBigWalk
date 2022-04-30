@@ -21,5 +21,8 @@
 #  fk_rails_...  (events_id => events.id)
 #
 class Route < ApplicationRecord
+    validates_presence_of :name
+    validates_presence_of :start_date
+    validates_presence_of :start_time
     validates_uniqueness_of :name, scope: :events_id
 end
