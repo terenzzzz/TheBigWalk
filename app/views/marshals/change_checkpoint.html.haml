@@ -1,9 +1,10 @@
 .d-flex.justify-content-center
-  %h1 Change Checkpoint 
+  %h1.fw-bold Change Checkpoint 
 %br/
 
 - if @checkpoints.count == 0
-  %h3 There are no checkpoints ready. Please contact Admin to Generate one.
+  %h5.text-center There are no checkpoints ready.
+  %h5.text-center Please contact an admin so they can generate one.
 - else 
   .row 
     .col

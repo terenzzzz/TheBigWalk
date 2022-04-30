@@ -164,7 +164,7 @@ class MarshalsController < ApplicationController
 
             redirect_to marshals_path
         else
-            redirect_to checkin_walkers_marshals_path, notice: 'Ivalid walker ID.'
+            redirect_to checkin_walkers_marshals_path, notice: 'Invalid Walker ID.'
         end
     end
 end
