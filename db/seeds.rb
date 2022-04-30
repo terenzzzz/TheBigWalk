@@ -204,10 +204,8 @@ end
         walker.rank = id
         if (id % 9) == 0
             walker.pace = 'Falling Behind!'
-            walker.opted_in_leaderboard = false
         else
             walker.pace = 'On Pace.'
-            walker.opted_in_leaderboard = true
         end
         walker.routes_id = '1'
         walker.event_id = '1'
