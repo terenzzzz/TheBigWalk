@@ -4,36 +4,42 @@
 %table
   %tbody
     %tr
+      %td Rank
       %td Participant
       %td Last Checkpoint
       %td Time to Last Checkpoint
-  - @current_event = session[:current_event_id]
 
-  - @walkers_for_route.each do |participant| 
-    - @loop_user = User.where(id: participant.user_id).first
-    - @tag = Tag.where(id: @loop_user.tag_id).first
-    - if @tag.name == "Walker" 
-      - @walker = Participant.where(user_id: @loop_user.id).first
-      /- @checkpoint = Checkpoint.where(id: .checkpoints_id).first
-      /-@current_route_id = Route.where(events_id: session[:current_route_id]).first.id
-      - @all_route_checkpoints = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])
-      - @most_recent_update = CheckpointTime.where(participant_id: @walker.id).first
-      - if @most_recent_update != nil
-        - @most_recent_name = Checkpoint.where(id: @most_recent_update.checkpoint_id).name
-        - @most_recent_time = @most_recent_update.times
+    - @walkers_for_route.each do |participant|
+      
+      /Gives you the most recent checkpoint that the user has gotten to
+      - @most_recent_check_in = nil #DateTime.new(0, 0, 0, 0, 0, 0)
+      - @all_route_checkpoints.each do |checkpoint|
+        - @current_checkpoint = CheckpointTime.where(checkpoint_id: checkpoint.id, participant_id: participant.id).first
+        - if @current_checkpoint 
+          - @current_checkpoint_time = @current_checkpoint.times
+          - if @most_recent_check_in == nil || @current_checkpoint_time > @most_recent_check_in
+            - @most_recent_check_in = @current_checkpoint_time
+            - @most_recent_checkpoint_name = checkpoint.name
+
+      /Gives you the user currently being referenced in the for loop
+      - @loop_user = User.where(id: participant.user_id).first
+      - @tag = Tag.where(id: @loop_user.tag_id).first
+      - if @tag.name == "Walker"
+        - @current_walker_name = @loop_user.name
+        - @current_walker = Participant.where(user_id: @loop_user.id).first
       - else 
-        - @most_recent_name = "Start Point"
-        - @most_recent_time = "00:00:00"
+        - @current_walker_name = nil
 
-      - if @walker.opted_in_leaderboard == true or @walker.opted_in_leaderboard == nil
+      /Displaying the leaderboard row for a user
+      - if participant.opted_in_leaderboard == true || participant.opted_in_leaderboard == nil
         %tr
-          %td= link_to "#{@loop_user.name}", single_user_leaderboard_pages_path(:leaderboard_participant_id => @walker)
-          %td=@most_recent_name
-          %td=@most_recent_time
-
-      /# Get all of the users in the event, record the amount
-      /# Create a for loop to go through each user, cretae another for loop inside that going through the linker table to find
-      /#    the highest position in route (where user_id = x.id (where x is the value from the first for loop)), then print that
-      /#      value out in the table next to the user, or print the user name and most recent time together.
-      /#s
-      /# Get the linker table position in route, then do a for loop for it to get the highest position, or just do .highest .
+          %td=participant.id
+          %td=link_to "#{@current_walker_name}", single_user_leaderboard_pages_path(:leaderboard_participant_id => @current_walker)
+          %td=@most_recent_checkpoint_name
+          - if @most_recent_check_in != nil 
+            - if @most_recent_check_in.strftime('%H').to_i >= 12 
+              %td="#{@most_recent_check_in.strftime('%H:%M')}pm"
+            - else 
+              %td="#{@most_recent_check_in.strftime('%H:%M')}am"
+          - else
+            %td 00:00:00

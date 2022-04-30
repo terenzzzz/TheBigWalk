@@ -82,6 +82,7 @@
     -# =link_to "Check In Failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Check Point Information", checkpoint_info_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Leaderboard", leaderboard_pages_path, class: 'btn btn-primary primary-button'
+    =link_to "View My Times", single_user_leaderboard_pages_path(:leaderboard_participant_id => session[:current_user_id]), class: 'btn btn-primary primary-button'
     =link_to "Request Help", help_walkers_path, class: 'btn btn-primary primary-button'
 
 

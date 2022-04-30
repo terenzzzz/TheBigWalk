@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_28_164426) do
+ActiveRecord::Schema.define(version: 2022_04_30_150050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,14 @@ ActiveRecord::Schema.define(version: 2022_04_28_164426) do
     t.bigint "users_id", null: false
     t.index ["checkpoints_id"], name: "index_marshalls_on_checkpoints_id"
     t.index ["users_id"], name: "index_marshalls_on_users_id"
+  end
+
+  create_table "opted_in_leaderboards", force: :cascade do |t|
+    t.boolean "opted_in"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_opted_in_leaderboards_on_user_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -231,6 +239,7 @@ ActiveRecord::Schema.define(version: 2022_04_28_164426) do
   add_foreign_key "checkpoints", "events", column: "events_id"
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
   add_foreign_key "marshalls", "users", column: "users_id"
+  add_foreign_key "opted_in_leaderboards", "users"
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
   add_foreign_key "participants", "events"
   add_foreign_key "participants", "routes", column: "routes_id"
