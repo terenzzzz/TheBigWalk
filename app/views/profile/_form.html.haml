@@ -5,6 +5,18 @@
     = f.input :name
     = f.input :description, label: "Tell The World Anything!", hint: "This will appear on your profile page."
     = f.input :mobile
+    /Tom will fix later
+    -if current_user.tag.name == "Walker"
+      -@walker = Participant.where(user_id: current_user.id).first
+      -participant = Participant.where(user_id: current_user.id).first
+      = f.input :participant   
+      /Add checkbox here (checked if user is opted in for leaderboard, otherwise not checked)
+      /Update their preference when the 'Update User' button is pressed    
+    -elsif current_user.tag.name == "Marshal"
+      -@marshal = Marshall.where(users_id: current_user.id).first
+      -marshal_id = @marshal.id
+      = f.input :marshal_id
+                
   
   .form-actions
   %br

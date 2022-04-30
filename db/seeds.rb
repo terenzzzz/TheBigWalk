@@ -116,30 +116,35 @@ end
 #(1..5).each do |id|
 #Event.create(name: Faker::Mountain.range)
 Event.create(name:'The Big Walk 2022')
+puts "created event"
 Branding.create(events_id: '1')
+puts "created branding"
 Route.create(name: '50km') do |route|
     route.course_length = '50'
     route.start_date = '2022-06-12'
     route.start_time = '2000-01-01 10:00:00.000000000 +0000'
     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
     route.events_id = '1'
+    puts "created route"
 end
 start_dist = 0
 end_dist = 0
 (1..20).each do |check_id|
     #Checkpoint.create(name: Faker::Fantasy::Tolkien.unique.location) do |checkpoint|
     Checkpoint.create(name: Faker::Address.unique.street_name) do |checkpoint|
-        checkpoint.os_grid = 'SK160876'
+        checkpoint.os_grid = 'SK331896'
         checkpoint.events_id = '1' 
+        puts "created checkpoint #{check_id}"
     end
     RoutesAndCheckpointsLinker.create(distance_from_start: Faker::Number.between(from: start_dist, to: end_dist)) do |linker|
         start_dist = end_dist + 1
         end_dist = end_dist + 5
         linker.checkpoint_description = Faker::Lorem.paragraph
-        linker.advised_time = '40'
+        linker.advised_time = '20'
         linker.route_id = '1'
         linker.checkpoint_id = check_id
         linker.position_in_route = check_id
+        puts "created linker #{check_id}"
     end
 end
 
@@ -153,12 +158,12 @@ if User.where(email:'walker@test.com')
     puts "-------------------------------------"
 end
 
-Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '2', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1', opted_in_leaderboard: true, event_id: '1')
+Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '2', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1', event_id: '1')
 if Participant.where(participant_id:'1001')
     puts "Created Walker Successfully"
     puts "-------------------------------------"
 end
-
+OptedInLeaderboard.where(user_id: 1).first_or_create(opted_in: true)
 Pickup.where(os_grid: 'SK123456').first_or_create(os_grid:'SK123456', user_id: '1', event_id: '1')
 if Pickup.where(os_grid:'SK123456')
     puts "Created Walker pickup Successfully"
@@ -176,13 +181,17 @@ if User.where(email:'marshal@test.com')
     puts "Created Marshall Account Successfully"
     puts "-------------------------------------"
 end
+<<<<<<< HEAD
 Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', users_id: '2')
+=======
+Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', checkpoints_id: '2', users_id: '2')
+>>>>>>> 999bd8f978b75abcb98b86a40686561c7512b389
 if Marshall.where(marshal_id:'2001')
     puts "Created Marshall Successfully"
     puts "-------------------------------------"
 end
 
-(1..100).each do |id|
+(3..102).each do |id|
     User.create(email: Faker::Internet.unique.email) do |user|
         #user.name = Faker::Fantasy::Tolkien.character
         user.name = Faker::Name.name
@@ -190,31 +199,33 @@ end
         user.password = "testtest"
         user.password_confirmation = "testtest"
         user.tag_id = 1
+        puts "created user #{id}"
     end
     Participant.create(participant_id: Faker::Number.unique.within(range: 1002..1999)) do |walker|
         walker.checkpoints_id = Faker::Number.within(range: 1..20)
-        walker.user_id = id + 2
+        walker.user_id = id
         walker.status = 'none'
-        walker.rank = id + 2
+        walker.rank = id
         if (id % 9) == 0
             walker.pace = 'Falling Behind!'
-            walker.opted_in_leaderboard = false
         else
             walker.pace = 'On Pace.'
-            walker.opted_in_leaderboard = true
         end
         walker.routes_id = '1'
         walker.event_id = '1'
-        
+        puts "created walker #{id}"
     end
+    OptedInLeaderboard.create(user_id: id, opted_in: true)
 end
 (1..10).each do |id|
     Pickup.create(os_grid: 'SK123456') do |pickup|
         pickup.user_id = Faker::Number.unique.within(range: 2..101) 
         pickup.event_id = '1'
+        puts "created pickup request #{id}"
     end
     Call.create(user_id: Faker::Number.unique.within(range: 2..101)) do |call|
         call.event_id = '1'
+        puts "created call request #{id}"
     end
 end
 
@@ -229,10 +240,11 @@ end
     end_time = DateTime.now
     (1..pos).each do |check_num|
         CheckpointTime.create(times: Faker::Time.between(from: start_time, to: end_time, format: :default)) do |time|
-            start_time = end_time + 0.05
-            end_time = end_time + 0.1
+            start_time = end_time + 0.01
+            end_time = end_time + 0.05
             time.checkpoint_id = check_num
             time.participant_id = ids
+            puts "created checkpoint time #{check_num} for walker #{ids}"
         end
     end
 end
@@ -246,10 +258,12 @@ end
         user.password = "testtest"
         user.password_confirmation = "testtest"
         user.tag_id = 2
+        puts "created user #{id + 102}"
     end
     Marshall.create(marshal_id: Faker::Number.unique.within(range: 2002..2999)) do |marshal|
         marshal.checkpoints_id = Faker::Number.unique.within(range: 2..20)
         marshal.users_id = id + 102
+        puts "created marshal #{id + 1} for id #{id + 102}"
     end
 end
 

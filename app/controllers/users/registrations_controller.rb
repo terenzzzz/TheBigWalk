@@ -13,7 +13,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |resource|
       resource.update(tag: Tag.first_or_create(name: 'Walker'))
-      session[:opted_in] = params[:opted_in]
+      puts "Opted in params: #{params[:opted_in]}"
+      if params[:opted_in] == 1
+        session[:opted_in] = true
+      else
+        session[:opted_in] = false
+      end
+      @newOptedInEntry = OptedInLeaderboard.new(user_id: resource.id, opted_in: session[:opted_in])
+      @newOptedInEntry.save
+      puts "!!!!!!!!!!!!! #{resource.id}"
+
+      puts "OPTED IN REG CONTROLLER: #{session[:opted_in]} *** #{params[:opted_in]}"
     end
   end
 end

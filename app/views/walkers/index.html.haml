@@ -8,6 +8,22 @@
                 %h2{class: "fw-bold"} The event has begun! 
             %br
             .d-flex.justify-content-center
+                %h4{class: "fw-bold"} You are currently
+            -if @walker.rank % 10 == 0 || @walker.rank % 10 == 4 || @walker.rank % 10 == 5 || @walker.rank % 10 == 6 || @walker.rank % 10 == 7 || @walker.rank % 10 == 8 || @walker.rank % 10 == 9
+                .d-flex.justify-content-center
+                    %h1{class: "fw-bold"}= "#{@walker.rank}th"
+            -elsif @walker.rank % 10 == 1
+                .d-flex.justify-content-center
+                    %h1{class: "fw-bold"}= "#{@walker.rank}st"
+            -elsif @walker.rank % 10 == 2
+                .d-flex.justify-content-center
+                    %h1{class: "fw-bold"}= "#{@walker.rank}nd"
+            -elsif @walker.rank % 10 == 3
+                .d-flex.justify-content-center
+                    %h1{class: "fw-bold"}= "#{@walker.rank}rd"
+
+            %br
+            .d-flex.justify-content-center
                 %h4{class: "fw-bold"} Your next checkpoint:
             .d-flex.justify-content-center
                 %h1{class: "fw-bold"}= @checkpoint.name
@@ -18,21 +34,21 @@
                 %h4{:id => "countdownMsg2", class: "fw-bold"}
             .d-flex.justify-content-center
                 %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
-                /current time c
+            %h4{:id => "rubyCode", class: "fw-bold"}
                 /current time c
                 /time reached last checkpoint l
                 /c - l = time since last checkpoint s
                 /adviced time a - s = time left to reach next checkpoint n
                 /if n < 0 set status to falling behind and timer starts to increase 
                 :javascript
-                    //var checkpointTimeDate = new Date("#{@start_date}T#{@start_time}").getTime();
                     var checkpointTimeDate = new Date("#{@time}").getTime();
                     var x = setInterval(function() {
-                        var now = new Date().getTime();
-                        var timeFromLast = now - (checkpointTimeDate - 3600000);
+                        var date = new Date();
+                        var now = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                        //var timeFromLast = now - (checkpointTimeDate - 3600000);
+                        var timeFromLast = now - checkpointTimeDate;
                         
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
-                        //should be smarter think time from last is in seconds?? so convert advised time
                         var days = Math.floor(timeFromLast / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeFromLast % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((timeLeftToReach % (1000 * 60 * 60)) / (1000 * 60));
@@ -42,14 +58,16 @@
                         if (timeLeftToReach < 0) {
                             document.getElementById("countdownMsg").innerHTML = "You are";
                             document.getElementById("countdownMsg2").innerHTML = "running late by:";
-                            days = - days
-                            hours = - hours
+                            days = days 
+                            hours = hours
                             minutes = - minutes - 1
                             seconds = - seconds
+                            //document.getElementById("rubyCode").innerHTML = '#{@walker.update(status: "Falling Behind!")}';
+                            var a = '#{@walker.update(status: "Falling Behind!")}';
+
+                        } else {
+                            var a = '#{@walker.update(status: "On Pace.")}';
                         }
-                        //document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
-                        //document.getElementById("countdown").innerHTML = timeFromLast;
-                        /** */
                         if (days > 0){
                             document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
                         } else if ((days <= 0) && (hours > 0)){
@@ -59,11 +77,8 @@
                         } else if ((days <= 0) && (hours <= 0) && (minutes <= 0) && (seconds > 0)){
                             document.getElementById("countdown").innerHTML = seconds + "S ";
                         } else {
-                            document.getElementById("countdown").innerHTML = "countdown it broken";
+                            document.getElementById("countdown").innerHTML = "countdown is broken";
                         }
-                        /***/
-                        
-                        //document.getElementById("countdown").innerHTML = minutes + "M : " + seconds + "S ";
                         
                     }, 1000);
         -else
@@ -83,6 +98,7 @@
     -# =link_to "Check In Failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Check Point Information", checkpoint_info_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Leaderboard", leaderboard_pages_path, class: 'btn btn-primary primary-button'
+    =link_to "View My Times", single_user_leaderboard_pages_path(:leaderboard_participant_id => session[:current_user_id]), class: 'btn btn-primary primary-button'
     =link_to "Request Help", help_walkers_path, class: 'btn btn-primary primary-button'
 
 
