@@ -1,5 +1,8 @@
 .d-flex.justify-content-center.p-3
-    = image_tag("bwlogosquaretight.png", class: "img-fluid")
+    -if Branding.where(events_id: session[:current_event_id]).first
+        = image_tag(url_for(Branding.where(events_id: session[:current_event_id]).first.logo), class: "img-fluid")
+    -else
+        = image_tag("intentionallybadlogo.png", class: "img-fluid")
 .d-flex.justify-content-center
     %h5{class: "fw-bold"} Sets off in:
 .d-flex.justify-content-center
