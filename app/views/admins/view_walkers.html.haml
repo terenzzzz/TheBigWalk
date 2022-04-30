@@ -20,16 +20,19 @@
             %tr
                 %td ID Number
                 %td Person
+                %td Checkpoint
                 %td Pace
             -if @falling_behind
                 -@falling_behind.each do |walker|
                     %tr 
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
+                        %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
                         %td falling behind
             -if @on_pace
                 -@on_pace.each do |walker|
                     %tr
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
+                        %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
                         %td on pace
