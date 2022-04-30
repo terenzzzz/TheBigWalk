@@ -26,7 +26,10 @@
               =link_to 'javascript:history.back()' do
                 .i.bi.bi-arrow-left.display-6
             .col-6.mx-auto
-              = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), '/pages/1/home')
+              -if Branding.where(events_id: session[:current_event_id]).first
+                = link_to(image_tag(url_for(Branding.where(events_id: session[:current_event_id]).first.header), class: "img-fluid"), '/pages/1/home')
+              -else
+                = link_to(image_tag("monkey.png", class: "img-fluid"), '/pages/1/home')
             .col-3.d-flex.justify-content-center
               -if user_signed_in?
                 %a.nav-link.dropdown{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
