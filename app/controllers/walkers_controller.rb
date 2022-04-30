@@ -41,6 +41,35 @@ class WalkersController < ApplicationController
 
       # need change the os reference
       if @osReference == @checkpoint.os_grid
+        walker.update(pace: "On Pace.")
+
+        #rerank the walker
+        #gets walkers at that checkpoint same on route 
+        walkers_on_route = Participant.where(routes_id: walker.routes_id, checkpoints_id: @checkpoint.id)
+
+        lowest_rank = 0
+        #checks whos gone past that checkpoint with lowest rank 
+        walkers_on_route.each do |walkers|
+            if walkers.rank > lowest_rank
+              lowest_rank = walkers.rank
+            end
+        end
+        old_rank= walker.rank.dup
+        #if rank is the same dont update
+        #if noone has then they are in 1st
+        if (lowest_rank + 1) != walker.rank
+          walker.update(rank: (lowest_rank + 1))
+        end
+
+        #reranks rest
+        #old rank and new rank everyone inbetween gets shifted down if rank is increased
+        if old_rank < (lowest_rank + 1)
+            walkers_rerank = Participant.where(routes_id: walker.routes_id).where("rank > ? and rank <= ?", old_rank, (lowest_rank + 1))
+            walkers_rerank.each do |walkers|
+              walkers.update(rank: (walkers.rank + 1))
+            end
+        end
+
         redirect_to check_in_walkers_path
       else
         redirect_to check_in_fail_walkers_path

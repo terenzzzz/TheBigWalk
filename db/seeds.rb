@@ -181,7 +181,11 @@ if User.where(email:'marshal@test.com')
     puts "Created Marshall Account Successfully"
     puts "-------------------------------------"
 end
+<<<<<<< HEAD
+Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', users_id: '2')
+=======
 Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', checkpoints_id: '2', users_id: '2')
+>>>>>>> 999bd8f978b75abcb98b86a40686561c7512b389
 if Marshall.where(marshal_id:'2001')
     puts "Created Marshall Successfully"
     puts "-------------------------------------"

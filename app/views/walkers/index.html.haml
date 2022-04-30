@@ -9,7 +9,7 @@
             %br
             .d-flex.justify-content-center
                 %h4{class: "fw-bold"} You are currently
-            -if @walker.rank % 10 == 0 || 4 || 5 || 6 || 7 || 8 || 9
+            -if @walker.rank % 10 == 0 || @walker.rank % 10 == 4 || @walker.rank % 10 == 5 || @walker.rank % 10 == 6 || @walker.rank % 10 == 7 || @walker.rank % 10 == 8 || @walker.rank % 10 == 9
                 .d-flex.justify-content-center
                     %h1{class: "fw-bold"}= "#{@walker.rank}th"
             -elsif @walker.rank % 10 == 1
@@ -77,7 +77,7 @@
                         } else if ((days <= 0) && (hours <= 0) && (minutes <= 0) && (seconds > 0)){
                             document.getElementById("countdown").innerHTML = seconds + "S ";
                         } else {
-                            document.getElementById("countdown").innerHTML = "countdown it broken";
+                            document.getElementById("countdown").innerHTML = "countdown is broken";
                         }
                         
                     }, 1000);
