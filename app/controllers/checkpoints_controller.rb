@@ -55,9 +55,18 @@ class CheckpointsController < ApplicationController
           
           @linker = RoutesAndCheckpointsLinker.new
           @linker.checkpoint_id = @checkpoint.id
-          @linker.distance_from_start = 0
+          linkers = RoutesAndCheckpointsLinker.where(route_id: id)
+          smallest_pos = 1
+          smallest_dist = 1
+          linkers.each do |linker|
+            if linker.position_in_route < smallest_pos
+              smallest_pos
+            end
+
+          end
+          @linker.distance_from_start = smallest_dist - 1
           @linker.route_id = id
-          @linker.position_in_route = 0
+          @linker.position_in_route = smallest_pos - 1
           @linker.save
           new_linkers.push(@linker.id)
         end

@@ -51,6 +51,9 @@ class WalkersController < ApplicationController
     def sign_up_participant
       participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id], rank: 0, opted_in_leaderboard: session[:opted_in])
       participant.save
+      puts "########################################"
+      puts (Participant.where(id: participant.id).first).id
+      puts "########################################"
       # @current_participant_opted_in = Participant.where(routes_id:session[:current_route_id], user_id: session[:current_user_id]).first.opted_in_leaderboard #current_user.id).first.opted_in_leaderboard
       # puts "$$$$$ #{@current_participant_opted_in}"
       # if @current_participant_opted_in #== true
@@ -129,8 +132,8 @@ class WalkersController < ApplicationController
       @walker = Participant.where(user_id: user.id).first
       puts "Route ID: #{@walker}"
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: @walker.routes_id, checkpoint_id: @walker.checkpoints_id).first.position_in_route
-      linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: @walker.routes_id).first
-      @checkpoint = Checkpoint.where(id: linker.checkpoint_id).first
+      @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: @walker.routes_id).first
+      @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
 
       @advisedTime = @linker.advised_time
       @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
