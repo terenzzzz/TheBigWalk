@@ -1,13 +1,13 @@
 .row 
     .col
         .d-flex.justify-content-center
-            %h2 Your Checkpoint: 
+            %h3.fw-bold Current Checkpoint: 
         .d-flex.justify-content-center
-            %h1= @checkpoint.name
+            %h1.fw-bold.text-uppercase.text-center= @checkpoint.name
         %br
         .d-flex.justify-content-center
             = simple_form_for :checkin_walker, url: checkin_walker_marshals_path, method: :post do |f|
                 = f.input :participant_id, label: "Walker Number:"
                 %br/
-                = f.submit "Checkin Walker", class: 'btn btn-primary primary-button'
+                = f.submit "Checkin Walker", class: 'btn btn-primary primary-button w-100'
         

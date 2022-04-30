@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   resources :checkpoint_times
   resources :brandings
   resources :events
-  resources :checkpoints 
+  resources :checkpoints  do
+    post :search, on: :collection
+  end
   #resources :participants
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users
@@ -45,6 +47,7 @@ Rails.application.routes.draw do
   end
 
   resources :marshals do
+    get 'search_checkpoint', on: :collection
     get 'choose_event', on: :collection
     get 'add_shift', on: :member
     get 'view_incoming_walkers', on: :collection
