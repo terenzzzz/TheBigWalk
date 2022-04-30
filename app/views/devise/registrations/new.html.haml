@@ -16,8 +16,8 @@
           = f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }
           / \/ 1 is passed through if the checkbox is checked.
           = check_box_tag "opted_in", 1
-          = "Opt in to Leaderboard"
+          = "I want to opt in to the public leaderboard"
         .card-footer
-          %button.btn.btn-primary{ type: :submit }
+          %button.btn.btn-primary.w-100{ type: :submit }
             Sign Up
           .mt-3= render "devise/shared/links"

@@ -112,7 +112,7 @@ ActiveRecord::Schema.define(version: 2022_04_30_150543) do
     t.integer "marshal_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "checkpoints_id", null: false
+    t.bigint "checkpoints_id"
     t.bigint "users_id", null: false
     t.index ["checkpoints_id"], name: "index_marshalls_on_checkpoints_id"
     t.index ["users_id"], name: "index_marshalls_on_users_id"

@@ -24,9 +24,9 @@
 
             %br
             .d-flex.justify-content-center
-                %h4{class: "fw-bold"} Your next checkpoint:
+                %h4.fw-bold Your next checkpoint:
             .d-flex.justify-content-center
-                %h1{class: "fw-bold"}= @checkpoint.name
+                %h1.fw-bold.text-center.text-uppercase= @checkpoint.name
             %br
             .d-flex.justify-content-center
                 %h4{:id => "countdownMsg", class: "fw-bold"}

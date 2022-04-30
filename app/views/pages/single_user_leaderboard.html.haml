@@ -1,13 +1,11 @@
 /- @current_participant_id = Participant.where(id: @leaderboard_participant_id).first.id
-%h1 User Leaderboard
+%h1.fw-bold.text-center= "#{User.where(id: @leaderboard_user_id).first.name}'s Leaderboard"
 
-%table
+%table.w-100
   %tbody
-    %tr="#{User.where(id: @leaderboard_user_id).first.name}'s Times"
-    
     %tr
-      %td Checkpoint
-      %td Time Arrived
+      %td.fw-bold Checkpoint
+      %td.fw-bold Time Arrived
 
     - @i = 1
     - puts "Route checkpoints: #{@route_checkpoints}"
