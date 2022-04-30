@@ -1,21 +1,26 @@
 -# frozen_string_literal: true
+
 = simple_form_for(@user) do |f|
   .form-inputs
     = f.input :avatar, label:"Profile Picture"
     = f.input :name
     = f.input :description, label: "Tell The World Anything!", hint: "This will appear on your profile page."
     = f.input :mobile
-    /Tom will fix later
     -if current_user.tag.name == "Walker"
-      -@walker = Participant.where(user_id: current_user.id).first
-      -participant = Participant.where(user_id: current_user.id).first
-      = f.input :participant   
-      /Add checkbox here (checked if user is opted in for leaderboard, otherwise not checked)
-      /Update their preference when the 'Update User' button is pressed    
+      = simple_fields_for(Participant.where(user_id: current_user.id).first) do |o|
+        .form-inputs
+          = o.input :participant_id
+      -role_id = Participant.where(user_id: current_user.id).first
     -elsif current_user.tag.name == "Marshal"
-      -@marshal = Marshall.where(users_id: current_user.id).first
-      -marshal_id = @marshal.id
-      = f.input :marshal_id
+      = simple_fields_for(Marshall.where(user_id: current_user.id).first) do |o|
+        .form-inputs
+          = o.input :marshal_id
+    /Tom has no idea how to fix - help
+    
+    
+    /Add checkbox here (checked if user is opted in for leaderboard, otherwise not checked)
+    /Update their preference when the 'Update User' button is pressed    
+    
                 
   
   .form-actions
