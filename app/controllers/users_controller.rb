@@ -13,11 +13,11 @@ class UsersController < ApplicationController
             if Tag.where(id: @user.tag_id).first.name == "Walker"
                 spreadsheet = Spreadsheet.new
                 walker = Participant.where(user_id: @user.id).first
-                walker.update(params.require(:user).permit(:participant_id))
+                walker.update(params.require(:participant).permit(:participant_id))
                 spreadsheet.update_walker_info((Route.where(id: walker.routes_id).first), @user)
             elsif Tag.where(id: @user.tag_id).first.name == "Marshal"
-                marshal = Marshall.where(user_id: @user.id).first
-                marshal.update(params.require(:user).permit(:marshal_id))
+                marshal = Marshall.where(users_id: @user.id).first
+                marshal.update(params.require(:marshall).permit(:marshal_id))
             end
             redirect_to profile_index_path, notice: 'Profile successfully updated.'
         else
