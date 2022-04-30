@@ -118,6 +118,7 @@ class MarshalsController < ApplicationController
             @marshal = Marshall.where(users_id: session[:current_user_id]).first
             @walker.update(checkpoints_id: @marshal.checkpoints_id)
 
+            #create checkpoint time for walker
             time = Time.now
             @checkpoint_time = CheckpointTime.new
             @checkpoint_time.times = time 
@@ -125,6 +126,36 @@ class MarshalsController < ApplicationController
             @checkpoint_time.participant_id = @walker.id
             @checkpoint_time.save
 
+            #rerank the walker
+            #gets walkers at that checkpoint same on route 
+            walkers_on_route = Participant.where(routes_id: @walker.routes_id, checkpoints_id: @marshal.checkpoints_id)
+
+            lowest_rank = 0
+            #checks whos gone past that checkpoint with lowest rank 
+            walkers_on_route.each do |walker|
+                if walker.rank > lowest_rank
+                    lowest_rank = walker.rank
+                end
+            end
+            old_rank= @walker.rank.dup
+            #if rank is the same dont update
+            #if noone has then they are in 1st
+            if (lowest_rank + 1) != @walker.rank
+                @walker.update(rank: (lowest_rank + 1))
+            end
+
+            #reranks rest
+            #old rank and new rank everyone inbetween gets shifted down if rank is increased
+            if old_rank < (lowest_rank + 1)
+                walkers_rerank = Participant.where(routes_id: @walker.routes_id).where("rank > ? and rank <= ?", old_rank, (lowest_rank + 1))
+                walkers_rerank.each do |walker|
+                    walker.update(rank: (walker.rank + 1))
+                end
+            end
+
+
+
+            #add checkpoint time for walker to spreadsheet
             user = User.where(id: @walker.user_id).first
             route = Route.where(id: @walker.routes_id).first
             checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first

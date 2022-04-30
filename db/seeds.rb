@@ -132,7 +132,7 @@ end_dist = 0
 (1..20).each do |check_id|
     #Checkpoint.create(name: Faker::Fantasy::Tolkien.unique.location) do |checkpoint|
     Checkpoint.create(name: Faker::Address.unique.street_name) do |checkpoint|
-        checkpoint.os_grid = 'SK160876'
+        checkpoint.os_grid = 'SK331896'
         checkpoint.events_id = '1' 
         puts "created checkpoint #{check_id}"
     end
@@ -140,7 +140,7 @@ end_dist = 0
         start_dist = end_dist + 1
         end_dist = end_dist + 5
         linker.checkpoint_description = Faker::Lorem.paragraph
-        linker.advised_time = '40'
+        linker.advised_time = '20'
         linker.route_id = '1'
         linker.checkpoint_id = check_id
         linker.position_in_route = check_id

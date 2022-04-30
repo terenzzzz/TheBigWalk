@@ -243,6 +243,10 @@ class Spreadsheet
     end
     #need to put something in about if they drop out
 
-    def delete_walker
+    def delete_walker(route, user)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        
+        walker = Participant.where(user_id: user.id).first
+        worksheet.delete_rows((walker.rank+1), 1)
     end
 end

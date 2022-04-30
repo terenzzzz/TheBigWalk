@@ -51,6 +51,9 @@ class WalkersController < ApplicationController
     def sign_up_participant
       participant = Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])
       participant.save
+      puts "########################################"
+      puts (Participant.where(id: participant.id).first).id
+      puts "########################################"
 
       puts "current user opted in: #{participant.opted_in_leaderboard}"
       @current_participant_opted_in = Participant.where(user_id: current_user.id).first.opted_in_leaderboard
