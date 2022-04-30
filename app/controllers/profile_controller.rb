@@ -7,11 +7,11 @@ class ProfileController < ApplicationController
     def index
         @route_id = session[:current_route_id]
         if current_user.tag.name =='Marshal'
-            @marshal_id = Marshall.where(users_id: current_user.id).first.id
+            @marshal_id = Marshall.where(users_id: current_user.id).first.marshal_id
         end
         
         if current_user.tag.name =='Walker'
-            @participant_id = Participant.where(routes_id: @route_id, user_id: current_user.id).first.id
+            @participant_id = Participant.where(routes_id: @route_id, user_id: current_user.id).first.participant_id
         end
 
     end
