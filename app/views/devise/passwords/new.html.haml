@@ -8,6 +8,6 @@
         .card-body
           = f.error_notification
           = f.input :email,required: true,autofocus: true, input_html: { autocomplete: "email" }
-          = f.button :submit, class: 'btn btn-primary w-100 mt-20, '"Send Password Reset Instructions"
+          = f.button :submit, "Send Password Reset Instructions", class: 'btn btn-primary w-100 mt-20'
         .card-footer
           = render "devise/shared/links"
