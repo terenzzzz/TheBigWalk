@@ -51,6 +51,13 @@ class WalkersController < ApplicationController
     def sign_up_participant
       participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id], rank: 0)#, opted_in_leaderboard: session[:opted_in])
       participant.save
+
+      # user_id_for_participant = participant.user_id
+      # user_opted_in = User.where(id: user_id_for_participant).opted_in
+      
+      # new_opted_in_entry = OptedInLeaderboard.new(user_id: user_id_for_participant, opted_in: user_opted_in)
+      # new_opted_in_entry.save
+
       #puts "########################################"
       #puts (Participant.where(id: participant.id).first).id
       #puts "########################################"
@@ -137,10 +144,13 @@ class WalkersController < ApplicationController
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
 
       @advisedTime = @linker.advised_time
-      
-      #NEEDS UNCOMMENTING \/\/
-      #@time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
-    
+
+      #NEEDS FIXING, USER DOESN'T HAVE AN EMPTY TIME WHEN THEY SIGN UP (I think that's the issue or something like that) \/\/
+      if CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first
+        @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
+      else
+        @time = DateTime.new()
+      end
     end
 
     def show
