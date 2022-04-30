@@ -125,7 +125,7 @@ Rails.application.configure do
   ##########################################################################
 
   #Testing
-  app_url = 'https://team28.demo4.hut.shefcompsci.org.uk' # TODO: replace this with your application's URL (e.g. 'myapp.demo.epigenesys.org.uk')
+  app_url = 'team28.demo4.hut.shefcompsci.org.uk' # TODO: replace this with your application's URL (e.g. 'myapp.demo.epigenesys.org.uk')
   config.action_mailer.default_url_options    = { host: app_url, protocol: 'https' }
   config.action_mailer.asset_host             = "https://\#\{app_url\}"
   config.action_mailer.smtp_settings[:domain] = app_url
