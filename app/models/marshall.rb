@@ -5,7 +5,7 @@
 #  id             :bigint           not null, primary key
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
-#  checkpoints_id :bigint           not null
+#  checkpoints_id :bigint
 #  marshal_id     :integer
 #  users_id       :bigint           not null
 #

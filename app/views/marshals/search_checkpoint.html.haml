@@ -12,17 +12,15 @@
         = f.input :name
         = f.submit 'Search'
         = link_to 'Reset', change_checkpoint_marshals_path
-%br
-  .d-flex.justify-content-center 
-    - @checkpoints.each do |checkpoint|
-      .d-flex.justify-content-center
-        .col-6
-          .card.h-100
-            .card-body
-              %h5.card-title.fw-bold= checkpoint.name  
+%br/
+      .d-flex.justify-content-center 
+      - @checkpoints.each do |checkpoint|
+        .d-flex.justify-content-center
+          .col-6
+            .card.h-100
+              .card-body
+                %h5.card-title.fw-bold= checkpoint.name  
             =link_to '' , marshals_path(checkpoint), class:'stretched-link'
         %br/
     %br/
-%br/            
-
-
+%br/     
