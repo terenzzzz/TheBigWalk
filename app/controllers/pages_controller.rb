@@ -12,7 +12,7 @@ class PagesController < ApplicationController
     end
 
     if current_user.tag.name =='Admin'
-      redirect_to admins_path
+      redirect_to events_path
     end
 
     @paticipant = Participant.where(user_id:current_user.id, routes_id:session[:current_route_id])
@@ -24,7 +24,7 @@ class PagesController < ApplicationController
   end
 
   def pick_event
-    @events = Event.all
+    @events = Event.where(made_public: true)
   end
 
   def pick_route

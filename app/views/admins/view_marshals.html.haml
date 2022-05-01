@@ -14,4 +14,4 @@
                         %td.text-danger No Marshal
                     -else
                         -checkpoint_and_marshals.each do |checkpoint_and_marshal|
-                            %td= checkpoint_and_marshal.name
+                            %td=link_to "#{checkpoint_and_marshal.name}", checkpoint_and_marshal

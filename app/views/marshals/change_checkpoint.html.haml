@@ -2,28 +2,26 @@
   %h1.fw-bold Change Checkpoint 
 %br/
 
-- if @checkpoints.count == 0
-  %h5.text-center There are no checkpoints ready.
-  %h5.text-center Please contact an admin so they can generate one.
-- else 
-  .row 
-    .col
-      .d-flex.justify-content-center 
-      = simple_form_for :search, url: search_checkpoint_marshals_path, method: :post do |f|
-        = f.input :name
-        = f.submit 'Search'
-        = link_to 'Reset', change_checkpoint_marshals_path
+.row 
+  .col
+    .d-flex.justify-content-center 
+    = simple_form_for :search, url: search_checkpoint_marshals_path, method: :post do |f|
+      = f.input :name
+      = f.submit 'Search'
+      = link_to 'Reset', change_checkpoint_marshals_path
 %br
-  .d-flex.justify-content-center 
-    - @checkpoints.each do |checkpoint|
-      .d-flex.justify-content-center
-        .col-6
-          .card.h-100
-            .card-body
-              %h5.card-title.fw-bold= checkpoint.name  
-            =link_to '' , marshals_path(checkpoint), class:'stretched-link'
-        %br/
-    %br/
-%br/            
+
+- @checkpoints.each do |checkpoint|
+  .col-6
+    .card.mb-2
+      .card-body
+        - if checkpoint.id == @marshal.checkpoints_id
+          %h5.card-title.fw-bold= checkpoint.name
+          %h5.card-title.fw-bold Current Checkpoint
+        - else
+          %h5.card-title.fw= checkpoint.name
+        =link_to '' , marshal_path(checkpoint), class:'stretched-link'
+%br/
+
 
 

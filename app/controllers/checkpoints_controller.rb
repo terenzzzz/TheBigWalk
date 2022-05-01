@@ -48,32 +48,38 @@ class CheckpointsController < ApplicationController
       session[:linker_route_ids_index] = 0
       session[:linker_check_id] = @checkpoint.id
       new_linkers = Array.new
-    
+
       #adds each to route with the checkpoint to the linker table
       if @route_ids
         @route_ids.each do |id|
-          
           @linker = RoutesAndCheckpointsLinker.new
           @linker.checkpoint_id = @checkpoint.id
+
+          #set dist from start and pos in route
           linkers = RoutesAndCheckpointsLinker.where(route_id: id)
           smallest_pos = 1
           smallest_dist = 1
           linkers.each do |linker|
             if linker.position_in_route < smallest_pos
-              smallest_pos
+              smallest_pos = linker.position_in_route
             end
-
+            if linker.distance_from_start < smallest_dist
+              smallest_dist = linker.distance_from_start
+            end
           end
           @linker.distance_from_start = smallest_dist - 1
           @linker.route_id = id
           @linker.position_in_route = smallest_pos - 1
+          @linker.advised_time = 0
           @linker.save
           new_linkers.push(@linker.id)
         end
         session[:new_linkers] = new_linkers
+
         #finds the next linker and redirects to it
         @route_id = session[:linker_route_ids].at(session[:linker_route_ids_index])
         @route = RoutesAndCheckpointsLinker.where(checkpoint_id: session[:linker_check_id], route_id: @route_id)
+        
         @route.each do |route|
           redirect_to edit_routes_and_checkpoints_linker_path(route)
         end
@@ -119,9 +125,25 @@ class CheckpointsController < ApplicationController
           #add to linker table
           @linker = RoutesAndCheckpointsLinker.new
           @linker.checkpoint_id = @checkpoint.id
+
+          #set dist from start and pos in route
+          linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
+          smallest_pos = 1
+          smallest_dist = 1
+          linkers.each do |linker|
+            if linker.position_in_route < smallest_pos
+              smallest_pos = linker.position_in_route
+            end
+            if linker.distance_from_start < smallest_dist
+              smallest_dist = linker.distance_from_start
+            end
+          end
+          @linker.distance_from_start = smallest_dist - 1
           @linker.route_id = route.id
-          @linker.distance_from_start = 0
-          @linker.position_in_route = 0
+          @linker.position_in_route = smallest_pos - 1
+
+          @linker.route_id = route.id
+          @linker.advised_time = 0
           @linker.save
           new_linkers.push(@linker.id)
         end
@@ -145,10 +167,32 @@ class CheckpointsController < ApplicationController
     @events_routes_and_checkpoints_linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
     if @events_routes_and_checkpoints_linkers != 0
       @events_routes_and_checkpoints_linkers.each do |linker|
+        route = Route.where(id: linker.route_id).first
+        linker_pos = linker.position_in_route.dup
         spreadsheet = Spreadsheet.new
-        spreadsheet.delete_checkpoint((Route.where(id: linker.route_id).first), @checkpoint, linker.position_in_route)
+        spreadsheet.delete_checkpoint((Route.where(id: linker.route_id).first), @checkpoint.name, linker.position_in_route)
         linker.destroy
+        linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
+        linkers.each do |linkerss|
+          if linkerss.position_in_route > linker_pos
+            linkerss.position_in_route = linkerss.position_in_route - 1
+            linkerss.save
+          end
+        end 
       end
+    end
+    marshals = Marshall.where(checkpoints_id: @checkpoint.id)
+    times = CheckpointTime.where(checkpoint_id: @checkpoint.id)
+    times.each do |time|
+      time.destroy
+    end
+    walkers = Participant.where(checkpoints_id: @checkpoint.id)
+    walkers.each do |walker|
+      linker = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, position_in_route: 1).first
+      walker.update(checkpoints_id: linker.checkpoint_id)
+    end
+    marshals.each do |marshal|
+      marshal.update(checkpoints_id: nil)
     end
     @checkpoint.destroy
     redirect_to checkpoints_path
