@@ -8,10 +8,17 @@
         = f.input :name, label: "Checkpoint Name:"
         = f.input :os_grid, label: "OS Grid Reference:"
         - @routes = Route.where(events_id: session[:current_event_id])
-        - @routes.each do |route|
-            = check_box_tag 'selected_routes[]', route.id 
-            = route.name
+        .row 
+            - @routes.each do |route|
+                .col-6
+                    .card.h-100
+                        .card-body
+                            %h5.card-title.fw-bold= route.name
+                            = check_box_tag 'selected_routes[]', route.id 
+                            /= route.name
+                %br/
 
 
     .form-actions
-        = f.button :submit, "Save", class: 'btn btn-primary primary-button'
+        .d-grid.gap-2
+            = f.button :submit, "Save", class: 'btn btn-primary primary-button'

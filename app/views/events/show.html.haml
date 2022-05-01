@@ -7,9 +7,11 @@
   -if @event.made_public
     = simple_form_for :make_private, url: make_private_events_path, method: :post do |f|
       = f.hidden_field :id, value: @event.id
-      = f.submit "Make Event Private", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+      .d-grid.gap-2
+        = f.submit "Make Event Private", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
   -else
     = simple_form_for :make_public, url: make_public_events_path, method: :post do |f|
       = f.hidden_field :id, value: @event.id
-      = f.submit "Make Event Public", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+      .d-grid.gap-2
+        = f.submit "Make Event Public", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
   =link_to "Switch Event", events_path, class: 'btn btn-primary primary-button'

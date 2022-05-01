@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
       choose_event_marshals_path
     elsif current_user.tag.name == 'Admin'
       session[:current_user_id] = current_user.id
-      admins_path
+      events_path
     end
   end
 
