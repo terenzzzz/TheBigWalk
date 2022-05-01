@@ -85,9 +85,11 @@ class Spreadsheet
 
     def update_checkpoint_name(route, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
-        col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + @@walker_title_columns
-        worksheet[1,col_num] = checkpoint.name
-        worksheet.save
+        if worksheet
+            col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + @@walker_title_columns
+            worksheet[1,col_num] = checkpoint.name
+            worksheet.save
+        end
     end
 
     #needs to happen after linker has updated
@@ -112,26 +114,27 @@ class Spreadsheet
     #really it deletes a column
     def delete_checkpoint(route, checkpoint, pos)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
-    
-        col_num = pos + @@walker_title_columns
-        
-        #double checks if the chosen cell has the same name - dont know if nessassery
-        if worksheet[1,col_num] != checkpoint
-            return
-        end
-        
-        if col_num > worksheet.max_cols
-            raise(ArgumentError, 'The col number is out of range')
-        end
-        #moves all of the column to the right left
-        for c in col_num..(worksheet.max_cols - 1)
-            for r in 1..(worksheet.num_rows)
-                worksheet[r, c] = worksheet.input_value(r, c + 1)
+        if worksheet
+            col_num = pos + @@walker_title_columns
+            
+            #double checks if the chosen cell has the same name - dont know if nessassery
+            if worksheet[1,col_num] != checkpoint
+                return
             end
-        end
-        worksheet.max_cols -= 1
+            
+            if col_num > worksheet.max_cols
+                raise(ArgumentError, 'The col number is out of range')
+            end
+            #moves all of the column to the right left
+            for c in col_num..(worksheet.max_cols - 1)
+                for r in 1..(worksheet.num_rows)
+                    worksheet[r, c] = worksheet.input_value(r, c + 1)
+                end
+            end
+            worksheet.max_cols -= 1
 
-        worksheet.save
+            worksheet.save
+        end
     end
     
     #really it inserts a column
@@ -139,107 +142,110 @@ class Spreadsheet
     def add_checkpoint(route, checkpoint, pos, update_checkpoint)
         #make sure when handling checkpoint position + 2 for walker titles or more
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
-
-        #TODO is this really needed cus of validation
-        #checks if the checkpoint is already in the spreadsheeta and returns if it is
-        if update_checkpoint == 0
-            routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-            (3..(routes_linkers.length() + @@walker_title_columns)).each do |x|
-                if worksheet[1,x] == checkpoint.name
-                    return
+        if worksheet
+            #TODO is this really needed cus of validation
+            #checks if the checkpoint is already in the spreadsheeta and returns if it is
+            if update_checkpoint == 0
+                routes_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
+                (3..(routes_linkers.length() + @@walker_title_columns)).each do |x|
+                    if worksheet[1,x] == checkpoint.name
+                        return
+                    end
                 end
             end
-        end
 
-        col_num = pos + @@walker_title_columns
-        
-        cols = [[checkpoint.name]]
-        cols = Array.new([], cols) if cols.is_a?(Integer)
+            col_num = pos + @@walker_title_columns
+            
+            cols = [[checkpoint.name]]
+            cols = Array.new([], cols) if cols.is_a?(Integer)
 
-        # Shifts all cells right of the column
-        worksheet.max_cols += cols.size
-        worksheet.num_cols.downto(col_num) do |c|
-            (1..(worksheet.num_rows)).each do |r|
-                worksheet[r, c + cols.size] = worksheet.input_value(r, c)
+            # Shifts all cells right of the column
+            worksheet.max_cols += cols.size
+            worksheet.num_cols.downto(col_num) do |c|
+                (1..(worksheet.num_rows)).each do |r|
+                    worksheet[r, c + cols.size] = worksheet.input_value(r, c)
+                end
             end
-        end
 
-        # Fills in the inserted rows.
-        num_rows = worksheet.num_rows
-        cols.each_with_index do |col, c|
-            (0...[num_rows, col.size].max).each do |r|
-                worksheet[1 + r, col_num + c] = col[c] || ''
+            # Fills in the inserted rows.
+            num_rows = worksheet.num_rows
+            cols.each_with_index do |col, c|
+                (0...[num_rows, col.size].max).each do |r|
+                    worksheet[1 + r, col_num + c] = col[c] || ''
+                end
             end
+            worksheet.save
         end
-        worksheet.save
     end
 
     #when they sign up an event not account
     def add_walker(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
-        walker = Participant.where(user_id: user.id).first
-        worksheet.max_rows += 1
-        worksheet[(walker.rank + 1), 1] = user.name
-        worksheet[(walker.rank + 1), 2] = walker.participant_id
-        worksheet.save
+        if worksheet
+            walker = Participant.where(user_id: user.id).first
+            worksheet.max_rows += 1
+            worksheet[(walker.rank + 1), 1] = user.name
+            worksheet[(walker.rank + 1), 2] = walker.participant_id
+            worksheet.save
+        end
     end
 
     def update_walker_info(route, user)
-        # worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
-
-        # puts "#####################"
-        # puts walker.rank
-        # puts "#####################"
-
-        # walker = Participant.where(user_id: user.id).first
-        # worksheet[(walker.rank + 1), 1] = user.name
-        # worksheet[(walker.rank + 1), 2] = walker.participant_id
-        # worksheet.save
+        if worksheet
+            walker = Participant.where(user_id: user.id).first
+            worksheet[(walker.rank + 1), 1] = user.name
+            worksheet[(walker.rank + 1), 2] = walker.participant_id
+            worksheet.save
+        end
     end
 
     def update_walker_rank(route, old_rank, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
-
-        walker = Participant.where(user_id: user.id).first
-        values = worksheet.rows[old_rank + 1]#.each { |row| puts row.first(6).reverse.join(" | ") }
-        worksheet.insert_rows(walker.rank + 1, [values])
-
-        if walker.rank > old_rank
-            worksheet.insert_rows(walker.rank + 2, [values])
-            worksheet.delete_rows(old_rank + 1, 1)
-        else
+        if worksheet
+            walker = Participant.where(user_id: user.id).first
+            values = worksheet.rows[old_rank + 1]#.each { |row| puts row.first(6).reverse.join(" | ") }
             worksheet.insert_rows(walker.rank + 1, [values])
-            worksheet.delete_rows(old_rank + 2, 1)
+
+            if walker.rank > old_rank
+                worksheet.insert_rows(walker.rank + 2, [values])
+                worksheet.delete_rows(old_rank + 1, 1)
+            else
+                worksheet.insert_rows(walker.rank + 1, [values])
+                worksheet.delete_rows(old_rank + 2, 1)
+            end
+            worksheet.save
         end
-        worksheet.save
     end
 
     def add_checkpoint_time(route, user, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        if worksheet
+            walker = Participant.where(user_id: user.id).first 
+            
+            pos = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route
 
-        walker = Participant.where(user_id: user.id).first 
-        
-        pos = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route
-
-        #TODO its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
-        worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first.times
-        worksheet.save
+            #TODO its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
+            worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first.times
+            worksheet.save
+        end
     end
 
     def walker_drop_out(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
-
-        pickup = Pickup.where(user_id: user.id).first
-        walker = Participant.where(user_id: user.id).first
-        if walker.status == "pick up"
-            worksheet[(walker.rank + 1), 3] = "Needs Picking Up"
-            worksheet[(walker.rank + 1), 4] = pickup.os_grid
-            worksheet.save
-        else
-            worksheet[(walker.rank + 1), 3] = "Droped out"
-            worksheet.save
+        if worksheet
+            pickup = Pickup.where(user_id: user.id).first
+            walker = Participant.where(user_id: user.id).first
+            if walker.status == "pick up"
+                worksheet[(walker.rank + 1), 3] = "Needs Picking Up"
+                worksheet[(walker.rank + 1), 4] = pickup.os_grid
+                worksheet.save
+            else
+                worksheet[(walker.rank + 1), 3] = "Droped out"
+                worksheet.save
+            end
         end
     end
 
@@ -250,8 +256,9 @@ class Spreadsheet
 
     def delete_walker(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
-        
-        walker = Participant.where(user_id: user.id).first
-        worksheet.delete_rows((walker.rank+1), 1)
+        if worksheet
+            walker = Participant.where(user_id: user.id).first
+            worksheet.delete_rows((walker.rank+1), 1)
+        end
     end
 end
