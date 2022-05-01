@@ -69,6 +69,7 @@ Rails.application.routes.draw do
   match "/500", to: "errors#error_500", via: :all
 
   get :ie_warning, to: 'errors#ie_warning'
+  get '/marshals/:id', to: 'marshals#index'
 
 
   root :to => redirect("/users/sign_in")
