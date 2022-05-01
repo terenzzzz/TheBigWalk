@@ -69,15 +69,17 @@ class MarshalsController < ApplicationController
                     time_to_next_checkpoint = linker.advised_time
                     dif = time_now - time_last_checkpoint # seconds
                     on_pace = (time_to_next_checkpoint * 60) - dif
-                    if on_pace > 0
-                        calc_status.update(status: "On Pace.")
+
+                    if on_pace.to_i > 0
+                        stat.update(pace: "On Pace.")
                     else
-                        calc_status.update(status: "Falling Behind!")
+                        stat.update(pace: "Falling Behind!")
                     end
                     puts "#####################"
                     puts time_last_checkpoint
                     puts time_now
                     puts dif
+                    puts on_pace
                     puts "#####################"
                 end
 
@@ -143,7 +145,7 @@ class MarshalsController < ApplicationController
         @walker = Participant.where(params.require(:checkin_walker).permit(:participant_id)).first
         if @walker
             @marshal = Marshall.where(users_id: session[:current_user_id]).first
-            @walker.update(checkpoints_id: @marshal.checkpoints_id)
+            @walker.update(checkpoints_id: @marshal.checkpoints_id, pace: "On Pace.")
 
             #create checkpoint time for walker
             time = Time.now

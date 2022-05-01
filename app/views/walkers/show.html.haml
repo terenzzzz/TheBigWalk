@@ -34,13 +34,6 @@
                 %h4{:id => "countdownMsg2", class: "fw-bold"}
             .d-flex.justify-content-center
                 %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
-            .d-flex.justify-content-center
-                %h1{:id => "countdown2", class: "fw-bold"} Countdown Loading...
-            .d-flex.justify-content-center
-                %h1{:id => "countdown3", class: "fw-bold"} Countdown Loading...
-            .d-flex.justify-content-center
-                %h1{:id => "countdown4", class: "fw-bold"} Countdown Loading...
-            %h4{:id => "rubyCode", class: "fw-bold"}
                 /current time c
                 /time reached last checkpoint l
                 /c - l = time since last checkpoint s
@@ -53,10 +46,7 @@
                         //var now = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
                         //var timeFromLast = now - (checkpointTimeDate - 3600000);
                         var timeFromLast = now - checkpointTimeDate;
-                        document.getElementById("countdown2").innerHTML = new Date("#{@time}");
-                        document.getElementById("countdown3").innerHTML = new Date();
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
-                        document.getElementById("countdown4").innerHTML = timeLeftToReach;
                         var days = Math.floor(timeLeftToReach / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeLeftToReach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((timeLeftToReach % (1000 * 60 * 60)) / (1000 * 60));
@@ -66,15 +56,10 @@
                         if (timeLeftToReach < 0) {
                             document.getElementById("countdownMsg").innerHTML = "You are";
                             document.getElementById("countdownMsg2").innerHTML = "running late by:";
-                            days = days 
+                            days = days
                             hours = hours
                             minutes = - minutes - 1
                             seconds = - seconds
-                            //document.getElementById("rubyCode").innerHTML = '#{@walker.update(status: "Falling Behind!")}';
-                            var a = '#{@walker.update(status: "Falling Behind!")}';
-
-                        } else {
-                            var a = '#{@walker.update(status: "On Pace.")}';
                         }
                         if (days > 0){
                             document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
