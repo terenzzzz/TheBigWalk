@@ -6,7 +6,7 @@ class MarshalsController < ApplicationController
         tag = Tag.where(id: user.tag_id).first
         if tag.name == "Marshal"
         elsif tag.name == "Admin"
-            redirect_to admins_path, notice: 'You dont have access to that page'
+            redirect_to events_path, notice: 'You dont have access to that page'
         elsif tag.name == "Walker"
             redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
         end
