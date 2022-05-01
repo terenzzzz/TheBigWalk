@@ -42,6 +42,8 @@ class MarshalsController < ApplicationController
     end
 
     def end_marshal_shift
+        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal.update(checkpoints_id: nil)
     end
 
     def view_incoming_walkers
@@ -115,9 +117,6 @@ class MarshalsController < ApplicationController
     end
 
     def end_for_the_day
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
-        @marshal.checkpoints_id = nil
-        redirect_to destroy_user_session_path method: :delete
     end
 
     #GET
