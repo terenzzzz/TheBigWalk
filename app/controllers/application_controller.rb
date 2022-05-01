@@ -16,7 +16,12 @@ class ApplicationController < ActionController::Base
     if current_user.tag.name == 'Walker'
       session[:current_user_id] = current_user.id
       session[:opted_in] = OptedInLeaderboard.where(user_id: session[:current_user_id]).first.opted_in
-      pick_event_pages_path
+      if session[:current_route_id]
+        home_page_path(current_user)
+      else
+        pick_event_pages_path
+      end
+
     elsif current_user.tag.name == 'Marshal'
       session[:current_user_id] = current_user.id
       @marshal = Marshall.where(users_id: session[:current_user_id]).first
