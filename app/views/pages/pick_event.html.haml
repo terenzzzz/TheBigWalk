@@ -7,7 +7,7 @@
 - if @events.count == 0
   %h3 There are no events ready. Please contact an admin to create one.
 - else 
-  %h3{class: "fw-bold"} Your Events:
+  %h3{class: "fw-bold"} Available Events:
   .row
     - @events.each do |event|
       .col-6.mb-3
@@ -18,5 +18,3 @@
             =link_to '', pick_route_page_path(event), class:'stretched-link'
   %br/
 %br/
-
-%h3{class: "fw-bold"} Other Available Events:
