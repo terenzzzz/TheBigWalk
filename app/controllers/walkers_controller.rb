@@ -7,7 +7,7 @@ class WalkersController < ApplicationController
       elsif tag.name == "Marshal"
           redirect_to pick_event_pages_path, notice: 'You dont have access to that page'
       elsif tag.name == "Admin"
-          redirect_to admins_path, notice: 'You dont have access to that page'
+          redirect_to events_path, notice: 'You dont have access to that page'
       end
     end
 

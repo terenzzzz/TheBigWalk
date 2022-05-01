@@ -102,10 +102,10 @@ class Spreadsheet
         #figures out where where to add the new checkpoint and delete old
         if new_pos > old_pos
             add_checkpoint(route, checkpoint, (new_pos+1), 1)
-            delete_checkpoint(route, checkpoint, old_pos)
+            delete_checkpoint(route, checkpoint.name, old_pos)
         else
             add_checkpoint(route, checkpoint, new_pos, 1)
-            delete_checkpoint(route, checkpoint, (old_pos+1))
+            delete_checkpoint(route, checkpoint.name, (old_pos+1))
         end
     end
 
@@ -116,7 +116,7 @@ class Spreadsheet
         col_num = pos + @@walker_title_columns
         
         #double checks if the chosen cell has the same name - dont know if nessassery
-        if worksheet[1,col_num] != checkpoint.name
+        if worksheet[1,col_num] != checkpoint
             return
         end
         

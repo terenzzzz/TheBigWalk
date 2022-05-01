@@ -7,7 +7,10 @@ Rails.application.routes.draw do
   resources :routes_and_checkpoints_linkers
   resources :checkpoint_times
   resources :brandings
-  resources :events
+  resources :events do
+    post :make_public, on: :collection
+    post :make_private, on: :collection
+  end
   resources :checkpoints  do
     post :search, on: :collection
   end
@@ -47,11 +50,11 @@ Rails.application.routes.draw do
   end
 
   resources :marshals do
-    get 'search_checkpoint', on: :collection
     get 'choose_event', on: :collection
     get 'add_shift', on: :member
     get 'view_incoming_walkers', on: :collection
     get 'change_checkpoint', on: :collection
+    post :search_checkpoint, on: :collection
     get 'end_marshal_shift', on: :collection
     get 'end_for_the_day', on: :collection
     get 'checkin_walkers', on: :collection

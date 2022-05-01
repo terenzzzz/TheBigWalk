@@ -1,20 +1,26 @@
 .d-flex.justify-content-center
     %h1.fw-bold Your Profile
-%br
+
 .row   
     .col-5 
         %table 
             %tr 
                 -if current_user.avatar.attached? 
-                    %td= image_tag current_user.avatar, :size => "120x120"
+                    %td= image_tag current_user.avatar, :size => "120x120", class: "rounded-circle border"
                 -else 
-                    %td= image_tag 'noPic.gif', :size => "120x120"
+                    %td= image_tag 'noPic.gif', :size => "120x120", class: "rounded-circle border"
     .col-7
-        %p 
-            = current_user.name
-        %p 
-            = current_user.description 
-%br/
+        %br
+        %h5.pt-2.fw-bold.text-center.w-100= current_user.name
+
+.row
+    %p.px-4.pt-2= current_user.description
+
+.d-grid.gap-2
+    // needs functionality
+    =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
+        %span Set Donation Link
+    %br
 
 .row 
     %table.table
@@ -44,27 +50,9 @@
         
 
 .d-grid.gap-2
-    =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
-        %span Set Donation Link
-    %br
     .d-flex.justify-content-center
         %p Your Public Progress Shows Here
     =link_to "/",class: 'btn btn-primary primary-button' do
         %span Share
     =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do
-        %span Edit
-    %button.btn.btn-danger(type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount")
-        %span Delete Account
-
-    //Pop up for delete account
-    #deleteAccount.modal.fade
-        .modal-dialog
-            .modal-content 
-                .modal-header
-                    %h5.modal-title Warning
-                .modal-body
-                    Are you sure you want to delete your account?
-                .modal-footer
-                    %button.btn.btn-secondary{ type: 'button', data: { bs_dismiss: 'modal' } }
-                        Cancel
-                    =link_to 'Yes', current_user, :method => :delete, class: 'btn btn-danger'
+        %span Edit Account

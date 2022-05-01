@@ -14,7 +14,7 @@
   %br/
 
   .form-actions
-    .d-flex.justify-content-center
+    .d-grid.gap-2
       = f.button :submit, "Save", class: 'btn btn-primary primary-button'
       = link_to 'Delete', @route, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
 

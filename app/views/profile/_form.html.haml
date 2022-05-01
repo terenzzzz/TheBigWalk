@@ -16,14 +16,28 @@
         .form-inputs
           = o.input :marshal_id
     /Tom has no idea how to fix - help
-    
-    
+
     /Add checkbox here (checked if user is opted in for leaderboard, otherwise not checked)
     /Update their preference when the 'Update User' button is pressed    
     
-                
-  
   .form-actions
   %br
     .d-flex.justify-content-center
       = f.button :submit, class: 'btn btn-primary w-100'
+
+.d-flex.justify-content-center
+  %button.btn.btn-danger.w-100(type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount")
+    %span Delete Account
+
+  //Pop up for delete account
+  #deleteAccount.modal.fade
+    .modal-dialog
+      .modal-content 
+        .modal-header
+          %h5.modal-title Warning
+        .modal-body
+          Are you sure you want to delete your account?
+        .modal-footer
+          %button.btn.btn-secondary{ type: 'button', data: { bs_dismiss: 'modal' } }
+            Cancel
+          =link_to 'Yes', current_user, :method => :delete, class: 'btn btn-danger'

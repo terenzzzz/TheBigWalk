@@ -115,7 +115,7 @@ end
 
 #(1..5).each do |id|
 #Event.create(name: Faker::Mountain.range)
-Event.create(name:'The Big Walk 2022')
+Event.create(name:'The Big Walk 2022', made_public: true)
 puts "created event"
 Branding.create(events_id: '1')
 puts "created branding"

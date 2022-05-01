@@ -17,4 +17,4 @@
                     %td= Participant.where(user_id: user.id).first.participant_id
                     %td= user.name
                     %td= user.mobile
-                    %td=link_to 'Delete call', call, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button'
+                    %td=link_to 'Delete', call, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button'

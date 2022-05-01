@@ -67,6 +67,14 @@ class RoutesController < ApplicationController
     end
     spreadsheet = Spreadsheet.new
     spreadsheet.delete_route("#{Event.where(id: @route.events_id).first.name} #{@route.name}")
+    walkers = Participant.where(routes_id: @route.id)
+    walkers.each do |walker|
+      times = CheckpointTime.where(participant_id: walker.id)
+      times.each do |time|
+        time.destroy
+      end
+      walker.destroy
+    end
     @route.destroy
     redirect_to routes_path
   end
