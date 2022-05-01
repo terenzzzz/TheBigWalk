@@ -104,15 +104,18 @@ class MarshalsController < ApplicationController
 
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
-            @num_walkers_passed = 0
-            @num_walkers_falling = 0 
-
-            linkers.each do |linker|
+        @num_walkers_passed = 0
+        @num_walkers_falling = 0 
+        @num_total_walkers_to_pass = 0
+        linkers.each do |linker|
             linkers_after = RoutesAndCheckpointsLinker.where('position_in_route >= ?', linker.position_in_route).where(route_id: linker.route_id)
             linkers_after.each do |linker_after|
                 @num_walkers_passed = @num_walkers_passed + Participant.where(routes_id: linker_after.route_id, checkpoints_id: linker_after.checkpoint_id).size
+                
             end
             @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!').size
+
+            @num_total_walkers_to_pass = @num_total_walkers_to_pass + Participant.where(routes_id: linker.route_id).size
         end
         
     end

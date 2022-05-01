@@ -11,7 +11,7 @@
         .d-flex.justify-content-center
             %h3.fw-bold Walkers Passed:
         .d-flex.justify-content-center
-            %h1.fw-bold= (@num_walkers_passed).to_s + ' of ' + ('Placeholder').to_s
+            %h1.fw-bold= "#{@num_walkers_passed} of #{@num_total_walkers_to_pass}"
         %br
         .d-flex.justify-content-center 
             %h3.fw-bold Walkers Falling Behind:
