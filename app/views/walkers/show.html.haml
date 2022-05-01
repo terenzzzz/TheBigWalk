@@ -38,6 +38,8 @@
                 %h1{:id => "countdown2", class: "fw-bold"} Countdown Loading...
             .d-flex.justify-content-center
                 %h1{:id => "countdown3", class: "fw-bold"} Countdown Loading...
+            .d-flex.justify-content-center
+                %h1{:id => "countdown4", class: "fw-bold"} Countdown Loading...
             %h4{:id => "rubyCode", class: "fw-bold"}
                 /current time c
                 /time reached last checkpoint l
@@ -52,10 +54,11 @@
                         //var timeFromLast = now - (checkpointTimeDate - 3600000);
                         var timeFromLast = now - checkpointTimeDate;
                         document.getElementById("countdown2").innerHTML = new Date("#{@time}");
-                        document.getElementById("countdown3").innerHTML = now;
+                        document.getElementById("countdown3").innerHTML = new Date();
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
-                        var days = Math.floor(timeFromLast / (1000 * 60 * 60 * 24));
-                        var hours = Math.floor((timeFromLast % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        document.getElementById("countdown4").innerHTML = timeLeftToReach;
+                        var days = Math.floor(timeLeftToReach / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((timeLeftToReach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((timeLeftToReach % (1000 * 60 * 60)) / (1000 * 60));
                         var seconds = Math.floor((timeLeftToReach % (1000 * 60)) / 1000);
                         document.getElementById("countdownMsg").innerHTML = "You are expected to reach";

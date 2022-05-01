@@ -186,12 +186,17 @@ class Spreadsheet
     end
 
     def update_walker_info(route, user)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        # worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
 
-        walker = Participant.where(user_id: user.id).first
-        worksheet[(walker.rank + 1), 1] = user.name
-        worksheet[(walker.rank + 1), 2] = walker.participant_id
-        worksheet.save
+
+        # puts "#####################"
+        # puts walker.rank
+        # puts "#####################"
+
+        # walker = Participant.where(user_id: user.id).first
+        # worksheet[(walker.rank + 1), 1] = user.name
+        # worksheet[(walker.rank + 1), 2] = walker.participant_id
+        # worksheet.save
     end
 
     def update_walker_rank(route, old_rank, user)
