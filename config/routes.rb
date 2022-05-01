@@ -59,6 +59,8 @@ Rails.application.routes.draw do
     get 'end_for_the_day', on: :collection
     get 'checkin_walkers', on: :collection
     post :checkin_walker, on: :collection
+    
+    get 'move_own_way_home', on: :collection
   end
 
   resources :profile do

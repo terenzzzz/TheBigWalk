@@ -43,8 +43,8 @@ class MarshalsController < ApplicationController
     end
 
     def end_marshal_shift
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
-        @marshal.update(checkpoints_id: nil)
+        # @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        # @marshal.update(checkpoints_id: nil)
     end
 
     def view_incoming_walkers
@@ -118,7 +118,16 @@ class MarshalsController < ApplicationController
     end
 
     def end_for_the_day
+
     end
+
+    def move_own_way_home
+        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal.update(checkpoints_id: nil)
+        reset_session
+        redirect_to '/'
+    end
+
 
     #GET
     def checkin_walkers
