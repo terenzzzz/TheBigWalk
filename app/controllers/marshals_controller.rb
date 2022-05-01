@@ -12,8 +12,19 @@ class MarshalsController < ApplicationController
         end
     end
 
+    def index
+    end
+
+
     def choose_event
-        @events = Event.all
+        @marshal = Marshall.where(users_id: current_user.id).first
+        @checkpoint = @marshal.checkpoints_id
+        if @checkpoint
+            redirect_to marshal_path(@checkpoint)
+        else
+            @events = Event.all
+        end
+        
     end
 
     def add_shift
