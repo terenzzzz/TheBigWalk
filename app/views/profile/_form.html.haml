@@ -6,6 +6,7 @@
     = f.input :name
     = f.input :description, label: "Tell The World Anything!", hint: "This will appear on your profile page."
     = f.input :mobile
+    = f.input :donate_link, label:"Donate Link"
     -if current_user.tag.name == "Walker"
       = simple_fields_for(Participant.where(user_id: current_user.id).first) do |o|
         .form-inputs

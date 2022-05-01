@@ -4,6 +4,7 @@
 #
 #  id                     :bigint           not null, primary key
 #  description            :string
+#  donate_link            :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  mobile                 :string
