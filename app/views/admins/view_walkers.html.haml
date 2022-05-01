@@ -1,7 +1,7 @@
 .row 
     .col
         .d-flex.justify-content-center
-            %h1 All Participants
+            %h1.fw-bold All Participants
         /.d-flex.justify-content-center
         /    =text_field :search, :walkers, :maxlength => "40", :placeholder => "Search Walkers"
         %br/
@@ -11,28 +11,28 @@
 %br/
 .d-flex.justify-content-center
     -if @falling_behind.count == 1
-        %p= "There is a walker falling behind" 
+        %p.fw-bold= "There is 1 walker falling behind." 
     -else
-        %p= "There are #{@falling_behind.count} walkers falling behind" 
+        %p.fw-bold= "There are #{@falling_behind.count} walkers falling behind." 
 .d-flex.justify-content-center
     %table
         %tbody
             %tr
-                %td ID Number
-                %td Person
-                %td Checkpoint
-                %td Pace
+                %td.fw-bold ID Number
+                %td.fw-bold Walker
+                %td.fw-bold Last Checkpoint
+                %td.fw-bold Pace
             -if @falling_behind
                 -@falling_behind.each do |walker|
                     %tr 
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
                         %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
-                        %td falling behind
+                        %td.text-danger Falling Behind!
             -if @on_pace
                 -@on_pace.each do |walker|
                     %tr
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
                         %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
-                        %td on pace
+                        %td.text-success On Pace

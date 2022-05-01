@@ -18,7 +18,7 @@ class PagesController < ApplicationController
     @paticipant = Participant.where(user_id:current_user.id, routes_id:session[:current_route_id])
     @paticipantEvent = Participant.where(user_id:current_user.id, event_id: session[:current_event_id])
     if @paticipant.first
-      redirect_to walkers_path
+      redirect_to walker_path(params[:id])
     end
     
   end

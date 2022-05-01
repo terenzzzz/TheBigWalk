@@ -1,20 +1,20 @@
 .row 
     .col
         .d-flex.justify-content-center
-            %h1 Call Requests
+            %h1.fw-bold Call Requests
 
-%br/
 .d-flex.justify-content-center
     %table
         %tbody
             %tr
-                %td Walker ID
-                %td Name
-                %td Phone No
+                %td.fw-bold Walker ID
+                %td.fw-bold Name
+                %td.fw-bold Phone No.
             -@calls.each do |call|
                 %tr
                     -user = User.where(id: call.user_id).first
                     %td= Participant.where(user_id: user.id).first.participant_id
                     %td= user.name
                     %td= user.mobile
-                    %td=link_to 'Delete', call, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button'
+                %tr
+                    %td{:colspan => 3}=link_to 'Delete Call Request', call, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button w-100 btn-sm'

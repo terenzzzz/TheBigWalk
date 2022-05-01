@@ -78,7 +78,15 @@ class WalkersController < ApplicationController
     end
 
     def sign_up_participant
-      participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id], rank: 0)#, opted_in_leaderboard: session[:opted_in])
+      random_number = 0
+      (1000..1999).each do |id| 
+        walker_ids = Participant.where(participant_id: id).first
+        if !walker_ids
+          random_number = id
+          break
+        end
+      end
+      participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(participant_id: random_number, checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id], rank: 0)#, opted_in_leaderboard: session[:opted_in])
       participant.save
 
       # user_id_for_participant = participant.user_id
@@ -164,6 +172,11 @@ class WalkersController < ApplicationController
     end
 
     def index
+      
+    end
+
+    def show
+      session[:current_route_id] = params[:id]
       user = User.where(id: session[:current_user_id]).first
       puts "User: #{user.id}"
       @walker = Participant.where(user_id: user.id).first
@@ -185,9 +198,6 @@ class WalkersController < ApplicationController
         start_date = route.start_date
         @time = DateTime.new(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min, start_time.sec, start_time.zone)
       end
-    end
-
-    def show
     end
 
     private 

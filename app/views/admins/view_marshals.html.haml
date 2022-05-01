@@ -1,16 +1,17 @@
 .d-flex.justify-content-center
-    %h1 Marshals At Checkpoints
-    
-%table
-    %tbody
-        %tr
-            %td Checkpoint
-            %td Marshals
-        -@checkpoints_and_marshals.each do |checkpoint_and_marshals|
+    %h1.fw-bold Marshals At Checkpoints
+
+.d-flex.justify-content-center
+    %table
+        %tbody
             %tr
-                -if checkpoint_and_marshals.length() == 1
-                    %td= checkpoint_and_marshals.first.name
-                    %td No marshal
-                -else
-                    -checkpoint_and_marshals.each do |checkpoint_and_marshal|
-                        %td=link_to "#{checkpoint_and_marshal.name}", checkpoint_and_marshal
+                %td.fw-bold Checkpoint
+                %td.fw-bold Marshals
+            -@checkpoints_and_marshals.each do |checkpoint_and_marshals|
+                %tr
+                    -if checkpoint_and_marshals.length() == 1
+                        %td= checkpoint_and_marshals.first.name
+                        %td.text-danger No Marshal
+                    -else
+                        -checkpoint_and_marshals.each do |checkpoint_and_marshal|
+                            %td=link_to "#{checkpoint_and_marshal.name}", checkpoint_and_marshal
