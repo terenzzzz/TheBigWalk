@@ -121,9 +121,11 @@ Branding.create(events_id: '1')
 puts "created branding"
 Route.create(name: '50km') do |route|
     route.course_length = '50'
-    route.start_date = '2022-06-12'
-    route.start_time = '2000-01-01 10:00:00.000000000 +0000'
+    #route.start_date = '2022-06-12'
+    #route.start_time = '2000-01-01 10:00:00.000000000 +0000'
     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
+    route.start_time = '2000-01-01 20:40:00.000000000 +0000'
+    route.start_date = '2022-05-01'
     route.events_id = '1'
     puts "created route"
 end
@@ -225,7 +227,7 @@ end
     end
 end
 
-(1..101).each do |ids|
+(2..101).each do |ids|
     #get walker
     walker = Participant.where(id: ids).first
     #check checkpoint pos
