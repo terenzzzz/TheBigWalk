@@ -114,7 +114,7 @@ class WalkersController < ApplicationController
       puts "Participant in table: #{Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])}"
       #participant.save
       if participant.save
-        redirect_to walkers_path
+        redirect_to walker_path(session[:current_route_id])
       else
         redirect_to home_page_path(session[:current_event_id]), notice: 'You dont have access to that page'
       end
