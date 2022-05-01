@@ -86,8 +86,8 @@
                 %h1 Congratulations
             .d-flex.justify-content-center
                 %h2 You Finished The Event
-        %br/
-        %br/
+
+
 
 
 .d-grid.gap-2
@@ -117,8 +117,8 @@
         lon = document.getElementById("lon");
         lat.value = latitude;
         lon.value = longitude;
-
-        output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+        output.innerHTML = '<p>Your Location Is Already Up To Date</p>';
+        // output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
         // window.initMap = initMap();
 
     };
@@ -126,6 +126,6 @@
     function error() {
         output.innerHTML = "Unable to find position.";
     };
-    output.innerHTML = "<p>Finding Your Current Location…</p>";
+    output.innerHTML = "<p>Please Wait For Tracking Your Location…</p>";
     navigator.geolocation.getCurrentPosition(success, error);
     }
