@@ -12,5 +12,4 @@
     = simple_form_for :make_public, url: make_public_events_path, method: :post do |f|
       = f.hidden_field :id, value: @event.id
       = f.submit "Make Event Public", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
-  =link_to "Manage Checkpoints", checkpoints_path, class: 'btn btn-primary primary-button'
   =link_to "Switch Event", events_path, class: 'btn btn-primary primary-button'

@@ -12,6 +12,7 @@ class AdminsController < ApplicationController
     end
 
     def index
+        redirect_to events_path
     end
 
     def show
