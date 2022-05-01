@@ -186,7 +186,7 @@ class MarshalsController < ApplicationController
             spreadsheet = Spreadsheet.new
             spreadsheet.add_checkpoint_time(route, user, checkpoint)
 
-            redirect_to marshals_path
+            redirect_to root_path
         else
             redirect_to checkin_walkers_marshals_path, notice: 'Invalid Walker ID.'
         end
