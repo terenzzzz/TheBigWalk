@@ -18,12 +18,15 @@
 
 .d-grid.gap-2
     // needs functionality
-    =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
-        %span Set Donation Link
+    =link_to current_user.donate_link, class: 'btn btn-primary primary-button', :target => '_blank' do
+        %span Donation Here
     %br
 
 .row 
     %table.table
+        -# %tr 
+        -#     %td Donate_link:
+        -#     %td= current_user.donate_link
         %tr 
             %td User ID:
             %td= current_user.id
