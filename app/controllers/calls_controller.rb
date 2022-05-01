@@ -28,7 +28,7 @@ class CallsController < ApplicationController
   # DELETE /linkers/1
   def destroy
     @call.destroy
-    redirect_to view_calls_admins_path, notice: 'Call request was successfully destroyed.'
+    redirect_to view_calls_admins_path, notice: 'Call request removed successfully.'
   end
 
   private

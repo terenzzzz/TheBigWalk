@@ -1,20 +1,20 @@
 .row 
     .col
         .d-flex.justify-content-center
-            %h1 Pick-Up Requests
+            %h1.fw-bold Pick-Up Requests
 
-%br/
 .d-flex.justify-content-center
     %table
         %tbody
             %tr
-                %td Walker ID
-                %td Name
-                %td OS Grid
+                %td.fw-bold Walker ID
+                %td.fw-bold Name
+                %td.fw-bold OS Grid
             -@pickups.each do |pickup|
                 %tr
                     -user = User.where(id: pickup.user_id).first
                     %td= Participant.where(user_id: user.id).first.participant_id
                     %td= user.name
                     %td= pickup.os_grid
-                    %td=link_to 'Delete pickup', pickup, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button'
+                %tr
+                    %td{:colspan => 3}=link_to 'Remove Pickup Request', pickup, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button btn-sm w-100'
