@@ -164,6 +164,11 @@ class WalkersController < ApplicationController
     end
 
     def index
+      
+    end
+
+    def show
+      session[:current_route_id] = params[:id]
       user = User.where(id: session[:current_user_id]).first
       puts "User: #{user.id}"
       @walker = Participant.where(user_id: user.id).first
@@ -180,9 +185,6 @@ class WalkersController < ApplicationController
       else
         @time = DateTime.new()
       end
-    end
-
-    def show
     end
 
     private 

@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
       session[:current_user_id] = current_user.id
       session[:opted_in] = OptedInLeaderboard.where(user_id: session[:current_user_id]).first.opted_in
       if session[:current_route_id]
-        home_page_path(current_user)
+        walker_path(session[:current_route_id])
       else
         pick_event_pages_path
       end

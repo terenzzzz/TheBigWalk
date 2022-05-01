@@ -70,6 +70,7 @@ Rails.application.routes.draw do
 
   get :ie_warning, to: 'errors#ie_warning'
   get '/marshals/:id', to: 'marshals#index'
+  get '/walkers/:id', to: 'walkers#index'
 
 
   root :to => redirect("/users/sign_in")
