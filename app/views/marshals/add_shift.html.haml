@@ -10,10 +10,10 @@
   .row
     - @checkpoints.each do |checkpoint|
       .col-6
-        .card.h-100
+        .card.mb-2
           .card-body
             %h5.card-title.fw-bold= checkpoint.name
-        =link_to '' , marshals_path(checkpoint), class:'stretched-link'
+          =link_to '' , marshal_path(checkpoint), class:'stretched-link'
   %br/
 %br/
 

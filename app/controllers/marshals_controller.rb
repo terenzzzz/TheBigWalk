@@ -21,12 +21,7 @@ class MarshalsController < ApplicationController
         session[:current_event_id] = params[:id]
     end
     
-    def index
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
-        @marshal.checkpoints_id = params[:id]
-        session[:current_checkpoint_id] =params[:id]
-    end
- 
+
     def change_checkpoint
         @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
     end
@@ -88,22 +83,23 @@ class MarshalsController < ApplicationController
         
     end 
 
-   def index
-       user = User.where(id: session[:current_user_id]).first
-       @marshal = Marshall.where(users_id: user.id).first
-       @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
-    #linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
+   def show
+        user = User.where(id: session[:current_user_id]).first
+        @marshal = Marshall.where(users_id: user.id).first
+        @marshal.update(checkpoints_id: params[:id])
 
-        #@num_walkers_passed = 0
-        #@num_walkers_falling = 0 
+        @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
+        linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
+            @num_walkers_passed = 0
+            @num_walkers_falling = 0 
 
-        #linkers.each do |linker|
-        #    linkers_after = RoutesAndCheckpointsLinker.where('position_in_route >= ?', linker.position_in_route).where(route_id: linker.route_id)
-       #     linkers_after.each do |linker_after|
-        #        @num_walkers_passed = @num_walkers_passed + Participant.where(routes_id: linker_after.route_id, checkpoints_id: linker_after.checkpoint_id).size
-       #     end
-      #      @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!').size
-     #   end
+            linkers.each do |linker|
+            linkers_after = RoutesAndCheckpointsLinker.where('position_in_route >= ?', linker.position_in_route).where(route_id: linker.route_id)
+            linkers_after.each do |linker_after|
+                @num_walkers_passed = @num_walkers_passed + Participant.where(routes_id: linker_after.route_id, checkpoints_id: linker_after.checkpoint_id).size
+            end
+            @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!').size
+        end
         
     end
 

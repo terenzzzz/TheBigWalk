@@ -3,7 +3,10 @@
         .d-flex.justify-content-center
             %h3.fw-bold Current Checkpoint: 
         .d-flex.justify-content-center
-            %h1.text-center.fw-bold.text-uppercase= @checkpoint.name
+            -if @checkpoint == nil
+                %p No CheckPoint
+            -else
+                %h1.text-center.fw-bold.text-uppercase= @checkpoint.name
         %br
         .d-flex.justify-content-center
             %h3.fw-bold Walkers Passed:
