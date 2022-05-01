@@ -4,5 +4,12 @@
   =link_to "View Pick-Up Requests", view_pickups_admins_path, class: 'btn btn-primary primary-button'
   =link_to "View Phone Call Requests", view_calls_admins_path, class: 'btn btn-primary primary-button'
   =link_to "Event Info", edit_event_path(@event), class: 'btn btn-primary primary-button'
-  =link_to "Manage Checkpoints", checkpoints_path, class: 'btn btn-primary primary-button'
+  -if @event.made_public
+    = simple_form_for :make_private, url: make_private_events_path, method: :post do |f|
+      = f.hidden_field :id, value: @event.id
+      = f.submit "Make Event Private", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+  -else
+    = simple_form_for :make_public, url: make_public_events_path, method: :post do |f|
+      = f.hidden_field :id, value: @event.id
+      = f.submit "Make Event Public", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
   =link_to "Switch Event", events_path, class: 'btn btn-primary primary-button'

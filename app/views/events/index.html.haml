@@ -10,11 +10,5 @@
           %h5.card-title.fw-bold= event.name
           =link_to "", event, class: 'stretched-link'
     %br/
-
-
-    -# - @events.each do |event|
-    -#   .d-flex.justify-content-left
-    -#     %p= event.name
-    -#     =link_to "Select", event, class: 'btn btn-primary primary-button'
-    -#   %br/
+  =link_to "Create New Event", new_event_path, class: 'btn btn-primary primary-button'
  

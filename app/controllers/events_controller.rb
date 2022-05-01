@@ -36,6 +36,7 @@ class EventsController < ApplicationController
   # POST /events
   def create
     @event = Event.new(event_params)
+    @event.made_public = false
     if @event.save
       session[:current_event_id] = @event.id
       session[:new_event] = 1
@@ -46,6 +47,18 @@ class EventsController < ApplicationController
     else 
       render :new
     end
+  end
+
+  def make_public
+    event = Event.where(params.require(:make_public).permit(:id)).first
+    event.update(made_public: true)
+    redirect_to event
+  end
+
+  def make_private
+    event = Event.where(params.require(:make_private).permit(:id)).first
+    event.update(made_public: false)
+    redirect_to event
   end
 
   # PATCH/PUT /events/1
@@ -72,6 +85,14 @@ class EventsController < ApplicationController
             linker.destroy
           end
         end
+        walkers = Participant.where(routes_id: route.id)
+        walkers.each do |walker|
+          times = CheckpointTime.where(participant_id: walker.id)
+          times.each do |time|
+            time.destroy
+          end
+          walker.destroy
+        end
         spreadsheet = Spreadsheet.new
         spreadsheet.delete_event(@event)
         route.destroy
@@ -81,6 +102,10 @@ class EventsController < ApplicationController
     @events_checkpoints = Checkpoint.where(events_id: @event.id)
     if @events_checkpoints != 0
       @events_checkpoints.each do |checkpoint|
+        marshals = Marshall.where(checkpoints_id: checkpoint.id)
+        marshals.each do |marshal|
+          marshal.update(checkpoints_id: nil)
+        end
         checkpoint.destroy
       end
     end
@@ -92,7 +117,7 @@ class EventsController < ApplicationController
       end
     end
     @event.destroy
-    redirect_to admins_path
+    redirect_to events_path
   end
 
   private

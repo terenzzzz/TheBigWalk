@@ -7,8 +7,13 @@ Rails.application.routes.draw do
   resources :routes_and_checkpoints_linkers
   resources :checkpoint_times
   resources :brandings
-  resources :events
-  resources :checkpoints 
+  resources :events do
+    post :make_public, on: :collection
+    post :make_private, on: :collection
+  end
+  resources :checkpoints  do
+    post :search, on: :collection
+  end
   #resources :participants
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users

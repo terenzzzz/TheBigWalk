@@ -77,6 +77,7 @@ class RoutesAndCheckpointsLinkersController < ApplicationController
         count = count + 1
       end
 
+      #updates spreadsheet
       spreadsheet = Spreadsheet.new
       route = Route.where(id: @linker.route_id).first
       checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
