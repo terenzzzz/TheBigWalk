@@ -225,7 +225,7 @@ end
     end
 end
 
-(1..101).each do |ids|
+(2..101).each do |ids|
     #get walker
     walker = Participant.where(id: ids).first
     #check checkpoint pos

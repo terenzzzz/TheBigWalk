@@ -178,7 +178,12 @@ class WalkersController < ApplicationController
       if CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first
         @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
       else
-        @time = DateTime.new()
+        #@time = DateTime.new()
+        #event starts
+        route = Route.where(id: @walker.routes_id).first
+        start_time = route.start_time
+        start_date = route.start_date
+        @time = DateTime.new(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min, start_time.sec, start_time.zone)
       end
     end
 
