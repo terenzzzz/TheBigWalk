@@ -32,13 +32,14 @@ class MarshalsController < ApplicationController
         session[:current_event_id] = params[:id]
     end
     
-
     def change_checkpoint
+        @marshal = Marshall.where(users_id: session[:current_user_id]).first
         @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
     end
    
     def search_checkpoint
         @checkpoints = Checkpoint.where(name: params[:search][:name])
+        render :search_checkpoint_marshals_path
     end
 
     def end_marshal_shift
