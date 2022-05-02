@@ -12,7 +12,7 @@
     - @routes = Route.where(events_id: session[:current_event_id])
     .row 
       - @routes.each do |route|
-        .col-6
+        .col-6.pb-3
           .card.h-100
             .card-body
               %h5.card-title.fw-bold= route.name
