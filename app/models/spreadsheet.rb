@@ -205,7 +205,7 @@ class Spreadsheet
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
         if worksheet
             walker = Participant.where(user_id: user.id, routes_id: route.id).first
-            values = worksheet.rows[old_rank + 1]
+            values = worksheet.rows[old_rank]
 
             if walker.rank > old_rank
                 worksheet.insert_rows(walker.rank + 2, [values])
