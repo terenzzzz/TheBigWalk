@@ -171,7 +171,7 @@ class MarshalsController < ApplicationController
                     lowest_rank = walker.rank
                 end
             end
-            old_rank= @walker.rank.dup
+            old_rank = @walker.rank.dup
             #if rank is the same dont update
             #if noone has then they are in 1st
             if (lowest_rank + 1) != @walker.rank

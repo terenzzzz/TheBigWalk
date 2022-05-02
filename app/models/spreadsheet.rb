@@ -204,14 +204,14 @@ class Spreadsheet
     def update_walker_rank(route, old_rank, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
         if worksheet
-            walker = Participant.where(user_id: user.id).first
-            values = worksheet.rows[old_rank + 1]#.each { |row| puts row.first(6).reverse.join(" | ") }
-            worksheet.insert_rows(walker.rank + 1, [values])
+            walker = Participant.where(user_id: user.id, route_id: route.id).first
+            values = worksheet.rows[old_rank + 1]
 
             if walker.rank > old_rank
                 worksheet.insert_rows(walker.rank + 2, [values])
                 worksheet.delete_rows(old_rank + 1, 1)
             else
+                #when rank increase eg 4 to 2
                 worksheet.insert_rows(walker.rank + 1, [values])
                 worksheet.delete_rows(old_rank + 2, 1)
             end
