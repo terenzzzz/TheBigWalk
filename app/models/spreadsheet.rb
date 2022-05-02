@@ -223,7 +223,12 @@ class Spreadsheet
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
         if worksheet
             walker = Participant.where(user_id: user.id).first 
-            
+            puts "######################"
+            puts route.id
+            puts checkpoint.id
+            puts RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first
+            puts "######################"
+
             pos = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route
 
             #TODO its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?

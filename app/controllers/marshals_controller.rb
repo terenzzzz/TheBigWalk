@@ -51,7 +51,7 @@ class MarshalsController < ApplicationController
 
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: checkpoint.id)
         
-
+        @needs_help = Array.new
         @falling_behind = Array.new
         @on_pace = Array.new
         @walkers_need_help = Array.new
@@ -68,11 +68,11 @@ class MarshalsController < ApplicationController
                     dif = time_now - time_last_checkpoint # seconds
                     on_pace = (time_to_next_checkpoint * 60)/dif
                     if on_pace > 1
-                        stat.update(status: "On Pace.")
+                        stat.update(pace: "On Pace.")
                     elsif on_pace > 0.95 #change back to 0.65 once it works
-                        stat.update(status: "Falling Behind!")
+                        stat.update(pace: "Falling Behind!")
                     else
-                        stat.update(status: "Needs Help!!")
+                        stat.update(pace: "Needs Help!!")
                     end
                 end
 
@@ -158,26 +158,15 @@ class MarshalsController < ApplicationController
 
             #rerank the walker
             #gets walkers at that checkpoint same on route 
-            walkers_on_route = Participant.where(routes_id: @walker.routes_id, checkpoints_id: @marshal.checkpoints_id)
-            puts "###############################"
-            puts "route id #{@walker.routes_id}"
-            puts "checkpoint id #{@marshal.checkpoints_id}"
-            puts "###############################"
+            walkers_on_route = Participant.where(routes_id: @walker.routes_id, checkpoints_id: @marshal.checkpoints_id)\
             lowest_rank = 0
             #checks whos gone past that checkpoint with lowest rank 
             walkers_on_route.each do |walker|
-                puts "###############################"
-                puts "walker rank #{walker.rank}"
-                puts "lowest rank #{lowest_rank}"
-                puts "###############################"
                 #if self dont check??????
-                if walker.rank > lowest_rank &&  walker.rank!=@walker.rank
+                if walker.rank > lowest_rank && walker.rank != @walker.rank
                     lowest_rank = walker.rank
                 end
             end
-            puts "###############################"
-            puts "lowest rank #{lowest_rank}"
-            puts "###############################"
             old_rank= @walker.rank.dup
             #if rank is the same dont update
             #if noone has then they are in 1st
@@ -188,9 +177,11 @@ class MarshalsController < ApplicationController
             #reranks rest
             #old rank and new rank everyone inbetween gets shifted down if rank is increased
             if old_rank < (lowest_rank + 1)
-                walkers_rerank = Participant.where(routes_id: @walker.routes_id).where("rank > ? and rank <= ?", old_rank, (lowest_rank + 1))
+                walkers_rerank = Participant.where(routes_id: @walker.routes_id).where("rank < ?", old_rank).where("rank >= ?", (lowest_rank + 1))
                 walkers_rerank.each do |walker|
-                    walker.update(rank: (walker.rank + 1))
+                    if walker.id != @walker.id
+                        walker.update(rank: (walker.rank + 1))
+                    end
                 end
             end
 
@@ -203,7 +194,7 @@ class MarshalsController < ApplicationController
             spreadsheet = Spreadsheet.new
             spreadsheet.add_checkpoint_time(route, user, checkpoint)
 
-            redirect_to marshals_path
+            redirect_to '/'
         else
             redirect_to checkin_walkers_marshals_path, notice: 'Invalid Walker ID.'
         end
