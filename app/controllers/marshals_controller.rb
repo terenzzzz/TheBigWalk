@@ -12,10 +12,6 @@ class MarshalsController < ApplicationController
         end
     end
 
-    def index
-    end
-
-
     def choose_event
         @marshal = Marshall.where(users_id: current_user.id).first
         @checkpoint = @marshal.checkpoints_id
@@ -135,6 +131,11 @@ class MarshalsController < ApplicationController
         redirect_to '/'
     end
 
+    def request_pick_up
+        Pickup.create(user_id: session[:current_user_id], event_id:session[:current_event_id], os_grid: session[:osReference])
+        reset_session
+        redirect_to '/', notice: 'Pick up request successful.'
+    end
 
     #GET
     def checkin_walkers

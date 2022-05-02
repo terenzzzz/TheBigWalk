@@ -60,7 +60,8 @@ Rails.application.routes.draw do
     post :checkin_walker, on: :collection
     
     get 'move_own_way_home', on: :collection
-  end
+    get 'request_pick_up', on: :collection
+    end
 
   resources :profile do
     get 'account', on: :collection
