@@ -162,7 +162,8 @@ class WalkersController < ApplicationController
         time.destroy
       end
       walker.destroy
-      redirect_to destroy_user_session_path
+      reset_session
+      redirect_to '/'
     end
 
 
