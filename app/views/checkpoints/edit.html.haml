@@ -14,7 +14,8 @@
           .card.h-100
             .card-body
               %h5.card-title.fw-bold= route.name
-              = check_box_tag 'selected_routes[]', route.id 
+              = check_box_tag 'selected_routes[]', route.id
+              = "Assign Checkpoint To This Route"
         %br/
 
   .form-actions

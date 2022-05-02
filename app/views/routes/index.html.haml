@@ -1,7 +1,6 @@
-
 .d-flex.justify-content-center
-  %h1 Routes
-  %br/
+  %h1.fw-bold Routes
+%br/
 - if session[:new_event] == 0
   //= link_to edit_event_path(@event) do 
   //  %span.bi.bi-arrow-return-left
@@ -13,11 +12,10 @@
         .card-body
           %h5.card-title.fw-bold= route.name
           %h6= "#{route.course_length} KM"
-          %p= link_to 'Edit', edit_route_path(route), class: 'btn btn-primary primary-button stretched-link'           
-      %br/
+          %p.pt-3= link_to 'Edit', edit_route_path(route), class: 'btn btn-primary primary-button stretched-link w-100'
 %br/
 .d-flex.justify-content-center
-  =link_to "Create New Route", new_route_path, class: 'btn btn-primary primary-button'
+  =link_to "Create New Route", new_route_path, class: 'btn btn-primary primary-button w-100'
 
 
 -# - @routes.each do |route|
@@ -33,4 +31,4 @@
 - if session[:new_event] == 1
   %br/
   .d-flex.justify-content-center
-    =link_to "Next", checkpoints_path, class: 'btn btn-primary primary-button'
+    =link_to "Next", checkpoints_path, class: 'btn btn-primary primary-button w-100'
