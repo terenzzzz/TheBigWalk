@@ -37,6 +37,7 @@ Rails.application.routes.draw do
     get 'search', on: :collection
     post 'saveLocation'
     get 'sign_up_participant'
+    post :make_own_way_home, on: :collection
   end
 
   resources :admins do

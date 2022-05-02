@@ -8,5 +8,6 @@
     %p{class: "text-center"} Well done on all your hard work today. Now you're finishing up, do you need picking up, or are you making your own way home?
 %br/
 .d-grid.gap-2
-    =link_to "Making My Own Way Home", destroy_user_session_path, method: :delete, class: 'btn btn-primary primary-button'
+    = simple_form_for :make_own_way_home, url: make_own_way_home_walkers_path, method: :post do |f|
+        = f.submit "Making My Own Way Home", class: 'btn btn-primary primary-button'
     =link_to "I Need Picking Up", walker_requestPickUp_path(current_user), class: 'btn btn-primary primary-button'
