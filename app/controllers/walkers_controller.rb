@@ -155,6 +155,17 @@ class WalkersController < ApplicationController
     def drop_out
     end
     
+    def make_own_way_home
+      walker = Participant.where(user_id: session[:current_user_id]).first
+      times = CheckpointTime.where(participant_id: walker.id)
+      times.each do |time|
+        time.destroy
+      end
+      walker.destroy
+      redirect_to destroy_user_session_path
+    end
+
+
     def checkpoint_info
       user = User.where(id: session[:current_user_id]).first
       walker = Participant.where(user_id: user.id).first
@@ -199,7 +210,7 @@ class WalkersController < ApplicationController
         @time = DateTime.new(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min, start_time.sec, start_time.zone)
       end
     end
-
+    
     private 
     # Use callbacks to share common setup or constraints between actions.
     def set_category
