@@ -155,14 +155,25 @@ class MarshalsController < ApplicationController
             #rerank the walker
             #gets walkers at that checkpoint same on route 
             walkers_on_route = Participant.where(routes_id: @walker.routes_id, checkpoints_id: @marshal.checkpoints_id)
-
+            puts "###############################"
+            puts "route id #{@walker.routes_id}"
+            puts "checkpoint id #{@marshal.checkpoints_id}"
+            puts "###############################"
             lowest_rank = 0
             #checks whos gone past that checkpoint with lowest rank 
             walkers_on_route.each do |walker|
-                if walker.rank > lowest_rank
+                puts "###############################"
+                puts "walker rank #{walker.rank}"
+                puts "lowest rank #{lowest_rank}"
+                puts "###############################"
+                #if self dont check??????
+                if walker.rank > lowest_rank &&  walker.rank!=@walker.rank
                     lowest_rank = walker.rank
                 end
             end
+            puts "###############################"
+            puts "lowest rank #{lowest_rank}"
+            puts "###############################"
             old_rank= @walker.rank.dup
             #if rank is the same dont update
             #if noone has then they are in 1st
