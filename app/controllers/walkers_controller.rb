@@ -83,9 +83,8 @@ class WalkersController < ApplicationController
             walkers.update(rank: (walkers.rank + 1))
           end
         end
-
-        
-
+      end
+      
       redirect_to walker_path(session[:current_route_id])
     else
       redirect_to check_in_fail_walkers_path
