@@ -11,9 +11,7 @@ Rails.application.routes.draw do
     post :make_public, on: :collection
     post :make_private, on: :collection
   end
-  resources :checkpoints  do
-    post :search, on: :collection
-  end
+  resources :checkpoints  
   #resources :participants
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users
@@ -62,7 +60,8 @@ Rails.application.routes.draw do
     post :checkin_walker, on: :collection
     
     get 'move_own_way_home', on: :collection
-  end
+    get 'request_pick_up', on: :collection
+    end
 
   resources :profile do
     get 'account', on: :collection

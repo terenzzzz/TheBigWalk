@@ -12,10 +12,6 @@ class MarshalsController < ApplicationController
         end
     end
 
-    def index
-    end
-
-
     def choose_event
         @marshal = Marshall.where(users_id: current_user.id).first
         @checkpoint = @marshal.checkpoints_id
@@ -32,19 +28,20 @@ class MarshalsController < ApplicationController
         session[:current_event_id] = params[:id]
     end
     
+    #GET
     def change_checkpoint
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal = Marshall.where(users_id: current_user.id).first
         @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
     end
    
+    #POST
     def search_checkpoint
+        @marshal = Marshall.where(users_id: current_user.id).first
         @checkpoints = Checkpoint.where(name: params[:search][:name])
-        render :search_checkpoint_marshals_path
+        render :change_checkpoint
     end
 
     def end_marshal_shift
-        # @marshal = Marshall.where(users_id: session[:current_user_id]).first
-        # @marshal.update(checkpoints_id: nil)
     end
 
     def view_incoming_walkers
@@ -106,6 +103,7 @@ class MarshalsController < ApplicationController
         @marshal.update(checkpoints_id: params[:id])
 
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
+        session[:current_event_id] =  @checkpoint.events_id
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
             @num_walkers_passed = 0
             @num_walkers_falling = 0 
@@ -131,6 +129,11 @@ class MarshalsController < ApplicationController
         redirect_to '/'
     end
 
+    def request_pick_up
+        Pickup.create(user_id: session[:current_user_id], event_id:session[:current_event_id], os_grid: session[:osReference])
+        reset_session
+        redirect_to '/', notice: 'Pick up request successful.'
+    end
 
     #GET
     def checkin_walkers
