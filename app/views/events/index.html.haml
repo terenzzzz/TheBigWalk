@@ -1,6 +1,6 @@
 .d-flex.justify-content-center
-  %h1 Listing Events
-  %br/
+  %h1.fw-bold Your Events
+%br
 
 .row 
   - @events.each do |event|
@@ -9,6 +9,7 @@
         .card-body
           %h5.card-title.fw-bold= event.name
           =link_to "", event, class: 'stretched-link'
-    %br/
-  =link_to "Create New Event", new_event_path, class: 'btn btn-primary primary-button'
+%br
+  
+  =link_to "Create New Event", new_event_path, class: 'btn btn-primary primary-button w-100'
  
