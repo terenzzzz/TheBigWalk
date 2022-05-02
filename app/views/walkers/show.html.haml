@@ -79,6 +79,21 @@
                 %h1 Congratulations
             .d-flex.justify-content-center
                 %h2 You Finished The Event
+            %br
+            .d-flex.justify-content-center
+                %h4{class: "fw-bold"} You are currently
+            -if @walker.rank % 10 == 0 || @walker.rank % 10 == 4 || @walker.rank % 10 == 5 || @walker.rank % 10 == 6 || @walker.rank % 10 == 7 || @walker.rank % 10 == 8 || @walker.rank % 10 == 9
+                .d-flex.justify-content-center
+                    %h1{class: "fw-bold"}= "#{@walker.rank}th"
+            -elsif @walker.rank % 10 == 1
+                .d-flex.justify-content-center
+                    %h1{class: "fw-bold"}= "#{@walker.rank}st"
+            -elsif @walker.rank % 10 == 2
+                .d-flex.justify-content-center
+                    %h1{class: "fw-bold"}= "#{@walker.rank}nd"
+            -elsif @walker.rank % 10 == 3
+                .d-flex.justify-content-center
+                    %h1{class: "fw-bold"}= "#{@walker.rank}rd"
 
 
 

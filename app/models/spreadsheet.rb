@@ -181,7 +181,6 @@ class Spreadsheet
     #when they sign up an event not account
     def add_walker(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
-
         if worksheet
             walker = Participant.where(user_id: user.id).first
             worksheet.max_rows += 1

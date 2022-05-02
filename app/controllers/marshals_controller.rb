@@ -54,7 +54,7 @@ class MarshalsController < ApplicationController
 
         @falling_behind = Array.new
         @on_pace = Array.new
-        @need_help = Array.new
+        @walkers_need_help = Array.new
         @walkers_falling_behind = Array.new
         @Walkers_on_pace = Array.new
         linkers.each do |linker|
@@ -69,18 +69,18 @@ class MarshalsController < ApplicationController
                     on_pace = (time_to_next_checkpoint * 60)/dif
                     if on_pace > 1
                         stat.update(status: "On Pace.")
-                    elsif on_pace > 0.65
+                    elsif on_pace > 0.95 #change back to 0.65 once it works
                         stat.update(status: "Falling Behind!")
                     else
                         stat.update(status: "Needs Help!!")
                     end
-                    puts "#####################"
-                    puts time_last_checkpoint
-                    puts time_now
-                    puts dif
-                    puts "#####################"
                 end
 
+                @walkers_need_help.concat Participant.where(routes_id: previous_linker.route_id, pace: 'Needs Help!!', checkpoints_id: previous_linker.checkpoint_id)
+                @walkers_need_help.each do |walker|
+                    @help_walker_and_user = [walker, User.where(id: walker.user_id).first]
+                    @needs_help.push(@help_walker_and_user)
+                end
                 @walkers_falling_behind.concat Participant.where(routes_id: previous_linker.route_id, pace: 'Falling Behind!', checkpoints_id: previous_linker.checkpoint_id)
                 @walkers_falling_behind.each do |walker|
                     @falling_walker_and_user = [walker, User.where(id: walker.user_id).first]

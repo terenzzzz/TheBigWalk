@@ -93,8 +93,16 @@ class WalkersController < ApplicationController
           break
         end
       end
-      participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(participant_id: random_number, checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id], rank: 0)#, opted_in_leaderboard: session[:opted_in])
+      checkpoint_id = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id], position_in_route: "1").first.checkpoint_id
+      participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(participant_id: random_number, checkpoints_id:checkpoint_id, routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id], rank: (Participant.where(routes_id:session[:current_route_id]).size + 1))#, opted_in_leaderboard: session[:opted_in])
       participant.save
+      route = Route.where(id: session[:current_route_id]).first
+      start_date = route.start_date
+      start_time = route.start_time
+      date_time = DateTime.new(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min, start_time.sec, start_time.zone)
+      CheckpointTime.where(participant_id: participant.id, checkpoint_id: checkpoint_id).first_or_create(times: date_time, participant_id: participant.id, checkpoint_id: checkpoint_id)
+      spreadsheet = Spreadsheet.new
+      spreadsheet.add_walker(Route.where(id:session[:current_route_id]).first, User.where(id:session[:current_user_id]).first)
 
       # user_id_for_participant = participant.user_id
       # user_opted_in = User.where(id: user_id_for_participant).opted_in
@@ -198,22 +206,26 @@ class WalkersController < ApplicationController
       puts "User: #{user.id}"
       @walker = Participant.where(user_id: user.id).first
       puts "Route ID: #{@walker}"
+      
       checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: @walker.routes_id, checkpoint_id: @walker.checkpoints_id).first.position_in_route
-      @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: @walker.routes_id).first
-      @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
-
-      @advisedTime = @linker.advised_time
-
-      #NEEDS FIXING, USER DOESN'T HAVE AN EMPTY TIME WHEN THEY SIGN UP (I think that's the issue or something like that) \/\/
-      if CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first
-        @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
+      if checkpoint_pos == RoutesAndCheckpointsLinker.where(route_id: @walker.routes_id).size
+        
       else
-        #@time = DateTime.new()
-        #event starts
-        route = Route.where(id: @walker.routes_id).first
-        start_time = route.start_time
-        start_date = route.start_date
-        @time = DateTime.new(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min, start_time.sec, start_time.zone)
+        @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: @walker.routes_id).first
+        @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
+        #what happens when they finish
+        @advisedTime = @linker.advised_time
+
+        if CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first
+          @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
+        else
+          #@time = DateTime.new()
+          #event starts
+          route = Route.where(id: @walker.routes_id).first
+          start_time = route.start_time
+          start_date = route.start_date
+          @time = DateTime.new(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min, start_time.sec, start_time.zone)
+        end
       end
     end
     
