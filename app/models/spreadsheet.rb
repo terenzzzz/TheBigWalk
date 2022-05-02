@@ -204,7 +204,7 @@ class Spreadsheet
     def update_walker_rank(route, old_rank, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
         if worksheet
-            walker = Participant.where(user_id: user.id, route_id: route.id).first
+            walker = Participant.where(user_id: user.id, routes_id: route.id).first
             values = worksheet.rows[old_rank + 1]
 
             if walker.rank > old_rank
