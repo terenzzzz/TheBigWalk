@@ -15,7 +15,7 @@ class WalkersController < ApplicationController
       @lat = session[:lat].to_f
       @lon = session[:lon].to_f
       @osReference = session[:osReference]
-      
+      @checkpoint = 
     end
 
     def saveLocation
@@ -50,6 +50,13 @@ class WalkersController < ApplicationController
       if @osReference == @checkpoint.os_grid
         walker.update(pace: "On Pace.")
         walker.update(checkpoints_id: @checkpoint.id)
+        #create checkpoint time for walker
+        time = Time.now
+        checkpoint_time = CheckpointTime.new
+        checkpoint_time.times = time 
+        checkpoint_time.checkpoint_id = @checkpoint.id
+        checkpoint_time.participant_id = walker.id
+        checkpoint_time.save
         #rerank the walker
         #gets walkers at that checkpoint same on route 
         walkers_on_route = Participant.where(routes_id: walker.routes_id, checkpoints_id: @checkpoint.id)
