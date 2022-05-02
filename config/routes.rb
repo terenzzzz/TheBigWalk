@@ -11,9 +11,7 @@ Rails.application.routes.draw do
     post :make_public, on: :collection
     post :make_private, on: :collection
   end
-  resources :checkpoints  do
-    post :search, on: :collection
-  end
+  resources :checkpoints  
   #resources :participants
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users
