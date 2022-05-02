@@ -75,12 +75,6 @@ class MarshalsController < ApplicationController
                     else
                         stat.update(pace: "Falling Behind!")
                     end
-                    puts "#####################"
-                    puts time_last_checkpoint
-                    puts time_now
-                    puts dif
-                    puts on_pace
-                    puts "#####################"
                 end
 
                 @walkers_falling_behind.concat Participant.where(routes_id: previous_linker.route_id, pace: 'Falling Behind!', checkpoints_id: previous_linker.checkpoint_id)
