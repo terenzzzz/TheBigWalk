@@ -35,7 +35,7 @@ class WalkersController < ApplicationController
       osUKgridPoint = OSGB_WGS84::OSGB36_to_OSNG(oslat,oslon)
       easting  = osUKgridPoint[0].round
       northing = osUKgridPoint[1].round
-      @osReference = OSGB_WGS84::OSNG_numbers_to_letters(easting,northing, 8)
+      @osReference = OSGB_WGS84::OSNG_numbers_to_letters(easting,northing, 6)
 
       session[:osReference] = @osReference
 
