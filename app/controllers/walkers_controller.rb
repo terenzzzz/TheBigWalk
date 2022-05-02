@@ -63,7 +63,7 @@ class WalkersController < ApplicationController
       lowest_rank = 0
       #checks whos gone past that checkpoint with lowest rank 
       walkers_on_route.each do |walkers|
-        if walkers.rank > lowest_rank && walker.rank != walker.rank
+        if walkers.rank > lowest_rank && walkers.rank != walker.rank
           lowest_rank = walkers.rank
         end
       end
