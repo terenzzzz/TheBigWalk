@@ -93,12 +93,10 @@ class MarshalsController < ApplicationController
                     @on_pace.push(@on_walker_and_user)
                 end
             end
-        end
-
-        
+        end 
     end 
 
-   def show
+    def show
         user = User.where(id: session[:current_user_id]).first
         @marshal = Marshall.where(users_id: user.id).first
         @marshal.update(checkpoints_id: params[:id])
@@ -106,11 +104,11 @@ class MarshalsController < ApplicationController
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
         session[:current_event_id] =  @checkpoint.events_id
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
-            @num_walkers_passed = 0
-            @num_walkers_falling = 0 
-            @num_walkers_help = 0
+        @num_walkers_passed = 0
+        @num_walkers_falling = 0 
+        @num_walkers_help = 0
 
-            linkers.each do |linker|
+        linkers.each do |linker|
             previous_linker = RoutesAndCheckpointsLinker.where(position_in_route: (linker.position_in_route - 1), route_id: linker.route_id).first
             linkers_after = RoutesAndCheckpointsLinker.where('position_in_route >= ?', linker.position_in_route).where(route_id: linker.route_id)
             linkers_after.each do |linker_after|
@@ -122,7 +120,6 @@ class MarshalsController < ApplicationController
             @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!', checkpoints_id: previous_linker.checkpoint_id).size
             #there's probably a way to do it in one line for the last 2
         end
-        
     end
 
     def end_for_the_day
@@ -165,7 +162,7 @@ class MarshalsController < ApplicationController
 
             #rerank the walker
             #gets walkers at that checkpoint same on route 
-            walkers_on_route = Participant.where(routes_id: @walker.routes_id, checkpoints_id: @marshal.checkpoints_id)\
+            walkers_on_route = Participant.where(routes_id: @walker.routes_id, checkpoints_id: @marshal.checkpoints_id)
             lowest_rank = 0
             #checks whos gone past that checkpoint with lowest rank 
             walkers_on_route.each do |walker|
