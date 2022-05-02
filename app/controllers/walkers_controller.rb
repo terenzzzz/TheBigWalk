@@ -76,7 +76,7 @@ class WalkersController < ApplicationController
 
       #reranks rest
       #old rank and new rank everyone inbetween gets shifted down if rank is increased
-      if old_rank < (lowest_rank + 1)
+      if old_rank > (lowest_rank + 1)
         walkers_rerank = Participant.where(routes_id: walker.routes_id).where("rank < ?", old_rank).where("rank >= ?", (lowest_rank + 1))
         walkers_rerank.each do |walkers|
           if walkers.id != walker.id
@@ -84,7 +84,14 @@ class WalkersController < ApplicationController
           end
         end
       end
-      
+
+      user = User.where(id: @walker.user_id).first
+      route = Route.where(id: @walker.routes_id).first
+      checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
+      spreadsheet = Spreadsheet.new
+      spreadsheet.update_walker_rank(route, old_rank, user)
+      spreadsheet.add_checkpoint_time(route, user, checkpoint)
+
       redirect_to walker_path(session[:current_route_id])
     else
       redirect_to check_in_fail_walkers_path
