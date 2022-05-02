@@ -116,7 +116,7 @@ class WalkersController < ApplicationController
       if participant.save
         redirect_to walker_path(session[:current_route_id])
       else
-        redirect_to home_page_path(session[:current_event_id]), notice: 'You dont have access to that page'
+        redirect_to home_page_path(session[:current_event_id]), notice: 'You dont have access to that page.'
       end
   
     end
@@ -125,13 +125,13 @@ class WalkersController < ApplicationController
     def requestCall
       #Need to deal with the event_id
       Call.create(user_id:current_user.id, event_id:session[:current_event_id])
-      redirect_to help_walkers_path, notice: 'Call request successful'
+      redirect_to help_walkers_path, notice: 'Call request successful.'
     end
 
     def requestPickUp
       #Need to deal with the event_id
       Pickup.create(user_id:current_user.id, event_id:session[:current_event_id], os_grid: session[:osReference])
-      redirect_to help_walkers_path, notice: 'Pick up request successful'
+      redirect_to help_walkers_path, notice: 'Pick up request successful.'
     end
 
 

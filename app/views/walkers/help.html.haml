@@ -1,11 +1,11 @@
 .d-flex.justify-content-center
-    %h1{class: "fw-bold"} How Can We Help?
+    %h1.fw-bold How Can We Help?
 %br/
 
 .d-grid.gap-2
-    %a.btn.btn-primary.primary-button(href="/walkers/#{current_user.id}/requestCall") Request Call From Staff
-    %a.btn.btn-primary.primary-button(href="tel:[07529928070]") Call Head Marshall (Emergency)
-    =link_to "I'd Like To Drop Out", drop_out_walkers_path, class: 'btn btn-primary primary-button'
-    =link_to "Report Issue With The Website", new_report_path, class: 'btn btn-primary primary-button'
+    %a.btn.btn-primary.primary-button.btn-lg(href="/walkers/#{current_user.id}/requestCall") Request Call From Staff
+    %a.btn.btn-primary.primary-button.btn-lg(href="tel:[07529928070]") Call Head Marshall (Emergency)
+    =link_to "I'd Like To Drop Out", drop_out_walkers_path, class: 'btn btn-primary primary-button btn-lg'
+    =link_to "Report Issue With The Website", new_report_path, class: 'btn btn-primary primary-button btn-lg'
 
 

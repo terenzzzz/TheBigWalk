@@ -9,5 +9,5 @@
 %br/
 .d-grid.gap-2
     = simple_form_for :make_own_way_home, url: make_own_way_home_walkers_path, method: :post do |f|
-        = f.submit "Making My Own Way Home", class: 'btn btn-primary primary-button'
+        = f.submit "Making My Own Way Home", class: 'btn btn-primary primary-button w-100'
     =link_to "I Need Picking Up", walker_requestPickUp_path(current_user), class: 'btn btn-primary primary-button'
