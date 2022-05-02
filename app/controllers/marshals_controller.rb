@@ -54,6 +54,7 @@ class MarshalsController < ApplicationController
 
         @falling_behind = Array.new
         @on_pace = Array.new
+        @walkers_need_help = Array.new
         @walkers_falling_behind = Array.new
         @Walkers_on_pace = Array.new
         linkers.each do |linker|
@@ -65,15 +66,21 @@ class MarshalsController < ApplicationController
                     time_last_checkpoint = CheckpointTime.where(participant_id: stat.id, checkpoint_id: previous_linker.checkpoint_id).first.times
                     time_to_next_checkpoint = linker.advised_time
                     dif = time_now - time_last_checkpoint # seconds
-                    on_pace = (time_to_next_checkpoint * 60) - dif
-
-                    if on_pace.to_i > 0
-                        stat.update(pace: "On Pace.")
+                    on_pace = (time_to_next_checkpoint * 60)/dif
+                    if on_pace > 1
+                        stat.update(status: "On Pace.")
+                    elsif on_pace > 0.95 #change back to 0.65 once it works
+                        stat.update(status: "Falling Behind!")
                     else
-                        stat.update(pace: "Falling Behind!")
+                        stat.update(status: "Needs Help!!")
                     end
                 end
 
+                @walkers_need_help.concat Participant.where(routes_id: previous_linker.route_id, pace: 'Needs Help!!', checkpoints_id: previous_linker.checkpoint_id)
+                @walkers_need_help.each do |walker|
+                    @help_walker_and_user = [walker, User.where(id: walker.user_id).first]
+                    @needs_help.push(@help_walker_and_user)
+                end
                 @walkers_falling_behind.concat Participant.where(routes_id: previous_linker.route_id, pace: 'Falling Behind!', checkpoints_id: previous_linker.checkpoint_id)
                 @walkers_falling_behind.each do |walker|
                     @falling_walker_and_user = [walker, User.where(id: walker.user_id).first]
@@ -98,18 +105,15 @@ class MarshalsController < ApplicationController
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
         session[:current_event_id] =  @checkpoint.events_id
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
-        @num_walkers_passed = 0
-        @num_walkers_falling = 0 
-        @num_total_walkers_to_pass = 0
-        linkers.each do |linker|
+            @num_walkers_passed = 0
+            @num_walkers_falling = 0 
+
+            linkers.each do |linker|
             linkers_after = RoutesAndCheckpointsLinker.where('position_in_route >= ?', linker.position_in_route).where(route_id: linker.route_id)
             linkers_after.each do |linker_after|
                 @num_walkers_passed = @num_walkers_passed + Participant.where(routes_id: linker_after.route_id, checkpoints_id: linker_after.checkpoint_id).size
-                
             end
             @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!').size
-
-            @num_total_walkers_to_pass = @num_total_walkers_to_pass + Participant.where(routes_id: linker.route_id).size
         end
         
     end
@@ -142,7 +146,7 @@ class MarshalsController < ApplicationController
         @walker = Participant.where(params.require(:checkin_walker).permit(:participant_id)).first
         if @walker
             @marshal = Marshall.where(users_id: session[:current_user_id]).first
-            @walker.update(checkpoints_id: @marshal.checkpoints_id, pace: "On Pace.")
+            @walker.update(checkpoints_id: @marshal.checkpoints_id)
 
             #create checkpoint time for walker
             time = Time.now
@@ -199,7 +203,7 @@ class MarshalsController < ApplicationController
             spreadsheet = Spreadsheet.new
             spreadsheet.add_checkpoint_time(route, user, checkpoint)
 
-            redirect_to root_path
+            redirect_to marshals_path
         else
             redirect_to checkin_walkers_marshals_path, notice: 'Invalid Walker ID.'
         end

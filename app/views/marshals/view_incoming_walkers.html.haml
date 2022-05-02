@@ -15,17 +15,24 @@
                 %td.fw-bold ID Number
                 %td.fw-bold Person
                 %td.fw-bold Pace
+            -if @needs_help
+                -@needs_help.each do |walker|
+                    %tr 
+                        %td= walker.first.participant_id
+                        %td=link_to "#{walker.last.name}", walker.last
+                        %td.need-help Needs Help!!
+
             -if @falling_behind
                 -@falling_behind.each do |walker|
                     %tr 
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
-                        %td.need-help.text-danger Falling Behind!
+                        %td.falling-behind Falling Behind!
                         
             -if @on_pace
                 -@on_pace.each do |walker|
                     %tr
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
-                        %td.on-pace.text-success On Pace
+                        %td.on-pace On Pace
 
