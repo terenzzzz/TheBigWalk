@@ -1,15 +1,14 @@
 .d-flex.justify-content-center
-  %h2 Choose An Event
-%br/
+  %h1.fw-bold.pb-3 Choose An Event
 
 
 - if @events.count == 0
-  %h3 There is no event ready. Please contact Admin to Generate one.
+  %h3 There is no event ready. Please contact an admin for them to create one.
 - else 
   %h3 
   .row
     - @events.each do |event|
-      .col-6
+      .col-6.pb-3
         .card.h-100
           .card-body
             .d-flex.justify-content-center

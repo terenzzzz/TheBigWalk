@@ -1,7 +1,7 @@
 .d-flex.justify-content-center
-  %h2 Start your Shift 
-%br/
-%h3 Choose your current Checkpoint
+  %h1.fw-bold Start Your Shift
+.d-flex.justify-content-center
+  %h4.fw-bold Choose Your Current Checkpoint
 
 - if @checkpoints.count == 0
   %h3 There are no checkpoints ready. Please contact Admin to Generate one.
@@ -9,8 +9,8 @@
   %h3
   .row
     - @checkpoints.each do |checkpoint|
-      .col-6
-        .card.mb-2
+      .col-6.mb-3
+        .card
           .card-body
             %h5.card-title.fw-bold= checkpoint.name
           =link_to '' , marshal_path(checkpoint), class:'stretched-link'
