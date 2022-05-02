@@ -85,9 +85,9 @@ class WalkersController < ApplicationController
         end
       end
 
-      user = User.where(id: @walker.user_id).first
-      route = Route.where(id: @walker.routes_id).first
-      checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
+      user = User.where(id: walker.user_id).first
+      route = Route.where(id: walker.routes_id).first
+      checkpoint = Checkpoint.where(id: walker.checkpoints_id).first
       spreadsheet = Spreadsheet.new
       spreadsheet.update_walker_rank(route, old_rank, user)
       spreadsheet.add_checkpoint_time(route, user, checkpoint)
