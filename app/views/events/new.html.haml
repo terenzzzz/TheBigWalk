@@ -1,12 +1,15 @@
-%h1 Create Event
-%br/
+.d-flex.justify-content-center
+  %h1.fw-bold Create Event
+%br
+
 = simple_form_for(@event) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
     = f.input :name, label: "Event Name:"
-
+  %br
+  
   .form-actions
-    = f.button :submit, "Create", class: 'btn btn-primary primary-button'
+    = f.button :submit, "Create", class: 'btn btn-primary primary-button w-100'
 

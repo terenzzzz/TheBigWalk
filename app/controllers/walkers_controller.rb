@@ -14,9 +14,7 @@ class WalkersController < ApplicationController
     def check_in
       @lat = session[:lat].to_f
       @lon = session[:lon].to_f
-      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
-      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
-      @osReference = @osUKgridPoint.grid_ref(6)
+      @osReference = session[:osReference]
       
     end
 
@@ -27,9 +25,18 @@ class WalkersController < ApplicationController
       session[:lat] = @lat
       session[:lon] = @lon
       #conver them to OS Reference
-      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
-      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
-      @osReference = @osUKgridPoint.grid_ref(6)
+      # @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      # @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      # @osReference = @osUKgridPoint.grid_ref(6)
+
+      osgb36point = OSGB_WGS84::WGS84_to_OSGB36(@lat,@lon, 0)
+      oslat = osgb36point[0]
+      oslon = osgb36point[1]
+      osUKgridPoint = OSGB_WGS84::OSGB36_to_OSNG(oslat,oslon)
+      easting  = osUKgridPoint[0].round
+      northing = osUKgridPoint[1].round
+      @osReference = OSGB_WGS84::OSNG_numbers_to_letters(easting,northing, 8)
+
       session[:osReference] = @osReference
 
       #find next checkpoint
@@ -124,7 +131,7 @@ class WalkersController < ApplicationController
       if participant.save
         redirect_to walker_path(session[:current_route_id])
       else
-        redirect_to home_page_path(session[:current_event_id]), notice: 'You dont have access to that page'
+        redirect_to home_page_path(session[:current_event_id]), notice: 'You dont have access to that page.'
       end
   
     end
@@ -133,13 +140,13 @@ class WalkersController < ApplicationController
     def requestCall
       #Need to deal with the event_id
       Call.create(user_id:current_user.id, event_id:session[:current_event_id])
-      redirect_to help_walkers_path, notice: 'Call request successful'
+      redirect_to help_walkers_path, notice: 'Call request successful.'
     end
 
     def requestPickUp
       #Need to deal with the event_id
       Pickup.create(user_id:current_user.id, event_id:session[:current_event_id], os_grid: session[:osReference])
-      redirect_to help_walkers_path, notice: 'Pick up request successful'
+      redirect_to help_walkers_path, notice: 'Pick up request successful.'
     end
 
 
@@ -152,9 +159,7 @@ class WalkersController < ApplicationController
 
       @lat = session[:lat].to_f
       @lon = session[:lon].to_f
-      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
-      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
-      @osReference = @osUKgridPoint.grid_ref(6)
+      @osReference = session[:osReference]
     end
 
     def help

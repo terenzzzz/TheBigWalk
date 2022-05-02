@@ -1,4 +1,5 @@
-%h1 Event Info
+.d-flex.justify-content-center
+  %h1.fw-bold Edit Event Info
 
 = simple_form_for(@event) do |f|
   = f.error_notification
@@ -8,21 +9,16 @@
     = f.input :name, label: "Event Name:"
 
   .form-actions
-    .d-flex.justify-content-center
-      = f.button :submit, "Save", class: 'btn btn-primary primary-button'
-    %br/
-    .d-flex.justify-content-center
-      = link_to 'Delete', @event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
-      
-  %br/
-  .d-flex.justify-content-center  
-    =link_to "Manage Routes", routes_path, class: 'btn btn-primary primary-button'
-  %br/
-  .d-flex.justify-content-center  
-    =link_to "Manage Checkpoints", checkpoints_path, class: 'btn btn-primary primary-button'
-  %br/
-  .d-flex.justify-content-center 
-    =link_to "Manage Branding", edit_branding_path(Branding.where(events_id: session[:current_event_id]).first), class: 'btn btn-primary primary-button'
+    .d-grid.gap-2
+      = f.button :submit, "Save", class: 'btn btn-primary primary-button w-100'
+      = link_to 'Delete', @event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger danger-button w-100 mb-2'
+  %br
+  .d-grid.gap-2
+    =link_to "Manage Routes", routes_path, class: 'btn btn-primary primary-button w-100'
+  
+    =link_to "Manage Checkpoints", checkpoints_path, class: 'btn btn-primary primary-button w-100'
+
+    =link_to "Manage Branding", edit_branding_path(Branding.where(events_id: session[:current_event_id]).first), class: 'btn btn-primary primary-button w-100'
   
 
   

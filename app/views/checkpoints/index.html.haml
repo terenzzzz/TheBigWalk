@@ -1,24 +1,28 @@
 .d-flex.justify-content-center
-    %h1 Checkpoints
-%br/
+    %h1.fw-bold.pb-3 Checkpoints
+
 - if session[:new_event] == 0
     //= link_to edit_event_path(@event) do 
     //    %span.bi.bi-arrow-return-left
 
 .row
     - @checkpoints.each do |checkpoint|
-        .col-6
+        .col-6.pb-3
             .card.h-100
                 .card-body
                     %h5.card-title.fw-bold= checkpoint.name
                     %h6= "Location: #{checkpoint.os_grid}"
-                    %p= link_to 'Edit', edit_checkpoint_path(checkpoint), class: 'btn btn-primary primary-button stretched-link'               
+                    %p.pt-3= link_to 'Edit', edit_checkpoint_path(checkpoint), class: 'btn btn-primary primary-button stretched-link w-100'
+
+.d-flex.justify-content-center
+    =link_to "Create New Checkpoint", new_checkpoint_path, class: 'btn btn-primary primary-button w-100'
+
+- if session[:new_event] == 1
+    .d-flex.justify-content-center
     %br
-    =link_to "Create New Checkpoint", new_checkpoint_path, class: 'btn btn-primary primary-button'
-    - if session[:new_event] == 1
-        %br/
-        .d-flex.justify-content-center
-            =link_to "Next", edit_branding_path(@branding), class: 'btn btn-primary primary-button'
+        =link_to "Next", edit_branding_path(@branding), class: 'btn btn-primary primary-button w-100'
+
+
     -#     .d-flex.justify-content-left
     -#         %p= checkpoint.name
     -#     .d-flex.justify-content-left

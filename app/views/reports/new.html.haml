@@ -1,11 +1,14 @@
+.d-flex.justify-content-center
+  %h1.fw-bold.text-center Report Issue Or Feedback With Site:
+
 = simple_form_for(@report) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :subject  , label: "Subject:", placeholder: 'Problem Subject'
-    = f.input :description, label: "Description:", as: :text,  placeholder: 'Enter the problems you enconter here.'
+    = f.input :subject  , label: "Subject:", placeholder: 'Subject'
+    = f.input :description, label: "Description:", as: :text,  placeholder: 'Please enter the details of your feedback.'
 
   .form-actions
-    = f.button :submit, "Submit", class: 'btn btn-primary primary-button'
+    = f.button :submit, "Submit", class: 'btn btn-primary primary-button w-100'
 

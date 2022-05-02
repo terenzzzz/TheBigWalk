@@ -1,20 +1,15 @@
 .d-flex.justify-content-center
-  %h2{class: "fw-bold"} Pick An Event
-%br/
-
-
+  %h1.fw-bold.pb-2 Pick An Event
 
 - if @events.count == 0
   %h3 There are no events ready. Please contact an admin to create one.
 - else 
-  %h3{class: "fw-bold"} Available Events:
+  %h4.fw-bold.text-center.pb-2 Available Events:
   .row
     - @events.each do |event|
-      .col-6.mb-3
+      .col-6.pb-3
         .card.h-100
           .card-body
             .d-flex.justify-content-center
               %h6.card-title.fw-bold= event.name
             =link_to '', pick_route_page_path(event), class:'stretched-link'
-  %br/
-%br/

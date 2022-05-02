@@ -1,15 +1,17 @@
 -@checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
 -@route = Route.where(id: @linker.route_id).first
-%h1= "Details for the #{@checkpoint.name} checkpoint on the #{@route.name} route"
+
+.d-flex.justify-content-center
+  %h1.fw-bold.text-center= "#{@checkpoint.name} On The #{@route.name} Route"
 
 = simple_form_for(@linker) do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :distance_from_start, label: "Distance(km) From Start:"
-    = f.input :advised_time, label: "Advised Time (mins):"
-    = f.input :checkpoint_description, label: "Description of Route to Next Checkpoint:"
+    = f.input :distance_from_start, label: "Distance From Start (Km):"
+    = f.input :advised_time, label: "Advised Time (Mins):"
+    = f.input :checkpoint_description, label: "Description To The Next Checkpoint:"
     
   .form-actions
     .d-grid.gap-2
