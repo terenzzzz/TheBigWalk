@@ -1,4 +1,6 @@
-%h1 Checkpoint Info
+.d-flex.justify-content-center
+  %h1.fw-bold Edit Checkpoint Info
+%br/
 
 = simple_form_for(@checkpoint) do |f|
   = f.error_notification
@@ -15,11 +17,12 @@
             .card-body
               %h5.card-title.fw-bold= route.name
               = check_box_tag 'selected_routes[]', route.id
-              = "Assign Checkpoint To This Route"
+              = "Assign To Route"
         %br/
 
+  %br
   .form-actions
     .d-grid.gap-2
       = f.button :submit, "Save", class: 'btn btn-primary primary-button'
-      = link_to 'Delete', @checkpoint, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+      = link_to 'Delete', @checkpoint, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-danger danger-button'
 

@@ -13,9 +13,9 @@
                 .card-body
                     %h5.card-title.fw-bold= checkpoint.name
                     %h6= "Location: #{checkpoint.os_grid}"
-                    %p= link_to 'Edit', edit_checkpoint_path(checkpoint), class: 'btn btn-primary primary-button stretched-link'               
+                    %p.pt-3= link_to 'Edit', edit_checkpoint_path(checkpoint), class: 'btn btn-primary primary-button stretched-link w-100'               
     %br
-
+%br
 =link_to "Create New Checkpoint", new_checkpoint_path, class: 'btn btn-primary primary-button w-100'
 
 - if session[:new_event] == 1

@@ -1,4 +1,6 @@
-%h1 Branding
+.d-flex.justify-content-center
+  %h1.fw-bold Branding
+
 - if session[:new_event] == 0
   //= link_to edit_event_path(@event)do 
   // %span.bi.bi-arrow-return-left
@@ -9,9 +11,10 @@
 
   .form-inputs
     = f.hidden_field :id, value: @branding.id
-    = f.input :header, label: "Event Header"
-    = f.input :logo, label: "Event Logo"
+    = f.input :header, label: "Event Header:"
+    = f.input :logo, label: "Event Logo:"
 
+  %br
   .form-actions
     .d-grid.gap-2
       = f.button :submit, "Save", class: 'btn btn-primary primary-button'
