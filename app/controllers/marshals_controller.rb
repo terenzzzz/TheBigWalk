@@ -33,7 +33,7 @@ class MarshalsController < ApplicationController
     end
     
     def change_checkpoint
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal = Marshall.where(users_id: current_user.id).first
         @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
     end
    
@@ -43,8 +43,6 @@ class MarshalsController < ApplicationController
     end
 
     def end_marshal_shift
-        # @marshal = Marshall.where(users_id: session[:current_user_id]).first
-        # @marshal.update(checkpoints_id: nil)
     end
 
     def view_incoming_walkers
@@ -105,6 +103,7 @@ class MarshalsController < ApplicationController
         @marshal.update(checkpoints_id: params[:id])
 
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
+        session[:current_event_id] =  @checkpoint.events_id
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
         @num_walkers_passed = 0
         @num_walkers_falling = 0 
