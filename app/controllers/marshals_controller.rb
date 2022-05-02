@@ -54,6 +54,7 @@ class MarshalsController < ApplicationController
 
         @falling_behind = Array.new
         @on_pace = Array.new
+        @needs_help = Array.new
         @walkers_need_help = Array.new
         @walkers_falling_behind = Array.new
         @Walkers_on_pace = Array.new
@@ -68,11 +69,11 @@ class MarshalsController < ApplicationController
                     dif = time_now - time_last_checkpoint # seconds
                     on_pace = (time_to_next_checkpoint * 60)/dif
                     if on_pace > 1
-                        stat.update(status: "On Pace.")
-                    elsif on_pace > 0.95 #change back to 0.65 once it works
-                        stat.update(status: "Falling Behind!")
+                        stat.update(pace: "On Pace.")
+                    elsif on_pace > 0.65 #if the current pace is 1.54x (ish) bigger than expected, get help
+                        stat.update(pace: "Falling Behind!")
                     else
-                        stat.update(status: "Needs Help!!")
+                        stat.update(pace: "Needs Help!!")
                     end
                 end
 
@@ -107,13 +108,19 @@ class MarshalsController < ApplicationController
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
             @num_walkers_passed = 0
             @num_walkers_falling = 0 
+            @num_walkers_help = 0
 
             linkers.each do |linker|
+            previous_linker = RoutesAndCheckpointsLinker.where(position_in_route: (linker.position_in_route - 1), route_id: linker.route_id).first
             linkers_after = RoutesAndCheckpointsLinker.where('position_in_route >= ?', linker.position_in_route).where(route_id: linker.route_id)
             linkers_after.each do |linker_after|
                 @num_walkers_passed = @num_walkers_passed + Participant.where(routes_id: linker_after.route_id, checkpoints_id: linker_after.checkpoint_id).size
             end
-            @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!').size
+            @num_total_walkers_to_pass = Participant.where(routes_id: linker.route_id).size
+            @num_walkers_help = @num_walkers_help + Participant.where(routes_id: linker.route_id, pace: 'Needs Help!!', checkpoints_id: previous_linker.checkpoint_id).size
+            @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Needs Help!!', checkpoints_id: previous_linker.checkpoint_id).size
+            @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!', checkpoints_id: previous_linker.checkpoint_id).size
+            #there's probably a way to do it in one line for the last 2
         end
         
     end
