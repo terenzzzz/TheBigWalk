@@ -27,9 +27,17 @@ class WalkersController < ApplicationController
       session[:lat] = @lat
       session[:lon] = @lon
       #conver them to OS Reference
-      @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
-      @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
-      @osReference = @osUKgridPoint.grid_ref(6)
+      # @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
+      # @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
+      # @osReference = @osUKgridPoint.grid_ref(6)
+      osgb36point = OSGB_WGS84::WGS84_to_OSGB36(@lat,@lon, 0)
+      oslat = osgb36point[0]
+      oslon = osgb36point[1]
+      osUKgridPoint = OSGB_WGS84::OSGB36_to_OSNG(oslat,oslon)
+      easting  = osUKgridPoint[0].round
+      northing = osUKgridPoint[1].round
+      @osReference = OSGB_WGS84::OSNG_numbers_to_letters(easting,northing, 6)
+
       session[:osReference] = @osReference
 
       #find next checkpoint

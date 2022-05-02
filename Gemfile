@@ -26,6 +26,7 @@ gem 'faker'
 
 gem 'osgb_convert', '~> 0.0.4'
 gem "osgb"
+gem 'osgb_wgs84'
 
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
