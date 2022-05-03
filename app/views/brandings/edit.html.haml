@@ -11,8 +11,8 @@
 
   .form-inputs
     = f.hidden_field :id, value: @branding.id
-    = f.input :header, label: "Event Header:"
-    = f.input :logo, label: "Event Logo:"
+    = f.input :header, label: "Event Header (Max Size: 1600x500):"
+    = f.input :logo, label: "Event Logo (Max Size: 2000x2500):"
 
   %br
   .form-actions
