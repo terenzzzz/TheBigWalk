@@ -1,0 +1,22 @@
+.row 
+    .col
+        .d-flex.justify-content-center
+            %h1.fw-bold Reported Issues
+
+
+.d-flex.justify-content-center
+    %table
+        %tbody
+            %tr
+                %td.fw-bold user_id
+                %td.fw-bold subject
+                %td.fw-bold description
+            -reports = Report.all
+            -reports.each do |report|
+                %tr
+                    -user = User.where(id: report.user_id).first
+                    %td=link_to "#{user.name}", user
+                    %td= report.subject
+                    %td= report.description
+                %tr
+                    %td{:colspan => 3}=link_to 'Remove Issue Report', report, :method => :delete, :data => { :confirm => 'Are you sure?' },  class: 'btn btn-primary primary-button btn-sm w-100'
