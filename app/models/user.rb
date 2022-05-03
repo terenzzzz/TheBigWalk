@@ -32,7 +32,14 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_one_attached :avatar
   belongs_to :tag, optional: true
-  has_many :participant, dependent: :delete_all
+
+  has_many :calls, dependent: :destroy
+  has_many :pickups, dependent: :destroy
+  has_many :participants, dependent: :destroy
+  has_one :opted_in_leaderboard, dependent: :destroy
+
+
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 

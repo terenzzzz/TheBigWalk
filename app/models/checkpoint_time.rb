@@ -20,5 +20,5 @@
 #  fk_rails_...  (participant_id => participants.id)
 #
 class CheckpointTime < ApplicationRecord
-
+    belongs_to :participant
 end

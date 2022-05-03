@@ -29,4 +29,5 @@
 #
 class Participant < ApplicationRecord
     belongs_to :user
+    has_many :checkpoint_times, dependent: :destroy
 end

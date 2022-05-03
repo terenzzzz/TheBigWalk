@@ -19,4 +19,5 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Call < ApplicationRecord
+    belongs_to :user
 end
