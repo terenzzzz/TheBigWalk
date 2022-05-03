@@ -183,6 +183,8 @@ class WalkersController < ApplicationController
   end
 
   def help
+    @findEvent = Event.where(id: session[:current_event_id]).first
+    @head_marshal_num = @findEvent.phone_number
   end
 
   def drop_out
