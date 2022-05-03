@@ -1,12 +1,16 @@
 .d-flex.justify-content-center
     %h1.fw-bold Incoming Walkers
-%br
 
 .d-flex.justify-content-center
+    -if @falling_behind.count == 1
+        %p.fw-bold= "There is a walker falling behind." 
+    -else
+        %p.fw-bold= "There are #{@needs_help.count} walkers falling behind."
     -if @needs_help.count == 1
         %p.fw-bold= "There is a walker very far behind." 
     -else
         %p.fw-bold= "There are #{@needs_help.count} walkers very far behind."
+    
 
 .d-flex.justify-content-center
     %table
