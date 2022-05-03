@@ -18,7 +18,15 @@ class UsersController < ApplicationController
                 
                 walker.update(params.require(:participant).permit(:participant_id))
                 spreadsheet.update_walker_info((Route.where(id: walker.routes_id).first), @user)
-            
+
+                if params[:opted_in] == "1"
+                    OptedInLeaderboard.where(user_id: session[:current_user_id]).first.update(opted_in: true)
+                    session[:opted_in] = 1
+                else
+                    OptedInLeaderboard.where(user_id: session[:current_user_id]).first.update(opted_in: false)
+                    session[:opted_in] = 0
+                end
+
             #Edit User's Marshal_Id
             elsif Tag.where(id: @user.tag_id).first.name == "Marshal"
                 marshal = Marshall.where(checkpoints_id: session[:current_checkpoint_id], users_id: @user.id).first

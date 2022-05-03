@@ -22,6 +22,17 @@ class EventsController < ApplicationController
   def show
     session[:new_event] = 0
     session[:current_event_id] = @event.id
+    @enough_checkpoints = 1
+    routes = Route.where(events_id: session[:current_event_id])
+    if !(routes.first)
+      @enough_checkpoints = 0
+    end
+    routes.each do |route|
+      if RoutesAndCheckpointsLinker.where(route_id: route.id).size == 0
+        @enough_checkpoints = 0
+      end
+    end
+    
   end
 
   # GET /events/new

@@ -12,11 +12,15 @@
         .form-inputs
           = o.input :participant_id, label: "Walker Number:"
       -role_id = Participant.where(user_id: current_user.id).first
+      - if session[:opted_in]
+        = check_box_tag("opted_in", 1, checked = "checked")
+      - else
+        = check_box_tag("opted_in", 1) 
+      = "Opted in to the public leaderboard"
     -elsif current_user.tag.name == "Marshal"
       = simple_fields_for(Marshall.where(checkpoints_id: session[:current_checkpoint_id],users_id: current_user.id).first) do |o|
         .form-inputs
           = o.input :marshal_id, label: "Marshal Number:"
-    /Tom has no idea how to fix - help
 
     /Add checkbox here (checked if user is opted in for leaderboard, otherwise not checked)
     /Update their preference when the 'Update User' button is pressed    
