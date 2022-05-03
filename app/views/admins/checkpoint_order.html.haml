@@ -1,0 +1,33 @@
+.row 
+    .col
+        .d-flex.justify-content-center
+            %h1.fw-bold Checkpoint Ordering
+
+
+-routes = Route.where(events_id: session[:current_event_id])
+-routes.each do |route|
+    .d-flex.justify-content-center
+        %h3.fw-bold= 'Route: ' + route.name
+    .d-flex.justify-content-center
+        %table
+            %tbody
+                %tr
+                    %td.fw-bold Checkpoint
+                    %td.fw-bold Distance From Start
+                    %td.fw-bold OS Grid
+                    %td.fw-bold Marshals
+                -linkers = RoutesAndCheckpointsLinker.where(route_id: route.id).order("distance_from_start ASC")
+                -linkers.each do |linker|
+                    %tr
+                        -checkpoint = Checkpoint.where(id: linker.checkpoint_id).first
+                        -marshals = Marshall.where(checkpoints_id: checkpoint.id)
+                        %td= checkpoint.name
+                        %td= linker.distance_from_start
+                        %td= checkpoint.os_grid
+                        -if !(marshals.first)
+                            %td.text-danger No Marshal
+                        -else
+                            -marshals.each do |marshal|
+                                -user = User.where(id: marshal.users_id).first
+                                %td=link_to "#{user.name}", user
+    %br

@@ -7,6 +7,7 @@
 
   .form-inputs
     = f.input :name, label: "Event Name:"
+    = f.input :phone_number, label: "Head Marshal Phone Number:"
 
   .form-actions
     .d-grid.gap-2
@@ -17,6 +18,8 @@
     =link_to "Manage Routes", routes_path, class: 'btn btn-primary primary-button w-100'
   
     =link_to "Manage Checkpoints", checkpoints_path, class: 'btn btn-primary primary-button w-100'
+
+    =link_to "View Checkpoints Order", checkpoint_order_admins_path, class: 'btn btn-primary primary-button w-100'
 
     =link_to "Manage Branding", edit_branding_path(Branding.where(events_id: session[:current_event_id]).first), class: 'btn btn-primary primary-button w-100'
   

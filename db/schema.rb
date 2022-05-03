@@ -107,6 +107,7 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "made_public"
+    t.string "phone_number"
   end
 
   create_table "marshal_shifts", force: :cascade do |t|

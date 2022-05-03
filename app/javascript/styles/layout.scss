@@ -29,12 +29,14 @@ thead th {
 }
 
 .need-help{
+  font-style: italic;
   font-weight: bold;
   color: red;
 }
 
 .falling-behind{
-  color: orange;
+  font-weight: bold;
+  color: rgb(219, 154, 34);
 }
 
 .on-pace{

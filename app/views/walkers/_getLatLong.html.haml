@@ -1,10 +1,11 @@
 .d-flex.justify-content-center
-  = form_with(url:"/walkers/#{current_user.id}/saveLocation", method:"post") do |f|
+  = form_with(url:"/walkers/#{current_user.id}/saveLocation", method:"post", html:{class:"w-100"}) do |f|
     .form-inputs
       = f.hidden_field :lat, value: "", id:"lat", label: "Latitude:", placeholder: 'Finding Latitude...'
       = f.hidden_field :lon, value: "",  id:"lon", label: "Longitude:", placeholder: 'Finding Longitude...'
     .form-actions
       %br/
       .d-flex.justify-content-center
-        // why won't you work?!?!?
-        = f.button :submit, class: 'btn btn-primary'
+        = f.button :UpdateLocation, class: 'btn btn-primary w-100 btn-lg'
+      .d-flex.justify-content-center
+        %p.text-muted * Please Update Location Before Check In Or Request Pick Up.

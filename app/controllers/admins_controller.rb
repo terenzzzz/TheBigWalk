@@ -72,19 +72,8 @@ class AdminsController < ApplicationController
     end
 
     def view_marshals 
-        @event = Event.where(id: session[:current_event_id]).first
+       
 
-        @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
-        @checkpoints_and_marshals = Array.new
-        @checkpoints.each do |checkpoint|
-            @checkpoint_and_marshals = [checkpoint]
-            @marshals = Marshall.where(checkpoints_id: checkpoint.id)
-            @marshals.each do |marshal|
-                @user = User.where(id: marshal.users_id).first
-                @checkpoint_and_marshals.push(@user)
-            end
-            @checkpoints_and_marshals.push(@checkpoint_and_marshals)
-        end
     end
 
     def view_pickups
@@ -97,32 +86,43 @@ class AdminsController < ApplicationController
 
     def make_walker_marshal
         user = User.where(params.require(:make_walker_marshal).permit(:id)).first
-        walker = Participant.where(user_id: user.id).first
+        walkers = Participant.where(user_id: user.id)
         marshal = Marshall.new
-        marshal.marshal_id = walker.participant_id
+        marshal.marshal_id = walkers.first.participant_id
         marshal.users_id = user.id
-        marshal.checkpoints_id = walker.checkpoints_id
+        marshal.checkpoints_id = walkers.first.checkpoints_id
         marshal.save
         user.tag_id = Tag.where(name: "Marshal").first.id
         user.save
-        times = CheckpointTime.where(participant_id: walker.id)
-        times.each do |time|
-            time.destroy
+        walkers.each do |walker|
+            times = CheckpointTime.where(participant_id: walker.id)
+            spreadsheet = Spreadsheet.new
+            spreadsheet.delete_walker(Route.where(id: walker.routes_id), user)
+            times.each do |time|
+                time.destroy
+            end
+            walker.destroy
         end
-        walker.destroy
         redirect_to user
+    end
+
+    def checkpoint_order
     end
 
     def make_user_admin
         user = User.where(params.require(:make_user_admin).permit(:id)).first
         tag = Tag.where(id: user.tag_id).first.name
         if tag == "Walker"
-            walker = Participant.where(user_id: user.id).first
-            times = CheckpointTime.where(participant_id: walker.id)
-            times.each do |time|
-                time.destroy
+            walkers = Participant.where(user_id: user.id)
+            walkers.each do |walker|
+                times = CheckpointTime.where(participant_id: walker.id)
+                spreadsheet = Spreadsheet.new
+                spreadsheet.delete_walker(Route.where(id: walker.routes_id), user)
+                times.each do |time|
+                    time.destroy
+                end
+                walker.destroy
             end
-            walker.destroy
         else
             Marshall.where(users_id: user.id).first.destroy
         end
