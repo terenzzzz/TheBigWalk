@@ -109,7 +109,7 @@ class WalkersController < ApplicationController
       end
     end
     checkpoint_id = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id], position_in_route: "1").first.checkpoint_id
-    participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(participant_id: random_number, checkpoints_id:checkpoint_id, routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id], rank: (Participant.where(routes_id:session[:current_route_id]).size + 1))#, opted_in_leaderboard: session[:opted_in])
+    participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(participant_id: random_number, checkpoints_id:checkpoint_id, routes_id: session[:current_route_id], user_id: session[:current_user_id], event_id: session[:current_event_id], rank: (Participant.where(routes_id:session[:current_route_id]).size + 1))#, opted_in_leaderboard: session[:opted_in])
     participant.save
     route = Route.where(id: session[:current_route_id]).first
     user =  User.where(id:session[:current_user_id]).first
