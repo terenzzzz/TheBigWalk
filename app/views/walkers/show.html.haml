@@ -50,11 +50,9 @@
                         var hours = Math.floor((timeLeftToReach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((timeLeftToReach % (1000 * 60 * 60)) / (1000 * 60));
                         var seconds = Math.floor((timeLeftToReach % (1000 * 60)) / 1000);
-                        document.getElementById("countdownMsg").innerHTML = "You are expected to reach";
-                        document.getElementById("countdownMsg2").innerHTML = "the next checkpoint within:";
+                        document.getElementById("countdownMsg").innerHTML = "You are expected to reach the next checkpoint within:";
                         if (timeLeftToReach < 0) {
-                            document.getElementById("countdownMsg").innerHTML = "You are";
-                            document.getElementById("countdownMsg2").innerHTML = "running late by:";
+                            document.getElementById("countdownMsg").innerHTML = "You are running late by:"
                             days = days
                             hours = hours
                             minutes = - minutes - 1
@@ -69,7 +67,7 @@
                         } else if ((days <= 0) && (hours <= 0) && (minutes <= 0) && (seconds > 0)){
                             document.getElementById("countdown").innerHTML = seconds + "S ";
                         } else {
-                            document.getElementById("countdown").innerHTML = "countdown is broken";
+                            document.getElementById("countdown").innerHTML = "Failed to load countdown.";
                         }
                         
                     }, 1000);
@@ -100,6 +98,7 @@
 .d-grid.gap-2
     .d-flex.justify-content-center
     = render"getLatLong"
+    %br
     -# =link_to "Check In", check_in_walkers_path, class: 'btn btn-primary primary-button'
     -# =link_to "Check In Failed", check_in_fail_walkers_path, class: 'btn btn-primary primary-button'
     =link_to "Check Point Information", checkpoint_info_walkers_path, class: 'btn btn-primary primary-button'

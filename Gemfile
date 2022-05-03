@@ -31,6 +31,8 @@ gem 'osgb_wgs84'
 gem 'will_paginate'
 gem 'bootstrap-will_paginate'
 
+
+gem 'devise-security'
 gem 'devise'
 gem 'cancancan'
 gem "epi_cas", git: "git@git.shefcompsci.org.uk:gems/epi_cas.git"

@@ -34,7 +34,7 @@ class UsersController < ApplicationController
             end
             redirect_to profile_index_path, notice: 'Profile successfully updated.'
         else
-            render :edit
+            redirect_to edit_profile_path(current_user), notice: 'Please Check The Detail You Enter.'
         end
     end
     

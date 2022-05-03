@@ -20,4 +20,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Pickup < ApplicationRecord
+    belongs_to :user
+    belongs_to :event
 end
