@@ -15,6 +15,7 @@ class EventsController < ApplicationController
   def index
     @events = Event.all
     @walker = User.ransack(params[:q])
+    session.delete(:current_event_id)
   end
 
   # GET /events/1
