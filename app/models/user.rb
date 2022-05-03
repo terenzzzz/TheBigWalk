@@ -44,7 +44,10 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   validates_presence_of :name
-  validates_presence_of :mobile
+
+  validates :mobile,  presence:{message: 'Can Not Be Blank!'},
+                      numericality: true,
+                      length:{minimum: 11, maximum:15}
 
 
 end
