@@ -9,6 +9,7 @@
   =link_to "View Phone Call Requests", view_calls_admins_path, class: 'btn btn-primary primary-button btn-lg'
   %br
   =link_to "Event Info", edit_event_path(@event), class: 'btn btn-primary primary-button'
+  =link_to "Checkpoints", checkpoint_order_admins_path, class: 'btn btn-primary primary-button'
   -if @event.made_public
     = simple_form_for :make_private, url: make_private_events_path, method: :post do |f|
       = f.hidden_field :id, value: @event.id
