@@ -10,7 +10,7 @@
     = f.input :start_date, label: "Start Date:"
     = f.input :start_time, label: "Start Time:"
     = f.input :end_date_time, label: "End Date and Time:"
-    = f.input :course_length, label: "Course Length (Km):"
+    = f.input :course_length, label: "Course Length (Km):", type="number", min="0"
 
   .form-actions
     .d-grid.gap-2
