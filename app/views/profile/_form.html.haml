@@ -4,18 +4,18 @@
   .form-inputs
     = f.input :avatar, label:"Profile Picture:"
     = f.input :name
-    = f.input :description, label: "Tell The World Anything!:", hint: "This will appear on your profile page."
+    = f.input :description, label: "Tell The World Anything!", hint: "This will appear on your profile page."
     = f.input :mobile
     = f.input :donate_link, label:"Link To Your Donation Page:"
     -if current_user.tag.name == "Walker"
       = simple_fields_for(Participant.where(routes_id: session[:current_route_id],user_id: current_user.id).first) do |o|
         .form-inputs
-          = o.input :participant_id
+          = o.input :participant_id, label: "Walker Number:"
       -role_id = Participant.where(user_id: current_user.id).first
     -elsif current_user.tag.name == "Marshal"
       = simple_fields_for(Marshall.where(checkpoints_id: session[:current_checkpoint_id],users_id: current_user.id).first) do |o|
         .form-inputs
-          = o.input :marshal_id
+          = o.input :marshal_id, label: "Marshal Number:"
     /Tom has no idea how to fix - help
 
     /Add checkbox here (checked if user is opted in for leaderboard, otherwise not checked)
