@@ -14,7 +14,9 @@
             %h1.fw-bold= "#{@num_walkers_passed} of #{@num_total_walkers_to_pass}"
         %br
         .d-flex.justify-content-center 
-            %h3.fw-bold Walkers Needing Help/Falling Behind:
+            %h4.fw-bold Walkers Needing Help
+        .d-flex.justify-content-center 
+            %h4.fw-bold /Falling Behind:
         .d-flex.justify-content-center
             %h1.fw-bold= "#{@num_walkers_help}/#{@num_walkers_falling}"
 
