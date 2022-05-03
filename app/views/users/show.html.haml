@@ -38,7 +38,7 @@
 
 
 .d-grid.gap-3
-    =link_to account_profile_index_path, class: 'btn btn-primary primary-button' do
+    =link_to @user.donate_link, class: 'btn btn-primary primary-button' do
         %span.bi.bi-piggy-bank
         %span Donate Here
         %span.bi.bi-piggy-bank
