@@ -112,12 +112,13 @@ class WalkersController < ApplicationController
     participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(participant_id: random_number, checkpoints_id:checkpoint_id, routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id], rank: (Participant.where(routes_id:session[:current_route_id]).size + 1))#, opted_in_leaderboard: session[:opted_in])
     participant.save
     route = Route.where(id: session[:current_route_id]).first
+    user =  User.where(id:session[:current_user_id]).first
     start_date = route.start_date
     start_time = route.start_time
     date_time = DateTime.new(start_date.year, start_date.month, start_date.day, start_time.hour, start_time.min, start_time.sec, start_time.zone)
     CheckpointTime.where(participant_id: participant.id, checkpoint_id: checkpoint_id).first_or_create(times: date_time, participant_id: participant.id, checkpoint_id: checkpoint_id)
     spreadsheet = Spreadsheet.new
-    spreadsheet.add_walker(Route.where(id:session[:current_route_id]).first, User.where(id:session[:current_user_id]).first)
+    spreadsheet.add_walker(route, user)
 
     # user_id_for_participant = participant.user_id
     # user_opted_in = User.where(id: user_id_for_participant).opted_in
