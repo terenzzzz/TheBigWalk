@@ -14,7 +14,10 @@ Rails.application.routes.draw do
   resources :checkpoints  
   #resources :participants
   devise_for :users, controllers: { registrations: 'users/registrations' }
-  resources :users
+  resources :users do
+    get 'pick_route', on: :collection
+    post :route_picked, on: :collection
+  end
  
   resources :pages do 
     get 'home', on: :member

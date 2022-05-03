@@ -3,6 +3,22 @@ class UsersController < ApplicationController
     
     def show
         @user = User.find(params[:id])
+
+        if !(session[:current_route_id]) || session[:reset_route] == 0
+            session[:view_user_id] = params[:id]
+            redirect_to pick_route_users_path
+        end
+        session[:reset_route] = 0
+    end
+
+    def pick_route
+    end
+
+    def route_picked
+        session[:current_route_id] = params.require(:route_picked).permit(:route_id)
+        user = User.where(id: session[:view_user_id]).first
+        session[:reset_route] = 1
+        redirect_to user
     end
 
     def edit

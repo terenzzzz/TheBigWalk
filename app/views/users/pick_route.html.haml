@@ -1,0 +1,28 @@
+.d-flex.justify-content-center
+    %h1.fw-bold.pb-3 Walkers Events
+
+-# .row 
+-#   - @events.each do |event|
+-#     .col-6.pb-3
+-#       .card.h-100
+-#         .card-body
+-#           %h5.card-title.fw-bold= event.name
+-#           =link_to "", event, class: 'stretched-link'
+
+
+.row
+    -user = User.where(id: session[:view_user_id]).first
+    -walkers = Participant.where(user_id: session[:view_user_id])
+    -walkers.each do |walker|
+        -route = Route.where(id: walker.routes_id).first
+        -event = Event.where(id: walker.event_id).first
+        -if event.made_public
+            .col-6.pb-3
+                .card.h-100
+                    .card-body
+                        %h5.card-title.fw-bold= "#{event.name} #{route.name}"
+                        = simple_form_for :route_picked, url: route_picked_users_path, method: :post do |f|
+                            = f.hidden_field :route_id, value: route.id
+                            = f.submit "", class: 'stretched-link'
+                
+
