@@ -9,7 +9,10 @@
   =link_to "View Phone Call Requests", view_calls_admins_path, class: 'btn btn-primary primary-button btn-lg'
   %br
   =link_to "Event Info", edit_event_path(@event), class: 'btn btn-primary primary-button'
-  -if @event.made_public
+  -if @enough_checkpoints == 0
+    .d-grid.gap-2
+      = button_tag "To Make Event Public All Routes Need A Checkpoint", class: 'btn btn-primary primary-button'
+  -elsif @event.made_public && @enough_checkpoints == 1
     = simple_form_for :make_private, url: make_private_events_path, method: :post do |f|
       = f.hidden_field :id, value: @event.id
       .d-grid.gap-2
@@ -18,5 +21,5 @@
     = simple_form_for :make_public, url: make_public_events_path, method: :post do |f|
       = f.hidden_field :id, value: @event.id
       .d-grid.gap-2
-        = f.submit "Make Event Public", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+        = f.submit "Make Event Public", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'    
   =link_to "Switch Event", events_path, class: 'btn btn-primary primary-button'
