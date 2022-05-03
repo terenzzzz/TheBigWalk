@@ -187,11 +187,7 @@ class Spreadsheet
             worksheet[(walker.rank + 1), 1] = user.name
             worksheet[(walker.rank + 1), 2] = walker.participant_id
             time = route.start_time
-            if time.strftime('%H').to_i >= 12 
-                worksheet[(walker.rank + 1), (1 + @@walker_title_columns)] = "#{time.strftime('%H:%M')}pm"
-            else 
-                worksheet[(walker.rank + 1), (1 + @@walker_title_columns)] = "#{time.strftime('%H:%M')}am"
-            end 
+            worksheet[(walker.rank + 1), (1 + @@walker_title_columns)] = time.strftime('%H:%M')
             worksheet.save
         end
     end
@@ -234,11 +230,7 @@ class Spreadsheet
 
             #TODO its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
             time = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first.times
-            if time.strftime('%H').to_i >= 12 
-                worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = "#{time.strftime('%H:%M')}pm"
-            else 
-                worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = "#{time.strftime('%H:%M')}am"
-            end 
+            worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = time.strftime('%H:%M')
             
             worksheet.save
         end
