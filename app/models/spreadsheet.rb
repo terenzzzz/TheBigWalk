@@ -186,13 +186,13 @@ class Spreadsheet
             worksheet.max_rows += 1
             worksheet[(walker.rank + 1), 1] = user.name
             worksheet[(walker.rank + 1), 2] = walker.participant_id
-            worksheet.save
             time = route.start_time
             if time.strftime('%H').to_i >= 12 
                 worksheet[(walker.rank + 1), (1 + @@walker_title_columns)] = "#{time.strftime('%H:%M')}pm"
             else 
                 worksheet[(walker.rank + 1), (1 + @@walker_title_columns)] = "#{time.strftime('%H:%M')}am"
             end 
+            worksheet.save
         end
     end
 
