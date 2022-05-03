@@ -12,13 +12,11 @@
         .form-inputs
           = o.input :participant_id, label: "Walker Number:"
       -role_id = Participant.where(user_id: current_user.id).first
-      -opted_in = session[:opted_in]
-      - if session[:opted_in] == 1
-        = check_box_tag("opted_in", 1, checked = true)
+      - if session[:opted_in]
+        = check_box_tag("opted_in", 1, checked = "checked")
       - else
-        = check_box_tag("opted_in", 1, checked = false)
+        = check_box_tag("opted_in", 1) 
       = "Opted in to the public leaderboard"
-      /- puts "opted in: #{OptedInLeaderboard.where(user_id: session[:current_user_id]).first.opted_in}\n\n#{session[:opted_in]}"
     -elsif current_user.tag.name == "Marshal"
       = simple_fields_for(Marshall.where(checkpoints_id: session[:current_checkpoint_id],users_id: current_user.id).first) do |o|
         .form-inputs

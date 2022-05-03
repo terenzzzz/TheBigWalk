@@ -21,8 +21,10 @@ class UsersController < ApplicationController
 
                 if params[:opted_in] == "1"
                     OptedInLeaderboard.where(user_id: session[:current_user_id]).first.update(opted_in: true)
+                    session[:opted_in] = 1
                 else
                     OptedInLeaderboard.where(user_id: session[:current_user_id]).first.update(opted_in: false)
+                    session[:opted_in] = 0
                 end
 
             #Edit User's Marshal_Id
