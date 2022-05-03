@@ -4,9 +4,9 @@
 
 .d-flex.justify-content-center
     -if @needs_help.count == 1
-        %p.fw-bold= "There is 1 walker far behind pace." 
+        %p.fw-bold= "There is a walker very far behind." 
     -else
-        %p.fw-bold= "There are #{@needs_help.count} in need of help."
+        %p.fw-bold= "There are #{@needs_help.count} walkers very far behind."
 
 .d-flex.justify-content-center
     %table
@@ -20,7 +20,7 @@
                     %tr 
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
-                        %td.need-help Needs Help!!
+                        %td.need-help Very Far Behind!!
 
             -if @falling_behind
                 -@falling_behind.each do |walker|
