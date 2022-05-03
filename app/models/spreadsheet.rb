@@ -228,7 +228,7 @@ class Spreadsheet
 
             #TODO its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
             time = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first.times
-            if @most_recent_check_in.strftime('%H').to_i >= 12 
+            if time.strftime('%H').to_i >= 12 
                 worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = "#{time.strftime('%H:%M')}pm"
             else 
                 worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = "#{time.strftime('%H:%M')}am"
