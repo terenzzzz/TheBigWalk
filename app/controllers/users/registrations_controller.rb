@@ -21,8 +21,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
       @newOptedInEntry = OptedInLeaderboard.new(user_id: resource.id, opted_in: session[:opted_in])
       @newOptedInEntry.save
-      puts "!!!!!!!!!!!!! #{resource.id}"
-
+      
       puts "OPTED IN REG CONTROLLER: #{session[:opted_in]} *** #{params[:opted_in]}"
     end
   end

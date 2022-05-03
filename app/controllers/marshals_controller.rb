@@ -97,6 +97,7 @@ class MarshalsController < ApplicationController
     end 
 
     def show
+        session[:current_checkpoint_id] = params[:id]
         user = User.where(id: session[:current_user_id]).first
         @marshal = Marshall.where(users_id: user.id).first
         @marshal.update(checkpoints_id: params[:id])
