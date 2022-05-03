@@ -117,6 +117,9 @@ class AdminsController < ApplicationController
         redirect_to user
     end
 
+    def checkpoint_order
+    end
+
     def make_user_admin
         user = User.where(params.require(:make_user_admin).permit(:id)).first
         tag = Tag.where(id: user.tag_id).first.name
