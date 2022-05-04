@@ -141,7 +141,6 @@ Route.create(name: '50km') do |route|
         puts "-------------------------------------"
     end
 end
-puts "#{Route.where(name: '50km').first.id}"
 start_dist = 0
 end_dist = 0
 (1..20).each do |check_id|
@@ -323,7 +322,7 @@ end
 # end
 
 #Account for Admin
-User.where(email:'admin@test.com').first_or_create(name:'testAdmin', mobile:'0000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'3')
+User.where(email:'admin@test.com').first_or_create(name:'testAdmin', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'3')
 if User.where(email:'admin@test.com')
     puts "Created Admin Account Successfully"
     puts "-------------------------------------"
