@@ -17,12 +17,17 @@ class UsersController < ApplicationController
 
         @participant = Participant.where(user_id: @leaderboard_user_id).first
         @leaderboard_user = User.where(id: @leaderboard_user_id).first
+        puts "*****&& #{@leaderboard_user}"
         @current_route_id=session[:current_route_id]
         @route_checkpoints = Array.new 
         
+        # CURRENTLY THIS \/ is not returning anything (length = 0)
+        # Since it works in the normal single user leaderboard, there must be something
+        #    that is not working. Maybe the current user is needed 
         @routes_linker = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])
+        puts "::::: %%% #{@routes_linker.length()}"
         @checkpoints_for_route = Checkpoint.where(id: @routes_linker)
-        puts "¢¢¢ RACL #{@routes_linker} ++ #{@checkpoints_for_route}"
+        puts "¢¢¢ RACL #{@routes_linker.length()} ++ #{@checkpoints_for_route.length()}"
         @route_checkpoints.concat @checkpoints_for_route
         puts "&&&&&&&&&^^^^^^ #{@route_checkpoints}"
 

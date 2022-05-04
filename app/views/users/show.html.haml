@@ -91,7 +91,7 @@
                             %td= shift.time
                     
         /%p Your Public Progress Shows Here
-    - if OptedInLeaderboard.where(user_id: @user.id).first.opted_in == true || (if session[:current_user_id] && User.where(id: session[:current_user_id]).first.tag.name == "Admin")
+    - if (OptedInLeaderboard.where(user_id: @user.id).first.opted_in == true) || ((session[:current_user_id] != nil) && (User.where(id: session[:current_user_id]).first.tag.name == "Admin"))
         /DISPLAY RESULTS
         %table.w-100
             %tbody
@@ -101,6 +101,7 @@
 
                     - @i = 1
                     - puts "Route checkpoints: #{@route_checkpoints}"
+                    / \/ @route_checkpoints currently an empty array
                     - @route_checkpoints.each do |x|
                         - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i).first.checkpoint_id
                         - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
