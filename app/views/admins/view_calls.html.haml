@@ -14,7 +14,7 @@
                 %tr
                     -user = User.where(id: call.user_id).first
                     %td= Participant.where(user_id: user.id).first.participant_id
-                    %td= user.name
+                    %td=link_to "#{user.name}", user
                     %td= user.mobile
                 %tr
                     %td{:colspan => 3}=link_to 'Delete Call Request', call, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button w-100 btn-sm'

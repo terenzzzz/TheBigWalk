@@ -35,7 +35,7 @@
         - opted_in_leaderboard = OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
       - if opted_in_leaderboard == true || opted_in_leaderboard == nil
         %tr
-          %td=participant.id
+          %td=participant.rank
           %td=link_to "#{@current_walker_name}", single_user_leaderboard_pages_path(:leaderboard_user_id => @loop_user.id)
           %td=@most_recent_checkpoint_name
           - if @most_recent_check_in != nil 
@@ -44,4 +44,4 @@
             - else 
               %td="#{@most_recent_check_in.strftime('%H:%M')}am"
           - else
-            %td 00:00:00
+            %td --

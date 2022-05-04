@@ -1,5 +1,12 @@
+-user = User.where(id: session[:view_user_id]).first
+
 .d-flex.justify-content-center
-    %h1.text-center.fw-bold.pb-3 [Want To Put Name Here]'s Events
+<<<<<<< HEAD
+    -user = User.where(id: session[:view_user_id]).first
+    %h1.text-center.fw-bold.pb-3= "#{user.name}'s Events "
+=======
+    %h1.text-center.fw-bold.pb-3="#{user.name}'s Events"
+>>>>>>> abc74b6e047dee43d4fbfb50c4ddf60ba0de3d1b
 
 -# .row 
 -#   - @events.each do |event|
@@ -11,7 +18,6 @@
 
 
 .row
-    -user = User.where(id: session[:view_user_id]).first
     -walkers = Participant.where(user_id: session[:view_user_id])
     -walkers.each do |walker|
         -route = Route.where(id: walker.routes_id).first
