@@ -12,10 +12,10 @@
         /    = @user.name
         /= puts "$$$$$ #{@user.description.nil?} + #{@user.description.class}"#" + #{@user.description.length()}"
         
-        /- if @user.description
-        /    %p=@user.description 
-        /- else 
-        /    %p="This is #{@user.name}'s description"
+        - if @user.description
+            %p=@user.description 
+        - else 
+            %p="This is #{@user.name}'s description"
 %br/
 
 .row 
