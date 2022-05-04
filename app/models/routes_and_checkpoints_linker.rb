@@ -26,4 +26,7 @@ class RoutesAndCheckpointsLinker < ApplicationRecord
     validates_presence_of :distance_from_start
     validates_presence_of :advised_time
     validates_uniqueness_of :distance_from_start, scope: :route_id
+
+    belongs_to :checkpoint, class_name: "Checkpoint", foreign_key: "checkpoint_id"
+    belongs_to :route, class_name: "Route", foreign_key: "route_id"
 end

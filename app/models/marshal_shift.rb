@@ -18,5 +18,4 @@
 #  fk_rails_...  (marshalls_id => marshalls.id)
 #
 class MarshalShift < ApplicationRecord
-
 end
