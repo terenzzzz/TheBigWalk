@@ -132,8 +132,6 @@ class MarshalsController < ApplicationController
 
     def  pause_marshalling
         @marshal = Marshall.where(users_id: session[:current_user_id]).first
-        @time = DateTime.now() 
-        @status = "Paused"
         MarshalShift.create(current_time:DateTime.now() , status:"Paused", marshalls_id:@marshal.id)
         reset_session
         redirect_to '/'
