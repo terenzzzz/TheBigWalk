@@ -97,7 +97,7 @@ class AdminsController < ApplicationController
         walkers.each do |walker|
             times = CheckpointTime.where(participant_id: walker.id)
             spreadsheet = Spreadsheet.new
-            spreadsheet.delete_walker(Route.where(id: walker.routes_id), user)
+            spreadsheet.delete_walker(Route.where(id: walker.routes_id).first, user)
             times.each do |time|
                 time.destroy
             end
@@ -117,7 +117,7 @@ class AdminsController < ApplicationController
             walkers.each do |walker|
                 times = CheckpointTime.where(participant_id: walker.id)
                 spreadsheet = Spreadsheet.new
-                spreadsheet.delete_walker(Route.where(id: walker.routes_id), user)
+                spreadsheet.delete_walker(Route.where(id: walker.routes_id).first, user)
                 times.each do |time|
                     time.destroy
                 end
