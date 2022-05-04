@@ -52,6 +52,7 @@ Rails.application.routes.draw do
     post :choose_a_route, on: :collection
     get 'checkpoint_order', on: :collection
     get 'view_reports', on: :collection
+    post :route_picked, on: :collection
   end
 
   resources :marshals do
