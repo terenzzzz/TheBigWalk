@@ -126,18 +126,21 @@ Route.create(name: '50km') do |route|
     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
     route.start_time = '2000-01-01 20:40:00.000000000 +0000'
     route.start_date = '2022-05-01'
+    #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
     route.events_id = '1'
     puts "created route"
 end
+puts "#{Route.where(name: '50km').first.id}"
 start_dist = 0
 end_dist = 0
 (1..20).each do |check_id|
-    Checkpoint.create(name: Faker::Fantasy::Tolkien.unique.location) do |checkpoint|
-    #Checkpoint.create(name: Faker::Address.unique.street_name) do |checkpoint|
+    #Checkpoint.create(name: Faker::Fantasy::Tolkien.unique.location) do |checkpoint|
+    Checkpoint.create(name: Faker::Address.unique.street_name) do |checkpoint|
         checkpoint.os_grid = 'SK331896'
-        checkpoint.events_id = '1' 
+        checkpoint.events_id = '1'
         puts "created checkpoint #{check_id}"
     end
+    puts "#{Checkpoint.where(os_grid: 'SK331896').first.id}"
     RoutesAndCheckpointsLinker.create(distance_from_start: Faker::Number.between(from: start_dist, to: end_dist)) do |linker|
         start_dist = end_dist + 1
         end_dist = end_dist + 5
@@ -154,11 +157,12 @@ end
 
 
 # #Account for walker
-User.where(email:'walker@test.com').first_or_create(name:'testWalker', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'1')
+User.where(email:'walker@test.com').first_or_create(name:'testWalker', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'1')
 if User.where(email:'walker@test.com')
     puts "Created Walker Account Successfully"
     puts "-------------------------------------"
 end
+puts "#{User.where(id: 1).first.id}"
 
 Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '2', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1', event_id: '1')
 if Participant.where(participant_id:'1001')
@@ -178,7 +182,7 @@ if Call.where(user_id: '1')
 end
 
 #Account for Marshall
-User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'2')
+User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'2')
 if User.where(email:'marshal@test.com')
     puts "Created Marshall Account Successfully"
     puts "-------------------------------------"
@@ -194,11 +198,12 @@ end
         user.name = Faker::Fantasy::Tolkien.character
         #user.name = Faker::Name.name
         user.mobile = Faker::Number.number(digits: 11)
-        user.password = "testtest"
-        user.password_confirmation = "testtest"
+        user.password = "Testtest1!"
+        user.password_confirmation = "Testtest1!"
         user.tag_id = 1
         puts "created user #{id}"
     end
+    puts "#{User.where(id: 3).first.id}"
     Participant.create(participant_id: Faker::Number.unique.within(range: 1002..1999)) do |walker|
         walker.checkpoints_id = Faker::Number.within(range: 1..20)
         walker.user_id = id
@@ -213,6 +218,7 @@ end
         walker.event_id = '1'
         puts "created walker #{id}"
     end
+    puts "#{Participant.all.first.id}"
     OptedInLeaderboard.create(user_id: id, opted_in: true)
 end
 (1..10).each do |id|
@@ -227,7 +233,7 @@ end
     end
 end
 
-(2..101).each do |ids|
+(3..101).each do |ids|
     #get walker
     walker = Participant.where(id: ids).first
     #check checkpoint pos
@@ -281,7 +287,7 @@ end
 # end
 
 #Account for Admin
-User.where(email:'admin@test.com').first_or_create(name:'testAdmin', mobile:'0000', password:'testtest', password_confirmation:'testtest',tag_id:'3')
+User.where(email:'admin@test.com').first_or_create(name:'testAdmin', mobile:'0000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'3')
 if User.where(email:'admin@test.com')
     puts "Created Admin Account Successfully"
     puts "-------------------------------------"

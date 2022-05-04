@@ -8,4 +8,5 @@
 #  updated_at :datetime         not null
 #
 class Tag < ApplicationRecord
+    has_many :users, class_name: "Users", foreign_key: "tag_id"
 end

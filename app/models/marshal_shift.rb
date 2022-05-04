@@ -1,23 +1,21 @@
 # == Schema Information
 #
-# Table name: marshalls
+# Table name: marshal_shifts
 #
-#  id             :bigint           not null, primary key
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  checkpoints_id :bigint
-#  marshal_id     :integer
-#  users_id       :bigint           not null
+#  id           :bigint           not null, primary key
+#  current_time :datetime
+#  status       :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  marshalls_id :bigint
 #
 # Indexes
 #
-#  index_marshalls_on_checkpoints_id  (checkpoints_id)
-#  index_marshalls_on_users_id        (users_id)
+#  index_marshal_shifts_on_marshalls_id  (marshalls_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (checkpoints_id => checkpoints.id)
-#  fk_rails_...  (users_id => users.id)
+#  fk_rails_...  (marshalls_id => marshalls.id)
 #
 class MarshalShift < ApplicationRecord
 end
