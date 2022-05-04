@@ -132,15 +132,18 @@ class MarshalsController < ApplicationController
 
     def  pause_marshalling
         @marshal = Marshall.where(users_id: session[:current_user_id]).first
-        MarshalShift.create(current_time:DateTime.now() , status:"Paused", marshalls_id:@marshal.id)
-        reset_session
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        @marshal_shift.update(status:"Paused")
+        #MarshalShift.create(current_time:DateTime.now() , status:"Paused", marshalls_id:@marshal.id)
         redirect_to '/'
     end
 
     def move_own_way_home
         @marshal = Marshall.where(users_id: session[:current_user_id]).first
         @marshal.update(checkpoints_id: nil)
-        MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        @marshal_shift.update(status:"Finished")
+        #MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
         reset_session
         redirect_to '/'
     end
@@ -148,7 +151,9 @@ class MarshalsController < ApplicationController
     def request_pick_up
         @marshal = Marshall.where(users_id: session[:current_user_id]).first
         Pickup.create(user_id: session[:current_user_id], event_id:session[:current_event_id], os_grid: session[:osReference])
-        MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        @marshal_shift.update(status:"Finished")
+        #MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
         reset_session
         redirect_to '/', notice: 'Pick up request successful.'
     end
