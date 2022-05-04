@@ -32,10 +32,32 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_one_attached :avatar
   belongs_to :tag, optional: true
-  has_one :participant
+
+  has_many :calls, dependent: :destroy
+  has_many :pickups, dependent: :destroy
+  has_many :participants, dependent: :destroy
+  has_one :opted_in_leaderboard, dependent: :destroy
+
+
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
   validates_presence_of :name
-  validates_presence_of :mobile
+
+  validates :mobile,  presence:{message: 'Can Not Be Blank!'},
+                      numericality: true,
+                      length:{minimum: 11, maximum:15}
+
+  validate :password_regex
+
+  private
+
+       def password_regex
+       return if password.blank? || password =~ /\A(?=.*\d)(?=.*[A-Z])(?=.*\W)[^ ]{8,}\z/
+
+       errors.add :password, 'should including 1 uppercase letter, 1 number, 1 special character'
+       end
+
+
 end

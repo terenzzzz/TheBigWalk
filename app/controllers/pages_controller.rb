@@ -40,7 +40,7 @@ class PagesController < ApplicationController
     @current_event_id = session[:current_event_id]
 
     @walkers_for_route = Array.new
-    @walkers_for_route.concat Participant.where(routes_id: Route.where(id: session[:current_route_id]).first)
+    @walkers_for_route.concat Participant.where(routes_id: Route.where(id: session[:current_route_id]).first).order("rank ASC")
 
     @all_route_checkpoints = Array.new
 
@@ -53,10 +53,10 @@ class PagesController < ApplicationController
   end
 
   def single_user_leaderboard
-    @leaderboard_participant_id=params[:leaderboard_participant_id]
-    @participant = Participant.where(id: @leaderboard_participant_id).first
-    @leaderboard_user = User.where(id: @participant.user_id).first
-    @leaderboard_user_id = @leaderboard_user.id
+    @leaderboard_user_id=params[:leaderboard_user_id]
+
+    @participant = Participant.where(user_id: @leaderboard_user_id).first
+    @leaderboard_user = User.where(id: @leaderboard_user_id).first
     @current_route_id=session[:current_route_id]
     @route_checkpoints = Array.new 
     

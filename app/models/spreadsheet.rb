@@ -186,6 +186,8 @@ class Spreadsheet
             worksheet.max_rows += 1
             worksheet[(walker.rank + 1), 1] = user.name
             worksheet[(walker.rank + 1), 2] = walker.participant_id
+            time = route.start_time
+            worksheet[(walker.rank + 1), (1 + @@walker_title_columns)] = time.strftime('%d/%m/%Y %H:%M')
             worksheet.save
         end
     end
@@ -204,14 +206,14 @@ class Spreadsheet
     def update_walker_rank(route, old_rank, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
         if worksheet
-            walker = Participant.where(user_id: user.id).first
-            values = worksheet.rows[old_rank + 1]#.each { |row| puts row.first(6).reverse.join(" | ") }
-            worksheet.insert_rows(walker.rank + 1, [values])
+            walker = Participant.where(user_id: user.id, routes_id: route.id).first
+            values = worksheet.rows[old_rank]
 
             if walker.rank > old_rank
                 worksheet.insert_rows(walker.rank + 2, [values])
                 worksheet.delete_rows(old_rank + 1, 1)
             else
+                #when rank increase eg 4 to 2
                 worksheet.insert_rows(walker.rank + 1, [values])
                 worksheet.delete_rows(old_rank + 2, 1)
             end
@@ -223,11 +225,13 @@ class Spreadsheet
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
         if worksheet
             walker = Participant.where(user_id: user.id).first 
-            
+
             pos = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route
 
             #TODO its format is date time so change to just time ?? cant remember what the want reached at 16:00 or took 4 hours?
-            worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first.times
+            time = CheckpointTime.where(participant_id: walker.id, checkpoint_id: checkpoint.id).first.times
+            worksheet[(walker.rank + 1), (pos + @@walker_title_columns)] = time.strftime('%d/%m/%Y %H:%M')
+            
             worksheet.save
         end
     end
@@ -235,16 +239,21 @@ class Spreadsheet
     def walker_drop_out(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
         if worksheet
-            pickup = Pickup.where(user_id: user.id).first
             walker = Participant.where(user_id: user.id).first
-            if walker.status == "pick up"
-                worksheet[(walker.rank + 1), 3] = "Needs Picking Up"
-                worksheet[(walker.rank + 1), 4] = pickup.os_grid
-                worksheet.save
-            else
-                worksheet[(walker.rank + 1), 3] = "Droped out"
-                worksheet.save
-            end
+            worksheet[(walker.rank + 1), 3] = "Droped out"
+            worksheet[(walker.rank + 1), 4] = "----"
+            worksheet.save
+        end
+    end
+
+    def walker_pickup(route, user)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        if worksheet
+            pickup = Pickup.where(user_id: user.id, event_id: Event.where(id: route.events_id).first.id).first
+            walker = Participant.where(user_id: user.id).first
+            worksheet[(walker.rank + 1), 3] = "Needs Picking Up"
+            worksheet[(walker.rank + 1), 4] = pickup.os_grid
+            worksheet.save
         end
     end
 

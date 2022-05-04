@@ -115,7 +115,7 @@ end
 
 #(1..5).each do |id|
 #Event.create(name: Faker::Mountain.range)
-Event.create(name:'The Big Walk 2022', made_public: true)
+Event.create(name:'The Big Walk 2022', made_public: true, phone_number:'00000000')
 puts "created event"
 Branding.create(events_id: '1')
 puts "created branding"
@@ -132,8 +132,8 @@ end
 start_dist = 0
 end_dist = 0
 (1..20).each do |check_id|
-    #Checkpoint.create(name: Faker::Fantasy::Tolkien.unique.location) do |checkpoint|
-    Checkpoint.create(name: Faker::Address.unique.street_name) do |checkpoint|
+    Checkpoint.create(name: Faker::Fantasy::Tolkien.unique.location) do |checkpoint|
+    #Checkpoint.create(name: Faker::Address.unique.street_name) do |checkpoint|
         checkpoint.os_grid = 'SK331896'
         checkpoint.events_id = '1' 
         puts "created checkpoint #{check_id}"
@@ -191,8 +191,8 @@ end
 
 (3..102).each do |id|
     User.create(email: Faker::Internet.unique.email) do |user|
-        #user.name = Faker::Fantasy::Tolkien.character
-        user.name = Faker::Name.name
+        user.name = Faker::Fantasy::Tolkien.character
+        #user.name = Faker::Name.name
         user.mobile = Faker::Number.number(digits: 11)
         user.password = "testtest"
         user.password_confirmation = "testtest"
@@ -250,8 +250,8 @@ end
 
 (1..10).each do |id|
     User.create(email: Faker::Internet.unique.email) do |user|
-        #user.name = Faker::Fantasy::Tolkien.character
-        user.name = Faker::Name.name
+        user.name = Faker::Fantasy::Tolkien.character
+        #user.name = Faker::Name.name
         user.mobile = Faker::Number.number(digits: 11)
         user.password = "testtest"
         user.password_confirmation = "testtest"

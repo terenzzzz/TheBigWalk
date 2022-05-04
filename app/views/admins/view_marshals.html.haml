@@ -5,13 +5,17 @@
     %table
         %tbody
             %tr
-                %td.fw-bold Checkpoint
                 %td.fw-bold Marshals
-            -@checkpoints_and_marshals.each do |checkpoint_and_marshals|
+                %td.fw-bold Checkpoint 
+                %td.fw-bold Status
+            -event = Event.where(id: session[:current_event_id]).first
+            -checkpoints = Checkpoint.where(events_id: session[:current_event_id])
+            -checkpoints.each do |checkpoint|
                 %tr
-                    -if checkpoint_and_marshals.length() == 1
-                        %td= checkpoint_and_marshals.first.name
-                        %td.text-danger No Marshal
-                    -else
-                        -checkpoint_and_marshals.each do |checkpoint_and_marshal|
-                            %td=link_to "#{checkpoint_and_marshal.name}", checkpoint_and_marshal
+                    -marshals = Marshall.where(checkpoints_id: checkpoint.id)
+                    -marshals.each do |marshal|
+                        -user = User.where(id: marshal.users_id).first
+                        %td=link_to "#{user.name}", user
+                        %td= checkpoint.name
+                        %td status
+                        /needs if statement for at checkpoint or on break finished or started again

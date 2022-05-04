@@ -12,11 +12,10 @@
     - @route_checkpoints.each do |x|
       - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i).first.checkpoint_id
       - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
-      /- puts "current checkPOINT: #{@current_checkpoint.name}"
       
       %tr
         %td= @current_checkpoint.name
-        - @current_checkpoint = CheckpointTime.where(participant_id: @leaderboard_participant_id, checkpoint_id: @current_checkpoint_id).first 
+        - @current_checkpoint = CheckpointTime.where(participant_id: @participant.id, checkpoint_id: @current_checkpoint_id).first 
         - if @current_checkpoint != nil 
           - @current_checkpoint_time = @current_checkpoint.times
           - if @current_checkpoint_time.strftime('%H').to_i >= 12 

@@ -51,10 +51,9 @@ class MarshalsController < ApplicationController
 
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: checkpoint.id)
         
-
+        @needs_help = Array.new
         @falling_behind = Array.new
         @on_pace = Array.new
-        @needs_help = Array.new
         @walkers_need_help = Array.new
         @walkers_falling_behind = Array.new
         @Walkers_on_pace = Array.new
@@ -73,11 +72,11 @@ class MarshalsController < ApplicationController
                     elsif on_pace > 0.65 #if the current pace is 1.54x (ish) bigger than expected, get help
                         stat.update(pace: "Falling Behind!")
                     else
-                        stat.update(pace: "Needs Help!!")
+                        stat.update(pace: "Very Far Behind!!")
                     end
                 end
 
-                @walkers_need_help.concat Participant.where(routes_id: previous_linker.route_id, pace: 'Needs Help!!', checkpoints_id: previous_linker.checkpoint_id)
+                @walkers_need_help.concat Participant.where(routes_id: previous_linker.route_id, pace: 'Very Far Behind!!', checkpoints_id: previous_linker.checkpoint_id)
                 @walkers_need_help.each do |walker|
                     @help_walker_and_user = [walker, User.where(id: walker.user_id).first]
                     @needs_help.push(@help_walker_and_user)
@@ -93,12 +92,11 @@ class MarshalsController < ApplicationController
                     @on_pace.push(@on_walker_and_user)
                 end
             end
-        end
-
-        
+        end 
     end 
 
-   def show
+    def show
+        session[:current_checkpoint_id] = params[:id]
         user = User.where(id: session[:current_user_id]).first
         @marshal = Marshall.where(users_id: user.id).first
         @marshal.update(checkpoints_id: params[:id])
@@ -106,23 +104,23 @@ class MarshalsController < ApplicationController
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
         session[:current_event_id] =  @checkpoint.events_id
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
-            @num_walkers_passed = 0
-            @num_walkers_falling = 0 
-            @num_walkers_help = 0
+        @num_walkers_passed = 0
+        @num_walkers_falling = 0 
+        @num_walkers_help = 0
 
-            linkers.each do |linker|
+        linkers.each do |linker|
             previous_linker = RoutesAndCheckpointsLinker.where(position_in_route: (linker.position_in_route - 1), route_id: linker.route_id).first
             linkers_after = RoutesAndCheckpointsLinker.where('position_in_route >= ?', linker.position_in_route).where(route_id: linker.route_id)
             linkers_after.each do |linker_after|
                 @num_walkers_passed = @num_walkers_passed + Participant.where(routes_id: linker_after.route_id, checkpoints_id: linker_after.checkpoint_id).size
             end
             @num_total_walkers_to_pass = Participant.where(routes_id: linker.route_id).size
-            @num_walkers_help = @num_walkers_help + Participant.where(routes_id: linker.route_id, pace: 'Needs Help!!', checkpoints_id: previous_linker.checkpoint_id).size
-            @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Needs Help!!', checkpoints_id: previous_linker.checkpoint_id).size
-            @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!', checkpoints_id: previous_linker.checkpoint_id).size
+            if previous_linker
+                @num_walkers_help = @num_walkers_help + Participant.where(routes_id: linker.route_id, pace: 'Very Far Behind!!', checkpoints_id: previous_linker.checkpoint_id).size
+                @num_walkers_falling = @num_walkers_falling + Participant.where(routes_id: linker.route_id, pace: 'Falling Behind!', checkpoints_id: previous_linker.checkpoint_id).size
+            end
             #there's probably a way to do it in one line for the last 2
         end
-        
     end
 
     def end_for_the_day
@@ -166,15 +164,15 @@ class MarshalsController < ApplicationController
             #rerank the walker
             #gets walkers at that checkpoint same on route 
             walkers_on_route = Participant.where(routes_id: @walker.routes_id, checkpoints_id: @marshal.checkpoints_id)
-
             lowest_rank = 0
             #checks whos gone past that checkpoint with lowest rank 
             walkers_on_route.each do |walker|
-                if walker.rank > lowest_rank
+                #if self dont check??????
+                if walker.rank > lowest_rank && walker.rank != @walker.rank
                     lowest_rank = walker.rank
                 end
             end
-            old_rank= @walker.rank.dup
+            old_rank = @walker.rank.dup
             #if rank is the same dont update
             #if noone has then they are in 1st
             if (lowest_rank + 1) != @walker.rank
@@ -183,10 +181,12 @@ class MarshalsController < ApplicationController
 
             #reranks rest
             #old rank and new rank everyone inbetween gets shifted down if rank is increased
-            if old_rank < (lowest_rank + 1)
-                walkers_rerank = Participant.where(routes_id: @walker.routes_id).where("rank > ? and rank <= ?", old_rank, (lowest_rank + 1))
+            if old_rank > (lowest_rank + 1)
+                walkers_rerank = Participant.where(routes_id: @walker.routes_id).where("rank < ?", old_rank).where("rank >= ?", (lowest_rank + 1))
                 walkers_rerank.each do |walker|
-                    walker.update(rank: (walker.rank + 1))
+                    if walker.id != @walker.id
+                        walker.update(rank: (walker.rank + 1))
+                    end
                 end
             end
 
@@ -197,9 +197,10 @@ class MarshalsController < ApplicationController
             route = Route.where(id: @walker.routes_id).first
             checkpoint = Checkpoint.where(id: @walker.checkpoints_id).first
             spreadsheet = Spreadsheet.new
+            spreadsheet.update_walker_rank(route, old_rank, user)
             spreadsheet.add_checkpoint_time(route, user, checkpoint)
 
-            redirect_to marshals_path
+            redirect_to '/'
         else
             redirect_to checkin_walkers_marshals_path, notice: 'Invalid Walker ID.'
         end

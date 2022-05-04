@@ -10,10 +10,11 @@
 
 %br/
 .d-flex.justify-content-center
-    -if @falling_behind.count == 1
-        %p.fw-bold= "There is 1 walker falling behind." 
+    -if
+        %p.fw-bold= "There is a walker very far behind." 
     -else
-        %p.fw-bold= "There are #{@falling_behind.count} walkers falling behind." 
+        %p.fw-bold= "There are #{@needs_help.count} walkers very far behind."
+
 .d-flex.justify-content-center
     %table
         %tbody
@@ -22,17 +23,24 @@
                 %td.fw-bold Walker
                 %td.fw-bold Last Checkpoint
                 %td.fw-bold Pace
+            -if @needs_help
+                -@needs_help.each do |walker|
+                    %tr 
+                        %td= walker.first.participant_id
+                        %td=link_to "#{walker.last.name}", walker.last
+                        %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
+                        %td.need-help Very Far Behind!!
             -if @falling_behind
                 -@falling_behind.each do |walker|
                     %tr 
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
                         %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
-                        %td.text-danger Falling Behind!
+                        %td.falling-behind Falling Behind!
             -if @on_pace
                 -@on_pace.each do |walker|
                     %tr
                         %td= walker.first.participant_id
                         %td=link_to "#{walker.last.name}", walker.last
                         %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
-                        %td.text-success On Pace
+                        %td.on-pace On Pace
