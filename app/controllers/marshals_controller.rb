@@ -24,8 +24,10 @@ class MarshalsController < ApplicationController
     end
 
     def add_shift
+        @marshal = Marshall.where(users_id: current_user.id).first
         @checkpoints = Checkpoint.where(events_id: params[:id])
         session[:current_event_id] = params[:id]
+        MarshalShift.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
     end
     
     #GET
@@ -127,16 +129,36 @@ class MarshalsController < ApplicationController
     def end_for_the_day
 
     end
+    def  resume_marshalling
+        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        @marshal_shift.update(status:"Started")
+        redirect_to '/'
+    end
+    def  pause_marshalling
+        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        @marshal_shift.update(status:"Paused")
+        #MarshalShift.create(current_time:DateTime.now() , status:"Paused", marshalls_id:@marshal.id)
+        redirect_to '/'
+    end
 
     def move_own_way_home
         @marshal = Marshall.where(users_id: session[:current_user_id]).first
         @marshal.update(checkpoints_id: nil)
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        @marshal_shift.update(status:"Finished")
+        #MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
         reset_session
         redirect_to '/'
     end
 
     def request_pick_up
+        @marshal = Marshall.where(users_id: session[:current_user_id]).first
         Pickup.create(user_id: session[:current_user_id], event_id:session[:current_event_id], os_grid: session[:osReference])
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        @marshal_shift.update(status:"Finished")
+        #MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
         reset_session
         redirect_to '/', notice: 'Pick up request successful.'
     end

@@ -1,34 +1,65 @@
-.row 
-    .col 
-        .d-flex.justify-content-center
-            %h3.fw-bold Current Checkpoint: 
-        .d-flex.justify-content-center
-            -if @checkpoint == nil
-                %p No CheckPoint
-            -else
-                %h1.text-center.fw-bold.text-uppercase= @checkpoint.name
-        %br
-        .d-flex.justify-content-center
-            %h3.fw-bold Walkers Passed:
-        .d-flex.justify-content-center
-            %h1.fw-bold= "#{@num_walkers_passed} of #{@num_total_walkers_to_pass}"
-        %br
-        .d-flex.justify-content-center 
-            %h4.fw-bold Walkers Very Far
-        .d-flex.justify-content-center 
-            %h4.fw-bold /Falling Behind:
-        .d-flex.justify-content-center
-            %h1.fw-bold= "#{@num_walkers_help}/#{@num_walkers_falling}"
+- @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+- if @marshal_shift.status == "Started"
+    .row 
+        .col 
+            .d-flex.justify-content-center
+                %h3.fw-bold Current Checkpoint: 
+            .d-flex.justify-content-center
+                -if @checkpoint == nil
+                    %h1.text-center.fw-bold.text-uppercase No Checkpoint
+                -else
+                    %h1.text-center.fw-bold.text-uppercase= @checkpoint.name
+            %br
 
-%br
-.d-grid.gap-2
-    =link_to "View Incoming Walkers", view_incoming_walkers_marshals_path, class: 'btn btn-primary primary-button'
-    =link_to "Change Checkpoint", change_checkpoint_marshals_path, class: 'btn btn-primary primary-button'
-    =link_to "Checkin Walkers", checkin_walkers_marshals_path, class: 'btn btn-primary primary-button'
-    =link_to "End Marshal Shift", end_marshal_shift_marshals_path, class: 'btn btn-primary primary-button'
-%br
+            .d-flex.justify-content-center
+                %h4.fw-bold Walkers Passed:
+            .d-flex.justify-content-center
+                %h2.fw-bold= "#{@num_walkers_passed} of #{@num_total_walkers_to_pass}"
+            %br
+            .d-flex.justify-content-center 
+                %h4.fw-bold Walkers Falling Behind:
+            .d-flex.justify-content-center
+                %h2.fw-bold= (@num_walkers_help+@num_walkers_falling).to_s
+            %br
+
+    .d-grid.gap-2 
+        =link_to "View Incoming Walkers", view_incoming_walkers_marshals_path, class: 'btn btn-primary primary-button'
+        =link_to "Change Checkpoint", change_checkpoint_marshals_path, class: 'btn btn-primary primary-button'
+        =link_to "Checkin Walkers", checkin_walkers_marshals_path, class: 'btn btn-primary primary-button'
+        =link_to "End Marshal Shift", end_marshal_shift_marshals_path, class: 'btn btn-primary primary-button'
+    %br
+
+- else
+    .row 
+        .col 
+            .d-flex.justify-content-center
+                %h3.fw-bold Current Checkpoint: 
+            .d-flex.justify-content-center
+                %h1.text-center.fw-bold.text-uppercase= "Shift " + @marshal_shift.status
+            %br
+
+            .d-flex.justify-content-center
+                %h4.fw-bold.text-muted Walkers Passed:
+            .d-flex.justify-content-center
+                %h2.fw-bold.text-muted=  "Shift " + @marshal_shift.status
+            %br
+            .d-flex.justify-content-center 
+                %h4.fw-bold.text-muted Walkers Falling Behind:
+            .d-flex.justify-content-center
+                %h2.fw-bold.text-muted=  "Shift " + @marshal_shift.status
+            %br
+
+    .d-grid.gap-2
+        =link_to "View Incoming Walkers", view_incoming_walkers_marshals_path, class: 'btn btn-primary primary-button disabled'
+        =link_to "Change Checkpoint", change_checkpoint_marshals_path, class: 'btn btn-primary primary-button disabled'
+        =link_to "Checkin Walkers", checkin_walkers_marshals_path, class: 'btn btn-primary primary-button disabled'
+        =link_to "Resume Marshal Shift", resume_marshalling_marshals_path, class: 'btn btn-primary primary-button'
+    %br
+
 %table.table.table-hover.table-sm
     %thead
         %tbody
             %tr
                 %td= 'Marshal ID: ' + (@marshal.marshal_id).to_s
+            %tr
+                %td= 'Status: ' + @marshal_shift.status
