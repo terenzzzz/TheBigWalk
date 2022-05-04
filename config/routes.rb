@@ -49,6 +49,7 @@ Rails.application.routes.draw do
     get 'view_calls', on: :collection
     post :make_walker_marshal, on: :collection
     post :make_user_admin, on: :collection
+    post :choose_a_route, on: :collection
     get 'checkpoint_order', on: :collection
     get 'view_reports', on: :collection
   end

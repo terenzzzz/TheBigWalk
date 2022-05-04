@@ -17,6 +17,12 @@ class AdminsController < ApplicationController
     def show
     end
 
+    def choose_a_route
+        #view page with links, param with route id
+        #sets a session with route id
+        #redirects to 'view event leaderboard'
+    end
+
     def view_walkers
         @event = Event.where(id: session[:current_event_id]).first
         @routes = Route.where(events_id: session[:current_event_id])
