@@ -19,3 +19,4 @@ class MarshalShiftsController < ApplicationController
 
     def destroy
     end
+end

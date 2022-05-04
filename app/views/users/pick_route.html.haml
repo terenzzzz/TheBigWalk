@@ -1,5 +1,5 @@
 .d-flex.justify-content-center
-    %h1.fw-bold.pb-3 Walkers Events
+    %h1.text-center.fw-bold.pb-3 [Want To Put Name Here]'s Events
 
 -# .row 
 -#   - @events.each do |event|
@@ -17,12 +17,13 @@
         -route = Route.where(id: walker.routes_id).first
         -event = Event.where(id: walker.event_id).first
         -if event.made_public
-            .col-6.pb-3
+            .col-12.pb-3
                 .card.h-100
                     .card-body
-                        %h5.card-title.fw-bold= "#{event.name} #{route.name}"
+                        %h5.card-title.fw-bold.text-center= event.name
+                        %h6.text-center= "Route: " + route.name
                         = simple_form_for :route_picked, url: route_picked_users_path, method: :post do |f|
                             = f.hidden_field :route_id, value: route.id
-                            = f.submit "", class: 'stretched-link'
+                            = f.submit "View", class: 'stretched-link btn btn-primary primary-button w-100'
                 
 
