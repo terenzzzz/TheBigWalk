@@ -27,7 +27,7 @@ class MarshalsController < ApplicationController
         @marshal = Marshall.where(users_id: current_user.id).first
         @checkpoints = Checkpoint.where(events_id: params[:id])
         session[:current_event_id] = params[:id]
-        MarshalShifts.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
+        MarshalShift.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
     end
     
     #GET
