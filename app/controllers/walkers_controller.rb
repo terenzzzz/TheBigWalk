@@ -282,7 +282,13 @@ class WalkersController < ApplicationController
   end
 
   def show
+    ####
+    #puts "656565 #{params[:id]}"
+    #params_id = params[:id]
+    #session[:current_route_id] = params_id[:route_id]
+
     session[:current_route_id] = params[:id]
+    #####
     user = User.where(id: session[:current_user_id]).first
     puts "User: #{user.id}"
     @walker = Participant.where(user_id: user.id).first

@@ -9,13 +9,23 @@ class UsersController < ApplicationController
             redirect_to pick_route_users_path
         end
         session[:reset_route] = 0
+
+        @participant = Participant.where(user_id: @user.id).first
+        @current_route_id=session[:current_route_id]
+        @route_checkpoints = Array.new
+        
+        @routes_linker = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])
+        @checkpoints_for_route = Checkpoint.where(id: @routes_linker)
+        @route_checkpoints.concat @checkpoints_for_route
+
     end
 
     def pick_route
     end
 
     def route_picked
-        session[:current_route_id] = params.require(:route_picked).permit(:route_id)
+        current_route = params.require(:route_picked).permit(:route_id)
+        session[:current_route_id] = current_route[:route_id]
         user = User.where(id: session[:view_user_id]).first
         session[:reset_route] = 1
         redirect_to user
@@ -69,4 +79,4 @@ class UsersController < ApplicationController
     def user_params
         params.require(:user).permit(:tag_id, :avatar,:name,:description,:mobile, :donate_link)
     end
-    end
+end
