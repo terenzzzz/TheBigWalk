@@ -28,6 +28,9 @@
 #  fk_rails_...  (routes_id => routes.id)
 #
 class Participant < ApplicationRecord
-    belongs_to :user
-    has_many :checkpoint_times, dependent: :destroy
+    belongs_to :user, class_name: "User", foreign_key: "user_id"
+    has_many :checkpoint_times, class_name: "CheckpointTimes", foreign_key: "participant_id", dependent: :destroy
+    belongs_to :event, class_name: "Event", foreign_key: "event_id"
+    belongs_to :route, class_name: "Route", foreign_key: "routes_id"
+    belongs_to :checkpoint, class_name: "Checkpoint", foreign_key: "checkpoints_id"
 end

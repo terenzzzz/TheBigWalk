@@ -17,5 +17,5 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class OptedInLeaderboard < ApplicationRecord
-    belongs_to :user
+    belongs_to :user, class_name: "User", foreign_key: "user_id"
 end
