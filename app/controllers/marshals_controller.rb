@@ -129,7 +129,12 @@ class MarshalsController < ApplicationController
     def end_for_the_day
 
     end
-
+    def  resume_marshalling
+        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        @marshal_shift.update(status:"Started")
+        redirect_to '/'
+    end
     def  pause_marshalling
         @marshal = Marshall.where(users_id: session[:current_user_id]).first
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first

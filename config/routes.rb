@@ -67,6 +67,8 @@ Rails.application.routes.draw do
     get 'move_own_way_home', on: :collection
     get 'request_pick_up', on: :collection
     get 'pause_marshalling', on: :collection
+    get 'resume_marshalling', on: :collection
+    
     end
 
   resources :profile do
