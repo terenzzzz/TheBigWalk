@@ -78,7 +78,8 @@ print'.'
 
 #Account for Marshall
 User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'2')
-Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', users_id: '2')
+Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', users_id: '2',checkpoints_id:nil)
+# Marshall.where(marshal_id:'2001').update(checkpoints_id: nil)
 print'.'
 
 #Multiple User For Participant
@@ -154,8 +155,8 @@ print'.'
         user.name = Faker::Fantasy::Tolkien.character
         #user.name = Faker::Name.name
         user.mobile = Faker::Number.number(digits: 11)
-        user.password = "testtest"
-        user.password_confirmation = "testtest"
+        user.password = "Testtest1!"
+        user.password_confirmation = "Testtest1!"
         user.tag_id = 2
     end
     Marshall.create(marshal_id: Faker::Number.unique.within(range: 2002..2999)) do |marshal|
@@ -322,7 +323,7 @@ else
 end
 
 #Multiple Marshals
-if User.where(tag_id: '2',  id: '111').first
+if User.where(tag_id: '2').count > 10
     puts "Created Multiple Marshall User Successfully"
     puts "-------------------------------------"
 else
