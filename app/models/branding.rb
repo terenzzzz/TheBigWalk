@@ -18,5 +18,5 @@
 class Branding < ApplicationRecord
     has_one_attached :header
     has_one_attached :logo
-    belongs_to :event
+    belongs_to :event, class_name: "Event", foreign_key: "events_id"
 end

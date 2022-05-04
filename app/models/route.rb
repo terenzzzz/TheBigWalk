@@ -26,5 +26,7 @@ class Route < ApplicationRecord
     validates_presence_of :start_time
     validates_uniqueness_of :name, scope: :events_id
 
-    belongs_to :event
+    has_many :participants, class_name: "Participants", foreign_key: "routes_id"
+    belongs_to :event, class_name: "Event", foreign_key: "events_id"
+    has_many :routes_and_checkpoints_linkers, class_name: "RoutesAndCheckpointsLinkers", foreign_key: "route_id"
 end

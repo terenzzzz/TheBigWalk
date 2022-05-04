@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_03_073141) do
+ActiveRecord::Schema.define(version: 2022_05_03_221508) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,15 @@ ActiveRecord::Schema.define(version: 2022_05_03_073141) do
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "made_public"
     t.string "phone_number"
+  end
+
+  create_table "marshal_shifts", force: :cascade do |t|
+    t.datetime "current_time"
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "marshalls_id"
+    t.index ["marshalls_id"], name: "index_marshal_shifts_on_marshalls_id"
   end
 
   create_table "marshalls", force: :cascade do |t|
@@ -239,6 +248,7 @@ ActiveRecord::Schema.define(version: 2022_05_03_073141) do
   add_foreign_key "checkpoint_times", "checkpoints"
   add_foreign_key "checkpoint_times", "participants"
   add_foreign_key "checkpoints", "events", column: "events_id"
+  add_foreign_key "marshal_shifts", "marshalls", column: "marshalls_id"
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
   add_foreign_key "marshalls", "users", column: "users_id"
   add_foreign_key "opted_in_leaderboards", "users"

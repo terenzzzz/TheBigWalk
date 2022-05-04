@@ -8,6 +8,7 @@
                 %td.fw-bold Marshals
                 %td.fw-bold Checkpoint 
                 %td.fw-bold Status
+                %td.fw-bold Time
             -event = Event.where(id: session[:current_event_id]).first
             -checkpoints = Checkpoint.where(events_id: session[:current_event_id])
             -checkpoints.each do |checkpoint|
@@ -17,5 +18,10 @@
                         -user = User.where(id: marshal.users_id).first
                         %td=link_to "#{user.name}", user
                         %td= checkpoint.name
-                        %td status
-                        /needs if statement for at checkpoint or on break finished or started again
+                        -shift = MarshalShift.where(marshalls_id: marshal.id).order(created_at: :desc).first
+                        -if shift
+                            %td= shift.status
+                            %td= shift.current_time
+                        -else
+                            %td ----
+                            %td ----
