@@ -36,6 +36,7 @@ class User < ApplicationRecord
   has_many :calls, dependent: :destroy
   has_many :pickups, dependent: :destroy
   has_many :participants, dependent: :destroy
+  has_many :marshals, dependent: :destroy
   has_one :opted_in_leaderboard, dependent: :destroy
 
 

@@ -20,4 +20,5 @@
 #  fk_rails_...  (users_id => users.id)
 #
 class Marshall < ApplicationRecord
+    belongs_to :user
 end

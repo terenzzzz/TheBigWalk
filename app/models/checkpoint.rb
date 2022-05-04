@@ -22,5 +22,5 @@ class Checkpoint < ApplicationRecord
     validates_presence_of :os_grid
     validates_uniqueness_of :name, scope: :events_id
 
-    belongs_to :event
+    # belongs_to :event
 end
