@@ -1,17 +1,21 @@
-%h1 Welcome to Your Profile 
+%h1="Welcome to #{@user.name}'s Page"
 .row   
     .col-5 
         %table 
             %tr 
                 -if @user.avatar.attached? 
                     %td= image_tag @user.avatar, :size => "120x120"
-                -else 
-                    %td= "No photo uplaoded."
+                /-else 
+                /    %td= "No photo uplaoded."
     .col-7
-        %p 
-            = @user.name
-        %p 
-            = @user.description 
+        /%p 
+        /    = @user.name
+        /= puts "$$$$$ #{@user.description.nil?} + #{@user.description.class}"#" + #{@user.description.length()}"
+        
+        /- if @user.description
+        /    %p=@user.description 
+        /- else 
+        /    %p="This is #{@user.name}'s description"
 %br/
 
 .row 
