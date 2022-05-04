@@ -5,8 +5,6 @@
             %tr 
                 -if @user.avatar.attached? 
                     %td= image_tag @user.avatar, :size => "120x120"
-                /-else 
-                /    %td= "No photo uplaoded."
     .col-7
         
         - if @user.description
@@ -70,8 +68,9 @@
         %span.bi.bi-piggy-bank
         %span Donate Here
         %span.bi.bi-piggy-bank
+    %br
     .d-flex.justify-content-center
-        %p Your Public Progress Shows Here
+        %h5="#{@user.name}'s Checkpoint times"
     /If user exists
 
 
