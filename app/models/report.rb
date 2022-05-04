@@ -10,4 +10,6 @@
 #  user_id     :integer
 #
 class Report < ApplicationRecord
+    validates :user_id, :numericality => { :greater_than_or_equal_to => 1 }
+
 end
