@@ -56,7 +56,6 @@ class MarshalsController < ApplicationController
         @needs_help = Array.new
         @falling_behind = Array.new
         @on_pace = Array.new
-        @needs_help = Array.new
         @walkers_need_help = Array.new
         @walkers_falling_behind = Array.new
         @Walkers_on_pace = Array.new

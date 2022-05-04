@@ -26,44 +26,21 @@ class AdminsController < ApplicationController
     def view_walkers
         @event = Event.where(id: session[:current_event_id]).first
         @routes = Route.where(events_id: session[:current_event_id])
+        @needs_help = Array.new
         @falling_behind = Array.new
         @on_pace = Array.new
+        @walkers_need_help = Array.new
         @walkers_falling_behind = Array.new
         @Walkers_on_pace = Array.new
 
 
         @routes.each do |route|
 
-            # calc_status = Participant.where(routes_id: route.id)
-            # calc_status.each do |stat|
-            #     time_now = Time.now.utc
-            #     linker = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: stat.checkpoints_id).first
-            #     previous_linker = RoutesAndCheckpointsLinker.where(route_id: route.id, position_in_route: (linker.position_in_route - 1)).first
-            #     if previous_linker
-            #         time_last_checkpoint = CheckpointTime.where(participant_id: stat.id, checkpoint_id: previous_linker.checkpoint_id).first.times
-            #         time_to_next_checkpoint = linker.advised_time
-            #         dif = time_now - time_last_checkpoint # seconds
-            #         on_pace = (time_to_next_checkpoint * 60) - dif
-            #         if on_pace > 0
-            #             calc_status.update(status: "On Pace.")
-            #             puts "#####################"
-            #             puts "yes"
-            #             puts "#####################"
-            #         else
-            #             calc_status.update(status: "Falling Behind!")
-            #             puts "#####################"
-            #             puts "no"
-            #             puts "#####################"
-            #         end
-            #         puts "#####################"
-            #         puts time_last_checkpoint
-            #         puts time_now
-            #         puts dif
-            #         puts on_pace
-            #         puts "#####################"
-            #     end
-            # end
-
+            @walkers_need_help.concat Participant.where(routes_id: route.id, pace: 'Falling Behind!')
+            @walkers_need_help.each do |walker|
+                @help_walker_and_user = [walker, User.where(id: walker.user_id).first]
+                @needs_help.push(@help_walker_and_user)
+            end
             @walkers_falling_behind.concat Participant.where(routes_id: route.id, pace: 'Falling Behind!')
             @walkers_falling_behind.each do |walker|
                 @falling_walker_and_user = [walker, User.where(id: walker.user_id).first]
@@ -78,8 +55,6 @@ class AdminsController < ApplicationController
     end
 
     def view_marshals 
-       
-
     end
 
     def view_pickups

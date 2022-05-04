@@ -1,7 +1,8 @@
 -user = User.where(id: session[:view_user_id]).first
 
 .d-flex.justify-content-center
-    %h1.text-center.fw-bold.pb-3="#{user.name}'s Events"
+    -user = User.where(id: session[:view_user_id]).first
+    %h1.text-center.fw-bold.pb-3= "#{user.name}'s Events"
 
 -# .row 
 -#   - @events.each do |event|

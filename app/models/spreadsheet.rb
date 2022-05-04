@@ -64,9 +64,9 @@ class Spreadsheet
         #breaks if thers no worksheet by the name
         routes = Route.where(events_id: event.id)
         routes.each do |route|
-            worksheet = @@spreadsheet.worksheet_by_title("#{old_name} #{route.name}")
+            worksheet = @@spreadsheet.worksheet_by_title("#{old_name} - #{route.name}")
             if worksheet
-                worksheet.title = "#{event.name} #{route.name}"
+                worksheet.title = "#{event.name} - #{route.name}"
                 worksheet.save
             end
         end
@@ -76,7 +76,7 @@ class Spreadsheet
         #breaks if thers no worksheet by the name
         routes = Route.where(events_id: event.id)
         routes.each do |route|
-            worksheet = @@spreadsheet.worksheet_by_title("#{event.name} #{route.name}")
+            worksheet = @@spreadsheet.worksheet_by_title("#{event.name} - #{route.name}")
             if worksheet
                 worksheet.delete
             end
@@ -84,7 +84,7 @@ class Spreadsheet
     end
 
     def update_checkpoint_name(route, checkpoint)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
             col_num = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route + @@walker_title_columns
             worksheet[1,col_num] = checkpoint.name
@@ -113,7 +113,7 @@ class Spreadsheet
 
     #really it deletes a column
     def delete_checkpoint(route, checkpoint, pos)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}") 
         if worksheet
             col_num = pos + @@walker_title_columns
             
@@ -141,7 +141,7 @@ class Spreadsheet
     #should it just pass linker instead of route and checkpoint??
     def add_checkpoint(route, checkpoint, pos, update_checkpoint)
         #make sure when handling checkpoint position + 2 for walker titles or more
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}") 
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}") 
         if worksheet
             #TODO is this really needed cus of validation
             #checks if the checkpoint is already in the spreadsheeta and returns if it is
@@ -180,7 +180,7 @@ class Spreadsheet
 
     #when they sign up an event not account
     def add_walker(route, user)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
             walker = Participant.where(user_id: user.id).first
             worksheet.max_rows += 1
@@ -193,7 +193,7 @@ class Spreadsheet
     end
 
     def update_walker_info(route, user)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
 
         if worksheet
             walker = Participant.where(user_id: user.id).first
@@ -204,7 +204,7 @@ class Spreadsheet
     end
 
     def update_walker_rank(route, old_rank, user)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
             walker = Participant.where(user_id: user.id, routes_id: route.id).first
             values = worksheet.rows[old_rank]
@@ -222,7 +222,7 @@ class Spreadsheet
     end
 
     def add_checkpoint_time(route, user, checkpoint)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
             walker = Participant.where(user_id: user.id).first 
 
@@ -237,7 +237,7 @@ class Spreadsheet
     end
 
     def walker_drop_out(route, user)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
             walker = Participant.where(user_id: user.id).first
             worksheet[(walker.rank + 1), 3] = "Droped out"
@@ -247,7 +247,7 @@ class Spreadsheet
     end
 
     def walker_pickup(route, user)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
             pickup = Pickup.where(user_id: user.id, event_id: Event.where(id: route.events_id).first.id).first
             walker = Participant.where(user_id: user.id).first
@@ -263,7 +263,7 @@ class Spreadsheet
     #need to put something in about if they drop out
 
     def delete_walker(route, user)
-        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} #{route.name}")
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
             walker = Participant.where(user_id: user.id).first
             worksheet.delete_rows((walker.rank+1), 1)
