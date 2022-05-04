@@ -8,9 +8,6 @@
                 /-else 
                 /    %td= "No photo uplaoded."
     .col-7
-        /%p 
-        /    = @user.name
-        /= puts "$$$$$ #{@user.description.nil?} + #{@user.description.class}"#" + #{@user.description.length()}"
         
         - if @user.description
             %p=@user.description 
