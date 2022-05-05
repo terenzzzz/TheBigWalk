@@ -17,6 +17,9 @@ class AdminsController < ApplicationController
     def show
     end
 
+    def pick_route
+    end
+
     def choose_a_route
         #view page with links, param with route id
         #sets a session with route id

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   end
 
   resources :admins do
+    get 'pick_route', on: :collection
     get 'view_marshals', on: :collection
     get 'view_walkers', on: :collection
     get 'view_pickups', on: :collection
