@@ -20,6 +20,9 @@
 #  fk_rails_...  (users_id => users.id)
 #
 class Marshall < ApplicationRecord
+    #belongs_to :user
     belongs_to :user, class_name: "User", foreign_key: "users_id"
-    # belongs_to :checkpoint, class_name: "Checkpoint", foreign_key: "checkpoints_id"
+    belongs_to :checkpoint, class_name: "Checkpoint", foreign_key: "checkpoints_id"
+    #belongs_to :checkpoint
+    has_many :marshal_shifts
 end

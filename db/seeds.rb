@@ -106,6 +106,7 @@ print'.'
         walker.routes_id = '1'
         walker.event_id = '1'
     end
+    
     OptedInLeaderboard.create(user_id: id, opted_in: true)
     print'.'
 end

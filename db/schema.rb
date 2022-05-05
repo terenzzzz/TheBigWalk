@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
     t.index ["checkpoints_id"], name: "index_participants_on_checkpoints_id"
     t.index ["event_id"], name: "index_participants_on_event_id"
     t.index ["routes_id"], name: "index_participants_on_routes_id"
+    t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
   create_table "pickups", force: :cascade do |t|
@@ -255,6 +256,7 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
   add_foreign_key "participants", "events"
   add_foreign_key "participants", "routes", column: "routes_id"
+  add_foreign_key "participants", "users"
   add_foreign_key "pickups", "events"
   add_foreign_key "pickups", "users"
   add_foreign_key "routes", "events", column: "events_id"

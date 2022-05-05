@@ -32,12 +32,18 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   has_one_attached :avatar
   belongs_to :tag, class_name: "Tag", foreign_key: "tag_id", optional: true
+  #belongs_to :tag, optional: true
 
-  has_many :calls, class_name: "Calls", foreign_key: "user_id", dependent: :destroy
-  has_many :pickups, class_name: "Pickups", foreign_key: "user_id", dependent: :destroy
-  has_many :participants, class_name: "Participants", foreign_key: "user_id", dependent: :destroy
-  has_one :opted_in_leaderboard, class_name: "OptedInLeaderboard", foreign_key: "user_id", dependent: :destroy
-  has_one :marshall, class_name: "Marshall", foreign_key: "users_id", dependent: :destroy
+  has_many :calls, dependent: :destroy
+  #has_many :calls, class_name: "Calls", foreign_key: "user_id", dependent: :destroy
+  #has_many :pickups, class_name: "Pickups", foreign_key: "user_id", dependent: :destroy
+  has_many :pickups, dependent: :destroy
+  #has_many :participants, class_name: "Participants", foreign_key: "user_id", dependent: :destroy
+  has_many :participants, dependent: :destroy
+  #has_one :opted_in_leaderboard, class_name: "OptedInLeaderboard", foreign_key: "user_id", dependent: :destroy
+  has_one :opted_in_leaderboard, dependent: :destroy
+  #has_one :marshall, class_name: "Marshall", foreign_key: "users_id", dependent: :destroy
+  has_one :marshall, dependent: :destroy
 
 
 

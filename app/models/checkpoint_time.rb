@@ -22,5 +22,7 @@
 class CheckpointTime < ApplicationRecord
     belongs_to :participant, class_name: "Participant", foreign_key: "participant_id"
     belongs_to :checkpoint, class_name: "Checkpoint", foreign_key: "checkpoint_id"
+    #belongs_to :participant
+    #belongs_to :checkpoint
     
 end

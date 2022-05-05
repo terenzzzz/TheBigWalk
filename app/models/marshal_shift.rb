@@ -18,4 +18,5 @@
 #  fk_rails_...  (marshalls_id => marshalls.id)
 #
 class MarshalShift < ApplicationRecord
+    belongs_to :marshall, class_name: "Marshall", foreign_key: "marshalls_id"
 end

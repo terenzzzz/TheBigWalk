@@ -32,4 +32,6 @@ class RoutesAndCheckpointsLinker < ApplicationRecord
 
     belongs_to :checkpoint, class_name: "Checkpoint", foreign_key: "checkpoint_id"
     belongs_to :route, class_name: "Route", foreign_key: "route_id"
+    #belongs_to :checkpoint
+    #belongs_to :route
 end

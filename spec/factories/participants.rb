@@ -20,12 +20,14 @@
 #  index_participants_on_checkpoints_id  (checkpoints_id)
 #  index_participants_on_event_id        (event_id)
 #  index_participants_on_routes_id       (routes_id)
+#  index_participants_on_user_id         (user_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (checkpoints_id => checkpoints.id)
 #  fk_rails_...  (event_id => events.id)
 #  fk_rails_...  (routes_id => routes.id)
+#  fk_rails_...  (user_id => users.id)
 #
 FactoryBot.define do
     factory :participant do
