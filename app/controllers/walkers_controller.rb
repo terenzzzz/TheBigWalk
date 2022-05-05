@@ -287,12 +287,11 @@ class WalkersController < ApplicationController
     #params_id = params[:id]
     #session[:current_route_id] = params_id[:route_id]
 
-    route_id = params[:id]
-    session[:current_route_id] = route_id[:id]
+    
     #####
     user = User.where(id: session[:current_user_id]).first
     puts "User: #{user.id}"
-    @walker = Participant.where(user_id: user.id, routes_id: session[:current_route_id]).first
+    @walker = Participant.where(user_id: user.id, routes_id: params[:id]).first
     puts "Route ID: #{@walker}"
     
     checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: @walker.routes_id, checkpoint_id: @walker.checkpoints_id).first.position_in_route
