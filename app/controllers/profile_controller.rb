@@ -11,7 +11,13 @@ class ProfileController < ApplicationController
         end
         
         if current_user.tag.name =='Walker'
-            @participant_id = Participant.where(routes_id: @route_id, user_id: current_user.id).first.participant_id
+            @participant = Participant.where(routes_id: @route_id, user_id: current_user.id).first
+            
+            if @participant
+                @participant_id = @participant.participant_id
+            else
+                @participant_id = 'You Have Not Signed Up For Any Route!'
+            end
         end
 
     end
