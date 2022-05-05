@@ -375,3 +375,226 @@ else
 end
 
 puts "----------------------------------------Seeds Finished----------------------------------------"
+
+################################################## seeds for presentation ##################################################
+
+# puts"---------------------------------------- Seed Started Please Wait-----------------------------------------"
+# #Generate Tag
+# Tag.where(name:'Walker').first_or_create(name:'Walker')
+# Tag.where(name:'Marshal').first_or_create(name:'Marshal')
+# Tag.where(name:'Admin').first_or_create(name:'Admin')
+# print'.'
+
+# #Event
+# Event.create(name:'The Big Walk 2022', made_public: true, phone_number:'07757291463')
+# print'.'
+
+# #Branding
+# Branding.create(events_id: '1')
+# print'.'
+
+# #Route
+# Route.create(name: '50km') do |route|
+#     route.course_length = '50'
+#     #route.start_date = '2022-06-12'
+#     #route.start_time = '2000-01-01 10:00:00.000000000 +0000'
+#     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
+#     route.start_time = '2000-01-01 20:40:00.000000000 +0000'
+#     route.start_date = '2022-05-01'
+#     #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
+#     route.events_id = '1'
+#     print'.'
+# end
+
+# Route.create(name: '30km') do |route|
+#     route.course_length = '30'
+#     #route.start_date = '2022-06-12'
+#     #route.start_time = '2000-01-01 10:00:00.000000000 +0000'
+#     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
+#     route.start_time = '2000-01-01 20:40:00.000000000 +0000'
+#     route.start_date = '2022-05-01'
+#     #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
+#     route.events_id = '1'
+#     print'.'
+# end
+# print'.'
+
+
+# Checkpoint.create(name: "Hope Station") do |checkpoint|
+#     checkpoint.os_grid = 'SK331896'
+#     checkpoint.events_id = '1'
+    
+# end
+# print'.'
+# RoutesAndCheckpointsLinker.create(distance_from_start: '0') do |linker|
+#     linker.checkpoint_description = "Head to the main road (A6187) and turn right heading for Hope village. After you pass Aston Lane on
+#     your right take the footpath right, just before the bridge over the River Noe. At the old mill (now a
+#     house) it becomes a track. Follow the track until a T-junction where it meets a road and turn left over
+#     the bridge. When the road meets another road turn right and follow Edale Road past a pub (The
+#     Cheshire Cheese), under a railway bridge and shortly after look for the footpath on the left just after
+#     Bleak House."
+#     linker.advised_time = 20
+#     linker.route_id = '1'
+#     linker.checkpoint_id = '1'
+#     linker.position_in_route = '1'
+# end
+# print'.'
+
+# Checkpoint.create(name: "Footpath from Edale Road") do |checkpoint|
+#     checkpoint.os_grid = 'SK331896'
+#     checkpoint.events_id = '1'
+    
+# end
+# print'.'
+# RoutesAndCheckpointsLinker.create(distance_from_start: '1.9') do |linker|
+#     linker.checkpoint_description = "Follow the footpath for approx. 200m. At the junction where it meets some wooden stables, take the
+#     footpath to the right, heading along the field boundary between a wire fence and a hedge. The path
+#     broadens, and shortly after a metal gate with a rock hanging from it the track opens out. Follow the
+#     path bearing right, beginning to head uphill through numerous fields. Pass a footpath sign for Mam
+#     Tor via Losehill Farm. Head for a stone barn in the field and pass this heading to Losehill Farm. At
+#     Losehill Farm turn left between conifers and follow the path uphill, following a signpost for Losehill.
+#     Follow this path until it begins to level out. Cross a stile on the right by a huge cairn (pile of rocks) and
+#     follow the steps up to Losehill summit for excellent views of the Edale and Hope Valleys."
+#     linker.advised_time = 20
+#     linker.route_id = '1'
+#     linker.checkpoint_id = '2'
+#     linker.position_in_route = '2'
+# end
+# print'.'
+
+# Checkpoint.create(name: "Losehill Summit ") do |checkpoint|
+#     checkpoint.os_grid = 'SK331896'
+#     checkpoint.events_id = '1'
+    
+# end
+# print'.'
+# RoutesAndCheckpointsLinker.create(distance_from_start: '4.3') do |linker|
+#     linker.checkpoint_description = "From Losehill summit, follow the ridge towards Back Tor and then down the rough and broad track. At
+#     the bottom, pass through a wooden gate (on your left) and continue along the ridge with the fence /
+#     wall on your right. Follow the ridge past Hollins Cross to the summit of Mam Tor."
+#     linker.advised_time = 20
+#     linker.route_id = '1'
+#     linker.checkpoint_id = '3'
+#     linker.position_in_route = '3'
+# end
+# print'.'
+
+
+# #Account for walker
+# User.where(email:'walker@test.com').first_or_create(name:'testWalker', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'1')
+# print'.'
+
+# Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '2', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1', event_id: '1')
+# print'.'
+
+# OptedInLeaderboard.where(user_id: 1).first_or_create(opted_in: true)
+# print'.'
+
+# #Pickup
+# Pickup.where(os_grid: 'SK123456').first_or_create(os_grid:'SK123456', user_id: '1', event_id: '1')
+# print'.'
+
+# #Call
+# Call.where(user_id: '1').first_or_create(user_id: '1', event_id: '1')
+# print'.'
+
+# #Account for Marshall
+# User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'2')
+# Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', users_id: '2',checkpoints_id:nil)
+# # Marshall.where(marshal_id:'2001').update(checkpoints_id: nil)
+# print'.'
+
+# #Multiple User For Participant
+# (3..102).each do |id|
+#     User.create(email: Faker::Internet.unique.email) do |user|
+#         user.name = Faker::Fantasy::Tolkien.character
+#         #user.name = Faker::Name.name
+#         user.mobile = Faker::Number.number(digits: 11)
+#         user.password = "Testtest1!"
+#         user.password_confirmation = "Testtest1!"
+#         user.tag_id = 1
+#     end
+    
+#     Participant.create(participant_id: Faker::Number.unique.within(range: 1002..1999)) do |walker|
+#         walker.checkpoints_id = Faker::Number.within(range: 1..20)
+#         walker.user_id = id
+#         walker.status = 'none'
+#         walker.rank = id
+#         if (id % 9) == 0
+#             walker.pace = 'Falling Behind!'
+#         else
+#             walker.pace = 'On Pace.'
+#         end
+#         walker.routes_id = '1'
+#         walker.event_id = '1'
+#     end
+#     OptedInLeaderboard.create(user_id: id, opted_in: true)
+#     print'.'
+# end
+# print'.'
+
+# #Multiple Pick up and Call
+# (1..10).each do |id|
+#     Pickup.create(os_grid: 'SK123456') do |pickup|
+#         pickup.user_id = Faker::Number.unique.within(range: 2..101) 
+#         pickup.event_id = '1'
+
+#     end
+#     Call.create(user_id: Faker::Number.unique.within(range: 2..101)) do |call|
+#         call.event_id = '1'
+
+#     end
+#     print'.'
+# end
+# print'.'
+
+# #Multiple time for Walker
+# (3..101).each do |ids|
+#     #get walker
+#     walker = Participant.where(id: ids).first
+#     #check checkpoint pos
+#     linker = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first
+#     pos = linker.position_in_route
+#     #create that many checkpoint times
+#     start_time = DateTime.now
+#     end_time = DateTime.now
+#     (1..pos).each do |check_num|
+#         CheckpointTime.create(times: Faker::Time.between(from: start_time, to: end_time, format: :default)) do |time|
+#             start_time = end_time + 0.01
+#             end_time = end_time + 0.05
+#             time.checkpoint_id = check_num
+#             time.participant_id = ids
+
+#         end
+#     end
+#     print'.'
+# end
+# print'.'
+
+# #Multiple User For Marshal
+# (1..10).each do |id|
+#     User.create(email: Faker::Internet.unique.email) do |user|
+#         user.name = Faker::Fantasy::Tolkien.character
+#         #user.name = Faker::Name.name
+#         user.mobile = Faker::Number.number(digits: 11)
+#         user.password = "Testtest1!"
+#         user.password_confirmation = "Testtest1!"
+#         user.tag_id = 2
+#     end
+#     Marshall.create(marshal_id: Faker::Number.unique.within(range: 2002..2999)) do |marshal|
+#         marshal.checkpoints_id = Faker::Number.unique.within(range: 2..20)
+#         marshal.users_id = id + 102
+#     end
+#     print'.'
+# end
+# print'.'
+
+# #Account for Admin
+# User.where(email:'admin@test.com').first_or_create(name:'testAdmin', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'3')
+# print'.'
+
+# #Print statment
+# puts ""
+# puts "----------------------------------------Seeds Finished----------------------------------------"
+
+# puts "----------------------------------------Seeds Finished----------------------------------------"
