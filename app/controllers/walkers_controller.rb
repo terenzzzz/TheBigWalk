@@ -288,7 +288,7 @@ class WalkersController < ApplicationController
     #session[:current_route_id] = params_id[:route_id]
 
     route_id = params[:id]
-    session[:current_route_id] = r[:id]
+    session[:current_route_id] = route_id[:id]
     #####
     user = User.where(id: session[:current_user_id]).first
     puts "User: #{user.id}"
