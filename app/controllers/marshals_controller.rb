@@ -132,14 +132,14 @@ class MarshalsController < ApplicationController
         @marshal = Marshall.where(users_id: session[:current_user_id]).first
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         @marshal_shift.update(status:"Started")
-        redirect_to '/'
+        redirect_to marshal_path(session[:current_checkpoint_id]), notice: 'Marshalling Resumed'
     end
     def  pause_marshalling
         @marshal = Marshall.where(users_id: session[:current_user_id]).first
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         @marshal_shift.update(status:"Paused")
         #MarshalShift.create(current_time:DateTime.now() , status:"Paused", marshalls_id:@marshal.id)
-        redirect_to '/'
+        redirect_to marshal_path(session[:current_checkpoint_id]), notice: 'Marshalling Paused'
     end
 
     def move_own_way_home
@@ -222,7 +222,7 @@ class MarshalsController < ApplicationController
             spreadsheet.update_walker_rank(route, old_rank, user)
             spreadsheet.add_checkpoint_time(route, user, checkpoint)
 
-            redirect_to '/'
+            redirect_to '/', notice: 'Check In Walker successfully.'
         else
             redirect_to checkin_walkers_marshals_path, notice: 'Invalid Walker ID.'
         end
