@@ -26,7 +26,7 @@ class RoutesAndCheckpointsLinker < ApplicationRecord
     validates_presence_of :distance_from_start
     validates_presence_of :advised_time
     validates_uniqueness_of :distance_from_start, scope: :route_id
-    validates :distance_from_start, :numericality => { :greater_than_or_equal_to => 1 }
+    validates :distance_from_start, :numericality => { :greater_than_or_equal_to => 0 }
     validates :advised_time, :numericality => { :greater_than_or_equal_to => 1 }
 
 
