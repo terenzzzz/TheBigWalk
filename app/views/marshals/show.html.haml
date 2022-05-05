@@ -21,16 +21,11 @@
             %h1.fw-bold= "#{@num_walkers_help}/#{@num_walkers_falling}"
 
 %br
-- @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
-- if @marshal_shift.status == "Paused"
-    %h4.fw-bold Works
-- else 
-    .d-grid.gap-2
-        %h4= @marshal_shift.status 
-        =link_to "View Incoming Walkers", view_incoming_walkers_marshals_path, class: 'btn btn-primary primary-button'
-        =link_to "Change Checkpoint", change_checkpoint_marshals_path, class: 'btn btn-primary primary-button'
-        =link_to "Checkin Walkers", checkin_walkers_marshals_path, class: 'btn btn-primary primary-button'
-        =link_to "End Marshal Shift", end_marshal_shift_marshals_path, class: 'btn btn-primary primary-button'
+.d-grid.gap-2
+    =link_to "View Incoming Walkers", view_incoming_walkers_marshals_path, class: 'btn btn-primary primary-button'
+    =link_to "Change Checkpoint", change_checkpoint_marshals_path, class: 'btn btn-primary primary-button'
+    =link_to "Checkin Walkers", checkin_walkers_marshals_path, class: 'btn btn-primary primary-button'
+    =link_to "End Marshal Shift", end_marshal_shift_marshals_path, class: 'btn btn-primary primary-button'
 %br
 %table.table.table-hover.table-sm
     %thead
