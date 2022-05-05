@@ -3,14 +3,17 @@ class UsersController < ApplicationController
     
     def show
         @user = User.find(params[:id])
-
-        if !(session[:current_route_id]) || session[:reset_route] == 0
+        if (!(session[:current_route_id]) || session[:reset_route] == 0) && Tag.where(id: @user.tag_id).first.name != "Marshal"
             session[:view_user_id] = params[:id]
             redirect_to pick_route_users_path
         end
         session[:reset_route] = 0
 
-        @participant = Participant.where(user_id: @user.id).first
+        # Needed?? \/
+        @leaderboard_user_id=params[:leaderboard_user_id]
+        # ^^
+        
+        @participant = Participant.where(user_id: @user.id, routes_id: session[:current_route_id]).first
         @current_route_id=session[:current_route_id]
         @route_checkpoints = Array.new
         

@@ -7,6 +7,7 @@ class PagesController < ApplicationController
     @start_date = Route.find(params[:id]).start_date
     @start_time = Route.find(params[:id]).start_time.strftime("%H:%M:%S")
     session[:current_route_id]=params[:id]
+    # if not walker, skip this page
     if current_user.tag.name =='Marshal'
       redirect_to marshals_path
     end
@@ -57,7 +58,8 @@ class PagesController < ApplicationController
   def single_user_leaderboard
     @leaderboard_user_id=params[:leaderboard_user_id]
 
-    @participant = Participant.where(user_id: @leaderboard_user_id).first
+    #needs the route
+    @participant = Participant.where(user_id: @leaderboard_user_id, event_id: session[:current_event_id]).first
     @leaderboard_user = User.where(id: @leaderboard_user_id).first
     @current_route_id=session[:current_route_id]
     @route_checkpoints = Array.new 

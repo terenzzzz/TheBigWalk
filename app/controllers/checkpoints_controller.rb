@@ -56,20 +56,23 @@ class CheckpointsController < ApplicationController
           @linker.checkpoint_id = @checkpoint.id
 
           #set dist from start and pos in route
-          linkers = RoutesAndCheckpointsLinker.where(route_id: id)
-          smallest_pos = 1
-          smallest_dist = 1
-          linkers.each do |linker|
-            if linker.position_in_route < smallest_pos
-              smallest_pos = linker.position_in_route
-            end
-            if linker.distance_from_start < smallest_dist
-              smallest_dist = linker.distance_from_start
-            end
-          end
-          @linker.distance_from_start = smallest_dist - 1
+          # linkers = RoutesAndCheckpointsLinker.where(route_id: id)
+          # smallest_pos = 1
+          # smallest_dist = 1
+          # linkers.each do |linker|
+          #   if linker.position_in_route < smallest_pos
+          #     smallest_pos = linker.position_in_route
+          #   end
+          #   if linker.distance_from_start < smallest_dist
+          #     smallest_dist = linker.distance_from_start
+          #   end
+          # end
+          #@linker.distance_from_start = smallest_dist - 1
+          linker = RoutesAndCheckpointsLinker.where(route_id: id).order("position_in_route DESC").first
+          @linker.distance_from_start = linker.distance_from_start + 1
+          @linker.position_in_route = linker.position_in_route + 1
           @linker.route_id = id
-          @linker.position_in_route = smallest_pos - 1
+          #@linker.position_in_route = smallest_pos - 1
           @linker.advised_time = 0
           @linker.save
           new_linkers.push(@linker.id)
@@ -127,20 +130,24 @@ class CheckpointsController < ApplicationController
           @linker.checkpoint_id = @checkpoint.id
 
           #set dist from start and pos in route
-          linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
-          smallest_pos = 1
-          smallest_dist = 1
-          linkers.each do |linker|
-            if linker.position_in_route < smallest_pos
-              smallest_pos = linker.position_in_route
-            end
-            if linker.distance_from_start < smallest_dist
-              smallest_dist = linker.distance_from_start
-            end
-          end
-          @linker.distance_from_start = smallest_dist - 1
+          # linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
+          # smallest_pos = 1
+          # smallest_dist = 1
+          # linkers.each do |linker|
+          #   if linker.position_in_route < smallest_pos
+          #     smallest_pos = linker.position_in_route
+          #   end
+          #   if linker.distance_from_start < smallest_dist
+          #     smallest_dist = linker.distance_from_start
+          #   end
+          # end
+          linker = RoutesAndCheckpointsLinker.where(route_id: id).order("position_in_route DESC").first
+          @linker.distance_from_start = linker.distance_from_start + 1
+          @linker.position_in_route = linker.position_in_route + 1
+
+          #@linker.distance_from_start = smallest_dist - 1
           @linker.route_id = route.id
-          @linker.position_in_route = smallest_pos - 1
+          #@linker.position_in_route = smallest_pos - 1
 
           @linker.route_id = route.id
           @linker.advised_time = 0

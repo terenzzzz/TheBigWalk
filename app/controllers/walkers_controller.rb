@@ -1,6 +1,7 @@
 class WalkersController < ApplicationController
   before_action :authenticate_user!
   before_action do
+    # Check role
     user = User.where(id: session[:current_user_id]).first
     tag = Tag.where(id: user.tag_id).first
     if tag.name == "Walker"
@@ -19,7 +20,7 @@ class WalkersController < ApplicationController
     @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
     @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
 
-    # need change the os reference
+    # Compare current location with checkpoint location
     if session[:osReference] == @checkpoint.os_grid
       walker.update(pace: "On Pace.")
       walker.update(checkpoints_id: @checkpoint.id)
@@ -72,16 +73,17 @@ class WalkersController < ApplicationController
   end
 
   def saveLocation
-    #get latitude and longitue
+    #get latitude and longitue 
     @lat = params[:lat].to_f
     @lon = params[:lon].to_f
     session[:lat] = @lat
     session[:lon] = @lon
-    #conver them to OS Reference
+    #conver them to OS Reference(Method 1)
     # @wgs84_point = OsgbConvert::WGS84.new(@lat, @lon, 0)
     # @osUKgridPoint = OsgbConvert::OSGrid.from_wgs84(@wgs84_point)
     # @osReference = @osUKgridPoint.grid_ref(6)
 
+    #conver them to OS Reference(Method 2)
     osgb36point = OSGB_WGS84::WGS84_to_OSGB36(@lat,@lon, 0)
     oslat = osgb36point[0]
     oslon = osgb36point[1]
@@ -90,71 +92,13 @@ class WalkersController < ApplicationController
     northing = osUKgridPoint[1].round
     @osReference = OSGB_WGS84::OSNG_numbers_to_letters(easting,northing, 6)
 
+    # Pass to session and redirect to home page
     session[:osReference] = @osReference
-    redirect_to walker_path(session[:current_route_id]), notice:"You Location is up to date"
-
-    # #find next checkpoint
-    # user = User.where(id: session[:current_user_id]).first
-    # walker = Participant.where(user_id: user.id).first
-    # checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
-    # @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: walker.routes_id).first
-    # @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
-
-    # # need change the os reference
-    # if @osReference == @checkpoint.os_grid
-    #   walker.update(pace: "On Pace.")
-    #   walker.update(checkpoints_id: @checkpoint.id)
-    #   #create checkpoint time for walker
-    #   time = Time.now
-    #   checkpoint_time = CheckpointTime.new
-    #   checkpoint_time.times = time 
-    #   checkpoint_time.checkpoint_id = @checkpoint.id
-    #   checkpoint_time.participant_id = walker.id
-    #   checkpoint_time.save
-    #   #rerank the walker
-    #   #gets walkers at that checkpoint same on route 
-    #   walkers_on_route = Participant.where(routes_id: walker.routes_id, checkpoints_id: @checkpoint.id)
-
-    #   lowest_rank = 0
-    #   #checks whos gone past that checkpoint with lowest rank 
-    #   walkers_on_route.each do |walkers|
-    #     if walkers.rank > lowest_rank && walkers.rank != walker.rank
-    #       lowest_rank = walkers.rank
-    #     end
-    #   end
-    #   old_rank = walker.rank.dup
-    #   #if rank is the same dont update
-    #   #if noone has then they are in 1st
-    #   if (lowest_rank + 1) != walker.rank
-    #     walker.update(rank: (lowest_rank + 1))
-    #   end
-
-    #   #reranks rest
-    #   #old rank and new rank everyone inbetween gets shifted down if rank is increased
-    #   if old_rank > (lowest_rank + 1)
-    #     walkers_rerank = Participant.where(routes_id: walker.routes_id).where("rank < ?", old_rank).where("rank >= ?", (lowest_rank + 1))
-    #     walkers_rerank.each do |walkers|
-    #       if walkers.id != walker.id
-    #         walkers.update(rank: (walkers.rank + 1))
-    #       end
-    #     end
-    #   end
-
-    #   user = User.where(id: walker.user_id).first
-    #   route = Route.where(id: walker.routes_id).first
-    #   checkpoint = Checkpoint.where(id: walker.checkpoints_id).first
-    #   spreadsheet = Spreadsheet.new
-    #   spreadsheet.update_walker_rank(route, old_rank, user)
-    #   spreadsheet.add_checkpoint_time(route, user, checkpoint)
-
-    #   redirect_to walker_path(session[:current_route_id])
-    # else
-    #   redirect_to check_in_fail_walkers_path
-    # end
-
+    redirect_to walker_path(session[:current_route_id]), notice:"Your location has been updated."
   end
 
   def sign_up_participant
+    # Give Participant random participant_number
     random_number = 0
     (1000..1999).each do |id| 
       walker_ids = Participant.where(participant_id: id).first
@@ -163,6 +107,7 @@ class WalkersController < ApplicationController
         break
       end
     end
+    #Update checkpoint
     checkpoint_id = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id], position_in_route: "1").first.checkpoint_id
     participant = Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(participant_id: random_number, checkpoints_id:checkpoint_id, routes_id: session[:current_route_id], user_id: session[:current_user_id], event_id: session[:current_event_id], rank: (Participant.where(routes_id:session[:current_route_id]).size + 1))#, opted_in_leaderboard: session[:opted_in])
     participant.save
@@ -175,30 +120,7 @@ class WalkersController < ApplicationController
     spreadsheet = Spreadsheet.new
     spreadsheet.add_walker(route, user)
 
-    # user_id_for_participant = participant.user_id
-    # user_opted_in = User.where(id: user_id_for_participant).opted_in
     
-    # new_opted_in_entry = OptedInLeaderboard.new(user_id: user_id_for_participant, opted_in: user_opted_in)
-    # new_opted_in_entry.save
-
-    #puts "########################################"
-    #puts (Participant.where(id: participant.id).first).id
-    #puts "########################################"
-
-    # @current_participant_opted_in = Participant.where(routes_id:session[:current_route_id], user_id: session[:current_user_id]).first.opted_in_leaderboard #current_user.id).first.opted_in_leaderboard
-    # puts "$$$$$ #{@current_participant_opted_in}"
-    # if @current_participant_opted_in #== true
-    #   participant.update(opted_in_leaderboard: true)
-    #   puts "676767"
-    # else
-    #   participant.update(opted_in_leaderboard: false)
-    #   puts "565656"
-    # end
-    # puts "current user opted in: #{participant.opted_in_leaderboard} + #{Participant.where(routes_id:session[:current_route_id], user_id:session[:current_user_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id]).id}"
-
-    # puts "And again 1: #{@current_participant_opted_in} \n\n"
-    puts "Participant in table: #{Participant.where(routes_id:session[:current_route_id]).first_or_create(checkpoints_id:"1", routes_id: session[:current_route_id], user_id: current_user.id, event_id: session[:current_event_id])}"
-    #participant.save
     if participant.save
       redirect_to walker_path(session[:current_route_id])
     else
@@ -209,13 +131,13 @@ class WalkersController < ApplicationController
 
 
   def requestCall
-    #Need to deal with the event_id
+    #Create a call record
     Call.create(user_id:current_user.id, event_id:session[:current_event_id])
     redirect_to help_walkers_path, notice: 'Call request successful.'
   end
 
   def requestPickUp
-    #Need to deal with the event_id
+    #Create a pick up record
     route = Route.where(id: session[:current_route_id]).first
     user = User.where(id: session[:current_user_id]).first
     Pickup.create(user_id:current_user.id, event_id:session[:current_event_id], os_grid: session[:osReference])
@@ -226,6 +148,7 @@ class WalkersController < ApplicationController
 
 
   def check_in_fail
+    # If location not match, redirect to this page
     user = User.where(id: session[:current_user_id]).first
     walker = Participant.where(user_id: user.id).first
     checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first.position_in_route
@@ -251,10 +174,10 @@ class WalkersController < ApplicationController
     user = User.where(id: walker.user_id).first
     spreadsheet = Spreadsheet.new
     spreadsheet.walker_drop_out(route, user)
-    times = CheckpointTime.where(participant_id: walker.id)
-    times.each do |time|
-      time.destroy
-    end
+    #times = CheckpointTime.where(participant_id: walker.id)
+    #times.each do |time|
+    #  time.destroy
+    #end
     walker.destroy
     reset_session
     redirect_to '/'
@@ -287,11 +210,11 @@ class WalkersController < ApplicationController
     #params_id = params[:id]
     #session[:current_route_id] = params_id[:route_id]
 
-    session[:current_route_id] = params[:id]
+    
     #####
     user = User.where(id: session[:current_user_id]).first
     puts "User: #{user.id}"
-    @walker = Participant.where(user_id: user.id).first
+    @walker = Participant.where(user_id: user.id, routes_id: params[:id]).first
     puts "Route ID: #{@walker}"
     
     checkpoint_pos = RoutesAndCheckpointsLinker.where(route_id: @walker.routes_id, checkpoint_id: @walker.checkpoints_id).first.position_in_route
