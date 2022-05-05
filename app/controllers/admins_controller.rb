@@ -90,6 +90,13 @@ class AdminsController < ApplicationController
     def checkpoint_order
     end
 
+    def route_picked
+        current_route = params.require(:route_picked).permit(:route_id)
+        session[:current_route_id] = current_route[:route_id]
+        session[:reset_route] = 1
+        redirect_to leaderboard_pages_path
+    end
+
     def make_user_admin
         user = User.where(params.require(:make_user_admin).permit(:id)).first
         tag = Tag.where(id: user.tag_id).first.name
