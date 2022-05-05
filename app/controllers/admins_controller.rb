@@ -39,7 +39,7 @@ class AdminsController < ApplicationController
 
         @routes.each do |route|
 
-            @walkers_need_help.concat Participant.where(routes_id: route.id, pace: 'Falling Behind!')
+            @walkers_need_help.concat Participant.where(routes_id: route.id, pace: 'Very Far Behind!!')
             @walkers_need_help.each do |walker|
                 @help_walker_and_user = [walker, User.where(id: walker.user_id).first]
                 @needs_help.push(@help_walker_and_user)
@@ -106,16 +106,21 @@ class AdminsController < ApplicationController
         if tag == "Walker"
             walkers = Participant.where(user_id: user.id)
             walkers.each do |walker|
-                times = CheckpointTime.where(participant_id: walker.id)
+                #times = CheckpointTime.where(participant_id: walker.id)
                 spreadsheet = Spreadsheet.new
                 spreadsheet.delete_walker(Route.where(id: walker.routes_id).first, user)
-                times.each do |time|
-                    time.destroy
-                end
+                #times.each do |time|
+                #    time.destroy
+                #end
                 walker.destroy
             end
         else
-            Marshall.where(users_id: user.id).first.destroy
+            marshal = Marshall.where(users_id: user.id).first
+            shifts = MarshalShift.where(marshal_id: marshal.id)
+            shifts.each do |shift|
+                shift.destroy
+            end
+            marshal.destroy
         end
         user.tag_id = Tag.where(name: "Admin").first.id
         user.save

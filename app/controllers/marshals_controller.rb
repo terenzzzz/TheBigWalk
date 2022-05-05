@@ -18,7 +18,7 @@ class MarshalsController < ApplicationController
         if @checkpoint
             redirect_to marshal_path(@checkpoint)
         else
-            @events = Event.all
+            @events = Event.where(made_public: true)
         end
         
     end
