@@ -50,10 +50,11 @@
                         var hours = Math.floor((timeLeftToReach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         var minutes = Math.floor((timeLeftToReach % (1000 * 60 * 60)) / (1000 * 60));
                         var seconds = Math.floor((timeLeftToReach % (1000 * 60)) / 1000);
-                        document.getElementById("countdownMsg").innerHTML = "You are expected to reach the";
-                        document.getElementById("countdownMsg2").innerHTML = "next checkpoint within:";
+                        document.getElementById("countdownMsg").innerHTML = "You are expected to reach the next checkpoint within:";
+                        document.getElementById("countdownMsg2").innerHTML = "You are expected to reach the next checkpoint within:";
                         if (timeLeftToReach < 0) {
                             document.getElementById("countdownMsg").innerHTML = "You are running late by:"
+                            document.getElementById("countdownMsg2").innerHTML = ""
                             days = days
                             hours = hours
                             minutes = - minutes - 1

@@ -103,7 +103,7 @@
                     - puts "Route checkpoints: #{@route_checkpoints}"
                     / \/ @route_checkpoints currently an empty array
                     - @route_checkpoints.each do |x|
-                        - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i).first.checkpoint_id
+                        - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i, route_id: session[:current_route_id]).first.checkpoint_id
                         - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
                         
                         %tr

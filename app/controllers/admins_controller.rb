@@ -106,16 +106,21 @@ class AdminsController < ApplicationController
         if tag == "Walker"
             walkers = Participant.where(user_id: user.id)
             walkers.each do |walker|
-                times = CheckpointTime.where(participant_id: walker.id)
+                #times = CheckpointTime.where(participant_id: walker.id)
                 spreadsheet = Spreadsheet.new
                 spreadsheet.delete_walker(Route.where(id: walker.routes_id).first, user)
-                times.each do |time|
-                    time.destroy
-                end
+                #times.each do |time|
+                #    time.destroy
+                #end
                 walker.destroy
             end
         else
-            Marshall.where(users_id: user.id).first.destroy
+            marshal = Marshall.where(users_id: user.id).first
+            shifts = MarshalShift.where(marshal_id: marshal.id)
+            shifts.each do |shift|
+                shift.destroy
+            end
+            marshal.destroy
         end
         user.tag_id = Tag.where(name: "Admin").first.id
         user.save
