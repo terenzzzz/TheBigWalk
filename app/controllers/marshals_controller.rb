@@ -38,8 +38,13 @@ class MarshalsController < ApplicationController
    
     #POST
     def search_checkpoint
+<<<<<<< HEAD
         @marshal = Marshall.where(user_id: current_user.id).first
         @checkpoints = Checkpoint.where(name: params[:search][:name])
+=======
+        @marshal = Marshall.where(users_id: current_user.id).first
+        @checkpoints = Checkpoint.where(name:params[:search][:name])
+>>>>>>> 04a779240c039392ec4e41bf219d1feb33453331
         render :change_checkpoint
     end
 
