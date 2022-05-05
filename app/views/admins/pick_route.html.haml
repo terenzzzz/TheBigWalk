@@ -1,0 +1,29 @@
+-user = User.where(id: session[:view_user_id]).first
+
+.d-flex.justify-content-center
+    -user = User.where(id: session[:view_user_id]).first
+    %h1.text-center.fw-bold.pb-3= "#{user.name}'s Events"
+
+-# .row 
+-#   - @events.each do |event|
+-#     .col-6.pb-3
+-#       .card.h-100
+-#         .card-body
+-#           %h5.card-title.fw-bold= event.name
+-#           =link_to "", event, class: 'stretched-link'
+
+
+.row
+    -event = Event.where(id: session[:current_event_id).first
+    -routes = Route.where(events_id: event.id)
+    -routes.each do |route|    
+        .col-12.pb-3
+            .card.h-100
+                .card-body
+                    %h5.card-title.fw-bold.text-center= event.name
+                    %h6.text-center= "Route: " + route.name
+                    = simple_form_for :route_picked, url: route_picked_admins_path, method: :post do |f|
+                        = f.hidden_field :route_id, value: route.id
+                        = f.submit "View", class: 'stretched-link btn btn-primary primary-button w-100'
+                
+
