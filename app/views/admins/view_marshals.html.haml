@@ -15,7 +15,7 @@
                 -marshals = Marshall.where(checkpoints_id: checkpoint.id)
                 -marshals.each do |marshal|
                     %tr
-                        -user = User.where(id: marshal.users_id).first
+                        -user = User.where(id: marshal.user_id).first
                         %td=link_to "#{user.name}", user
                         %td= checkpoint.name
                         -shift = MarshalShift.where(marshalls_id: marshal.id).order(created_at: :desc).first

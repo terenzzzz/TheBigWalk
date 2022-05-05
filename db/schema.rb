@@ -124,9 +124,9 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "checkpoints_id"
-    t.bigint "users_id", null: false
+    t.bigint "user_id", null: false
     t.index ["checkpoints_id"], name: "index_marshalls_on_checkpoints_id"
-    t.index ["users_id"], name: "index_marshalls_on_users_id"
+    t.index ["user_id"], name: "index_marshalls_on_user_id"
   end
 
   create_table "opted_in_leaderboards", force: :cascade do |t|
@@ -152,6 +152,7 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
     t.index ["checkpoints_id"], name: "index_participants_on_checkpoints_id"
     t.index ["event_id"], name: "index_participants_on_event_id"
     t.index ["routes_id"], name: "index_participants_on_routes_id"
+    t.index ["user_id"], name: "index_participants_on_user_id"
   end
 
   create_table "pickups", force: :cascade do |t|
@@ -250,11 +251,12 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
   add_foreign_key "checkpoints", "events", column: "events_id"
   add_foreign_key "marshal_shifts", "marshalls", column: "marshalls_id"
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
-  add_foreign_key "marshalls", "users", column: "users_id"
+  add_foreign_key "marshalls", "users"
   add_foreign_key "opted_in_leaderboards", "users"
   add_foreign_key "participants", "checkpoints", column: "checkpoints_id"
   add_foreign_key "participants", "events"
   add_foreign_key "participants", "routes", column: "routes_id"
+  add_foreign_key "participants", "users"
   add_foreign_key "pickups", "events"
   add_foreign_key "pickups", "users"
   add_foreign_key "routes", "events", column: "events_id"

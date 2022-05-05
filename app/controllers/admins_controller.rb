@@ -73,7 +73,7 @@ class AdminsController < ApplicationController
         walkers = Participant.where(user_id: user.id)
         marshal = Marshall.new
         marshal.marshal_id = walkers.first.participant_id
-        marshal.users_id = user.id
+        marshal.user_id = user.id
         marshal.checkpoints_id = nil
         marshal.save
         user.tag_id = Tag.where(name: "Marshal").first.id
@@ -115,7 +115,7 @@ class AdminsController < ApplicationController
                 walker.destroy
             end
         else
-            marshal = Marshall.where(users_id: user.id).first
+            marshal = Marshall.where(user_id: user.id).first
             shifts = MarshalShift.where(marshalls_id: marshal.id)
             shifts.each do |shift|
                 shift.destroy
