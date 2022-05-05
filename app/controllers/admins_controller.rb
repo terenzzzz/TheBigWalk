@@ -74,7 +74,7 @@ class AdminsController < ApplicationController
         marshal = Marshall.new
         marshal.marshal_id = walkers.first.participant_id
         marshal.users_id = user.id
-        marshal.checkpoints_id = walkers.first.checkpoints_id
+        marshal.checkpoints_id = nil
         marshal.save
         user.tag_id = Tag.where(name: "Marshal").first.id
         user.save
