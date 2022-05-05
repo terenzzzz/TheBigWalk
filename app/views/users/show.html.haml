@@ -1,17 +1,60 @@
-%h1="Welcome to #{@user.name}'s Page"
+.d-flex.justify-content-center
+    -if session[:current_user_id] == @user.id
+        %h1.fw-bold Your Profile
+    -else
+        %h1.fw-bold.text-center="#{@user.name}'s Profile"
+
 .row   
     .col-5 
         %table 
             %tr 
-                -if @user.avatar.attached? 
-                    %td= image_tag @user.avatar, :size => "120x120"
+                -if current_user.avatar.attached? 
+                    %td= image_tag current_user.avatar, :size => "120x120", class: "rounded-circle border"
+                -else 
+                    %td= image_tag 'noPic.gif', :size => "120x120", class: "rounded-circle border"
     .col-7
-        
-        - if @user.description
-            %p=@user.description 
-        - else 
-            %p="This is #{@user.name}'s description"
-%br/
+        %br
+        %h5.pt-2.fw-bold.text-center.w-100= "#{@user.name}"
+
+.row
+    %p.px-4.pt-2= @user.description
+
+.d-grid.gap-2
+    %br
+
+-if session[:current_user_id] == @user.id
+    .row 
+    %table.table
+        %tr 
+            %td User ID:
+            %td= @user.id
+        %tr 
+            %td User Email:
+            %td= @user.email
+        %tr 
+            %td User Mobile:
+            %td= @user.mobile
+
+        - if current_user.tag.name == "Marshal"
+            %tr 
+                %td Marshal ID:
+                %td= @marshal_id
+
+        - if current_user.tag.name == "Walker"
+            %tr 
+                %td Participant ID:
+                %td= @participant_id
+            %tr 
+                %td Current Donate Link: 
+                - if (@user.donate_link).length > 40
+                    %td="#{@user.donate_link[0, 40]}..."
+                - else
+                    %td=@user.donate_link[0, 20]
+        %tr 
+            %td Identity:
+            %td= @user.tag.name
+
+
 
 .row 
     -if session[:current_user_id]
