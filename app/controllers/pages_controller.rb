@@ -57,7 +57,8 @@ class PagesController < ApplicationController
   def single_user_leaderboard
     @leaderboard_user_id=params[:leaderboard_user_id]
 
-    @participant = Participant.where(user_id: @leaderboard_user_id).first
+    #needs the route
+    @participant = Participant.where(user_id: @leaderboard_user_id, event_id: session[:current_event_id]).first
     @leaderboard_user = User.where(id: @leaderboard_user_id).first
     @current_route_id=session[:current_route_id]
     @route_checkpoints = Array.new 

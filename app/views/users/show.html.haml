@@ -20,7 +20,7 @@
                 -if @user.tag.name == "Walker"
                     %tr 
                         %td Walker ID:
-                        %td= Participant.where(user_id: @user.id).first.participant_id
+                        %td= Participant.where(user_id: @user.id, routes_id: session[:current_route_id]).first.participant_id
                 -elsif @user.tag.name == "Marshal"
                     %tr 
                         %td Marshal ID:

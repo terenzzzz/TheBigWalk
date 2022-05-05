@@ -170,7 +170,7 @@ class MarshalsController < ApplicationController
 
     #POST
     def checkin_walker
-        @walker = Participant.where(params.require(:checkin_walker).permit(:participant_id)).first
+        @walker = Participant.where(params.require(:checkin_walker).permit(:participant_id), event_id: session[:current_event_id]).first
         if @walker
             @marshal = Marshall.where(users_id: session[:current_user_id]).first
             @walker.update(checkpoints_id: @marshal.checkpoints_id)

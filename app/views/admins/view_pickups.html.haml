@@ -13,7 +13,7 @@
             -@pickups.each do |pickup|
                 %tr 
                     -user = User.where(id: pickup.user_id).first
-                    %td= Participant.where(user_id: user.id).first.participant_id
+                    %td= Participant.where(user_id: user.id, event_id: session[:current_event_id]).first.participant_id
                     %td=link_to "#{user.name}", user
                     %td= pickup.os_grid
                 %tr

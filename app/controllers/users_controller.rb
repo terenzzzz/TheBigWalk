@@ -10,7 +10,7 @@ class UsersController < ApplicationController
         end
         session[:reset_route] = 0
 
-        @participant = Participant.where(user_id: @user.id).first
+        @participant = Participant.where(user_id: @user.id, routes_id: session[:current_route_id]).first
         @current_route_id=session[:current_route_id]
         @route_checkpoints = Array.new
         
