@@ -401,7 +401,7 @@ Route.create(name: '50km') do |route|
     #route.start_time = '2000-01-01 10:00:00.000000000 +0000'
     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
     route.start_time = '2000-01-01 20:40:00.000000000 +0000'
-    route.start_date = '2022-05-01'
+    route.start_date = '2022-05-06'
     #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
     route.events_id = '1'
     print'.'
@@ -949,10 +949,11 @@ print'.'
 
 #Account for Marshall
 User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'2')
-Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', user_id: '2',checkpoints_id:2)
+Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', user_id: '2', checkpoints_id: '2')
 # Marshall.where(marshal_id:'2001').update(checkpoints_id: nil)
 print'.'
-
+MarshalShift.where(status: "Started").first_or_create(status: "Started", current_time: '2022-06-6 14:00:00.000000000 +0000', marshalls_id: '1')
+"current_time"
 #Account for Admin
 User.where(email:'admin@test.com').first_or_create(name:'testAdmin', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'3')
 print'.'
@@ -960,5 +961,21 @@ print'.'
 #Print statment
 puts ""
 puts "----------------------------------------Seeds Finished----------------------------------------"
+
+if  User.where(name:'testMarshal', mobile:'00000000000',tag_id:'2')
+    puts "Created Marshal User Successfully"
+    puts "-------------------------------------"
+else
+    puts "Created Marshal User Fail"
+    puts "-------------------------------------"
+end
+
+if Marshall.where(marshal_id:'2001',  user_id: '2').first
+    puts "Created Marshall Successfully"
+    puts "-------------------------------------"
+else
+    puts "Created Marshall Fail"
+    puts "-------------------------------------"
+end
 
 puts "----------------------------------------Seeds Finished----------------------------------------"
