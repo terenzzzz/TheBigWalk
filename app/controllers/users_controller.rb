@@ -54,7 +54,7 @@ class UsersController < ApplicationController
 
             #Edit User's Marshal_Id
             elsif Tag.where(id: @user.tag_id).first.name == "Marshal"
-                marshal = Marshall.where(checkpoints_id: session[:current_checkpoint_id], users_id: @user.id).first
+                marshal = Marshall.where(checkpoints_id: session[:current_checkpoint_id], user_id: @user.id).first
                 marshal.update(params.require(:marshall).permit(:marshal_id))
             end
             redirect_to profile_index_path, notice: 'Profile successfully updated.'

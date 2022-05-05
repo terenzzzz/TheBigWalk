@@ -78,7 +78,7 @@ print'.'
 
 #Account for Marshall
 User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'2')
-Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', users_id: '2',checkpoints_id:nil)
+Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', user_id: '2',checkpoints_id:nil)
 # Marshall.where(marshal_id:'2001').update(checkpoints_id: nil)
 print'.'
 
@@ -162,7 +162,7 @@ print'.'
     end
     Marshall.create(marshal_id: Faker::Number.unique.within(range: 2002..2999)) do |marshal|
         marshal.checkpoints_id = Faker::Number.unique.within(range: 2..20)
-        marshal.users_id = id + 102
+        marshal.user_id = id + 102
     end
     print'.'
 end
@@ -315,7 +315,7 @@ else
     puts "-------------------------------------"
 end
 
-if Marshall.where(marshal_id:'2001',  users_id: '2').first
+if Marshall.where(marshal_id:'2001',  user_id: '2').first
     puts "Created Marshall Successfully"
     puts "-------------------------------------"
 else
@@ -332,7 +332,7 @@ else
     puts "-------------------------------------"
 end
 
-if Marshall.where(users_id: '111').first
+if Marshall.where(user_id: '111').first
     puts "Created Multiple Marshalls Successfully"
     puts "-------------------------------------"
 else
@@ -949,7 +949,7 @@ puts "----------------------------------------Seeds Finished--------------------
 
 # #Account for Marshall
 # User.where(email:'marshal@test.com').first_or_create(name:'testMarshal', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'2')
-# Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', users_id: '2',checkpoints_id:nil)
+# Marshall.where(marshal_id:'2001').first_or_create(marshal_id:'2001', user_id: '2',checkpoints_id:nil)
 # # Marshall.where(marshal_id:'2001').update(checkpoints_id: nil)
 # print'.'
 

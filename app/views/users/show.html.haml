@@ -24,7 +24,7 @@
                 -elsif @user.tag.name == "Marshal"
                     %tr 
                         %td Marshal ID:
-                        %td= Marshall.where(users_id: @user.id).first.marshal_id
+                        %td= Marshall.where(user_id: @user.id).first.marshal_id
                 %tr 
                     %td User Email:
                     %td= @user.email
@@ -83,7 +83,7 @@
                     %tr 
                         %td Status
                         %td Time
-                    -marshal = Marshall.where(users_id: @user.id).first
+                    -marshal = Marshall.where(user_id: @user.id).first
                     -shifts = MarshalShift.where(marshalls_id: marshal.id).order("id ASC")
                     -shifts.each do |shift|
                         %tr 

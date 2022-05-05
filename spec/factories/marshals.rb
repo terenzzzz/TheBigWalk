@@ -10,7 +10,7 @@
 FactoryBot.define do
     factory :marshall do
         marshal_id { 1 }
-        users_id { 1 }
+        user_id { 1 }
         checkpoints_id { 2 }
     end
 end

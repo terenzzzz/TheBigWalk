@@ -13,7 +13,7 @@ class MarshalsController < ApplicationController
     end
 
     def choose_event
-        @marshal = Marshall.where(users_id: current_user.id).first
+        @marshal = Marshall.where(user_id: current_user.id).first
         @checkpoint = @marshal.checkpoints_id
         if @checkpoint
             redirect_to marshal_path(@checkpoint)
@@ -24,7 +24,7 @@ class MarshalsController < ApplicationController
     end
 
     def add_shift
-        @marshal = Marshall.where(users_id: current_user.id).first
+        @marshal = Marshall.where(user_id: current_user.id).first
         @checkpoints = Checkpoint.where(events_id: params[:id])
         session[:current_event_id] = params[:id]
         MarshalShift.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
@@ -32,13 +32,13 @@ class MarshalsController < ApplicationController
     
     #GET
     def change_checkpoint
-        @marshal = Marshall.where(users_id: current_user.id).first
+        @marshal = Marshall.where(user_id: current_user.id).first
         @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
     end
    
     #POST
     def search_checkpoint
-        @marshal = Marshall.where(users_id: current_user.id).first
+        @marshal = Marshall.where(user_id: current_user.id).first
         @checkpoints = Checkpoint.where(name: params[:search][:name])
         render :change_checkpoint
     end
@@ -48,7 +48,7 @@ class MarshalsController < ApplicationController
 
     def view_incoming_walkers
         user = User.where(id: session[:current_user_id]).first
-        marshal = Marshall.where(users_id: user.id).first
+        marshal = Marshall.where(user_id: user.id).first
         checkpoint = Checkpoint.where(id: marshal.checkpoints_id).first
 
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: checkpoint.id)
@@ -100,7 +100,7 @@ class MarshalsController < ApplicationController
     def show
         session[:current_checkpoint_id] = params[:id]
         user = User.where(id: session[:current_user_id]).first
-        @marshal = Marshall.where(users_id: user.id).first
+        @marshal = Marshall.where(user_id: user.id).first
         @marshal.update(checkpoints_id: params[:id])
 
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
@@ -129,13 +129,13 @@ class MarshalsController < ApplicationController
 
     end
     def  resume_marshalling
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal = Marshall.where(user_id: session[:current_user_id]).first
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         @marshal_shift.update(status:"Started")
         redirect_to marshal_path(session[:current_checkpoint_id]), notice: 'Marshalling Resumed'
     end
     def  pause_marshalling
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal = Marshall.where(user_id: session[:current_user_id]).first
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         @marshal_shift.update(status:"Paused")
         #MarshalShift.create(current_time:DateTime.now() , status:"Paused", marshalls_id:@marshal.id)
@@ -143,7 +143,7 @@ class MarshalsController < ApplicationController
     end
 
     def move_own_way_home
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal = Marshall.where(user_id: session[:current_user_id]).first
         @marshal.update(checkpoints_id: nil)
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         @marshal_shift.update(status:"Finished")
@@ -153,7 +153,7 @@ class MarshalsController < ApplicationController
     end
 
     def request_pick_up
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal = Marshall.where(user_id: session[:current_user_id]).first
         Pickup.create(user_id: session[:current_user_id], event_id:session[:current_event_id], os_grid: session[:osReference])
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         @marshal_shift.update(status:"Finished")
@@ -164,7 +164,7 @@ class MarshalsController < ApplicationController
 
     #GET
     def checkin_walkers
-        @marshal = Marshall.where(users_id: session[:current_user_id]).first
+        @marshal = Marshall.where(user_id: session[:current_user_id]).first
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
     end
 
@@ -172,7 +172,7 @@ class MarshalsController < ApplicationController
     def checkin_walker
         @walker = Participant.where(params.require(:checkin_walker).permit(:participant_id), event_id: session[:current_event_id]).first
         if @walker
-            @marshal = Marshall.where(users_id: session[:current_user_id]).first
+            @marshal = Marshall.where(user_id: session[:current_user_id]).first
             @walker.update(checkpoints_id: @marshal.checkpoints_id)
 
             #create checkpoint time for walker

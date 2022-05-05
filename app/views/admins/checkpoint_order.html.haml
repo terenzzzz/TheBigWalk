@@ -28,6 +28,6 @@
                             %td.text-danger No Marshal
                         -else
                             -marshals.each do |marshal|
-                                -user = User.where(id: marshal.users_id).first
+                                -user = User.where(id: marshal.user_id).first
                                 %td=link_to "#{user.name}", user
     %br
