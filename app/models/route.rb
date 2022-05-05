@@ -25,6 +25,7 @@ class Route < ApplicationRecord
     validates_presence_of :start_date
     validates_presence_of :start_time
     validates_uniqueness_of :name, scope: :events_id
+    validates_presence_of :course_length
     validates :course_length, :numericality => { :greater_than_or_equal_to => 0 }
 
     has_many :participants, class_name: "Participants", foreign_key: "routes_id"
