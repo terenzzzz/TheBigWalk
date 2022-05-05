@@ -9,9 +9,9 @@
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :distance_from_start, label: "Distance From Start (Km):"
-    = f.input :advised_time, label: "Advised Time (Mins):"
-    = f.input :checkpoint_description, label: "Description To The Next Checkpoint:"
+    = f.input :distance_from_start, label: "Distance From The Start (Km):"
+    = f.input :advised_time, label: "Advised Time To Next Checkpoint (Mins):"
+    = f.input :checkpoint_description, label: "Description Of Route To The Next Checkpoint:"
     
   .form-actions
     .d-grid.gap-2

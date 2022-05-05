@@ -1,17 +1,16 @@
-%h1 Welcome to Your Profile 
+%h1="Welcome to #{@user.name}'s Page"
 .row   
     .col-5 
         %table 
             %tr 
                 -if @user.avatar.attached? 
                     %td= image_tag @user.avatar, :size => "120x120"
-                -else 
-                    %td= "No photo uplaoded."
     .col-7
-        %p 
-            = @user.name
-        %p 
-            = @user.description 
+        
+        - if @user.description
+            %p=@user.description 
+        - else 
+            %p="This is #{@user.name}'s description"
 %br/
 
 .row 
@@ -21,7 +20,7 @@
                 -if @user.tag.name == "Walker"
                     %tr 
                         %td Walker ID:
-                        %td= Participant.where(user_id: @user.id).first.participant_id
+                        %td= Participant.where(user_id: @user.id, routes_id: session[:current_route_id]).first.participant_id
                 -elsif @user.tag.name == "Marshal"
                     %tr 
                         %td Marshal ID:
@@ -37,15 +36,49 @@
                     %td= @user.tag.name
 
 
+-# %h1.fw-bold.text-center= "#{@user.name}'s Leaderboard"
+
+-# %table.w-100
+-#     %tbody
+-#         %tr
+-#             %td.fw-bold Checkpoint
+-#             %td.fw-bold Time Arrived
+
+-#         - @i = 1
+-#         - puts "Route checkpoints: #{@route_checkpoints}"
+-#         - @route_checkpoints.each do |x|
+-#             - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i).first.checkpoint_id
+-#             - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
+            
+-#             %tr
+-#                 %td= @current_checkpoint.name
+-#                 - @current_checkpoint = CheckpointTime.where(participant_id: @participant.id, checkpoint_id: @current_checkpoint_id).first 
+-#                 - if @current_checkpoint != nil 
+-#                     - @current_checkpoint_time = @current_checkpoint.times
+-#                     - if @current_checkpoint_time.strftime('%H').to_i >= 12 
+-#                         %td= "#{@current_checkpoint_time.strftime('%H:%M')}pm"
+-#                     - else 
+-#                         %td= "#{@current_checkpoint_time.strftime('%H:%M')}am"
+-#                     - else
+-#                         %td ---
+-#             - @i += 1
+
 .d-grid.gap-3
     =link_to @user.donate_link, class: 'btn btn-primary primary-button' do
         %span.bi.bi-piggy-bank
         %span Donate Here
         %span.bi.bi-piggy-bank
+    %br
     .d-flex.justify-content-center
-        %p Your Public Progress Shows Here
+<<<<<<< Updated upstream
+        %h5="#{@user.name}'s Checkpoint times"
+    /If user exists
+
+
     -if session[:current_user_id]
+        /If current user logged in is an admin
         -if User.where(id: session[:current_user_id]).first.tag.name == "Admin"
+            /If user you're viewing is a marshal
             -if @user.tag.name == "Marshal"
                 %table.table
                     %tr 
@@ -56,10 +89,53 @@
                     -shifts.each do |shift|
                         %tr 
                             %td= shift.status
-                            %td= shift.time
+                            %td= shift.current_time
                     
+        /%p Your Public Progress Shows Here
+    -if @user.tag.name == "Walker"
+        - if (OptedInLeaderboard.where(user_id: @user.id).first.opted_in == true) || ((session[:current_user_id] != nil) && (User.where(id: session[:current_user_id]).first.tag.name == "Admin"))
+=======
+        /%p Your Public Progress Shows Here
+        - if OptedInLeaderboard.where(user_id: @user.id).first.opted_in == true || User.where(id: session[:current_user_id]).first.tag_id == 3
+>>>>>>> Stashed changes
+            /DISPLAY RESULTS
+            %table.w-100
+                %tbody
+                    %tr
+                        %td.fw-bold Checkpoint
+                        %td.fw-bold Time Arrived
+
+                        - @i = 1
+                        - puts "Route checkpoints: #{@route_checkpoints}"
+<<<<<<< Updated upstream
+                        / \/ @route_checkpoints currently an empty array
+                        - @route_checkpoints.each do |x|
+                            - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i, route_id: session[:current_route_id]).first.checkpoint_id
+=======
+                        - @route_checkpoints.each do |x|
+                            - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i).first.checkpoint_id
+>>>>>>> Stashed changes
+                            - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
+                            
+                            %tr
+                                %td= @current_checkpoint.name
+                                - @current_checkpoint = CheckpointTime.where(participant_id: @participant.id, checkpoint_id: @current_checkpoint_id).first 
+                                - if @current_checkpoint != nil 
+                                    - @current_checkpoint_time = @current_checkpoint.times
+                                    - if @current_checkpoint_time.strftime('%H').to_i >= 12 
+                                        %td= "#{@current_checkpoint_time.strftime('%H:%M')}pm"
+                                    - else 
+                                        %td= "#{@current_checkpoint_time.strftime('%H:%M')}am"
+                                - else
+                                    %td ---
+                            - @i += 1
+        - else
+            %p This user hasn't made their results public
+<<<<<<< Updated upstream
 
 
+=======
+>>>>>>> Stashed changes
 
     -if session[:current_user_id]
         -if User.where(id: session[:current_user_id]).first.tag.name == "Admin"

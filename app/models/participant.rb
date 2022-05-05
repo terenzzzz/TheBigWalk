@@ -33,4 +33,6 @@ class Participant < ApplicationRecord
     belongs_to :event, class_name: "Event", foreign_key: "event_id"
     belongs_to :route, class_name: "Route", foreign_key: "routes_id"
     belongs_to :checkpoint, class_name: "Checkpoint", foreign_key: "checkpoints_id"
+    validates :participant_id, :numericality => { :greater_than_or_equal_to => 0 }
+
 end

@@ -12,9 +12,9 @@
             -event = Event.where(id: session[:current_event_id]).first
             -checkpoints = Checkpoint.where(events_id: session[:current_event_id])
             -checkpoints.each do |checkpoint|
-                %tr
-                    -marshals = Marshall.where(checkpoints_id: checkpoint.id)
-                    -marshals.each do |marshal|
+                -marshals = Marshall.where(checkpoints_id: checkpoint.id)
+                -marshals.each do |marshal|
+                    %tr
                         -user = User.where(id: marshal.users_id).first
                         %td=link_to "#{user.name}", user
                         %td= checkpoint.name

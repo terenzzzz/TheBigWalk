@@ -3,19 +3,32 @@ class UsersController < ApplicationController
     
     def show
         @user = User.find(params[:id])
-
-        if !(session[:current_route_id]) || session[:reset_route] == 0
+        if (!(session[:current_route_id]) || session[:reset_route] == 0) && Tag.where(id: @user.tag_id).first.name != "Marshal"
             session[:view_user_id] = params[:id]
             redirect_to pick_route_users_path
         end
         session[:reset_route] = 0
+
+        # Needed?? \/
+        @leaderboard_user_id=params[:leaderboard_user_id]
+        # ^^
+        
+        @participant = Participant.where(user_id: @user.id, routes_id: session[:current_route_id]).first
+        @current_route_id=session[:current_route_id]
+        @route_checkpoints = Array.new
+        
+        @routes_linker = RoutesAndCheckpointsLinker.where(route_id: session[:current_route_id])
+        @checkpoints_for_route = Checkpoint.where(id: @routes_linker)
+        @route_checkpoints.concat @checkpoints_for_route
+
     end
 
     def pick_route
     end
 
     def route_picked
-        session[:current_route_id] = params.require(:route_picked).permit(:route_id)
+        current_route = params.require(:route_picked).permit(:route_id)
+        session[:current_route_id] = current_route[:route_id]
         user = User.where(id: session[:view_user_id]).first
         session[:reset_route] = 1
         redirect_to user
@@ -69,4 +82,4 @@ class UsersController < ApplicationController
     def user_params
         params.require(:user).permit(:tag_id, :avatar,:name,:description,:mobile, :donate_link)
     end
-    end
+end

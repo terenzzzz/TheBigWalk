@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   end
 
   resources :admins do
+    get 'pick_route', on: :collection
     get 'view_marshals', on: :collection
     get 'view_walkers', on: :collection
     get 'view_pickups', on: :collection
@@ -49,8 +50,10 @@ Rails.application.routes.draw do
     get 'view_calls', on: :collection
     post :make_walker_marshal, on: :collection
     post :make_user_admin, on: :collection
+    post :choose_a_route, on: :collection
     get 'checkpoint_order', on: :collection
     get 'view_reports', on: :collection
+    post :route_picked, on: :collection
   end
 
   resources :marshals do
@@ -67,6 +70,8 @@ Rails.application.routes.draw do
     get 'move_own_way_home', on: :collection
     get 'request_pick_up', on: :collection
     get 'pause_marshalling', on: :collection
+    get 'resume_marshalling', on: :collection
+    
     end
 
   resources :profile do

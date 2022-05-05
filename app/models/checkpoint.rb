@@ -19,7 +19,7 @@
 #
 class Checkpoint < ApplicationRecord
     validates_presence_of :name
-    validates_presence_of :os_grid
+    validates :os_grid, presence: true, format: { with: /[A-Z]{2}\d{6}/ }
     validates_uniqueness_of :name, scope: :events_id
 
     belongs_to :event, class_name: "Event", foreign_key: "events_id"
