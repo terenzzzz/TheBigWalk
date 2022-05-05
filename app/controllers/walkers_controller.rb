@@ -94,7 +94,7 @@ class WalkersController < ApplicationController
 
     # Pass to session and redirect to home page
     session[:osReference] = @osReference
-    redirect_to walker_path(session[:current_route_id]), notice:"You Location is up to date"
+    redirect_to walker_path(session[:current_route_id]), notice:"Your location has been updated."
   end
 
   def sign_up_participant
