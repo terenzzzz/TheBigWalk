@@ -18,11 +18,16 @@ table{
   text-align: center;
   vertical-align: middle;
   font-size: 15px;
-  border-style: solid;
+}
+
+.black-line{
   border-width: 2px;
-  border-color: white;
   border-top-style: solid;
   border-top-color: black;
+}
+
+hr{
+  border: 2px solid black;
 }
 
 th, td{
