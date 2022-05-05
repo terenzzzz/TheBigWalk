@@ -39,7 +39,7 @@ class MarshalsController < ApplicationController
     #POST
     def search_checkpoint
         @marshal = Marshall.where(users_id: current_user.id).first
-        @checkpoints = Checkpoint.where(name: params[:search][:name])
+        @checkpoints = Checkpoint.where(name:params[:search][:name])
         render :change_checkpoint
     end
 
