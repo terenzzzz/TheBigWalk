@@ -3,7 +3,6 @@ class UsersController < ApplicationController
     
     def show
         @user = User.find(params[:id])
-
         if !(session[:current_route_id]) || session[:reset_route] == 0
             session[:view_user_id] = params[:id]
             redirect_to pick_route_users_path

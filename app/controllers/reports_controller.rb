@@ -5,6 +5,7 @@ def new
 end 
 
 def create 
+    #Create a report site issue record
     report_params = params.require(:report).permit(:subject, :description) 
     @report = Report.new(report_params)
     @report.update(user_id: current_user.id)

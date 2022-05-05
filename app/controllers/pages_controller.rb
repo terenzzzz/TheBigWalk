@@ -7,6 +7,7 @@ class PagesController < ApplicationController
     @start_date = Route.find(params[:id]).start_date
     @start_time = Route.find(params[:id]).start_time.strftime("%H:%M:%S")
     session[:current_route_id]=params[:id]
+    # if not walker, skip this page
     if current_user.tag.name =='Marshal'
       redirect_to marshals_path
     end
