@@ -174,10 +174,10 @@ class WalkersController < ApplicationController
     user = User.where(id: walker.user_id).first
     spreadsheet = Spreadsheet.new
     spreadsheet.walker_drop_out(route, user)
-    times = CheckpointTime.where(participant_id: walker.id)
-    times.each do |time|
-      time.destroy
-    end
+    #times = CheckpointTime.where(participant_id: walker.id)
+    #times.each do |time|
+    #  time.destroy
+    #end
     walker.destroy
     reset_session
     redirect_to '/'
