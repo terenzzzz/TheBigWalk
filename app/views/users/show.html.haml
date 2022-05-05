@@ -91,35 +91,36 @@
                             %td= shift.current_time
                     
         /%p Your Public Progress Shows Here
-    - if (OptedInLeaderboard.where(user_id: @user.id).first.opted_in == true) || ((session[:current_user_id] != nil) && (User.where(id: session[:current_user_id]).first.tag.name == "Admin"))
-        /DISPLAY RESULTS
-        %table.w-100
-            %tbody
-                %tr
-                    %td.fw-bold Checkpoint
-                    %td.fw-bold Time Arrived
+    -if @user.tag.name == "Walker"
+        - if (OptedInLeaderboard.where(user_id: @user.id).first.opted_in == true) || ((session[:current_user_id] != nil) && (User.where(id: session[:current_user_id]).first.tag.name == "Admin"))
+            /DISPLAY RESULTS
+            %table.w-100
+                %tbody
+                    %tr
+                        %td.fw-bold Checkpoint
+                        %td.fw-bold Time Arrived
 
-                    - @i = 1
-                    - puts "Route checkpoints: #{@route_checkpoints}"
-                    / \/ @route_checkpoints currently an empty array
-                    - @route_checkpoints.each do |x|
-                        - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i, route_id: session[:current_route_id]).first.checkpoint_id
-                        - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
-                        
-                        %tr
-                            %td= @current_checkpoint.name
-                            - @current_checkpoint = CheckpointTime.where(participant_id: @participant.id, checkpoint_id: @current_checkpoint_id).first 
-                            - if @current_checkpoint != nil 
-                                - @current_checkpoint_time = @current_checkpoint.times
-                                - if @current_checkpoint_time.strftime('%H').to_i >= 12 
-                                    %td= "#{@current_checkpoint_time.strftime('%H:%M')}pm"
-                                - else 
-                                    %td= "#{@current_checkpoint_time.strftime('%H:%M')}am"
-                            - else
-                                %td ---
-                        - @i += 1
-    - else
-        %p This user hasn't made their results public
+                        - @i = 1
+                        - puts "Route checkpoints: #{@route_checkpoints}"
+                        / \/ @route_checkpoints currently an empty array
+                        - @route_checkpoints.each do |x|
+                            - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i, route_id: session[:current_route_id]).first.checkpoint_id
+                            - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
+                            
+                            %tr
+                                %td= @current_checkpoint.name
+                                - @current_checkpoint = CheckpointTime.where(participant_id: @participant.id, checkpoint_id: @current_checkpoint_id).first 
+                                - if @current_checkpoint != nil 
+                                    - @current_checkpoint_time = @current_checkpoint.times
+                                    - if @current_checkpoint_time.strftime('%H').to_i >= 12 
+                                        %td= "#{@current_checkpoint_time.strftime('%H:%M')}pm"
+                                    - else 
+                                        %td= "#{@current_checkpoint_time.strftime('%H:%M')}am"
+                                - else
+                                    %td ---
+                            - @i += 1
+        - else
+            %p This user hasn't made their results public
 
 
 
