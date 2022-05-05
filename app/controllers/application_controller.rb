@@ -11,11 +11,12 @@ class ApplicationController < ActionController::Base
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
-  #class ApplicationController < ActionController::Base
+  #Define action after sign in
   def after_sign_in_path_for(resource)
     if current_user.tag.name == 'Walker'
       session[:current_user_id] = current_user.id
       session[:opted_in] = OptedInLeaderboard.where(user_id: session[:current_user_id]).first.opted_in
+      #check role
       if session[:current_route_id]
         walker_path(session[:current_route_id])
       else
@@ -59,6 +60,7 @@ class ApplicationController < ActionController::Base
       return redirect_to(ie_warning_path) if request.user_agent.to_s =~ /MSIE [6-7]/ && request.user_agent.to_s !~ /Trident\/7.0/
     end
 
+    #strong params for sign up form
     def configure_permitted_parameters
       devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :mobile, :avatar])
     end
