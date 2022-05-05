@@ -29,7 +29,7 @@
     - if current_user.tag.name =='Walker'
         - if @paticipantEvent.first
             .d-flex.justify-content-center
-                %h5.fw-bold You Have Already Sign Up A Route For This Event
+                %h5.fw-bold You Have Already Signed Up For A Route For This Event
         - else
             =link_to "Sign Up For Event", walker_sign_up_participant_path(current_user), class: 'btn btn-primary primary-button'
 
