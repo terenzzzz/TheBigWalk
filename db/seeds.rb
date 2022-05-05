@@ -933,7 +933,7 @@ print'.'
 User.where(email:'walker@test.com').first_or_create(name:'testWalker', mobile:'00000000000', password:'Testtest1!', password_confirmation:'Testtest1!',tag_id:'1')
 print'.'
 
-Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '2', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1', event_id: '1')
+Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '1', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1', event_id: '1')
 print'.'
 
 OptedInLeaderboard.where(user_id: 1).first_or_create(opted_in: true)
