@@ -400,7 +400,7 @@ Route.create(name: '50km') do |route|
     #route.start_date = '2022-06-12'
     #route.start_time = '2000-01-01 10:00:00.000000000 +0000'
     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
-    route.start_time = '2000-01-01 20:40:00.000000000 +0000'
+    route.start_time = '2000-01-01 14:05:00.000000000 +0000'
     route.start_date = '2022-05-06'
     #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
     route.events_id = '1'
@@ -412,8 +412,8 @@ Route.create(name: '30km') do |route|
     #route.start_date = '2022-06-12'
     #route.start_time = '2000-01-01 10:00:00.000000000 +0000'
     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
-    route.start_time = '2000-01-01 20:40:00.000000000 +0000'
-    route.start_date = '2022-05-01'
+    route.start_time = '2000-01-01 14:05:00.000000000 +0000'
+    route.start_date = '2022-05-06'
     #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
     route.events_id = '1'
     print'.'
@@ -935,6 +935,8 @@ print'.'
 
 Participant.where(participant_id:'1001').first_or_create(participant_id:'1001', checkpoints_id: '1', user_id: '1', status: 'none', rank: '1', pace: 'On Pace.', routes_id: '1', event_id: '1')
 print'.'
+
+CheckpointTime.create(times: route.end_date_time = '2022-05-06 14:05:00.000000000 +0000' , checkpoint_id: '1', participant_id: '1')
 
 OptedInLeaderboard.where(user_id: 1).first_or_create(opted_in: true)
 print'.'
