@@ -4,47 +4,48 @@
 - puts "6543 #{session[:current_event_id]}"
 - if @current_user.tag.name == "Admin"
   - puts ":):)"
-  %table
-    %tbody
-      %tr
-        %td.fw-bold Rank
-        %td.fw-bold Participant
-        %td.fw-bold Last Checkpoint
-        %td.fw-bold Time To Last Checkpoint
+  .d-flex.justify-content-center
+    %table
+      %tbody
+        %tr
+          %td.fw-bold Rank
+          %td.fw-bold Participant
+          %td.fw-bold Last Checkpoint
+          %td.fw-bold Time To Last Checkpoint
 
-      - @walkers_for_route.each do |participant|
-        
-        /Gives you the most recent checkpoint that the user has gotten to
-        - @most_recent_check_in = nil #DateTime.new(0, 0, 0, 0, 0, 0)
-        - @all_route_checkpoints.each do |checkpoint|
-          - @current_checkpoint = CheckpointTime.where(checkpoint_id: checkpoint.id, participant_id: participant.id).first
-          - if @current_checkpoint 
-            - @current_checkpoint_time = @current_checkpoint.times
-            - if @most_recent_check_in == nil || @current_checkpoint_time > @most_recent_check_in
-              - @most_recent_check_in = @current_checkpoint_time
-              - @most_recent_checkpoint_name = checkpoint.name
+        - @walkers_for_route.each do |participant|
+          
+          /Gives you the most recent checkpoint that the user has gotten to
+          - @most_recent_check_in = nil #DateTime.new(0, 0, 0, 0, 0, 0)
+          - @all_route_checkpoints.each do |checkpoint|
+            - @current_checkpoint = CheckpointTime.where(checkpoint_id: checkpoint.id, participant_id: participant.id).first
+            - if @current_checkpoint 
+              - @current_checkpoint_time = @current_checkpoint.times
+              - if @most_recent_check_in == nil || @current_checkpoint_time > @most_recent_check_in
+                - @most_recent_check_in = @current_checkpoint_time
+                - @most_recent_checkpoint_name = checkpoint.name
 
-        /Gives you the user currently being referenced in the for loop
-        - @loop_user = User.where(id: participant.user_id).first
-        - @tag = Tag.where(id: @loop_user.tag_id).first
-        - if @tag.name == "Walker"
-          - @current_walker_name = @loop_user.name
-        - else 
-          - @current_walker_name = nil
+          /Gives you the user currently being referenced in the for loop
+          - @loop_user = User.where(id: participant.user_id).first
+          - @tag = Tag.where(id: @loop_user.tag_id).first
+          - if @tag.name == "Walker"
+            - @current_walker_name = @loop_user.name
+          - else 
+            - @current_walker_name = nil
 
-        /Displaying the leaderboard row for a user
-        - puts "%%%%%%% #{participant.user_id}"
-        - if OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
-          - opted_in_leaderboard = OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
-        - if opted_in_leaderboard == true || opted_in_leaderboard == nil
-          %tr
-            %td=participant.rank
-            %td=link_to "#{@current_walker_name}", single_user_leaderboard_pages_path(:leaderboard_user_id => @loop_user.id)
-            %td=@most_recent_checkpoint_name
-            - if @most_recent_check_in != nil 
-              - if @most_recent_check_in.strftime('%H').to_i >= 12 
-                %td="#{@most_recent_check_in.strftime('%H:%M')}pm"
-              - else 
-                %td="#{@most_recent_check_in.strftime('%H:%M')}am"
-            - else
-              %td --
+          /Displaying the leaderboard row for a user
+          - puts "%%%%%%% #{participant.user_id}"
+          - if OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
+            - opted_in_leaderboard = OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
+          - if opted_in_leaderboard == true || opted_in_leaderboard == nil
+            %tr
+              %td=participant.rank
+              %td=link_to "#{@current_walker_name}", single_user_leaderboard_pages_path(:leaderboard_user_id => @loop_user.id)
+              %td=@most_recent_checkpoint_name
+              - if @most_recent_check_in != nil 
+                - if @most_recent_check_in.strftime('%H').to_i >= 12 
+                  %td="#{@most_recent_check_in.strftime('%H:%M')}pm"
+                - else 
+                  %td="#{@most_recent_check_in.strftime('%H:%M')}am"
+              - else
+                %td --

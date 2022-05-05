@@ -182,7 +182,7 @@ class Spreadsheet
     def add_walker(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
-            walker = Participant.where(user_id: user.id).first
+            walker = Participant.where(user_id: user.id, routes_id: route.id).first
             worksheet.max_rows += 1
             worksheet[(walker.rank + 1), 1] = user.name
             worksheet[(walker.rank + 1), 2] = walker.participant_id
@@ -196,7 +196,7 @@ class Spreadsheet
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
 
         if worksheet
-            walker = Participant.where(user_id: user.id).first
+            walker = Participant.where(user_id: user.id, routes_id: route.id).first
             worksheet[(walker.rank + 1), 1] = user.name
             worksheet[(walker.rank + 1), 2] = walker.participant_id
             worksheet.save
@@ -224,7 +224,7 @@ class Spreadsheet
     def add_checkpoint_time(route, user, checkpoint)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
-            walker = Participant.where(user_id: user.id).first 
+            walker = Participant.where(user_id: user.id, routes_id: route.id).first 
 
             pos = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: checkpoint.id).first.position_in_route
 
@@ -239,7 +239,7 @@ class Spreadsheet
     def walker_drop_out(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
-            walker = Participant.where(user_id: user.id).first
+            walker = Participant.where(user_id: user.id, routes_id: route.id).first
             worksheet[(walker.rank + 1), 3] = "Droped out"
             worksheet[(walker.rank + 1), 4] = "----"
             worksheet.save
@@ -250,7 +250,7 @@ class Spreadsheet
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
             pickup = Pickup.where(user_id: user.id, event_id: Event.where(id: route.events_id).first.id).first
-            walker = Participant.where(user_id: user.id).first
+            walker = Participant.where(user_id: user.id, routes_id: route.id).first
             worksheet[(walker.rank + 1), 3] = "Needs Picking Up"
             worksheet[(walker.rank + 1), 4] = pickup.os_grid
             worksheet.save
@@ -265,7 +265,7 @@ class Spreadsheet
     def delete_walker(route, user)
         worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.events_id).first.name} - #{route.name}")
         if worksheet
-            walker = Participant.where(user_id: user.id).first
+            walker = Participant.where(user_id: user.id, routes_id: route.id).first
             worksheet.delete_rows((walker.rank+1), 1)
         end
     end

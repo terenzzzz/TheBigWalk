@@ -39,7 +39,7 @@ class AdminsController < ApplicationController
 
         @routes.each do |route|
 
-            @walkers_need_help.concat Participant.where(routes_id: route.id, pace: 'Falling Behind!')
+            @walkers_need_help.concat Participant.where(routes_id: route.id, pace: 'Very Far Behind!!')
             @walkers_need_help.each do |walker|
                 @help_walker_and_user = [walker, User.where(id: walker.user_id).first]
                 @needs_help.push(@help_walker_and_user)
