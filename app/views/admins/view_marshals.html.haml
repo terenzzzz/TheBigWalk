@@ -12,16 +12,16 @@
             -event = Event.where(id: session[:current_event_id]).first
             -checkpoints = Checkpoint.where(events_id: session[:current_event_id])
             -checkpoints.each do |checkpoint|
-                    -marshals = Marshall.where(checkpoints_id: checkpoint.id)
-                    -marshals.each do |marshal|
-                        %tr
-                            -user = User.where(id: marshal.users_id).first
-                            %td=link_to "#{user.name}", user
-                            %td= checkpoint.name
-                            -shift = MarshalShift.where(marshalls_id: marshal.id).order(created_at: :desc).first
-                            -if shift
-                                %td= shift.status
-                                %td= shift.current_time
-                            -else
-                                %td ----
-                                %td ----
+                -marshals = Marshall.where(checkpoints_id: checkpoint.id)
+                -marshals.each do |marshal|
+                    %tr
+                        -user = User.where(id: marshal.users_id).first
+                        %td=link_to "#{user.name}", user
+                        %td= checkpoint.name
+                        -shift = MarshalShift.where(marshalls_id: marshal.id).order(created_at: :desc).first
+                        -if shift
+                            %td= shift.status
+                            %td= shift.current_time
+                        -else
+                            %td ----
+                            %td ----
