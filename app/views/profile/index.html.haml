@@ -17,16 +17,10 @@
     %p.px-4.pt-2= current_user.description
 
 .d-grid.gap-2
-    // needs functionality
-    =link_to current_user.donate_link, class: 'btn btn-primary primary-button', :target => '_blank' do
-        %span Donate Here
     %br
 
 .row 
     %table.table
-        -# %tr 
-        -#     %td Donate_link:
-        -#     %td= current_user.donate_link
         %tr 
             %td User ID:
             %td= current_user.id
@@ -46,6 +40,12 @@
             %tr 
                 %td Participant ID:
                 %td= @participant_id
+            %tr 
+                %td Current Donate Link: 
+                - if current_user.donate_link.length > 40
+                    %td="#{current_user.donate_link[0, 40]}..."
+                - else
+                    %td=current_user.donate_link[0, 20]
         %tr 
             %td Identity:
             %td= current_user.tag.name
@@ -56,6 +56,6 @@
     .d-flex.justify-content-center
         %p Your Public Progress Shows Here
     =link_to "/",class: 'btn btn-primary primary-button' do
-        %span Share
+        %span Share My Profile
     =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do
         %span Edit Account
