@@ -72,10 +72,14 @@ class AdminsController < ApplicationController
         user = User.where(params.require(:make_walker_marshal).permit(:id)).first
         walkers = Participant.where(user_id: user.id)
         marshal = Marshall.new
-        marshal.marshal_id = walkers.first.participant_id
+        marshal.marshal_id = 2000
         marshal.user_id = user.id
-        marshal.checkpoints_id = nil
-        marshal.save
+        marshal.checkpoints_id = Checkpoint.all.first.id
+        if marshal.save
+            puts 'saved ######################################'
+        else
+            puts 'didnt save ######################################'
+        end
         user.tag_id = Tag.where(name: "Marshal").first.id
         user.save
         walkers.each do |walker|
