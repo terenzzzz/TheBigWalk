@@ -147,7 +147,7 @@ class CheckpointsController < ApplicationController
 
           #@linker.distance_from_start = smallest_dist - 1
           @linker.route_id = route.id
-          @#linker.position_in_route = smallest_pos - 1
+          #@linker.position_in_route = smallest_pos - 1
 
           @linker.route_id = route.id
           @linker.advised_time = 0
