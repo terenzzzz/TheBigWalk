@@ -97,11 +97,11 @@
 %br
 .d-grid.gap-2
     .d-flex.justify-content-center
-    =link_to "/",class: 'btn btn-primary primary-button' do
-        %span Share Profile
-    -if session[:current_user_id] == @user.id
-        =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do
-            %span Edit Your Account
+        =link_to "/",class: 'btn btn-primary primary-button w-100' do
+            %span Share Profile
+        -if session[:current_user_id] == @user.id
+            =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do
+                %span Edit Your Account
         %br
 %hr
 
