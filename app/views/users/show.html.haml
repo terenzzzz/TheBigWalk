@@ -8,8 +8,8 @@
     .col-5 
         %table 
             %tr 
-                -if current_user.avatar.attached? 
-                    %td= image_tag current_user.avatar, :size => "120x120", class: "rounded-circle border"
+                -if @user.avatar.attached? 
+                    %td= image_tag @user.avatar, :size => "120x120", class: "rounded-circle border"
                 -else 
                     %td= image_tag 'noPic.gif', :size => "120x120", class: "rounded-circle border"
     .col-7
