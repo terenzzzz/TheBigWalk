@@ -132,8 +132,8 @@
 
             - if current_user.tag.name == "Walker"
                 %tr 
-                    %td Participant ID (y no work?):
-                    %td= @participant_id
+                    %td Participant ID:
+                    %td= @participant.participant_id
                 %tr 
                     %td Current Donation Link: 
                     - if (@user.donate_link).to_s.length > 40
