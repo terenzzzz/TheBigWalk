@@ -225,16 +225,16 @@
         -if User.where(id: session[:current_user_id]).first.tag.name == "Admin"
             -if @user.tag.name == "Walker"
                 .d-flex.justify-content-center
-                    = simple_form_for :make_walker_marshal, url: make_walker_marshal_admins_path, method: :post do |f|
+                    = simple_form_for :make_walker_marshal, url: make_walker_marshal_admins_path,html:{class:"w-100"}, method: :post do |f|
                         = f.hidden_field :id, value: @user.id
                         = f.submit "Make Walker A Marshal", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button w-100'
                 .d-flex.justify-content-center
-                    = simple_form_for :make_user_admin, url: make_user_admin_admins_path, method: :post do |f|
+                    = simple_form_for :make_user_admin, url: make_user_admin_admins_path,html:{class:"w-100"}, method: :post do |f|
                         = f.hidden_field :id, value: @user.id
                         = f.submit "Make Walker An Admin", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button w-100'
             -elsif @user.tag.name == "Marshal"
                 .d-flex.justify-content-center
-                    = simple_form_for :make_user_admin, url: make_user_admin_admins_path, method: :post do |f|
+                    = simple_form_for :make_user_admin, url: make_user_admin_admins_path,html:{class:"w-100"}, method: :post do |f|
                         = f.hidden_field :id, value: @user.id
                         = f.submit "Make Marshal An Admin", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
 
