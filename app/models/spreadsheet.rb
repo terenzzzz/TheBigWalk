@@ -1,5 +1,6 @@
 class Spreadsheet
     require 'bundler'
+    require 'csv'    
     Bundler.require
     #https://www.rubydoc.info/gems/google_drive/1.0.5/GoogleDrive
     session = GoogleDrive::Session.from_service_account_key("client_secret.json")
@@ -268,5 +269,42 @@ class Spreadsheet
             walker = Participant.where(user_id: user.id, routes_id: route.id).first
             worksheet.delete_rows((walker.rank+1), 1)
         end
+    end
+
+    def upload_event(excel, route)
+        #get checkpoint name
+        #get checkpoint os grid
+        #loop over all the checkpoints#
+        
+        event = Event.where(id: route.events_id).first
+        csv_text = File.read(excel)
+        csv = CSV.parse(csv_text, :headers => true)
+        count = 0
+
+        csv.each_with_index do |row, i|
+            if !(Checkpoint.exists?(name: row[0], events_id: event.id))
+                checkpoint = Checkpoint.create(name: row[0], os_grid: (row[1]).gsub(/\s+/, ""), events_id: event.id)
+                puts "############################# true"
+            else 
+                checkpoint = Checkpoint.where(name: row[0], events_id: event.id).first
+                puts "############################# false"
+            end
+            puts "############################# #{row[0]} - #{row[1]}" #checkpoint
+            count += 1
+
+            if csv.length != i+1
+                next_row = csv[i+1]
+                advised_time = (next_row[3].to_time - row[3].to_time)/60
+            else
+                advised_time = 0
+            end
+
+            #needs to add description
+            if !(RoutesAndCheckpointsLinker.exists?(route_id: route.id, checkpoint_id: checkpoint.id))
+                RoutesAndCheckpointsLinker.create(distance_from_start: row[2], checkpoint_description: row[4], advised_time: advised_time, position_in_route: count, route_id: route.id, checkpoint_id: checkpoint.id)
+                puts "############################# true man"
+            end
+            
+        end 
     end
 end

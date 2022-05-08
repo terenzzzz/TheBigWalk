@@ -35,6 +35,19 @@ class CheckpointsController < ApplicationController
     #@routes = Route.where(events_id: session[:current_event_id])
   end
 
+  def upload_excel
+    #unless params[:file].nil?
+    file = (params.require(:upload_excel).permit(:file))[:file]
+    spreadsheet = Spreadsheet.new
+    route_ids = params[:selected_routes]
+    route_ids.each do |id|
+      route = Route.where(id: id).first
+      spreadsheet.upload_event(file, route)
+    end
+    redirect_to checkpoints_path
+    #end
+  end
+
   # POST /checkpoints
   def create
     #creates the new checkpoint

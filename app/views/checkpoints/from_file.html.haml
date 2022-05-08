@@ -1,0 +1,24 @@
+.d-flex.justify-content-center
+    %h1.fw-bold Add Checkpoints From Excel
+
+= simple_form_for :upload_excel, url: upload_excel_checkpoints_path, method: :post do |f|
+
+    .form-inputs
+        = f.file_field :file, label: "Upload file:"
+        - @routes = Route.where(events_id: session[:current_event_id])
+        .row 
+            - @routes.each do |route|
+                .col-6
+                    .card.h-100
+                        .card-body
+                            %h5.card-title.fw-bold= route.name
+                            = check_box_tag 'selected_routes[]', route.id
+                            /= radio_button :route_id, route.id
+                            = "Assign To Route" 
+                            /= route.name
+                %br/
+    %br
+
+    .form-actions
+        .d-grid.gap-2
+            = f.button :submit, "Upload", class: 'btn btn-primary primary-button w-100'

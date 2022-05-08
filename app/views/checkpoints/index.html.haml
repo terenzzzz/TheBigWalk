@@ -17,6 +17,10 @@
 .d-flex.justify-content-center
     =link_to "Create New Checkpoint", new_checkpoint_path, class: 'btn btn-primary primary-button w-100'
 
+%br
+.d-flex.justify-content-center
+    =link_to "Upload Checkpoints", from_file_checkpoints_path, class: 'btn btn-primary primary-button w-100'
+
 - if session[:new_event] == 1
     .d-flex.justify-content-center
     %br

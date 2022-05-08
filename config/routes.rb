@@ -11,7 +11,10 @@ Rails.application.routes.draw do
     post :make_public, on: :collection
     post :make_private, on: :collection
   end
-  resources :checkpoints  
+  resources :checkpoints do
+    get 'from_file', on: :collection
+    post :upload_excel, on: :collection
+  end
   #resources :participants
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users do
