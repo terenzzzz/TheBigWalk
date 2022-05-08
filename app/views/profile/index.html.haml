@@ -17,10 +17,25 @@
     %p.px-4.pt-2= current_user.description
 
 .d-grid.gap-2
+    =link_to @current_user.donate_link, class: 'btn btn-primary primary-button' do
+        %span Your Donation Link Shows Here
     %br
+.d-flex.justify-content-center
+    %p Your Public Progress Shows Here
 
-.row 
+.d-grid.gap-2
+    .d-flex.justify-content-center
+    =link_to "/",class: 'btn btn-primary primary-button' do
+        %span Share Your Profile
+    =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do
+        %span Edit Account
+%br
+%hr
+
+.row
     %table.table
+        %tr
+            %td.fw-bold{:colspan => 2}= "Your Details"
         %tr 
             %td User ID:
             %td= current_user.id
@@ -42,20 +57,10 @@
                 %td= @participant_id
             %tr 
                 %td Current Donate Link: 
-                - if current_user.donate_link.length > 40
-                    %td="#{current_user.donate_link[0, 40]}..."
+                - if (current_user.donate_link).to_s.length > 40
+                    %td="#{(current_user.donate_link).to_s[0, 40]}..."
                 - else
-                    %td=current_user.donate_link[0, 20]
+                    %td=(current_user.donate_link).to_s[0, 20]
         %tr 
             %td Identity:
             %td= current_user.tag.name
-
-        
-
-.d-grid.gap-2
-    .d-flex.justify-content-center
-        %p Your Public Progress Shows Here
-    =link_to "/",class: 'btn btn-primary primary-button' do
-        %span Share My Profile
-    =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do
-        %span Edit Account

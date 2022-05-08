@@ -1,21 +1,154 @@
-%h1="Welcome to #{@user.name}'s Page"
-.row   
+.d-flex.justify-content-center
+    -if session[:current_user_id] == @user.id
+        %h1.fw-bold Your Profile
+    -else
+        %h1.fw-bold.text-center="#{@user.name}'s Profile"
+
+.row
     .col-5 
         %table 
             %tr 
                 -if @user.avatar.attached? 
-                    %td= image_tag @user.avatar, :size => "120x120"
+                    %td= image_tag @user.avatar, :size => "120x120", class: "rounded-circle border"
+                -else 
+                    %td= image_tag 'noPic.gif', :size => "120x120", class: "rounded-circle border"
     .col-7
-        
-        - if @user.description
-            %p=@user.description 
-        - else 
-            %p="This is #{@user.name}'s description"
-%br/
+        %br
+        %h5.pt-2.fw-bold.text-center.w-100= "#{@user.name}"
 
-.row 
+.row
+    %p.px-4.pt-2= @user.description
+
+.d-grid.gap-2
+    =link_to @user.donate_link, class: 'btn btn-primary primary-button' do
+        -if session[:current_user_id] == @user.id
+            %span Your Donation Page
+        - else
+            %span= "Donate To " + @user.name + " Here"
+    %br
+
+.d-flex.justify-content-center
     -if session[:current_user_id]
+        /If current user logged in is an admin
+        -if User.where(id: session[:current_user_id]).first.tag.name == "Admin"
+            /If user you're viewing is a marshal
+            -if @user.tag.name == "Marshal"
+                %button.btn.btn-primary.w-100{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-bs-target" => "#collapseExample", "data-bs-toggle" => "collapse", :type => "button"}
+                    Marshal Status
+    -if @user.tag.name == "Walker"
+        -if session[:current_user_id] == @user.id
+            %button.btn.btn-primary.w-100{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-bs-target" => "#collapseExample", "data-bs-toggle" => "collapse", :type => "button"}
+                Your Progress
+        - else
+            %button.btn.btn-primary.w-100{"aria-controls" => "collapseExample", "aria-expanded" => "false", "data-bs-target" => "#collapseExample", "data-bs-toggle" => "collapse", :type => "button"}= @user.name + "'s Progress"
+
+#collapseExample.collapse
+    .card.card-body
+        -if session[:current_user_id]
+            /If current user logged in is an admin
+            -if User.where(id: session[:current_user_id]).first.tag.name == "Admin"
+                /If user you're viewing is a marshal
+                -if @user.tag.name == "Marshal"
+                    %table.table
+                        %tr 
+                            %td Status
+                            %td Time
+                        -marshal = Marshall.where(user_id: @user.id).first
+                        -shifts = MarshalShift.where(marshalls_id: marshal.id).order("id ASC")
+                        -shifts.each do |shift|
+                            %tr 
+                                %td= shift.status
+                                %td= shift.current_time
+        -if @user.tag.name == "Walker"
+            - if (OptedInLeaderboard.where(user_id: @user.id).first.opted_in == true) || (session[:current_user_id] != nil)  #&& (User.where(id: session[:current_user_id]).first.tag.name == "Admin"))
+                /DISPLAY RESULTS
+                %table.w-100
+                    %tbody
+                        %tr
+                            %td.fw-bold Checkpoint
+                            %td.fw-bold Time Arrived
+
+                            - @i = 1
+                            - puts "Route checkpoints: #{@route_checkpoints}"
+                            
+                            / \/ @route_checkpoints currently an empty array
+                            - @route_checkpoints.each do |x|
+                                - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i, route_id: session[:current_route_id]).first.checkpoint_id
+                                /- @route_checkpoints.each do |x|
+                                /    - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i).first.checkpoint_id
+                                - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
+                                
+                                %tr
+                                    %td= @current_checkpoint.name
+                                    - @current_checkpoint = CheckpointTime.where(participant_id: @participant.id, checkpoint_id: @current_checkpoint_id).first 
+                                    - if @current_checkpoint != nil 
+                                        - @current_checkpoint_time = @current_checkpoint.times
+                                        - if @current_checkpoint_time.strftime('%H').to_i >= 12 
+                                            %td= "#{@current_checkpoint_time.strftime('%H:%M')}pm"
+                                        - else 
+                                            %td= "#{@current_checkpoint_time.strftime('%H:%M')}am"
+                                    - else
+                                        %td ---
+                                - @i += 1
+            - else
+                %p.text-center.fw-bold Sorry, this user hasn't made their progress public.
+
+
+%br
+.d-grid.gap-2
+    .d-flex.justify-content-center
+        =link_to "/",class: 'btn btn-primary primary-button w-100' do
+            %span Share Profile
+        -if session[:current_user_id] == @user.id
+            =link_to edit_profile_path(current_user), class: 'btn btn-primary primary-button' do
+                %span Edit Your Account
+        %br
+%hr
+
+
+
+.d-grid.gap-2
+    %br
+
+-if session[:current_user_id] == @user.id
+    .row 
         %table.table
+            %tr
+                %td.fw-bold.text-center{:colspan => 2}="Your Details"
+            %tr
+                %td User ID:
+                %td= @user.id
+            %tr 
+                %td User Email:
+                %td= @user.email
+            %tr 
+                %td User Mobile:
+                %td= @user.mobile
+
+            - if current_user.tag.name == "Marshal"
+                %tr 
+                    %td Marshal ID:
+                    %td= @marshal_id
+
+            - if current_user.tag.name == "Walker"
+                %tr 
+                    %td Participant ID:
+                    %td= @participant.participant_id
+                %tr 
+                    %td Current Donation Link: 
+                    - if (@user.donate_link).to_s.length > 40
+                        %td="#{(@user.donate_link).to_s[0, 40]}..."
+                    - else
+                        %td=(@user.donate_link).to_s[0, 20]
+            %tr 
+                %td Identity:
+                %td= @user.tag.name
+
+-elsif User.where(id: session[:current_user_id]).first.tag.name == "Admin" || User.where(id: session[:current_user_id]).first.tag.name == "Marshal"
+    .row
+        %table.table
+            %tr
+                %td.fw-bold.text-center{:colspan => 2}="#{@user.name}'s Details"
             -if User.where(id: session[:current_user_id]).first.tag.name == "Admin"
                 -if @user.tag.name == "Walker"
                     %tr 
@@ -65,15 +198,9 @@
 -#                         %td ---
 -#             - @i += 1
 
+%hr
+
 .d-grid.gap-3
-    =link_to @user.donate_link, class: 'btn btn-primary primary-button' do
-        %span.bi.bi-piggy-bank
-        %span Donate Here
-        %span.bi.bi-piggy-bank
-    %br
-    %hr
-    .d-flex.justify-content-center
-        %h5="#{@user.name}'s Checkpoint times"
 
     /If user exists
     -if session[:current_user_id]
@@ -82,7 +209,7 @@
             /If user you're viewing is a marshal
             -if @user.tag.name == "Marshal"
                 %table.table
-                    %tr 
+                    %tr
                         %td Status
                         %td Time
                     -marshal = Marshall.where(user_id: @user.id).first
@@ -93,60 +220,27 @@
                             %td= shift.current_time
                     
         /%p Your Public Progress Shows Here
-    -if @user.tag.name == "Walker"
-        - if (OptedInLeaderboard.where(user_id: @user.id).first.opted_in == true) || (session[:current_user_id] != nil)  #&& (User.where(id: session[:current_user_id]).first.tag.name == "Admin"))
-            /DISPLAY RESULTS
-            %table.w-100
-                %tbody
-                    %tr
-                        %td.fw-bold Checkpoint
-                        %td.fw-bold Time Arrived
-
-                        - @i = 1
-                        - puts "Route checkpoints: #{@route_checkpoints}"
-                        
-                        / \/ @route_checkpoints currently an empty array
-                        - @route_checkpoints.each do |x|
-                            - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i, route_id: session[:current_route_id]).first.checkpoint_id
-                            /- @route_checkpoints.each do |x|
-                            /    - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i).first.checkpoint_id
-                            - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first
-                            
-                            %tr
-                                %td= @current_checkpoint.name
-                                - @current_checkpoint = CheckpointTime.where(participant_id: @participant.id, checkpoint_id: @current_checkpoint_id).first 
-                                - if @current_checkpoint != nil 
-                                    - @current_checkpoint_time = @current_checkpoint.times
-                                    - if @current_checkpoint_time.strftime('%H').to_i >= 12 
-                                        %td= "#{@current_checkpoint_time.strftime('%H:%M')}pm"
-                                    - else 
-                                        %td= "#{@current_checkpoint_time.strftime('%H:%M')}am"
-                                - else
-                                    %td ---
-                            - @i += 1
-        - else
-            %p This user hasn't made their results public
-
+    
     -if session[:current_user_id]
         -if User.where(id: session[:current_user_id]).first.tag.name == "Admin"
             -if @user.tag.name == "Walker"
                 .d-flex.justify-content-center
-                    = simple_form_for :make_walker_marshal, url: make_walker_marshal_admins_path, method: :post do |f|
+                    = simple_form_for :make_walker_marshal, url: make_walker_marshal_admins_path,html:{class:"w-100"}, method: :post do |f|
                         = f.hidden_field :id, value: @user.id
-                        = f.submit "Make Walker a Marshal", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+                        = f.submit "Make Walker A Marshal", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button w-100'
                 .d-flex.justify-content-center
-                    = simple_form_for :make_user_admin, url: make_user_admin_admins_path, method: :post do |f|
+                    = simple_form_for :make_user_admin, url: make_user_admin_admins_path,html:{class:"w-100"}, method: :post do |f|
                         = f.hidden_field :id, value: @user.id
-                        = f.submit "Make Walker an Admin", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+                        = f.submit "Make Walker An Admin", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button w-100'
             -elsif @user.tag.name == "Marshal"
                 .d-flex.justify-content-center
-                    = simple_form_for :make_user_admin, url: make_user_admin_admins_path, method: :post do |f|
+                    = simple_form_for :make_user_admin, url: make_user_admin_admins_path,html:{class:"w-100"}, method: :post do |f|
                         = f.hidden_field :id, value: @user.id
-                        = f.submit "Make Marshal an Admin", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
+                        = f.submit "Make Marshal An Admin", :data => { :confirm => 'Are you sure?' }, class: 'btn btn-primary primary-button'
 
-            %button.btn.btn-danger(type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount")
-                %span.bi.bi-trash
-                %span Delete Account
+            -if User.where(id: session[:current_user_id]).first.tag.name == "Admin"
+                %button.btn.btn-danger(type="button" data-bs-toggle="modal" data-bs-target="#deleteAccount")
+                    %span Delete Account
 
             //Pop up for delete account
             #deleteAccount.modal.fade

@@ -35,7 +35,7 @@
                 %a.nav-link.dropdown{ href: '#', data: { bs_toggle: :dropdown }, aria: { expanded: false } }
                   .i.bi.bi-person-circle.display-6
                 %nav.dropdown-menu.dropdown-menu-lg-end
-                  = link_to 'Profile' , profile_index_path, class: 'dropdown-item', title: 'Go to the profile page'
+                  = link_to 'Profile' , current_user, class: 'dropdown-item', title: 'Go to the profile page'
                   = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', method: :delete, title: "Log out of the system"
     
     .flash-messages
