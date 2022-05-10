@@ -22,6 +22,23 @@ describe 'routes' do
             expect(page).to have_content '50km'
         end
 
+        specify "I can create a route later on" do
+            visit "/"
+            click_link 'Create New Event'
+            fill_in 'Event Name:', with: 'The Big Walk'
+            fill_in 'Head Marshal Phone Number:', with: '07757291463'
+            click_button 'Create'
+            visit "/"
+            click_on "The Big Walk"
+            click_on "Event Info"
+            click_on "Manage Routes"
+            click_link 'Create New Route'
+            fill_in 'Route Name:', with: '50km'
+            fill_in 'Course Length (Km):', with: '50'
+            click_button 'Create'
+            expect(page).to have_content '50km'
+        end
+
         specify "I cant create a route when course length is a letter" do
             visit "/"
             click_link 'Create New Event'

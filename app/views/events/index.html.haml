@@ -4,10 +4,11 @@
 .row 
   - @events.each do |event|
     .col-6.pb-3
-      .card.h-100
-        .card-body
-          %h5.card-title.fw-bold= event.name
-          =link_to "", event, class: 'stretched-link'
+      =link_to event do
+        .card.h-100
+          .card-body
+            %h5.card-title.fw-bold= event.name
+          
 
 .d-flex.justify-content-center
   =link_to "Create New Event", new_event_path, class: 'btn btn-primary primary-button w-100'
