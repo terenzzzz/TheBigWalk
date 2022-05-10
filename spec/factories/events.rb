@@ -13,5 +13,9 @@ FactoryBot.define do
     factory :event do
         name { "The Big Walk" }
         phone_number { "07757291463" }
+        
+        trait :public_event do
+            made_public { true }
+        end
     end
 end

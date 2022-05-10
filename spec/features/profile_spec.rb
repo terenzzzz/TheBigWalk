@@ -1,20 +1,31 @@
 require 'rails_helper'
 
 describe 'profile' do
-    let(:user1)      { User.create(email: 'test@test.com', password: 'testtest', password_confirmation: 'testtest') }
+    let(:tag1) { FactoryBot.create(:tag) }
+    let(:user1) {  FactoryBot.create(:user, name:'test', email: 'test@test.com', mobile:'00000000000', tag: tag1)}
+
+    let!(:event) { FactoryBot.create(:event, :public_event) }
+    let!(:route) { FactoryBot.create(:route, event: event) }
+    let!(:checkpoint1) { FactoryBot.create(:checkpoint, event: event) }
+    let!(:checkpoint2) { FactoryBot.create(:checkpoint, event: event, name:'test') }
+    let!(:checkpoint3) { FactoryBot.create(:checkpoint, event: event, name:'test1') }
+
+    before do
+        login_as user1
+        
+        OptedInLeaderboard.create(opted_in:true,user_id:user1)
+        RoutesAndCheckpointsLinker.create(distance_from_start: 3, advised_time: 30, checkpoint: checkpoint1, route: route, position_in_route: 1)
+        RoutesAndCheckpointsLinker.create(distance_from_start: 3, advised_time: 30, checkpoint: checkpoint2, route: route, position_in_route: 2)
+        RoutesAndCheckpointsLinker.create(distance_from_start: 3, advised_time: 30, checkpoint: checkpoint3, route: route, position_in_route: 3)
+    end
 
     context 'As a logged in user' do
-
-        before do
-          login_as user1
-        end
     
         specify "I can edit name of my profile" do
-            visit "/profile"
-            click_link 'Edit'
+            visit "/profile/#{user1}/edit"
             fill_in 'Name', with: 'Test'
             click_button'Update User'
-            expect(page).to have_content 'Profile successfully updated.'
+            expect(page.current_path).to eql('/profile')
         end
 
         specify "I can edit avatar of my profile" do

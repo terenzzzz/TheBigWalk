@@ -22,9 +22,14 @@
 #
 FactoryBot.define do
   factory :route do
-    course_length { 50 }
-    start_time { 2000-01-01 10:00:00.000000000 +0000 }
-    start_date { 2022-06-12 }
-    end_date_time { 2022-06-12 19:00:00.000000000 +0000 }
+    association(:event)
+
+    name { '10KM' }
+    start_date { 10.days.from_now }    
+    start_time { DateTime.new(2022, 5, 1, 12, 0) }
+    end_date_time { 11.days.from_now } 
+
+    course_length { 10 }
+
   end
 end
