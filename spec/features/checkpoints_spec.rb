@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 describe 'checkpoints' do
-    let(:user1)      { User.create(email: 'test@test.com', password: 'testtest', password_confirmation: 'testtest') }
+    let(:tag1) { FactoryBot.create(:tag, :admin) }
+    let(:user1) { FactoryBot.create(:user, name:'test', email: 'test@test.com', mobile:'00000000000', tag: tag1) }
 
     context 'As an admin' do
         before do

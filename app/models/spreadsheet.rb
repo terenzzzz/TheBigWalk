@@ -34,22 +34,30 @@ class Spreadsheet
     #what if multiple people update the table at once will it mess it up is there a que
     def add_route(name)
         #check if route already exists but what if they make duplicate events??
-        @@spreadsheet.add_worksheet(name, max_rows = 100, max_cols = 20)
-        worksheet = @@spreadsheet.worksheet_by_title(name)
-        worksheet["A1"] = "Walker Name"
-        worksheet["B1"] = "Walker ID"
-        worksheet["C1"] = "Walker droped out / pickups"
-        worksheet["D1"] = "Walker pickup location"
-        #if anymore are added increase
-        worksheet.save
+        existing_worksheet = @@spreadsheet.worksheet_by_title(name)
+        if !(existing_worksheet)
+            @@spreadsheet.add_worksheet(name, max_rows = 100, max_cols = 20)
+            worksheet = @@spreadsheet.worksheet_by_title(name)
+            worksheet["A1"] = "Walker Name"
+            worksheet["B1"] = "Walker ID"
+            worksheet["C1"] = "Walker droped out / pickups"
+            worksheet["D1"] = "Walker pickup location"
+            #if anymore are added increase
+            worksheet.save
+        end
     end
 
     def update_route(old_name, new_name)
         #breaks if thers no worksheet by the name
-        worksheet = @@spreadsheet.worksheet_by_title(old_name)
-        if worksheet
-            worksheet.title = new_name
-            worksheet.save
+        existing_worksheet = @@spreadsheet.worksheet_by_title(new_name)
+        if !(existing_worksheet)
+            worksheet = @@spreadsheet.worksheet_by_title(old_name)
+            if worksheet
+                worksheet.title = new_name
+                worksheet.save
+            end
+        else
+            delete_route(old_name)
         end
     end
 
