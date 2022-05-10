@@ -3,7 +3,8 @@ class ProfileController < ApplicationController
     
     def account
     end
-    
+
+
     def index
         @route_id = session[:current_route_id]
         #check role

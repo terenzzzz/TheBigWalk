@@ -61,7 +61,7 @@ class UsersController < ApplicationController
                 marshal = Marshall.where(checkpoints_id: session[:current_checkpoint_id], user_id: @user.id).first
                 marshal.update(params.require(:marshall).permit(:marshal_id))
             end
-            redirect_to profile_index_path, notice: 'Profile successfully updated.'
+            redirect_to user_path(current_user), notice: 'Profile successfully updated.'
         else
             redirect_to edit_profile_path(current_user), notice: 'Please Check The Detail You Enter.'
         end
