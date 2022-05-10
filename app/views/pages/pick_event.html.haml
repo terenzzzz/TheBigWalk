@@ -8,8 +8,8 @@
   .row
     - @events.each do |event|
       .col-6.pb-3
-        .card.h-100
-          .card-body
-            .d-flex.justify-content-center
-              %h6.card-title.fw-bold= event.name
-            =link_to '', pick_route_page_path(event), class:'stretched-link'
+        = link_to pick_route_page_path(event) do
+          .card.h-100
+            .card-body
+              .d-flex.justify-content-center
+                %h6.card-title.fw-bold= event.name

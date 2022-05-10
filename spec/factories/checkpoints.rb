@@ -19,12 +19,10 @@
 #
 FactoryBot.define do
   factory :checkpoint do
-    id { 1 }
     name { "Hope Cross" }
-    distance { 1.5 }
-    location { "SK12345" }
-    advisedTime { 1 }
-    description { "A Checkpoint" }
+    os_grid { "SK123456" }
+    # advisedTime { 1 }
+    # description { "A Checkpoint" }
     events_id { 1 }
   end
 end

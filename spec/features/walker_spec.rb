@@ -1,27 +1,27 @@
 require 'rails_helper'
 
 describe 'walker' do
-    let(:tag1) { Tag.create(name:'Walker') }
-    let(:user1)  { User.create(name:'test', email: 'test@test.com', mobile:'0000',  password: 'testtest', tag:tag1) }
+    let(:tag1) { FactoryBot.create(:tag) }
+    let(:user1) {  FactoryBot.create(:user, name:'test', email: 'test@test.com', mobile:'00000000000', tag: tag1)}
 
-    # specify 'I can log in as a Walker' do
-    #     visit '/users/sign_in'
-    #     fill_in "Email", with: user1.email
-    #     fill_in "Password", with: user1.password
-    #     click_button "Log In"
-    #     expect(page).to have_content 'Signed in successfully.'
-    # end
+    let!(:event) { FactoryBot.create(:event, :public_event) }
+    let!(:route) { FactoryBot.create(:route, event: event) }
+    let!(:checkpoint) { FactoryBot.create(:checkpoint, event: event) }
 
     before do
-        # puts user1.id
-        # puts user1.tag.name
-        # puts user1.tag_id
-        # puts tag1.id
         login_as user1
+
+        RoutesAndCheckpointsLinker.create(distance_from_start: 3, advised_time: 30, checkpoint: checkpoint, route: route, position_in_route: 1)
     end
 
-    specify 'I can Check the Checkpoint Info' do
-        visit '/walkers'
+    specify 'I can Check the Checkpoint Info', js:true do
+        visit '/'
+
+        click_on event.name
+        click_on route.name
+
+        click_on 'Sign Up For Event'
+        save_and_open_screenshot
         click_button 'Check Point Information'
 
         expect(page.current_path).to eql('/walkers/checkpoint_info')

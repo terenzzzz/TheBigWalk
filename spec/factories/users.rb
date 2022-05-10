@@ -32,7 +32,7 @@ FactoryBot.define do
     description { "MyString" }
     mobile { "MyString" }
     name { "MyString" }
-    reset_password_token { "MyString" }
-    membership_id { "MyString" }
+    password { 'Password123!' }
+    password_confirmation { 'Password123!' }
   end
 end

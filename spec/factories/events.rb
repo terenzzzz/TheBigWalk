@@ -12,5 +12,9 @@
 FactoryBot.define do
     factory :event do
         name { "The Big Walk" }
+        
+        trait :public_event do
+            made_public { true }
+        end
     end
 end

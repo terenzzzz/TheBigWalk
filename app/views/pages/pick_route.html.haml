@@ -4,8 +4,8 @@
 .row
   - @routes.each do |route|
     .col-6.pb-3
-      .card.h-100
-        .card-body
-          %h5.card-title.fw-bold= route.name
-          %h7.text-muted= "#{route.course_length} Km"
-          =link_to '', home_page_path(route), class:'stretched-link'
+      = link_to home_page_path(route) do
+        .card.h-100
+          .card-body
+            %h5.card-title.fw-bold= route.name
+            %h7.text-muted= "#{route.course_length} Km"
