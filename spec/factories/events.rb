@@ -12,5 +12,6 @@
 FactoryBot.define do
     factory :event do
         name { "The Big Walk" }
+        phone_number { "07757291463" }
     end
 end

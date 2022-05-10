@@ -22,8 +22,9 @@
 #
 FactoryBot.define do
   factory :route do
-    route_id { 1 }
-    length { "MyString" }
-    checkpoints_id { 1 }
+    course_length { 50 }
+    start_time { 2000-01-01 10:00:00.000000000 +0000 }
+    start_date { 2022-06-12 }
+    end_date_time { 2022-06-12 19:00:00.000000000 +0000 }
   end
 end
