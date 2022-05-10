@@ -13,7 +13,7 @@ class RoutesController < ApplicationController
 
   # GET /events
   def index
-    @routes = Route.where(events_id: session[:current_event_id])
+    @routes = Route.where(event_id: session[:current_event_id])
     @event = Event.where(id: session[:current_event_id]).first
   end
 
@@ -35,10 +35,10 @@ class RoutesController < ApplicationController
   # POST /events
   def create
     @route = Route.new(route_params)
-    @route.events_id = session[:current_event_id]
+    @route.event_id = session[:current_event_id]
     if @route.save
       spreadsheet = Spreadsheet.new
-      spreadsheet.add_route("#{Event.where(id: @route.events_id).first.name} - #{route_params[:name]}")
+      spreadsheet.add_route("#{Event.where(id: @route.event_id).first.name} - #{route_params[:name]}")
       redirect_to routes_path
     else  
       render :new
@@ -50,7 +50,7 @@ class RoutesController < ApplicationController
     old_route = @route.dup
     if @route.update(route_params)
       spreadsheet = Spreadsheet.new
-      spreadsheet.update_route("#{Event.where(id: old_route.events_id).first.name} - #{old_route.name}", "#{Event.where(id: old_route.events_id).first.name} - #{route_params[:name]}")
+      spreadsheet.update_route("#{Event.where(id: old_route.event_id).first.name} - #{old_route.name}", "#{Event.where(id: old_route.event_id).first.name} - #{route_params[:name]}")
       redirect_to routes_path
     else  
       render :edit
@@ -66,7 +66,7 @@ class RoutesController < ApplicationController
       end
     end
     spreadsheet = Spreadsheet.new
-    spreadsheet.delete_route("#{Event.where(id: @route.events_id).first.name} - #{@route.name}")
+    spreadsheet.delete_route("#{Event.where(id: @route.event_id).first.name} - #{@route.name}")
     walkers = Participant.where(routes_id: @route.id)
     walkers.each do |walker|
       times = CheckpointTime.where(participant_id: walker.id)

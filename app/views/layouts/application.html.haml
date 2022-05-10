@@ -26,8 +26,8 @@
               =link_to 'javascript:history.back()' do
                 .i.bi.bi-arrow-left.display-6
             .col-6.mx-auto
-              -if Branding.where(events_id: session[:current_event_id]).first && Branding.where(events_id: session[:current_event_id]).first.header.present?
-                = link_to(image_tag(url_for(Branding.where(events_id: session[:current_event_id]).first.header), class: "img-fluid"), '/')
+              -if Branding.where(event_id: session[:current_event_id]).first && Branding.where(event_id: session[:current_event_id]).first.header.present?
+                = link_to(image_tag(url_for(Branding.where(event_id: session[:current_event_id]).first.header), class: "img-fluid"), '/')
               -else
                 = link_to(image_tag("bwlogolongnotagtight.png", class: "img-fluid"), '/')
             .col-3.d-flex.justify-content-center

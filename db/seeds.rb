@@ -18,7 +18,7 @@
 # print'.'
 
 # #Branding
-# Branding.create(events_id: '1')
+# Branding.create(event_id: '1')
 # print'.'
 
 # #Route
@@ -29,8 +29,8 @@
 #     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
 #     route.start_time = '2000-01-01 20:40:00.000000000 +0000'
 #     route.start_date = '2022-05-01'
-#     #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
-#     route.events_id = '1'
+#     #route.event_id = Event.where(name: 'The Big Walk 2022').first.id
+#     route.event_id = '1'
 #     print'.'
 # end
 # print'.'
@@ -41,7 +41,7 @@
 #     #Checkpoint.create(name: Faker::Fantasy::Tolkien.unique.location) do |checkpoint|
 #     Checkpoint.create(name: Faker::Address.unique.street_name) do |checkpoint|
 #         checkpoint.os_grid = 'SK331896'
-#         checkpoint.events_id = '1'
+#         checkpoint.event_id = '1'
         
 #     end
 
@@ -210,7 +210,7 @@
 # end
 
 # #Branding
-# if Branding.where(events_id: '1').first
+# if Branding.where(event_id: '1').first
 #     puts "Created Branding Successfully"
 #     puts "-------------------------------------"
 # else
@@ -219,7 +219,7 @@
 # end
 
 # #Route
-# if Route.where(name: '50km', events_id:'1').first
+# if Route.where(name: '50km', event_id:'1').first
 #     puts "Created Route Successfully"
 #     puts "-------------------------------------"
 # else
@@ -391,7 +391,7 @@ Event.create(name:'The Big Walk 2022', made_public: true, phone_number:'07757291
 print'.'
 
 #Branding
-Branding.create(events_id: '1')
+Branding.create(event_id: '1')
 print'.'
 
 #Route
@@ -402,8 +402,8 @@ Route.create(name: '50km') do |route|
     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
     route.start_time = '2000-01-01 14:05:00.000000000 +0000'
     route.start_date = '2022-05-06'
-    #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
-    route.events_id = '1'
+    #route.event_id = Event.where(name: 'The Big Walk 2022').first.id
+    route.event_id = '1'
     print'.'
 end
 
@@ -414,58 +414,58 @@ Route.create(name: '30km') do |route|
     route.end_date_time = '2022-06-12 19:00:00.000000000 +0000' 
     route.start_time = '2000-01-01 14:05:00.000000000 +0000'
     route.start_date = '2022-05-06'
-    #route.events_id = Event.where(name: 'The Big Walk 2022').first.id
-    route.events_id = '1'
+    #route.event_id = Event.where(name: 'The Big Walk 2022').first.id
+    route.event_id = '1'
     print'.'
 end
 print'.'
 
 
-Checkpoint.create(name: "Hope Station", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Hope Station", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Footpath from Edale Road", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Footpath from Edale Road", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Losehill Summit", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Losehill Summit", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Mam Tor summit", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Mam Tor summit", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Path junction / signpost", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Path junction / signpost", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Brown Knoll summit", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Brown Knoll summit", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Pym Chair", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Pym Chair", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Crowden Brook", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Crowden Brook", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Top of Golden Clough", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Top of Golden Clough", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Top of Jagger's Clough", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Top of Jagger's Clough", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Gate in Wall", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Gate in Wall", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Hope Cross", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Hope Cross", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Win Hill summit", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Win Hill summit", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Ladybower Reservoir/A6013 main road", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Ladybower Reservoir/A6013 main road", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Bamford Edge", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Bamford Edge", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "East end of Bamford Edge", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "East end of Bamford Edge", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Crow Chin, Stanage Edge", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Crow Chin, Stanage Edge", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Small reservoir at the head of Rivelin Brook", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Small reservoir at the head of Rivelin Brook", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Road/path/ foot path leading through the plantation", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Road/path/ foot path leading through the plantation", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "Crimicar Lane, S10 4EL", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Crimicar Lane, S10 4EL", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "The University Arms", os_grid: 'SK331896', events_id: '1')#21
+Checkpoint.create(name: "The University Arms", os_grid: 'SK331896', event_id: '1')#21
 print'.'
-Checkpoint.create(name: "Edale Railway Station", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "Edale Railway Station", os_grid: 'SK331896', event_id: '1')
 print'.'
-Checkpoint.create(name: "YHA Edale Activity Centre", os_grid: 'SK331896', events_id: '1')
+Checkpoint.create(name: "YHA Edale Activity Centre", os_grid: 'SK331896', event_id: '1')
 print'.'
 
 

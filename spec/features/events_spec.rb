@@ -79,5 +79,22 @@ describe 'events' do
             click_on('Event Info') 
             expect{click_on 'Delete'}.to change(Event, :count)
         end
+
+        specify "I can switch event" do
+            event = FactoryBot.create :event
+            FactoryBot.create(:branding, event: event)
+            visit "/"
+            click_on event.name
+            click_on('Switch Event') 
+            expect(page).to have_content 'The Big Walk'
+        end
+
+        specify "I cant make an event public if it has no route" do
+            event = FactoryBot.create :event
+            FactoryBot.create(:branding, event: event)
+            visit "/"
+            click_on event.name
+            expect(page).to have_content 'To Make Event Public All Routes Need A Checkpoint'
+        end
     end
 end

@@ -8,6 +8,7 @@ describe 'checkpoints' do
         before do
             login_as user1
         end
+
         specify "I can create a checkpoint for a route" do
             visit "/"
             click_link 'Create New Event'
@@ -339,6 +340,114 @@ describe 'checkpoints' do
             click_on "Save"
             click_on "Edit"
             expect{click_on 'Delete'}.to change(Checkpoint, :count)
+        end
+
+        specify "I can create multiple checkpoints for a route" do
+            visit "/"
+            click_link 'Create New Event'
+            fill_in 'Event Name:', with: 'The Big Walk'
+            fill_in 'Head Marshal Phone Number:', with: '07757291463'
+            click_button 'Create'
+            click_link 'Create New Route'
+            fill_in 'Route Name:', with: '50km'
+            fill_in 'Course Length (Km):', with: '50'
+            click_button 'Create'
+            click_on "Next"
+
+            click_on "Create New Checkpoint"
+            fill_in 'Checkpoint Name:', with: 'Checkpoint 1'
+            fill_in 'OS Grid Reference:', with: 'SK123456'
+            check "selected_routes[]"
+            click_on "Save"
+
+            fill_in 'Distance From The Start (Km):', with: '1.5'
+            fill_in 'Advised Time To Next Checkpoint (Mins):', with: '10'
+            fill_in 'Description Of Route To The Next Checkpoint:', with: 'A Checkpoint'
+            click_on "Save"
+
+            click_on "Create New Checkpoint"
+            fill_in 'Checkpoint Name:', with: 'Checkpoint 2'
+            fill_in 'OS Grid Reference:', with: 'SK123456'
+            check "selected_routes[]"
+            click_on "Save"
+
+            fill_in 'Distance From The Start (Km):', with: '2'
+            fill_in 'Advised Time To Next Checkpoint (Mins):', with: '10'
+            fill_in 'Description Of Route To The Next Checkpoint:', with: 'A Checkpoint 2'
+            click_on "Save"
+            expect(page.current_path).to eql('/checkpoints')
+            expect(page).to have_content('Checkpoint 1')
+            expect(page).to have_content('Checkpoint 2')
+        end
+
+        specify "I can view checkpoint ordering for a route" do
+            visit "/"
+            click_link 'Create New Event'
+            fill_in 'Event Name:', with: 'The Big Walk'
+            fill_in 'Head Marshal Phone Number:', with: '07757291463'
+            click_button 'Create'
+            click_link 'Create New Route'
+            fill_in 'Route Name:', with: '50km'
+            fill_in 'Course Length (Km):', with: '50'
+            click_button 'Create'
+            click_on "Next"
+
+            click_on "Create New Checkpoint"
+            fill_in 'Checkpoint Name:', with: 'Checkpoint 1'
+            fill_in 'OS Grid Reference:', with: 'SK123456'
+            check "selected_routes[]"
+            click_on "Save"
+
+            fill_in 'Distance From The Start (Km):', with: '1.5'
+            fill_in 'Advised Time To Next Checkpoint (Mins):', with: '10'
+            fill_in 'Description Of Route To The Next Checkpoint:', with: 'A Checkpoint'
+            click_on "Save"
+
+            click_on "Create New Checkpoint"
+            fill_in 'Checkpoint Name:', with: 'Checkpoint 2'
+            fill_in 'OS Grid Reference:', with: 'SK123456'
+            check "selected_routes[]"
+            click_on "Save"
+
+            fill_in 'Distance From The Start (Km):', with: '2'
+            fill_in 'Advised Time To Next Checkpoint (Mins):', with: '10'
+            fill_in 'Description Of Route To The Next Checkpoint:', with: 'A Checkpoint 2'
+            click_on "Save"
+            click_on "Next"
+            click_on "Save"
+            click_on "Event Info"
+            click_on "View Checkpoints Order"
+            expect(page).to have_content('Checkpoint 1')
+            expect(page).to have_content('Checkpoint 2')
+        end
+
+        specify "I can make an event public" do
+            visit "/"
+            click_link 'Create New Event'
+            fill_in 'Event Name:', with: 'The Big Walk'
+            fill_in 'Head Marshal Phone Number:', with: '07757291463'
+            click_button 'Create'
+            click_link 'Create New Route'
+            fill_in 'Route Name:', with: '50km'
+            fill_in 'Course Length (Km):', with: '50'
+            click_button 'Create'
+            click_on "Next"
+
+            click_on "Create New Checkpoint"
+            fill_in 'Checkpoint Name:', with: 'Checkpoint 1'
+            fill_in 'OS Grid Reference:', with: 'SK123456'
+            check "selected_routes[]"
+            click_on "Save"
+
+            fill_in 'Distance From The Start (Km):', with: '1.5'
+            fill_in 'Advised Time To Next Checkpoint (Mins):', with: '10'
+            fill_in 'Description Of Route To The Next Checkpoint:', with: 'A Checkpoint'
+            click_on "Save"
+            click_on "Next"
+            click_on "Save"
+
+            click_on "Make Event Public"
+            expect(page).to have_content('The Big Walk')
         end
     end
 end

@@ -28,7 +28,7 @@ class AdminsController < ApplicationController
 
     def view_walkers
         @event = Event.where(id: session[:current_event_id]).first
-        @routes = Route.where(events_id: session[:current_event_id])
+        @routes = Route.where(event_id: session[:current_event_id])
         @needs_help = Array.new
         @falling_behind = Array.new
         @on_pace = Array.new

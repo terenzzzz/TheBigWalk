@@ -10,7 +10,7 @@
                 %td.fw-bold Status
                 %td.fw-bold Time
             -event = Event.where(id: session[:current_event_id]).first
-            -checkpoints = Checkpoint.where(events_id: session[:current_event_id])
+            -checkpoints = Checkpoint.where(event_id: session[:current_event_id])
             -checkpoints.each do |checkpoint|
                 -marshals = Marshall.where(checkpoints_id: checkpoint.id)
                 -marshals.each do |marshal|

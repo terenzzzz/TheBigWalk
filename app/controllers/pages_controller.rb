@@ -29,7 +29,7 @@ class PagesController < ApplicationController
   end
 
   def pick_route
-    @routes = Route.where(events_id: params[:id])
+    @routes = Route.where(event_id: params[:id])
     session[:current_event_id]=params[:id]
   end
 

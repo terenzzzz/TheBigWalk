@@ -25,7 +25,7 @@ class MarshalsController < ApplicationController
 
     def add_shift
         @marshal = Marshall.where(user_id: current_user.id).first
-        @checkpoints = Checkpoint.where(events_id: params[:id])
+        @checkpoints = Checkpoint.where(event_id: params[:id])
         session[:current_event_id] = params[:id]
         MarshalShift.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
     end
@@ -33,7 +33,7 @@ class MarshalsController < ApplicationController
     #GET
     def change_checkpoint
         @marshal = Marshall.where(user_id: current_user.id).first
-        @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
+        @checkpoints = Checkpoint.where(event_id: session[:current_event_id])
     end
    
     #POST
@@ -104,7 +104,7 @@ class MarshalsController < ApplicationController
         @marshal.update(checkpoints_id: params[:id])
 
         @checkpoint = Checkpoint.where(id: @marshal.checkpoints_id).first
-        session[:current_event_id] =  @checkpoint.events_id
+        session[:current_event_id] =  @checkpoint.event_id
         linkers = RoutesAndCheckpointsLinker.where(checkpoint_id: @checkpoint.id)
         @num_walkers_passed = 0
         @num_walkers_falling = 0 

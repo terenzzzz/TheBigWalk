@@ -5,7 +5,7 @@
 
     .form-inputs
         = f.file_field :file, label: "Upload file:"
-        - @routes = Route.where(events_id: session[:current_event_id])
+        - @routes = Route.where(event_id: session[:current_event_id])
         .row 
             - @routes.each do |route|
                 .col-6

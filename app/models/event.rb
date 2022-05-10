@@ -17,10 +17,12 @@ class Event < ApplicationRecord
                       numericality: true,
                       length:{minimum: 11, maximum:15}
 
+
+    has_many :calls, dependent: :destroy
+    has_one :branding, dependent: :destroy                 
     has_many :checkpoints, dependent: :destroy
     has_many :routes, dependent: :destroy
-    has_one :branding, dependent: :destroy
-    has_many :calls, dependent: :destroy
+    
     has_many :participants
 
 
