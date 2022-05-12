@@ -75,11 +75,7 @@ class AdminsController < ApplicationController
         marshal.marshal_id = 2000
         marshal.user_id = user.id
         marshal.checkpoints_id = Checkpoint.all.first.id
-        if marshal.save
-            puts 'saved ######################################'
-        else
-            puts 'didnt save ######################################'
-        end
+        
         user.tag_id = Tag.where(name: "Marshal").first.id
         user.save
         walkers.each do |walker|

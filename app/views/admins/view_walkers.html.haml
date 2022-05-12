@@ -69,7 +69,7 @@
             -walkers =Participant.where(event_id: session[:current_event_id], pace: 'On Pace.')
             -walkers.each do |walker|
                 -user = User.where(id: walker.user_id).first
-                -puts "#{walker.participant_id} #############################S" 
+                
                 %tr
                     %td= walker.participant_id
                     %td=link_to "#{user.name}", user

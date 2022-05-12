@@ -9,7 +9,7 @@
       %td.fw-bold Time Arrived
 
     - @i = 1
-    - puts "Route checkpoints: #{@route_checkpoints}"
+    
     - @route_checkpoints.each do |x|
       - @current_checkpoint_id = RoutesAndCheckpointsLinker.where(position_in_route: @i, route_id: @participant.routes_id).first.checkpoint_id
       - @current_checkpoint = Checkpoint.where(id: @current_checkpoint_id).first

@@ -31,7 +31,7 @@
           - @current_walker_name = nil
 
         /Displaying the leaderboard row for a user
-        - puts "%%%%%%% #{participant.user_id}"
+        
         - if OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
           - opted_in_leaderboard = OptedInLeaderboard.where(user_id: participant.user_id).first.opted_in
         - if opted_in_leaderboard == true || opted_in_leaderboard == nil

@@ -292,12 +292,12 @@ class Spreadsheet
         csv.each_with_index do |row, i|
             if !(Checkpoint.exists?(name: row[0], event_id: event.id))
                 checkpoint = Checkpoint.create(name: row[0], os_grid: (row[1]).gsub(/\s+/, ""), event_id: event.id)
-                puts "############################# true"
+                
             else 
                 checkpoint = Checkpoint.where(name: row[0], event_id: event.id).first
-                puts "############################# false"
+               
             end
-            puts "############################# #{row[0]} - #{row[1]}" #checkpoint
+            
             count += 1
 
             if csv.length != i+1
@@ -310,7 +310,7 @@ class Spreadsheet
             #needs to add description
             if !(RoutesAndCheckpointsLinker.exists?(route_id: route.id, checkpoint_id: checkpoint.id))
                 RoutesAndCheckpointsLinker.create(distance_from_start: row[2], checkpoint_description: row[4], advised_time: advised_time, position_in_route: count, route_id: route.id, checkpoint_id: checkpoint.id)
-                puts "############################# true man"
+                
             end
             
         end 
