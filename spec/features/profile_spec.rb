@@ -16,9 +16,8 @@ describe 'profile' do
 
     let!(:tag1) { FactoryBot.create(:tag) }
     let!(:user1) {  FactoryBot.create(:user, name:'test', email: 'test@test.com', mobile:'00000000000', tag: tag1)}
-    let!(:participant) {FactoryBot.create(:participant, user:user1, route:route, checkpoint:checkpoint1, event:event)}
     let!(:opted_in) { OptedInLeaderboard.where(user:user1).first_or_create(opted_in: true) }
-
+    
     before do
         login_as user1
     end
@@ -26,39 +25,40 @@ describe 'profile' do
     context 'As a logged in user' do
     
         specify "I can edit name of my profile",js:true do
-            visit "/"
+            visit '/'
             click_on event.name
             click_on route.name
-            
-            # save_and_open_screenshot
+            save_and_open_screenshot
+
+           
             fill_in 'Name', with: 'Test'
             click_button'Update User'
             expect(page.current_path).to eql('/profile')
         end
 
-        specify "I can edit avatar of my profile" do
-            visit "/profile"
-            click_link 'Edit'
-            attach_file 'avatar', "#{Rails.root}/spec/fixtures/images/test.png"
-            click_button'Update User'
-            expect(page).to have_content 'Profile successfully updated.'
-        end
+    #     specify "I can edit avatar of my profile" do
+    #         visit "/profile"
+    #         click_link 'Edit'
+    #         attach_file 'avatar', "#{Rails.root}/spec/fixtures/images/test.png"
+    #         click_button'Update User'
+    #         expect(page).to have_content 'Profile successfully updated.'
+    #     end
 
-        specify "I can edit description of my profile" do
-            visit "/profile"
-            click_link 'Edit'
-            fill_in 'Description', with: 'Hello'
-            click_button'Update User'
-            expect(page).to have_content 'Profile successfully updated.'
-        end
+    #     specify "I can edit description of my profile" do
+    #         visit "/profile"
+    #         click_link 'Edit'
+    #         fill_in 'Description', with: 'Hello'
+    #         click_button'Update User'
+    #         expect(page).to have_content 'Profile successfully updated.'
+    #     end
 
-        specify "I can edit Mobile of my profile" do
-            visit "/profile"
-            click_link 'Edit'
-            fill_in 'Mobile', with: '8888888888'
-            click_button'Update User'
-            expect(page).to have_content 'Profile successfully updated.'
-        end
+    #     specify "I can edit Mobile of my profile" do
+    #         visit "/profile"
+    #         click_link 'Edit'
+    #         fill_in 'Mobile', with: '8888888888'
+    #         click_button'Update User'
+    #         expect(page).to have_content 'Profile successfully updated.'
+    #     end
     end
 
 end
