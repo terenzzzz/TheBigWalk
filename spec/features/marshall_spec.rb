@@ -42,11 +42,6 @@ describe 'checkpoints' do
         
         #This one is old and definitely needs editing
         specify "I can checkin a walker to my checkpoint" do
-            FactoryBot.create :event
-            FactoryBot.create :checkpoint
-            FactoryBot.create :checkpoint, id: '2'
-            FactoryBot.create :route
-            FactoryBot.create :marshall
             FactoryBot.create :participant
             visit "/"
             click_link 'Staff'
