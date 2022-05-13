@@ -36,7 +36,7 @@ class PagesController < ApplicationController
 
   # GET /users
   def leaderboard
-    puts ":/:/"
+    
     #retrieves all users for use in the leaderboard
     @users = User.all
     @current_event_id = session[:current_event_id]
@@ -50,7 +50,7 @@ class PagesController < ApplicationController
     @all_route_checkpoint_linkers.each do |linker|
       @all_route_checkpoints.concat Checkpoint.where(id: linker.checkpoint_id)
     end
-    puts ":( :( #{session[:current_user_id]}"
+    
     @current_user = User.where(id: session[:current_user_id]).first
 
   end
