@@ -39,7 +39,8 @@ class MarshalsController < ApplicationController
     #POST
     def search_checkpoint
         @marshal = Marshall.where(user_id: current_user.id).first
-        @checkpoints = Checkpoint.where(name: params[:search][:name])
+        @parameter = params[:search][:name].downcase
+        @checkpoints = Checkpoint.all.where("lower(name) LIKE :search", search: "%#{@parameter}%")
         render :change_checkpoint
     end
 
