@@ -52,7 +52,7 @@
                     %td= walker.participant_id
                     %td=link_to "#{user.name}", user
                     %td= Checkpoint.where(id: walker.checkpoints_id).first.name
-                    %td.on-pace Very Far Behind!!
+                    %td.need-help Very Far Behind!!
 
         
             -walkers =Participant.where(event_id: session[:current_event_id], pace: 'Falling Behind!')
@@ -62,7 +62,7 @@
                     %td= walker.participant_id
                     %td=link_to "#{user.name}", user
                     %td= Checkpoint.where(id: walker.checkpoints_id).first.name
-                    %td.on-pace Falling Behind!
+                    %td.falling-behind Falling Behind!
 
 
             
