@@ -22,11 +22,12 @@ class ApplicationController < ActionController::Base
       else
         pick_event_pages_path
       end
-
+      
     elsif current_user.tag.name == 'Marshal'
       session[:current_user_id] = current_user.id
       @marshal = Marshall.where(user_id: session[:current_user_id]).first
       choose_event_marshals_path
+
     elsif current_user.tag.name == 'Admin'
       session[:current_user_id] = current_user.id
       events_path
