@@ -97,7 +97,7 @@ print'.'
         walker.checkpoints_id = Faker::Number.within(range: 1..20)
         walker.user_id = id
         walker.status = 'none'
-        walker.rank = id
+        walker.rank = id - 1
         if (id % 9) == 0
             walker.pace = 'Falling Behind!'
         elsif (id % 12) == 0
@@ -130,7 +130,7 @@ end
 print'.'
 
 #Multiple time for Walker
-(3..101).each do |ids|
+(3..102).each do |ids|
     #get walker
     walker = Participant.where(id: ids).first
     #check checkpoint pos
@@ -144,7 +144,7 @@ print'.'
             start_time = end_time + 0.01
             end_time = end_time + 0.05
             time.checkpoint_id = check_num
-            time.participant_id = ids
+            time.participant_id = ids - 1
 
         end
     end
