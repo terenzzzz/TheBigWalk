@@ -93,6 +93,12 @@ describe 'profile' do
             expect(page).to have_content 'Profile successfully updated.'
         end
 
+        specify "I can sign out" do
+            click_on 'Sign Out'
+            
+            expect(page).to have_content 'Log in'
+        end
+
         specify "I can Delete Account" do
             click_on 'Edit Your Account'
             click_on 'Delete Account'
