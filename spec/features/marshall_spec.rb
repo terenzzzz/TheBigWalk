@@ -86,8 +86,12 @@ describe 'marshal' do
         # end
 
         #fail
-        specify "I can pause my shift" do
+        specify "I can pause my shift", js: true do
             visit '/'
+            
+            click_on event.name
+            click_on checkpoint1.name
+            save_and_open_screenshot
             click_on 'End Marshal Shift'
             click_on 'Pause Marshalling'
         end
