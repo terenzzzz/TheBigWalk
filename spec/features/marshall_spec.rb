@@ -18,17 +18,18 @@ describe 'checkpoints' do
     let!(:walker1) { FactoryBot.create(:participant)}
 
     context 'As a marshal' do
-         before do
-             login_as user1
-         end
+        before do
+            login_as user1
+        end
 
-         #Tom will finish all this later
+        #Tom will finish all this later
 
-#         specify "I can sign in to an event"
-#             visit '/'
-#             click_on event.name
-#             expect(page).to have_content 'Choose Your Current Checkpoint'
-#             #go to choose_event
+        specify "I can sign in to an event" do
+            visit '/'
+            click_on event.name
+            expect(page).to have_content 'Choose Your Current Checkpoint'
+            #go to choose_event
+        end
 
 #         specify "I can sign in to a checkpoint"
 #             visit "/"
