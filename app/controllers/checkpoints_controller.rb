@@ -159,10 +159,14 @@ class CheckpointsController < ApplicationController
           #     smallest_dist = linker.distance_from_start
           #   end
           # end
-          linker = RoutesAndCheckpointsLinker.where(route_id: id).order("position_in_route DESC").first
-          @linker.distance_from_start = linker.distance_from_start + 1
-          @linker.position_in_route = linker.position_in_route + 1
-
+          linker = RoutesAndCheckpointsLinker.where(route_id: route.id).order("position_in_route DESC").first
+          if linker
+            @linker.distance_from_start = linker.distance_from_start + 1
+            @linker.position_in_route = linker.position_in_route + 1
+          else
+            @linker.distance_from_start = 0
+            @linker.position_in_route = 0
+          end
           #@linker.distance_from_start = smallest_dist - 1
           @linker.route_id = route.id
           #@linker.position_in_route = smallest_pos - 1
