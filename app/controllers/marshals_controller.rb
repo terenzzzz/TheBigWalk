@@ -23,13 +23,13 @@ class MarshalsController < ApplicationController
         if @marshal_shift.status == 'Finished' || @marshal.checkpoints_id == nil
            @events = Event.where(made_public: true)
         else
-            # @checkpoint = @marshal.checkpoints_id
-            # if @marshal.checkpoints_id == nil
+            @checkpoint = @marshal.checkpoints_id
+            if @marshal.checkpoints_id == nil
                 @events = Event.where(made_public: true)
-                MarshalShift.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
-            # else
-            #     redirect_to marshal_path(@checkpoint)
-            # end 
+                MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
+            else
+                redirect_to marshal_path(@checkpoint)
+            end 
         end 
     end
 
@@ -37,9 +37,11 @@ class MarshalsController < ApplicationController
         @marshal = Marshall.where(user_id: current_user.id).first
         session[:current_event_id] = params[:id]
         @checkpoints = Checkpoint.where(event_id: params[:id])
-        # @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
-        # if @marshal_shift.status 
-        #     @marshal_shift.update(status:"Started")
+        @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
+        if @marshal_shift.status 
+            @marshal_shift.update(status:"Started")
+        end
+
         # else
         #     MarshalShift.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
         # end
