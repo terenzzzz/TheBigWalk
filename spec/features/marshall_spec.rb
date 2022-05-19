@@ -34,10 +34,16 @@ describe 'marshal' do
         #     #go to add_shift page
         # end
 
-        # specify "I can change my checkpoint" do
-        #     visit "/"
-        #     click_on 'Change Checkpoint'
-        # end
+        #pass
+        specify "I can change my checkpoint" do
+            visit "/"
+            click_on event.name
+            click_on checkpoint1.name
+            click_on 'Change Checkpoint'
+            click_on checkpoint2.name
+
+            expect(page).to have_content checkpoint2.name
+        end
 
         # specify "I can't re-sign in to the same checkpoint" do
         #     visit "/"
@@ -86,43 +92,51 @@ describe 'marshal' do
         # end
 
         #pass
-        specify "I can pause my shift", js: true do
+        specify "I can pause my shift" do
             visit '/'
             click_on event.name
             click_on checkpoint1.name
-            save_and_open_screenshot
             click_on 'End Marshal Shift'
             click_on 'Pause Marshalling'
+
+            expect(page).to have_content 'Marshalling Paused'
         end
 
-        # #fail
-        # specify "I can resume my shift" do
-        #      visit "/"
-        #      click_link 'End Marshal Shift'
-        #      click_link 'Resume Marshal Shift'
-        # end
+        #pass
+        specify "I can resume my shift" do
+            visit "/"
+            click_on event.name
+            click_on checkpoint1.name
+            click_on 'End Marshal Shift'
+            click_on 'Pause Marshalling'
+            click_on 'Resume Marshal Shift'
 
-        # #fail
-        # specify "I can end my shift for the day and make my own way home" do
-        #     visit "/"
-        #     click_on 'End Marshal Shift'
-        #     click_on 'End For The Day'
-        #     click_on 'Making My Own Way Home'
+            expect(page).to have_content 'Marshalling Resumed'
+        end
 
-        #     expect(page.current_path).to eql('/users/sign_in')
-        # end
+        #pass
+        specify "I can end my shift for the day and make my own way home" do
+            visit "/"
+            click_on event.name
+            click_on checkpoint1.name
+            click_on 'End Marshal Shift'
+            click_on 'End For The Day'
+            click_on 'Making My Own Way Home'
 
-        # #fail
-        # specify "I can end my shift for the day and Need Pick Up" do
-        #     visit "/"
-        #     click_on 'End Marshal Shift'
-        #     click_on 'End For The Day'
-        #     click_on 'I Need Picking Up'
+            expect(page.current_path).to eql('/users/sign_in')
+        end
 
-        #     expect(page).to have_content 'Pick up request successful.'
-        # end
-        #There probably is more to add but I can't think of them right now
-        #Again - THESE ARE MOST CERTAINLY NOT DONE, I will do it in the next couple of days - Tom
+        #pass
+        specify "I can end my shift for the day and Need Pick Up" do
+            visit "/"
+            click_on event.name
+            click_on checkpoint1.name
+            click_on 'End Marshal Shift'
+            click_on 'End For The Day'
+            click_on 'I Need Picking Up'
+
+            expect(page).to have_content 'Pick up request successful.'
+        end
 
     end
 
