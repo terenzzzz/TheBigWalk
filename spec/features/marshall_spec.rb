@@ -85,10 +85,9 @@ describe 'marshal' do
         #     click_link 'Checkin Walkers'
         # end
 
-        #fail
+        #pass
         specify "I can pause my shift", js: true do
             visit '/'
-            
             click_on event.name
             click_on checkpoint1.name
             save_and_open_screenshot
