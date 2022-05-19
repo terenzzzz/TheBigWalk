@@ -280,6 +280,7 @@ class Spreadsheet
     end
 
     def upload_event(excel, route)
+        worksheet = @@spreadsheet.worksheet_by_title("#{Event.where(id: route.event_id).first.name} - #{route.name}")
         #get checkpoint name
         #get checkpoint os grid
         #loop over all the checkpoints#
@@ -297,8 +298,12 @@ class Spreadsheet
                 checkpoint = Checkpoint.where(name: row[0], event_id: event.id).first
                
             end
-            
+
             count += 1
+
+            if worksheet
+                add_checkpoint(route, checkpoint, count, 0)
+            end
 
             if csv.length != i+1
                 next_row = csv[i+1]
