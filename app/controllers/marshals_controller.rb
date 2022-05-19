@@ -16,11 +16,21 @@ class MarshalsController < ApplicationController
         @marshal = Marshall.where(user_id: current_user.id).first
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         @checkpoint = @marshal.checkpoints_id
+        if @marshal_shift == nil
+            @marshal_shift = MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
+        end
+
         if @marshal_shift.status == 'Finished' || @marshal.checkpoints_id == nil
            @events = Event.where(made_public: true)
         else
-            redirect_to marshal_path(@checkpoint)
-        end  
+            @checkpoint = @marshal.checkpoints_id
+            if @marshal.checkpoints_id == nil
+                @events = Event.where(made_public: true)
+                MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
+            else
+                redirect_to marshal_path(@checkpoint)
+            end 
+        end 
     end
 
     def add_shift
@@ -30,9 +40,11 @@ class MarshalsController < ApplicationController
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         if @marshal_shift.status 
             @marshal_shift.update(status:"Started")
-        else
-            MarshalShift.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
         end
+
+        # else
+        #     MarshalShift.create(current_time: Time.now , status:"Started", marshalls_id:@marshal.id)
+        # end
     end
     
     #GET
