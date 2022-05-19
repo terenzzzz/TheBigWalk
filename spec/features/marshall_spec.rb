@@ -88,6 +88,8 @@ describe 'marshal' do
         #fail
         specify "I can pause my shift" do
             visit '/'
+            click_on event.name
+            click_on checkpoint1
             click_on 'End Marshal Shift'
             click_on 'Pause Marshalling'
         end
