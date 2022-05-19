@@ -2,7 +2,7 @@
     -if Branding.where(event_id: session[:current_event_id]).first && Branding.where(event_id: session[:current_event_id]).first.logo.present?
         = image_tag(url_for(Branding.where(event_id: session[:current_event_id]).first.logo), class: "img-fluid")
     -else
-        = image_tag("intentionallybadlogo.png", class: "img-fluid")
+        = image_tag("bwlogosquaretight.png", class: "img-fluid")
 .d-flex.justify-content-center
     %h5{class: "fw-bold"} Sets off in:
 .d-flex.justify-content-center
