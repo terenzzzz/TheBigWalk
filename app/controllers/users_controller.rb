@@ -14,6 +14,7 @@ class UsersController < ApplicationController
         # ^^
         
         @participant = Participant.where(user_id: @user.id, routes_id: session[:current_route_id]).first
+        #puts "((****&& #{@participant.id} + #{@participant.exists?}"
         @current_route_id=session[:current_route_id]
         @route_checkpoints = Array.new
         
