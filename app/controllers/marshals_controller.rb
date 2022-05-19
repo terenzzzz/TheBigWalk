@@ -15,13 +15,13 @@ class MarshalsController < ApplicationController
     def choose_event
         @marshal = Marshall.where(user_id: current_user.id).first
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
-        if @marshal_shift.status 
-            if @marshal_shift.status == 'Finished'
-                @events = Event.where(made_public: true)
-                @marshal_shift.update(status:"Started")
-             else
-                 redirect_to marshal_path(@checkpoint)
-             end 
+        @checkpoint = @marshal.checkpoints_id
+        if @marshal_shift == nil
+            @marshal_shift = MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
+        end
+
+        if @marshal_shift.status == 'Finished' || @marshal.checkpoints_id == nil
+           @events = Event.where(made_public: true)
         else
             # @checkpoint = @marshal.checkpoints_id
             # if @marshal.checkpoints_id == nil
