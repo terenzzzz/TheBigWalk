@@ -16,6 +16,10 @@ class MarshalsController < ApplicationController
         @marshal = Marshall.where(user_id: current_user.id).first
         @marshal_shift = MarshalShift.where(marshalls_id: @marshal.id).first
         @checkpoint = @marshal.checkpoints_id
+        if @marshal_shift == nil
+            @marshal_shift = MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:@marshal.id)
+        end
+
         if @marshal_shift.status == 'Finished' || @marshal.checkpoints_id == nil
            @events = Event.where(made_public: true)
         else
