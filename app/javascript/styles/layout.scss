@@ -20,6 +20,15 @@ table{
   font-size: 15px;
 }
 
+@media (min-width:992px) {
+  #wrapper {
+    box-shadow: 0 0 10px #000;
+    width: 50%;
+    margin: 0px auto;
+    border: 1px solid;
+  }
+}
+
 .black-line{
   border-width: 2px;
   border-top-style: solid;
