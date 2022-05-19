@@ -129,10 +129,32 @@ print'.'
 end
 print'.'
 
+(1..1).each do |ids|
+    walker = Participant.where(id: '1').first
+    #check checkpoint pos
+    linker = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first
+    pos = linker.position_in_route
+    #create that many checkpoint times
+    start_time = DateTime.now
+    end_time = DateTime.now
+    (1..pos).each do |check_num|
+        CheckpointTime.create(times: Faker::Time.between(from: start_time, to: end_time, format: :default)) do |time|
+            start_time = end_time + 0.01
+            end_time = end_time + 0.05
+            time.checkpoint_id = check_num
+            time.participant_id = 1
+
+        end
+    end
+end
+
+
+
+
 #Multiple time for Walker
 (3..102).each do |ids|
     #get walker
-    walker = Participant.where(id: ids).first
+    walker = Participant.where(id: (ids - 1)).first
     #check checkpoint pos
     linker = RoutesAndCheckpointsLinker.where(route_id: walker.routes_id, checkpoint_id: walker.checkpoints_id).first
     pos = linker.position_in_route
