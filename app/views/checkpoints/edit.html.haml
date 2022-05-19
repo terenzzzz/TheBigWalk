@@ -12,12 +12,21 @@
     - @routes = Route.where(event_id: session[:current_event_id])
     .row 
       - @routes.each do |route|
-        .col-6.pb-3
-          .card.h-100
-            .card-body
-              %h5.card-title.fw-bold= route.name
-              = check_box_tag 'selected_routes[]', route.id
-              = "Assign To Route"
+        -linker = RoutesAndCheckpointsLinker.where(route_id: route.id, checkpoint_id: @checkpoint.id).first
+        -if linker
+          .col-6.pb-3
+            .card.h-100
+              .card-body
+                %h5.card-title.fw-bold= route.name
+                = check_box_tag 'selected_routes[]', route.id, checked = "checked"
+                = "Assign To Route"
+        -else
+          .col-6.pb-3
+            .card.h-100
+              .card-body
+                %h5.card-title.fw-bold= route.name
+                = check_box_tag 'selected_routes[]', route.id
+                = "Assign To Route"
         %br/
 
   %br
