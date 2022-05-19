@@ -4,7 +4,7 @@
             %h1.fw-bold Checkpoint Ordering
 
 
--routes = Route.where(events_id: session[:current_event_id])
+-routes = Route.where(event_id: session[:current_event_id])
 -routes.each do |route|
     .d-flex.justify-content-center
         %h3.fw-bold= 'Route: ' + route.name

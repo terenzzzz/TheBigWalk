@@ -29,7 +29,7 @@
         =link_to "End Marshal Shift", end_marshal_shift_marshals_path, class: 'btn btn-primary primary-button'
     %br
 
-- else
+- elsif @marshal_shift.status == "Paused"
     .row 
         .col 
             .d-flex.justify-content-center
@@ -55,6 +55,7 @@
         =link_to "Checkin Walkers", checkin_walkers_marshals_path, class: 'btn btn-primary primary-button disabled'
         =link_to "Resume Marshal Shift", resume_marshalling_marshals_path, class: 'btn btn-primary primary-button'
     %br
+
 
 %table.table.table-hover.table-sm
     %thead

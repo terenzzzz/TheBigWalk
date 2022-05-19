@@ -15,18 +15,19 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     if current_user.tag.name == 'Walker'
       session[:current_user_id] = current_user.id
-      session[:opted_in] = OptedInLeaderboard.where(user_id: session[:current_user_id]).first.opted_in
+      # session[:opted_in] = OptedInLeaderboard.where(user_id: session[:current_user_id]).first.opted_in
       #check role
       if session[:current_route_id]
         walker_path(session[:current_route_id])
       else
         pick_event_pages_path
       end
-
+      
     elsif current_user.tag.name == 'Marshal'
       session[:current_user_id] = current_user.id
       @marshal = Marshall.where(user_id: session[:current_user_id]).first
       choose_event_marshals_path
+
     elsif current_user.tag.name == 'Admin'
       session[:current_user_id] = current_user.id
       events_path

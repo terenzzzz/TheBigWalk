@@ -16,7 +16,7 @@
 .row
     -event = Event.where(id: session[:current_event_id]).first
     %h2.card-title.fw-bold.text-center="#{event.name} Routes"
-    -routes = Route.where(events_id: event.id)
+    -routes = Route.where(event_id: event.id)
     - if routes
         -routes.each do |route|    
             .col-12.pb-3

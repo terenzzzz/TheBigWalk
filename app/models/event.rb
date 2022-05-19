@@ -13,10 +13,16 @@ class Event < ApplicationRecord
     validates_presence_of :name
     validates_uniqueness_of :name
 
+    validates :phone_number,  presence:{message: 'Can Not Be Blank!'},
+                      numericality: true,
+                      length:{minimum: 11, maximum:15}
+
+
+    has_many :calls, dependent: :destroy
+    has_one :branding, dependent: :destroy                 
     has_many :checkpoints, dependent: :destroy
     has_many :routes, dependent: :destroy
-    has_one :branding, dependent: :destroy
-    has_many :calls, dependent: :destroy
+    
     has_many :participants
 
 

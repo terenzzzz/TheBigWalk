@@ -33,7 +33,7 @@ class BrandingsController < ApplicationController
   # POST /brandings
   def create
     @branding = Branding.new(branding_params)
-    @branding.events_id = session[:current_event_id]
+    @branding.event_id = session[:current_event_id]
     @branding.save
     @event = Event.where(id: session[:current_event_id]).first
     redirect_to @event

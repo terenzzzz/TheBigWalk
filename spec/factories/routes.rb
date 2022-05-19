@@ -10,20 +10,26 @@
 #  start_time    :time
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
-#  events_id     :bigint           not null
+#  event_id      :bigint           not null
 #
 # Indexes
 #
-#  index_routes_on_events_id  (events_id)
+#  index_routes_on_event_id  (event_id)
 #
 # Foreign Keys
 #
-#  fk_rails_...  (events_id => events.id)
+#  fk_rails_...  (event_id => events.id)
 #
 FactoryBot.define do
   factory :route do
-    route_id { 1 }
-    length { "MyString" }
-    checkpoints_id { 1 }
+    association(:event)
+
+    name { '10KM' }
+    start_date { 10.days.from_now }    
+    start_time { DateTime.new(2022, 5, 1, 12, 0) }
+    end_date_time { 11.days.from_now } 
+
+    course_length { 10 }
+
   end
 end

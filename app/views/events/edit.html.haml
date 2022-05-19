@@ -21,7 +21,7 @@
 
     =link_to "View Checkpoints Order", checkpoint_order_admins_path, class: 'btn btn-primary primary-button w-100'
 
-    =link_to "Manage Branding", edit_branding_path(Branding.where(events_id: session[:current_event_id]).first), class: 'btn btn-primary primary-button w-100'
+    =link_to "Manage Branding", edit_branding_path(Branding.where(event_id: session[:current_event_id]).first), class: 'btn btn-primary primary-button w-100'
   
 
   

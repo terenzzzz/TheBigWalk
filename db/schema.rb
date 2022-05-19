@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
   create_table "brandings", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "events_id", null: false
-    t.index ["events_id"], name: "index_brandings_on_events_id"
+    t.bigint "event_id", null: false
+    t.index ["event_id"], name: "index_brandings_on_event_id"
   end
 
   create_table "calls", force: :cascade do |t|
@@ -83,8 +83,8 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "os_grid"
-    t.bigint "events_id", null: false
-    t.index ["events_id"], name: "index_checkpoints_on_events_id"
+    t.bigint "event_id", null: false
+    t.index ["event_id"], name: "index_checkpoints_on_event_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -180,9 +180,9 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
     t.date "start_date"
     t.time "start_time"
     t.integer "course_length"
-    t.bigint "events_id", null: false
+    t.bigint "event_id", null: false
     t.datetime "end_date_time"
-    t.index ["events_id"], name: "index_routes_on_events_id"
+    t.index ["event_id"], name: "index_routes_on_event_id"
   end
 
   create_table "routes_and_checkpoints_linkers", force: :cascade do |t|
@@ -243,12 +243,12 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "admins", "users", column: "users_id"
-  add_foreign_key "brandings", "events", column: "events_id"
+  add_foreign_key "brandings", "events"
   add_foreign_key "calls", "events"
   add_foreign_key "calls", "users"
   add_foreign_key "checkpoint_times", "checkpoints"
   add_foreign_key "checkpoint_times", "participants"
-  add_foreign_key "checkpoints", "events", column: "events_id"
+  add_foreign_key "checkpoints", "events"
   add_foreign_key "marshal_shifts", "marshalls", column: "marshalls_id"
   add_foreign_key "marshalls", "checkpoints", column: "checkpoints_id"
   add_foreign_key "marshalls", "users"
@@ -259,7 +259,7 @@ ActiveRecord::Schema.define(version: 2022_05_03_221508) do
   add_foreign_key "participants", "users"
   add_foreign_key "pickups", "events"
   add_foreign_key "pickups", "users"
-  add_foreign_key "routes", "events", column: "events_id"
+  add_foreign_key "routes", "events"
   add_foreign_key "routes_and_checkpoints_linkers", "checkpoints"
   add_foreign_key "routes_and_checkpoints_linkers", "routes"
   add_foreign_key "users", "tags"

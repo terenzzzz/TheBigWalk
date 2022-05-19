@@ -23,24 +23,55 @@
                 %td.fw-bold Walker
                 %td.fw-bold Last Checkpoint
                 %td.fw-bold Pace
-            -if @needs_help
-                -@needs_help.each do |walker|
-                    %tr 
-                        %td= walker.first.participant_id
-                        %td=link_to "#{walker.last.name}", walker.last
-                        %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
-                        %td.need-help Very Far Behind!!
-            -if @falling_behind
-                -@falling_behind.each do |walker|
-                    %tr 
-                        %td= walker.first.participant_id
-                        %td=link_to "#{walker.last.name}", walker.last
-                        %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
-                        %td.falling-behind Falling Behind!
-            -if @on_pace
-                -@on_pace.each do |walker|
-                    %tr
-                        %td= walker.first.participant_id
-                        %td=link_to "#{walker.last.name}", walker.last
-                        %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
-                        %td.on-pace On Pace
+            -# -if @needs_help
+            -#     -@needs_help.each do |walker|
+            -#         %tr 
+            -#             %td= walker.first.participant_id
+            -#             %td=link_to "#{walker.last.name}", walker.last
+            -#             %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
+            -#             %td.need-help Very Far Behind!!
+            -# -if @falling_behind
+            -#     -@falling_behind.each do |walker|
+            -#         %tr 
+            -#             %td= walker.first.participant_id
+            -#             %td=link_to "#{walker.last.name}", walker.last
+            -#             %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
+            -#             %td.falling-behind Falling Behind!
+            -# -if @on_pace
+            -#     -@on_pace.each do |walker|
+            -#         %tr
+            -#             %td= walker.first.participant_id
+            -#             %td=link_to "#{walker.last.name}", walker.last
+            -#             %td= Checkpoint.where(id: walker.first.checkpoints_id).first.name
+            -#             %td.on-pace On Pace
+            
+            -walkers =Participant.where(event_id: session[:current_event_id], pace: 'Very Far Behind!!')
+            -walkers.each do |walker|
+                -user = User.where(id: walker.user_id).first
+                %tr
+                    %td= walker.participant_id
+                    %td=link_to "#{user.name}", user
+                    %td= Checkpoint.where(id: walker.checkpoints_id).first.name
+                    %td.need-help Very Far Behind!!
+
+        
+            -walkers =Participant.where(event_id: session[:current_event_id], pace: 'Falling Behind!')
+            -walkers.each do |walker|
+                -user = User.where(id: walker.user_id).first
+                %tr
+                    %td= walker.participant_id
+                    %td=link_to "#{user.name}", user
+                    %td= Checkpoint.where(id: walker.checkpoints_id).first.name
+                    %td.falling-behind Falling Behind!
+
+
+            
+            -walkers =Participant.where(event_id: session[:current_event_id], pace: 'On Pace.')
+            -walkers.each do |walker|
+                -user = User.where(id: walker.user_id).first
+                
+                %tr
+                    %td= walker.participant_id
+                    %td=link_to "#{user.name}", user
+                    %td= Checkpoint.where(id: walker.checkpoints_id).first.name
+                    %td.on-pace On Pace

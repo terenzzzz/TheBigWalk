@@ -69,7 +69,7 @@
                             %td.fw-bold Time Arrived
 
                             - @i = 1
-                            - puts "Route checkpoints: #{@route_checkpoints}"
+                           
                             
                             / \/ @route_checkpoints currently an empty array
                             - @route_checkpoints.each do |x|
@@ -153,12 +153,12 @@
                 -if @user.tag.name == "Walker"
                     %tr 
                         %td Walker ID:
-                        -puts "4444444444444444 #{@user.id}"
+                       
                         %td= Participant.where(user_id: @user.id, routes_id: session[:current_route_id]).first.participant_id
                 -elsif @user.tag.name == "Marshal"
                     %tr 
                         %td Marshal ID:
-                        -puts "555555555555555 #{@user.id}"
+                        
                         %td= Marshall.where(user_id: @user.id).first.marshal_id
                 %tr 
                     %td User Email:

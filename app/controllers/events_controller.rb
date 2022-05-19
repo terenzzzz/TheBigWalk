@@ -23,7 +23,7 @@ class EventsController < ApplicationController
     session[:new_event] = 0
     session[:current_event_id] = @event.id
     @enough_checkpoints = 1
-    routes = Route.where(events_id: session[:current_event_id])
+    routes = Route.where(event_id: session[:current_event_id])
     if !(routes.first)
       @enough_checkpoints = 0
     end
@@ -53,7 +53,7 @@ class EventsController < ApplicationController
       session[:current_event_id] = @event.id
       session[:new_event] = 1
       @branding = Branding.new
-      @branding.events_id = session[:current_event_id]
+      @branding.event_id = session[:current_event_id]
       @branding.save
       redirect_to routes_path
     else 
@@ -88,7 +88,7 @@ class EventsController < ApplicationController
   # DELETE /events/1
   def destroy
     #delete the routes and the routes and checkpoints linkers
-    @events_routes = Route.where(events_id: @event.id)
+    @events_routes = Route.where(event_id: @event.id)
     if @events_routes != 0
       @events_routes.each do |route|
         @events_routes_and_checkpoints_linkers = RoutesAndCheckpointsLinker.where(route_id: route.id)
@@ -111,7 +111,7 @@ class EventsController < ApplicationController
       end
     end
     #delete the checkpoints
-    @events_checkpoints = Checkpoint.where(events_id: @event.id)
+    @events_checkpoints = Checkpoint.where(event_id: @event.id)
     if @events_checkpoints != 0
       @events_checkpoints.each do |checkpoint|
         marshals = Marshall.where(checkpoints_id: checkpoint.id)
@@ -122,7 +122,7 @@ class EventsController < ApplicationController
       end
     end
     #delete the branding
-    @events_branding = Branding.where(events_id: @event.id)
+    @events_branding = Branding.where(event_id: @event.id)
     if @events_branding != 0
       @events_branding.each do |branding|
         branding.destroy

@@ -28,7 +28,7 @@ class AdminsController < ApplicationController
 
     def view_walkers
         @event = Event.where(id: session[:current_event_id]).first
-        @routes = Route.where(events_id: session[:current_event_id])
+        @routes = Route.where(event_id: session[:current_event_id])
         @needs_help = Array.new
         @falling_behind = Array.new
         @on_pace = Array.new
@@ -75,11 +75,7 @@ class AdminsController < ApplicationController
         marshal.marshal_id = 2000
         marshal.user_id = user.id
         marshal.checkpoints_id = Checkpoint.all.first.id
-        if marshal.save
-            puts 'saved ######################################'
-        else
-            puts 'didnt save ######################################'
-        end
+        
         user.tag_id = Tag.where(name: "Marshal").first.id
         user.save
         walkers.each do |walker|

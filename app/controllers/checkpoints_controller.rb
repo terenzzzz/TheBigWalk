@@ -13,33 +13,46 @@ class CheckpointsController < ApplicationController
 
   # GET /checkpoints
   def index
-    @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
-    @branding = Branding.where(events_id: session[:current_event_id]).first
+    @checkpoints = Checkpoint.where(event_id: session[:current_event_id])
+    @branding = Branding.where(event_id: session[:current_event_id]).first
     @event = Event.where(id: session[:current_event_id]).first
   end
 
   # GET /checkpoints/1
   def show
-    @checkpoints = Checkpoint.where(events_id: session[:current_event_id])
+    @checkpoints = Checkpoint.where(event_id: session[:current_event_id])
   end
 
   # GET /checkpoints/new
   def new
     @checkpoint = Checkpoint.new
     @linker = RoutesAndCheckpointsLinker.new
-    #@routes = Route.where(events_id: session[:current_event_id])
+    #@routes = Route.where(event_id: session[:current_event_id])
   end
 
   # GET /checkpoints/1/edit
   def edit
-    #@routes = Route.where(events_id: session[:current_event_id])
+    #@routes = Route.where(event_id: session[:current_event_id])
+  end
+
+  def upload_excel
+    #unless params[:file].nil?
+    file = (params.require(:upload_excel).permit(:file))[:file]
+    spreadsheet = Spreadsheet.new
+    route_ids = params[:selected_routes]
+    route_ids.each do |id|
+      route = Route.where(id: id).first
+      spreadsheet.upload_event(file, route)
+    end
+    redirect_to checkpoints_path
+    #end
   end
 
   # POST /checkpoints
   def create
     #creates the new checkpoint
     @checkpoint = Checkpoint.new(checkpoint_params)
-    @checkpoint.events_id = session[:current_event_id]
+    @checkpoint.event_id = session[:current_event_id]
     if @checkpoint.save 
 
       #gets the selected routes
@@ -69,8 +82,13 @@ class CheckpointsController < ApplicationController
           # end
           #@linker.distance_from_start = smallest_dist - 1
           linker = RoutesAndCheckpointsLinker.where(route_id: id).order("position_in_route DESC").first
-          @linker.distance_from_start = linker.distance_from_start + 1
-          @linker.position_in_route = linker.position_in_route + 1
+          if linker
+            @linker.distance_from_start = linker.distance_from_start + 1
+            @linker.position_in_route = linker.position_in_route + 1
+          else
+            @linker.distance_from_start = 1
+            @linker.position_in_route = 1
+          end
           @linker.route_id = id
           #@linker.position_in_route = smallest_pos - 1
           @linker.advised_time = 0
@@ -115,7 +133,7 @@ class CheckpointsController < ApplicationController
       new_linkers = Array.new
 
       #check if the routes are already in the linker with the checkpoint
-      @routes = Route.where(events_id: @checkpoint.events_id)
+      @routes = Route.where(event_id: @checkpoint.event_id)
       @routes.each do |route|
         if RoutesAndCheckpointsLinker.exists?(checkpoint_id: session[:linker_check_id], route_id: route.id) && (!@route_ids || !(session[:linker_route_ids].include? (route.id).to_s))
           #delete from linker table
@@ -141,10 +159,14 @@ class CheckpointsController < ApplicationController
           #     smallest_dist = linker.distance_from_start
           #   end
           # end
-          linker = RoutesAndCheckpointsLinker.where(route_id: id).order("position_in_route DESC").first
-          @linker.distance_from_start = linker.distance_from_start + 1
-          @linker.position_in_route = linker.position_in_route + 1
-
+          linker = RoutesAndCheckpointsLinker.where(route_id: route.id).order("position_in_route DESC").first
+          if linker
+            @linker.distance_from_start = linker.distance_from_start + 1
+            @linker.position_in_route = linker.position_in_route + 1
+          else
+            @linker.distance_from_start = 0
+            @linker.position_in_route = 0
+          end
           #@linker.distance_from_start = smallest_dist - 1
           @linker.route_id = route.id
           #@linker.position_in_route = smallest_pos - 1

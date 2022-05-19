@@ -4,7 +4,7 @@ class PagesController < ApplicationController
   def home
     @current_nav_identifier = :home
     @users = User.all
-    @start_date = Route.find(params[:id]).start_date
+    @start_date = Route.find(params[:id]).start_date.strftime("%Y-%m-%d")
     @start_time = Route.find(params[:id]).start_time.strftime("%H:%M:%S")
     session[:current_route_id]=params[:id]
     # if not walker, skip this page
@@ -18,8 +18,17 @@ class PagesController < ApplicationController
 
     @paticipant = Participant.where(user_id:current_user.id, routes_id:session[:current_route_id])
     @paticipantEvent = Participant.where(user_id:current_user.id, event_id: session[:current_event_id])
+
+    @current_time = Time.now.strftime("%H:%M:%S")
+    @current_date = Time.now.strftime("%Y-%m-%d")
+
     if @paticipant.first
-      redirect_to walker_path(params[:id])
+        if @current_date > @start_date
+          if @current_time > @start_time 
+            redirect_to walker_path(params[:id]) 
+          end
+        end
+
     end
     
   end
@@ -29,14 +38,14 @@ class PagesController < ApplicationController
   end
 
   def pick_route
-    @routes = Route.where(events_id: params[:id])
+    @routes = Route.where(event_id: params[:id])
     session[:current_event_id]=params[:id]
   end
 
 
   # GET /users
   def leaderboard
-    puts ":/:/"
+    
     #retrieves all users for use in the leaderboard
     @users = User.all
     @current_event_id = session[:current_event_id]
@@ -50,7 +59,7 @@ class PagesController < ApplicationController
     @all_route_checkpoint_linkers.each do |linker|
       @all_route_checkpoints.concat Checkpoint.where(id: linker.checkpoint_id)
     end
-    puts ":( :( #{session[:current_user_id]}"
+    
     @current_user = User.where(id: session[:current_user_id]).first
 
   end

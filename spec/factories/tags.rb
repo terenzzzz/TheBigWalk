@@ -12,7 +12,11 @@ FactoryBot.define do
     name { "Walker" }
 
     trait :admin do
-      name { "admin" }
+      name { "Admin" }
+    end
+
+    trait :marshal do
+      name { "Marshal" }
     end
   end
 end
