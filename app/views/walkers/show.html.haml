@@ -32,6 +32,12 @@
             .d-flex.justify-content-center
                 %h4{:id => "countdownMsg2", class: "fw-bold"}
             .d-flex.justify-content-center
+                %h4{:id => "countdownMsg3", class: "fw-bold"}
+            .d-flex.justify-content-center
+                %h4{:id => "countdownMsg4", class: "fw-bold"}
+            .d-flex.justify-content-center
+                %h4{:id => "countdownMsg5", class: "fw-bold"}
+            .d-flex.justify-content-center
                 %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
                 /current time c
                 /time reached last checkpoint l
@@ -40,11 +46,14 @@
                 /if n < 0 set status to falling behind and timer starts to increase 
                 :javascript
                     var checkpointTimeDate = new Date("#{@time}").getTime();
+                    document.getElementById("countdownMsg3").innerHTML = "#{@time}";
                     var x = setInterval(function() {
                         var now = new Date().getTime();
+                        document.getElementById("countdownMsg4").innerHTML = now;
                         //var now = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
                         //var timeFromLast = now - (checkpointTimeDate - 3600000);
                         var timeFromLast = now - checkpointTimeDate;
+                        document.getElementById("countdownMsg5").innerHTML = timeFromLast;
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
                         var days = Math.floor(timeLeftToReach / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeLeftToReach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
