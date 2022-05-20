@@ -225,9 +225,9 @@ class WalkersController < ApplicationController
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
       #what happens when they finish
       @advisedTime = @linker.advised_time
-
-      if CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first
-        @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
+      checkpoint_time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first
+      if checkpoint_time
+        @time = checkpoint_time.times
       else
         #@time = DateTime.new()
         #event starts
