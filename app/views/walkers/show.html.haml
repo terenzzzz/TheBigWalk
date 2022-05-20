@@ -44,6 +44,8 @@
             .d-flex.justify-content-center
                 %h4{:id => "countdownMsg8", class: "fw-bold"}
             .d-flex.justify-content-center
+                %h4{:id => "countdownMsg9", class: "fw-bold"}
+            .d-flex.justify-content-center
                 %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
                 /current time c
                 /time reached last checkpoint l
@@ -52,7 +54,8 @@
                 /if n < 0 set status to falling behind and timer starts to increase 
                 :javascript
                     var checkpointTimeDateArr = "#{@time}".split(/[- :]/);
-                    var checkpointTimeDates = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2]+2, checkpointTimeDateArr[3], checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
+                    var checkpointTimeDates = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], parseInt(checkpointTimeDateArr[3])+2, checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
+                    document.getElementById("countdownMsg9").innerHTML = parseInt(checkpointTimeDateArr[3])+2;
                     //var checkpointTimeDateArr = new Date("#{@time}");
                     var checkpointTimeDate = new Date(checkpointTimeDates.getUTCFullYear(), checkpointTimeDates.getUTCMonth(), checkpointTimeDates.getUTCDate(), checkpointTimeDates.getUTCHours(), checkpointTimeDates.getUTCMinutes(), checkpointTimeDates.getUTCSeconds()).getTime();
                     
