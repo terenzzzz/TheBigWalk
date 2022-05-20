@@ -23,12 +23,11 @@ class PagesController < ApplicationController
     @current_date = Time.now.strftime("%Y-%m-%d")
 
     if @paticipant.first
-        if @current_date > @start_date
-          if @current_time > @start_time 
-            redirect_to walker_path(params[:id]) 
-          end
-        end
-
+      if @current_date > @start_date
+        redirect_to walker_path(params[:id])
+      elsif @current_date == @start_date && @current_time > @start_time 
+        redirect_to walker_path(params[:id])
+      end
     end
     
   end

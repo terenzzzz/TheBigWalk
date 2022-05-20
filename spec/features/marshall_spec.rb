@@ -18,8 +18,9 @@ describe 'marshal' do
     let!(:user1) {  FactoryBot.create(:user, name:'test', email: 'test@test.com', mobile:'00000000000', tag: tag1)}
     let!(:marshal1) {Marshall.create(marshal_id: '2009', checkpoints_id: checkpoint1.id, user_id: user1.id)}
 
-    let!(:tag2) { FactoryBot.create(:tag) }
+    let!(:tag2) { Tag.create(name:"Walker") }
     let!(:user2) {  FactoryBot.create(:user, name:'test2', email: 'test2@test.com', mobile:'11111111111', tag: tag2)}
+    # let!(:participant1) {Participant.where(participant_id:'1001',checkpoints: checkpoint1, user: user2, status: 'none', rank: '1', pace: 'On Pace.', routes: route, event: event)}
     let!(:opted_in) { OptedInLeaderboard.where(user:user2).first_or_create(opted_in: true) }
     # let!(:marshal)
 
@@ -28,13 +29,25 @@ describe 'marshal' do
         visit "/"
         click_on event.name
         click_on route.name
+        click_on 'Sign Up For Event'
         find(:css, '.i.bi.bi-person-circle.display-6').click
         click_on 'Profile'
-        click_on 'Sign Out'
+        click_on 'Sign out'
         login_as user1
     end
         
     context 'As a marshal' do
+
+        specify "I can checkin a walker to my checkpoint" do
+            visit "/"
+            click_on event.name
+            click_on checkpoint1.name
+            click_link 'Checkin Walkers'
+            fill_in 'Walker Number:', with: Participant.first.participant_id
+            click_button 'Checkin Walker'
+            expect(page).to have_content 'Check In Walker successfully.'
+        end
+
         #pass
         specify "I can sign in to an event" do
            visit "/"
@@ -84,16 +97,7 @@ describe 'marshal' do
             expect(page).to have_content 'Incoming Walkers'
         end
         
-        specify "I can checkin a walker to my checkpoint" do
-            visit "/"
-            click_on event.name
-            click_on checkpoint1.name
-            click_link 'Checkin Walkers'
-            fill_in 'Walker Number:', with: user2.participant_id
-            click_button 'Checkin Walker'
-
-            expect(page).to have_content 'Marshal ID'
-        end
+        
 
         # specify "I can't check in a walker that has already passed" do
         #     visit "/"
