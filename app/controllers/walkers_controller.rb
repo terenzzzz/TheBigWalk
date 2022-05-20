@@ -169,8 +169,8 @@ class WalkersController < ApplicationController
   end
   
   def make_own_way_home
-    walker = Participant.where(user_id: session[:current_user_id]).first
-    route = Route.where(id: walker.routes_id).first
+    walker = Participant.where(user_id: session[:current_user_id], routes_id: session[:current_route_id]).first
+    route = Route.where(id: session[:current_route_id]).first
     user = User.where(id: walker.user_id).first
     spreadsheet = Spreadsheet.new
     spreadsheet.walker_drop_out(route, user)
