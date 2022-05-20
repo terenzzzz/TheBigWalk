@@ -94,9 +94,9 @@ describe 'profile' do
         end
 
         specify "I can sign out" do
-            click_on 'Sign Out'
+            click_on 'Sign out'
             
-            expect(page).to have_content 'Log in'
+            expect(page).to have_content 'Signed out successfully.'
         end
 
         specify "I can Delete Account" do
