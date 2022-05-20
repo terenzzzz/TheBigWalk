@@ -58,7 +58,7 @@
                         document.getElementById("countdownMsg7").innerHTML = new Date();
                         document.getElementById("countdownMsg4").innerHTML = now;
                         //var now = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-                        //var timeFromLast = now - (checkpointTimeDate - 3600000);
+                        var timeFromLast = now - (checkpointTimeDate - 3600000);
                         var timeFromLast = now - checkpointTimeDate;
                         document.getElementById("countdownMsg5").innerHTML = timeFromLast;
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
