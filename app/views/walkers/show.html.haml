@@ -54,9 +54,8 @@
                     document.getElementById("countdownMsg3").innerHTML = "#{@time}";
                     document.getElementById("countdownMsg6").innerHTML = checkpointTimeDate;
                     var x = setInterval(function() {
-                        var now = new Date().getTime();
-                        //var newDate = new Date();
-                        //var now = new Date(Date.UTC(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate(), newDate.getUTCHours(), newDate.getUTCMinutes(), newDate.getUTCSeconds())).getTime();
+                        var newDate = new Date();
+                        var now = new Date(Date.UTC(newDate.getUTCFullYear(), newDate.getUTCMonth(), newDate.getUTCDate(), newDate.getUTCHours(), newDate.getUTCMinutes(), newDate.getUTCSeconds())).getTime();
                         document.getElementById("countdownMsg7").innerHTML = new Date();
                         document.getElementById("countdownMsg4").innerHTML = now;
                         //var now = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
