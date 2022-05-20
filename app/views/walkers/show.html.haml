@@ -38,6 +38,8 @@
             .d-flex.justify-content-center
                 %h4{:id => "countdownMsg5", class: "fw-bold"}
             .d-flex.justify-content-center
+                %h4{:id => "countdownMsg6", class: "fw-bold"}
+            .d-flex.justify-content-center
                 %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
                 /current time c
                 /time reached last checkpoint l
@@ -47,6 +49,7 @@
                 :javascript
                     var checkpointTimeDate = new Date("#{@time}").getTime();
                     document.getElementById("countdownMsg3").innerHTML = "#{@time}";
+                    document.getElementById("countdownMsg6").innerHTML = checkpointTimeDate;
                     var x = setInterval(function() {
                         var now = new Date().getTime();
                         document.getElementById("countdownMsg4").innerHTML = now;
