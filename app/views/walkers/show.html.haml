@@ -51,13 +51,14 @@
                 /adviced time a - s = time left to reach next checkpoint n
                 /if n < 0 set status to falling behind and timer starts to increase 
                 :javascript
-                    //var checkpointTimeDateArr = "#{@time}".split(/[- :]/);
-                    var checkpointTimeDateArr = new Date("#{@time}");
-                    var checkpointTimeDate = new Date(checkpointTimeDateArr.getUTCFullYear(), checkpointTimeDateArr.getUTCMonth(), checkpointTimeDateArr.getUTCDate(), checkpointTimeDateArr.getUTCHours(), checkpointTimeDateArr.getUTCMinutes(), checkpointTimeDateArr.getUTCSeconds()).getTime();
-                    //var checkpointTimeDate = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], checkpointTimeDateArr[3], checkpointTimeDateArr[4], checkpointTimeDateArr[5]).getTime();
+                    var checkpointTimeDateArr = "#{@time}".split(/[- :]/);
+                    var checkpointTimeDates = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], checkpointTimeDateArr[3], checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
+                    //var checkpointTimeDateArr = new Date("#{@time}");
+                    var checkpointTimeDate = new Date(checkpointTimeDates.getUTCFullYear(), checkpointTimeDates.getUTCMonth(), checkpointTimeDates.getUTCDate(), checkpointTimeDates.getUTCHours(), checkpointTimeDates.getUTCMinutes(), checkpointTimeDates.getUTCSeconds()).getTime();
+                    
                     document.getElementById("countdownMsg3").innerHTML = "#{@time}";
                     document.getElementById("countdownMsg6").innerHTML = checkpointTimeDate;
-                    document.getElementById("countdownMsg8").innerHTML = new Date(checkpointTimeDateArr.getUTCFullYear(), checkpointTimeDateArr.getUTCMonth(), checkpointTimeDateArr.getUTCDate(), checkpointTimeDateArr.getUTCHours(), checkpointTimeDateArr.getUTCMinutes(), checkpointTimeDateArr.getUTCSeconds());
+                    document.getElementById("countdownMsg8").innerHTML = new Date(checkpointTimeDates.getUTCFullYear(), checkpointTimeDates.getUTCMonth(), checkpointTimeDates.getUTCDate(), checkpointTimeDates.getUTCHours(), checkpointTimeDates.getUTCMinutes(), checkpointTimeDates.getUTCSeconds());
                     //document.getElementById("countdownMsg8").innerHTML = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], checkpointTimeDateArr[3], checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
                     var x = setInterval(function() {
                         var date = new Date();
