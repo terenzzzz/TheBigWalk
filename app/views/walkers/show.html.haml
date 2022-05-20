@@ -52,7 +52,7 @@
                 /if n < 0 set status to falling behind and timer starts to increase 
                 :javascript
                     var checkpointTimeDateArr = "#{@time}".split(/[- :]/);
-                    var checkpointTimeDates = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], checkpointTimeDateArr[3], checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
+                    var checkpointTimeDates = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], checkpointTimeDateArr[3]+2, checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
                     //var checkpointTimeDateArr = new Date("#{@time}");
                     var checkpointTimeDate = new Date(checkpointTimeDates.getUTCFullYear(), checkpointTimeDates.getUTCMonth(), checkpointTimeDates.getUTCDate(), checkpointTimeDates.getUTCHours(), checkpointTimeDates.getUTCMinutes(), checkpointTimeDates.getUTCSeconds()).getTime();
                     
