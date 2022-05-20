@@ -13,14 +13,14 @@
 .row
   - @checkpoints.each do |checkpoint|
     .col-6.pb-3
-      .card.h-100
-        .card-body
-          - if checkpoint.id == @marshal.checkpoints_id
-            %h5.card-title.fw-bold= checkpoint.name
-            %h6.card-title.fw-bold Current Checkpoint
-          - else
-            %h5.card-title.fw= checkpoint.name
-          =link_to '' , marshal_path(checkpoint), class:'stretched-link'
+      =link_to marshal_path(checkpoint) do
+        .card.h-100
+          .card-body
+            - if checkpoint.id == @marshal.checkpoints_id
+              %h5.card-title.fw-bold= checkpoint.name
+              %h6.card-title.fw-bold Current Checkpoint
+            - else
+              %h5.card-title.fw= checkpoint.name
 %br/
 
 

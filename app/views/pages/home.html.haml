@@ -24,14 +24,21 @@
         }, 1000);
 .d-flex.justify-content-center
     %h5{class: "fw-bold"} (#{@start_date} at #{@start_time})
+    %h5{class: "fw-bold"} (#{@current_date} at #{@current_time})
 
 .d-grid.pt-3.mx-3.gap-3
-    - if current_user.tag.name =='Walker'
-        - if @paticipantEvent.first
+    - if @paticipantEvent.first
+        -if @current_date < @start_date
+            .d-flex.justify-content-center
+                %h5.fw-bold The event is not started yet
+            -if @current_date == @start_date || @current_time < @start_time 
+                .d-flex.justify-content-center
+                    %h5.fw-bold The event is not started yet
+        -else
             .d-flex.justify-content-center
                 %h5.fw-bold You Have Already Signed Up For A Route For This Event
-        - else
-            =link_to "Sign Up For Event", walker_sign_up_participant_path(current_user), class: 'btn btn-primary primary-button'
+    - else
+        =link_to "Sign Up For Event", walker_sign_up_participant_path(current_user), class: 'btn btn-primary primary-button'
 
     =link_to "Back", 'javascript:history.back()', class: 'btn btn-primary primary-button'
     

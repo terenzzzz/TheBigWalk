@@ -240,7 +240,7 @@ class MarshalsController < ApplicationController
             spreadsheet.update_walker_rank(route, old_rank, user)
             spreadsheet.add_checkpoint_time(route, user, checkpoint)
 
-            redirect_to '/', notice: 'Check In Walker successfully.'
+            redirect_to checkin_walkers_marshals_path, notice: 'Check In Walker successfully.'
         else
             redirect_to checkin_walkers_marshals_path, notice: 'Invalid Walker ID.'
         end

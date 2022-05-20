@@ -9,11 +9,12 @@
   .row
     - @events.each do |event|
       .col-6.pb-3
-        .card.h-100
-          .card-body
-            .d-flex.justify-content-center
-              %h5.card-title.fw-bold= event.name
-            =link_to '', add_shift_marshal_path(event.id), class:'stretched-link'
+        =link_to  add_shift_marshal_path(event.id) do
+          .card.h-100
+            .card-body
+              .d-flex.justify-content-center
+                %h5.card-title.fw-bold= event.name
+            
   %br/
 %br/
 
