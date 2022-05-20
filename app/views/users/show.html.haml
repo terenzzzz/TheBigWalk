@@ -55,6 +55,8 @@
                             %td Time
                         -marshal = Marshall.where(user_id: @user.id).first
                         -shifts = MarshalShift.where(marshalls_id: marshal.id).order("id ASC")
+                        - if shifts == nil 
+                            - shift = MarshalShift.create(current_time: Time.now , status:"Finished", marshalls_id:marshal.id)
                         -shifts.each do |shift|
                             %tr 
                                 %td= shift.status
@@ -69,7 +71,7 @@
                             %td.fw-bold Time Arrived
 
                             - @i = 1
-                           
+                            
                             
                             / \/ @route_checkpoints currently an empty array
                             - @route_checkpoints.each do |x|
@@ -214,6 +216,7 @@
                         %td Status
                         %td Time
                     -marshal = Marshall.where(user_id: @user.id).first
+                    /-puts(marshal + " **")
                     -shifts = MarshalShift.where(marshalls_id: marshal.id).order("id ASC")
                     -shifts.each do |shift|
                         %tr 

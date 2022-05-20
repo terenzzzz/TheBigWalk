@@ -72,12 +72,14 @@ class AdminsController < ApplicationController
         user = User.where(params.require(:make_walker_marshal).permit(:id)).first
         walkers = Participant.where(user_id: user.id)
         marshal = Marshall.new
-        marshal.marshal_id = 2000
+        
+        marshal.marshal_id = 2000 + Marshall.all.size
         marshal.user_id = user.id
         marshal.checkpoints_id = Checkpoint.all.first.id
         
         user.tag_id = Tag.where(name: "Marshal").first.id
         user.save
+        marshal.save
         walkers.each do |walker|
             #times = CheckpointTime.where(participant_id: walker.id)
             spreadsheet = Spreadsheet.new
@@ -87,7 +89,7 @@ class AdminsController < ApplicationController
             #end
             walker.destroy
         end
-        redirect_to user
+        redirect_to "/"
     end
 
     def checkpoint_order
@@ -124,6 +126,6 @@ class AdminsController < ApplicationController
         end
         user.tag_id = Tag.where(name: "Admin").first.id
         user.save
-        redirect_to user
+        redirect_to "/"
     end
 end
