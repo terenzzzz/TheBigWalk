@@ -28,15 +28,10 @@ describe 'walker' do
     context 'As a Walker' do
         specify 'I can Check the Checkpoint Info' do
             visit '/'
-            
             click_on event.name
-            
             click_on route.name
-            
             click_on 'Sign Up For Event'
-
             click_on 'Check Point Information'
-
             expect(page.current_path).to eql('/walkers/checkpoint_info')
         end
 
@@ -76,7 +71,7 @@ describe 'walker' do
         end
 
         #Not Complete
-        specify 'I can Request Call Head Marshal', js:true do
+        specify 'I can Request Call Head Marshal' do
             visit '/'
             click_on event.name
             click_on route.name
@@ -132,7 +127,7 @@ describe 'walker' do
             expect(page).to have_content 'Pick up request successful.'
         end
 
-        specify 'I can Drop Out And Need Pick Up ',js:true do
+        specify 'I can Drop Out And Need Pick Up ' do
             visit '/'
             click_on event.name
             click_on route.name

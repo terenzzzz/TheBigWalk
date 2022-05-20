@@ -39,12 +39,13 @@
                 /adviced time a - s = time left to reach next checkpoint n
                 /if n < 0 set status to falling behind and timer starts to increase 
                 :javascript
-                    var checkpointTimeDate = new Date("#{@time}").getTime();
+                    var checkpointTimeDateArr = "#{@time}".split(/[- :]/);
+                    var checkpointTimeDates = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], parseInt(checkpointTimeDateArr[3])+2, checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
+                    var checkpointTimeDate = new Date(checkpointTimeDates.getUTCFullYear(), checkpointTimeDates.getUTCMonth(), checkpointTimeDates.getUTCDate(), checkpointTimeDates.getUTCHours(), checkpointTimeDates.getUTCMinutes(), checkpointTimeDates.getUTCSeconds()).getTime();
                     var x = setInterval(function() {
-                        var now = new Date().getTime();
-                        //var now = Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-                        //var timeFromLast = now - (checkpointTimeDate - 3600000);
-                        var timeFromLast = now - checkpointTimeDate;
+                        var date = new Date();
+                        var now = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()).getTime();
+                        var timeFromLast = now - (checkpointTimeDate - 3600000);
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
                         var days = Math.floor(timeLeftToReach / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeLeftToReach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -55,8 +56,8 @@
                         if (timeLeftToReach < 0) {
                             document.getElementById("countdownMsg").innerHTML = "You are running late by:"
                             document.getElementById("countdownMsg2").innerHTML = ""
-                            days = days
-                            hours = hours
+                            days = - days - 1
+                            hours = - hours - 1
                             minutes = - minutes - 1
                             seconds = - seconds
                         }

@@ -23,6 +23,6 @@
 
 require 'rails_helper'
 
-RSpec.describe Route, type: :model do
+RSpec.describe Route, type: :module do
   pending "add some examples to (or delete) #{__FILE__}"
 end

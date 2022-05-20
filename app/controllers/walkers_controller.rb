@@ -169,8 +169,8 @@ class WalkersController < ApplicationController
   end
   
   def make_own_way_home
-    walker = Participant.where(user_id: session[:current_user_id]).first
-    route = Route.where(id: walker.routes_id).first
+    walker = Participant.where(user_id: session[:current_user_id], routes_id: session[:current_route_id]).first
+    route = Route.where(id: session[:current_route_id]).first
     user = User.where(id: walker.user_id).first
     spreadsheet = Spreadsheet.new
     spreadsheet.walker_drop_out(route, user)
@@ -221,13 +221,13 @@ class WalkersController < ApplicationController
     if checkpoint_pos == RoutesAndCheckpointsLinker.where(route_id: @walker.routes_id).size
       
     else
-      @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos + 1), route_id: @walker.routes_id).first
+      @linker = RoutesAndCheckpointsLinker.where(position_in_route: (checkpoint_pos ), route_id: @walker.routes_id).first
       @checkpoint = Checkpoint.where(id: @linker.checkpoint_id).first
       #what happens when they finish
       @advisedTime = @linker.advised_time
-
-      if CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first
-        @time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first.times
+      checkpoint_time = CheckpointTime.where(checkpoint_id: @walker.checkpoints_id, participant_id: @walker.id).first
+      if checkpoint_time
+        @time = checkpoint_time.times
       else
         #@time = DateTime.new()
         #event starts
