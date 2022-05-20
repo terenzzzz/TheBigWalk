@@ -38,16 +38,6 @@ describe 'marshal' do
         
     context 'As a marshal' do
 
-        specify "I can checkin a walker to my checkpoint" do
-            visit "/"
-            click_on event.name
-            click_on checkpoint1.name
-            click_link 'Checkin Walkers'
-            fill_in 'Walker Number:', with: Participant.first.participant_id
-            click_button 'Checkin Walker'
-            expect(page).to have_content 'Check In Walker successfully.'
-        end
-
         #pass
         specify "I can sign in to an event" do
            visit "/"
@@ -97,27 +87,29 @@ describe 'marshal' do
             expect(page).to have_content 'Incoming Walkers'
         end
         
-        
+        #pass
+        specify "I can checkin a walker to my checkpoint" do
+            visit "/"
+            click_on event.name
+            click_on checkpoint1.name
+            click_link 'Checkin Walkers'
+            fill_in 'Walker Number:', with: Participant.first.participant_id
+            click_button 'Checkin Walker'
+            expect(page).to have_content 'Check In Walker successfully.'
+        end
 
-        # specify "I can't check in a walker that has already passed" do
-        #     visit "/"
-        #     click_link 'Checkin Walkers'
-        # end
-
-        # specify "I can't check in a walker that hasn't reached the previous checkpoint" do
-        #     visit "/"
-        #     click_link 'Checkin Walkers'
-        # end
-
-        # specify "I can't check in a walker that doesn't exist" do
-        #     visit "/"
-        #     click_link 'Checkin Walkers'
-        # end 
-
-        # specify "I can't check in a walker that has alread passed" do
-        #     visit "/"
-        #     click_link 'Checkin Walkers'
-        # end
+        #pass
+        specify "I can't check in a walker that doesn't exist" do
+            visit "/"
+            click_on event.name
+            click_on checkpoint1.name
+            click_link 'Checkin Walkers'
+            fill_in 'Walker Number:', with: Participant.first.participant_id
+            click_button 'Checkin Walker'
+            fill_in 'Walker Number:', with: (Participant.first.participant_id + 1)
+            click_button 'Checkin Walker'
+            expect(page).to have_content 'Invalid Walker ID.'
+        end
 
         #pass
         specify "I can pause my shift" do
