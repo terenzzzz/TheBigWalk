@@ -32,20 +32,6 @@
             .d-flex.justify-content-center
                 %h4{:id => "countdownMsg2", class: "fw-bold"}
             .d-flex.justify-content-center
-                %h4{:id => "countdownMsg3", class: "fw-bold"}
-            .d-flex.justify-content-center
-                %h4{:id => "countdownMsg4", class: "fw-bold"}
-            .d-flex.justify-content-center
-                %h4{:id => "countdownMsg5", class: "fw-bold"}
-            .d-flex.justify-content-center
-                %h4{:id => "countdownMsg6", class: "fw-bold"}
-            .d-flex.justify-content-center
-                %h4{:id => "countdownMsg7", class: "fw-bold"}
-            .d-flex.justify-content-center
-                %h4{:id => "countdownMsg8", class: "fw-bold"}
-            .d-flex.justify-content-center
-                %h4{:id => "countdownMsg9", class: "fw-bold"}
-            .d-flex.justify-content-center
                 %h1{:id => "countdown", class: "fw-bold"} Countdown Loading...
                 /current time c
                 /time reached last checkpoint l
@@ -55,22 +41,11 @@
                 :javascript
                     var checkpointTimeDateArr = "#{@time}".split(/[- :]/);
                     var checkpointTimeDates = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], parseInt(checkpointTimeDateArr[3])+2, checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
-                    
-                    //var checkpointTimeDateArr = new Date("#{@time}");
                     var checkpointTimeDate = new Date(checkpointTimeDates.getUTCFullYear(), checkpointTimeDates.getUTCMonth(), checkpointTimeDates.getUTCDate(), checkpointTimeDates.getUTCHours(), checkpointTimeDates.getUTCMinutes(), checkpointTimeDates.getUTCSeconds()).getTime();
-                    
-                    document.getElementById("countdownMsg3").innerHTML = "#{@time}";
-                    document.getElementById("countdownMsg6").innerHTML = checkpointTimeDate;
-                    document.getElementById("countdownMsg8").innerHTML = new Date(checkpointTimeDates.getUTCFullYear(), checkpointTimeDates.getUTCMonth(), checkpointTimeDates.getUTCDate(), checkpointTimeDates.getUTCHours(), checkpointTimeDates.getUTCMinutes(), checkpointTimeDates.getUTCSeconds());
-                    //document.getElementById("countdownMsg8").innerHTML = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], checkpointTimeDateArr[3], checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
                     var x = setInterval(function() {
                         var date = new Date();
                         var now = new Date(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()).getTime();
-                        document.getElementById("countdownMsg7").innerHTML = new Date();
-                        document.getElementById("countdownMsg4").innerHTML = now;
                         var timeFromLast = now - (checkpointTimeDate - 3600000);
-                        //var timeFromLast = now - checkpointTimeDate;
-                        document.getElementById("countdownMsg5").innerHTML = timeFromLast;
                         var timeLeftToReach = (parseInt("#{@advisedTime}") * 60000) - timeFromLast;
                         var days = Math.floor(timeLeftToReach / (1000 * 60 * 60 * 24));
                         var hours = Math.floor((timeLeftToReach % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -85,7 +60,6 @@
                             hours = - hours
                             minutes = - minutes - 1
                             seconds = - seconds
-                            document.getElementById("countdownMsg9").innerHTML = hours;
                         }
                         if (days > 0){
                             document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
