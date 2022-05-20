@@ -55,7 +55,7 @@
                 :javascript
                     var checkpointTimeDateArr = "#{@time}".split(/[- :]/);
                     var checkpointTimeDates = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], parseInt(checkpointTimeDateArr[3])+2, checkpointTimeDateArr[4], checkpointTimeDateArr[5]);
-                    document.getElementById("countdownMsg9").innerHTML = parseInt(checkpointTimeDateArr[3])+2;
+                    
                     //var checkpointTimeDateArr = new Date("#{@time}");
                     var checkpointTimeDate = new Date(checkpointTimeDates.getUTCFullYear(), checkpointTimeDates.getUTCMonth(), checkpointTimeDates.getUTCDate(), checkpointTimeDates.getUTCHours(), checkpointTimeDates.getUTCMinutes(), checkpointTimeDates.getUTCSeconds()).getTime();
                     
@@ -85,6 +85,7 @@
                             hours = hours
                             minutes = - minutes - 1
                             seconds = - seconds
+                            document.getElementById("countdownMsg9").innerHTML = hours;
                         }
                         if (days > 0){
                             document.getElementById("countdown").innerHTML = days + "D : " + hours + "H : " + minutes + "M : " + seconds + "S ";
