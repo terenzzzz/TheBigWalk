@@ -47,7 +47,8 @@
                 /adviced time a - s = time left to reach next checkpoint n
                 /if n < 0 set status to falling behind and timer starts to increase 
                 :javascript
-                    var checkpointTimeDate = new Date("#{@time}").getTime();
+                    var checkpointTimeDateArr = "#{@time}".split(/[- :]/);
+                    var checkpointTimeDate = new Date(checkpointTimeDateArr[0], checkpointTimeDateArr[1]-1, checkpointTimeDateArr[2], checkpointTimeDateArr[3], checkpointTimeDateArr[4], checkpointTimeDateArr[5]).getTime();
                     document.getElementById("countdownMsg3").innerHTML = "#{@time}";
                     document.getElementById("countdownMsg6").innerHTML = checkpointTimeDate;
                     var x = setInterval(function() {
