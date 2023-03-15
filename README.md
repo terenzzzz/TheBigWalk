@@ -23,6 +23,7 @@ Clone the project, then:
 * `bundle install`
 * `yarn install`
 * `rails db:setup`
+* `sudo service postgresql start`
 * `rails s`
 * `bin/webpack-dev-server` for live reloading.
 
